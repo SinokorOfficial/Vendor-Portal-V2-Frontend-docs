@@ -610,6 +610,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI 품질게이트 (PR 체크)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1386,6 +1397,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI 품질게이트 (PR 체크)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1521,6 +1543,21 @@
 <div class="admonition danger">
 <p class="admonition-title">보안</p>
 <p>백엔드 비밀값을 <code>.env</code> 에 넣지 마세요 — 빌드 번들에 박혀 노출됩니다.</p>
+</div>
+<h2 id="ci-pr">CI 품질게이트 (PR 체크)<a class="headerlink" href="#ci-pr" title="Permanent link">&para;</a></h2>
+<p><code>dev</code>/<code>main</code> 대상 PR 에서 <code>.github/workflows/ci.yml</code>(<code>build-scan</code> 잡)이 실행된다. <strong>리포트 전용·비차단</strong>으로 시작하며, 안정화 후 브랜치 보호로 빌드 통과를 필수 체크로 승격할 수 있다. 앱 배포 <code>deploy.yml</code>·문서 배포 <code>docs-deploy.yml</code> 과는 별개다.</p>
+<ul>
+<li><strong>① 빌드 게이트</strong> — <code>npm ci</code> → <code>npm run build</code>(vue-tsc 타입체크 + vite build). 타입/구문/import 오류가 머지되는 것을 막는다.</li>
+<li><strong>② Trivy 취약점 스캔(리포트)</strong> — <code>package-lock.json</code> 의존성의 CRITICAL/HIGH CVE. <strong>결과는 Actions 실행 로그에 테이블로</strong> 출력한다(<code>exit-code: 0</code> 비차단).</li>
+<li><strong>③ SBOM</strong> — CycloneDX(<code>sbom-frontend.cdx.json</code>)를 아티팩트로 업로드.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Security 탭 대신 Actions 로그</p>
+<p>레포가 <strong>private + GitHub Advanced Security 미사용</strong>이라 SARIF 를 Security 탭(코드 스캐닝)에 올리면 <code>Resource not accessible by integration</code> 으로 실패한다. 그래서 Trivy 결과는 Actions 로그(<code>format: table</code>)로 남긴다. Security 탭 대시보드가 필요하면 GHAS(유료) 활성화가 전제다.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">액션 태그 함정</p>
+<p><code>aquasecurity/trivy-action</code> 태그는 <code>v</code> 접두가 필수(<code>@v0.36.0</code>; <code>@0.36.0</code> 은 resolve 실패).</p>
 </div>
 <h2 id="_3">문서 자동 배포(이 문서 사이트)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>문서 소스는 <strong>이 레포 안</strong>(<code>docs/</code>=매뉴얼, <code>docs-dev/</code>=개발자)에 두고, <code>main</code> push 시 빌드해 별도 레포 <code>Vendor-Portal-V2-Frontend-docs</code> 의 <code>gh-pages</code> 로 발행합니다(백엔드와 동일 패턴).</p>
