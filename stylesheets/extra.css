@@ -1,6 +1,7 @@
-/* 본문 글 내용 폰트 축소(헤더 h1~h6 · 상단바 제외) — 0.85em → 0.65em */
-.md-typeset p,
-.md-typeset li,
-.md-typeset blockquote {
-  font-size: 0.65em;
+/* 문서 폰트 전체 균일 축소 — Material 기본 .md-typeset(0.8rem)을 낮춰 본문·헤더(h1~h6)·코드·표를
+   em 상속으로 함께 축소(크기 비율 일관 유지). 상단바/네비게이션은 .md-typeset 밖이라 영향 없음.
+   ※ 이전(본문 p/li만 0.65em, 헤더 유지)은 본문↔헤더가 어긋나 어색 → 베이스 한 곳만 조절하는 방식으로 교체.
+   ▶ 크기 조정은 아래 값 하나만 바꾸면 전체 반영. */
+.md-typeset {
+  font-size: 0.7rem;
 }
