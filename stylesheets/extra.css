@@ -1,0 +1,6 @@
+/* 본문 글 내용 폰트 축소(헤더 h1~h6 · 상단바 제외) — 0.85em → 0.65em */
+.md-typeset p,
+.md-typeset li,
+.md-typeset blockquote {
+  font-size: 0.65em;
+}
