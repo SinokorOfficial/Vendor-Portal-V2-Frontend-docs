@@ -1414,6 +1414,78 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#6-ag-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. ag-grid 셀 렌더러/에디터 (격리 앱 컨텍스트)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. ag-grid 셀 렌더러/에디터 (격리 앱 컨텍스트)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-failed-to-resolve-component-dx-thislang-is-not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 셀에서 Failed to resolve component: dx-* / this.$lang is not a function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-mountunmount-queryselectorallselect-of-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 셀 에디터 mount/unmount 타이밍 크래시 (querySelectorAll/.select() of null)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 편집 시 입력창이 셀 안에서 "떠 보임" / 높이 어긋남
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spa-stale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 배포 후 화면 "먹통" (SPA stale 청크)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-cspcontent-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. CSP(Content-Security-Policy)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1688,6 +1760,78 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#6-ag-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. ag-grid 셀 렌더러/에디터 (격리 앱 컨텍스트)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. ag-grid 셀 렌더러/에디터 (격리 앱 컨텍스트)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-failed-to-resolve-component-dx-thislang-is-not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 셀에서 Failed to resolve component: dx-* / this.$lang is not a function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-mountunmount-queryselectorallselect-of-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 셀 에디터 mount/unmount 타이밍 크래시 (querySelectorAll/.select() of null)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 편집 시 입력창이 셀 안에서 "떠 보임" / 높이 어긋남
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spa-stale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 배포 후 화면 "먹통" (SPA stale 청크)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-cspcontent-security-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. CSP(Content-Security-Policy)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1843,6 +1987,39 @@
 <li><strong><code>npm run dev</code> 가 WSL에서 안 됨</strong>: 스크립트가 Windows <code>set "PATH=..."</code>(cmd 문법) → WSL(zsh/bash)에서 실패. <strong>vite 직접 실행</strong>: <code>node node_modules/.bin/vite --host 0.0.0.0 --port 4040</code>.</li>
 <li><strong>타입체크/빌드 npm 이 Windows로 해석됨</strong>: <code>node node_modules/.bin/vue-tsc --noEmit</code> 처럼 <strong>로컬 node 바이너리를 직접</strong> 호출.</li>
 <li><strong>로컬에서 Azure 백엔드로 프록시</strong>: dev 프록시 타깃은 <code>.env</code>(+<code>.env.local</code>)의 <code>API_URL</code>. <code>.env.local</code> 에 Azure 백엔드 URL을 넣으면 <code>.env</code> 의 localhost 를 덮어써 로컬 프론트 ↔ Azure 백엔드로 e2e 확인 가능.</li>
+</ul>
+<h2 id="6-ag-grid">6. ag-grid 셀 렌더러/에디터 (격리 앱 컨텍스트)<a class="headerlink" href="#6-ag-grid" title="Permanent link">&para;</a></h2>
+<p>ag-grid-vue3(25.3)는 셀 렌더러/에디터를 <strong>메인 앱과 분리된 별도 <code>createApp()</code></strong> 에 마운트한다(<code>VueComponentFactory</code>). 그래서 셀 컴포넌트는 <code>main.ts</code> 의 플러그인(Vuetify·DevExtreme 전역 컴포넌트)·전역 프로퍼티(<code>$lang</code>/<code>$dialog</code>/<code>$currency</code> 등)를 <strong>상속받지 못한다.</strong> 아래 증상은 전부 이 한 원인에서 나온다.</p>
+<h3 id="61-failed-to-resolve-component-dx-thislang-is-not-a-function">6.1 셀에서 <code>Failed to resolve component: dx-*</code> / <code>this.$lang is not a function</code><a class="headerlink" href="#61-failed-to-resolve-component-dx-thislang-is-not-a-function" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 그리드 셀 편집(예: 코드박스 컬럼) 진입 시 콘솔 <code>Failed to resolve component: dx-origin-text-box</code> → <code>Cannot read properties of null (reading 'select')</code>; 검색 팝업 클릭 시 <code>this.$lang is not a function</code>.</li>
+<li><strong>원인</strong>: 격리 셀 앱에 전역 등록(dx-<em> 태그·<code>$lang</code>)이 없음. 일반 화면은 정상(메인 앱 컨텍스트)이라 </em><em>그리드 셀에서만</em>* 터진다.</li>
+<li><strong>해결(시스템)</strong>: <code>plugins/ag-grid-context-patch.ts</code> 가 <code>VueComponentFactory.createAndMountComponent</code> 를 몽키패치 — 두 번째 <code>createApp</code> 대신 <code>h()+render()</code> + <code>vnode.appContext = &lt;메인 앱 컨텍스트&gt;</code>(<code>imperativeMount</code> 가 캡처한 <code>sharedContext</code>) 로 렌더 → 셀이 플러그인·전역 컴포넌트·전역 프로퍼티를 모두 상속. <code>main.ts</code> 에서 <code>patchAgGridCellContext()</code> 1회 호출, 컨텍스트 미설정 시 원본 폴백. (이 <code>h()+appContext</code> 패턴은 명령형 <code>$dialog</code>(<code>imperativeMount</code>)에서 이미 검증됨.) — PR #45.</li>
+<li><strong>보조 회피(유지)</strong>: 개별 컴포넌트가 전역 태그 대신 객체를 직접 쓰는 방식도 유효 — <code>AgButtonTextBoxEditor</code>·<code>EFileTextBox</code>·<code>ECodeBox</code>(devextreme-vue <code>DxTextBox</code>/<code>DxButton</code> 로컬 등록, PR #44). 시스템 패치와 병행(방어선). ⚠️ ag-grid-vue3 업그레이드 시 몽키패치 재검증.</li>
+</ul>
+<h3 id="62-mountunmount-queryselectorallselect-of-null">6.2 셀 에디터 mount/unmount 타이밍 크래시 (<code>querySelectorAll</code>/<code>.select()</code> of null)<a class="headerlink" href="#62-mountunmount-queryselectorallselect-of-null" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: addRow / 편집 중 행삭제 시 <code>Cannot read properties of undefined (reading 'querySelectorAll')</code> 등.</li>
+<li><strong>원인</strong>: 셀 에디터 내부 DevExtreme 위젯 <code>$el</code> 이 mount 직후/teardown 시 아직·이미 없음.</li>
+<li><strong>해결</strong>: <code>ECodeBox.setDefaultInitial</code>·<code>AgCodeBoxEditor.mounted/beforeUnmount</code>·<code>DxTextBoxProxy.changeUpperCase</code>·<code>EFileTextBox.mounted</code> 에서 <code>$el</code>·<code>querySelector</code> 결과를 가드(있으면 접근, 없으면 스킵). — PR #42.</li>
+</ul>
+<h3 id="63">6.3 편집 시 입력창이 셀 안에서 "떠 보임" / 높이 어긋남<a class="headerlink" href="#63" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 편집 시 dx 입력에 라운드 테두리+파란 포커스 글로우가 셀 안에 floating; 편집 셀이 행보다 커져 겉 회색 박스가 삐져나옴.</li>
+<li><strong>원인</strong>: Cal 테마 입력 스타일(라운드+글로우, <code>cal-theme.scss</code>)은 폼엔 좋으나 24px 셀엔 부적합; dx 는 <code>texteditor→container→input-container</code> <strong>3중 컨테이너가 각각 <code>min-height</code></strong> 를 물어 <code>height:100%</code> 가 안 먹음.</li>
+<li><strong>해결</strong>: <code>global.scss</code> <code>.ag-cell-inline-editing</code> — 편집 셀을 행 높이(<code>var(--ag-row-height)</code>)로 고정+<code>overflow:hidden</code>, dx 3중 컨테이너 <code>min-height:0</code>+<code>height:100%</code>, 라운드/글로우 제거, 돋보기 버튼 중앙+미클립. 폼 입력의 Cal 스타일은 유지. — PR #46·#49.</li>
+</ul>
+<h2 id="7-spa-stale">7. 배포 후 화면 "먹통" (SPA stale 청크)<a class="headerlink" href="#7-spa-stale" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 새 배포 전부터 열려 있던 탭에서 이어 작업(미방문 화면 이동) 시 화면이 안 그려지고 멈춤. 콘솔 <code>Failed to fetch dynamically imported module</code>.</li>
+<li><strong>원인</strong>: Vite 는 라우트를 해시 청크(<code>/assets/&lt;화면&gt;-&lt;해시&gt;.js</code>)로 분할한다. 새 배포로 해시가 바뀌어 옛 청크가 사라지는데(nginx 404), 옛 탭이 그 청크를 <code>import()</code> → 실패. 복구 로직이 없으면 내비게이션이 조용히 중단된다.</li>
+<li><strong>해결</strong>: <code>router/index.ts</code> <code>router.onError</code> — 청크 로드 실패 감지 시 대상 경로로 하드 내비게이션(새 index+청크 로드). 세션당 1회 가드로 무한 리로드 방지. <code>vite:preloadError</code> 리스너 병행. (<code>index.html</code> 은 <code>no-cache</code>, <code>/assets</code> 는 immutable — 하드 새로고침은 원래 복구되나 자동 치유가 목적.) — PR #37.</li>
+</ul>
+<h2 id="8-cspcontent-security-policy">8. CSP(Content-Security-Policy)<a class="headerlink" href="#8-cspcontent-security-policy" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>현황</strong>: <code>nginx.conf</code> 에 <code>Content-Security-Policy-Report-Only</code>(차단 없이 위반만 보고) 로 배포 후 관찰 중. — PR #41·#43.</li>
+<li><strong>함정</strong>: <code>script-src</code> 에 <strong><code>unsafe-eval</code> 필요</strong>(DevExtreme <code>config.optionsParser</code>·ag-grid <code>ExpressionService</code> 가 런타임 <code>new Function</code> 사용). 단 <code>unsafe-inline</code>(스크립트)은 계속 차단해 핵심 XSS 방어 유지. <code>font-src</code>·<code>img-src</code> 에 <code>data:</code>(ag-grid 아이콘 폰트 WOFF·base64 이미지 뷰어). 정상 흐름 외부 호스트 0(프록시 경유=self).</li>
+<li><strong>enforcing 전환</strong>: Report-Only 관찰의 잔여 위반(死코드 <code>CmsReportPopup</code>→jsdelivr, <code>/dev/**</code> 라우트) 정리 후.</li>
 </ul>
 
 
