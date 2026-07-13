@@ -1519,12 +1519,12 @@
 <p>화면은 <strong>Composition API 가 아니라 Options API + <code>pageMixin</code></strong> 패턴을 따릅니다.</p>
 <h2 id="indexvue">index.vue 골격<a class="headerlink" href="#indexvue" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  <span class="p">&lt;</span><span class="nt">u-content-layout</span> <span class="p">@</span><span class="na">btn-reset</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">fnReset</span><span class="s">&quot;</span> <span class="p">@</span><span class="na">btn-search</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">fnSearch</span><span class="s">&quot;</span> <span class="p">@</span><span class="na">btn-send</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">fnSend</span><span class="s">&quot;</span><span class="p">&gt;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="p">&lt;</span><span class="nt">u-card-grid</span> <span class="p">:</span><span class="na">title</span><span class="o">=</span><span class="s">&quot;</span><span class="s1">&#39;Search&#39;</span><span class="s">&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  <span class="p">&lt;</span><span class="nt">e-content-layout</span> <span class="p">@</span><span class="na">btn-reset</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">fnReset</span><span class="s">&quot;</span> <span class="p">@</span><span class="na">btn-search</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">fnSearch</span><span class="s">&quot;</span> <span class="p">@</span><span class="na">btn-send</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">fnSend</span><span class="s">&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="p">&lt;</span><span class="nt">e-card-grid</span> <span class="p">:</span><span class="na">title</span><span class="o">=</span><span class="s">&quot;</span><span class="s1">&#39;Search&#39;</span><span class="s">&quot;</span><span class="p">&gt;</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      <span class="p">&lt;</span><span class="nt">ag-grid-vue</span> <span class="p">:</span><span class="na">grid-options</span><span class="o">=</span><span class="s">&quot;</span><span class="nx">searchGridOptions</span><span class="s">&quot;</span> <span class="p">/&gt;</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="p">&lt;/</span><span class="nt">u-card-grid</span><span class="p">&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="p">&lt;/</span><span class="nt">e-card-grid</span><span class="p">&gt;</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="cm">&lt;!-- 추가 그리드/폼 ... --&gt;</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  <span class="p">&lt;/</span><span class="nt">u-content-layout</span><span class="p">&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  <span class="p">&lt;/</span><span class="nt">e-content-layout</span><span class="p">&gt;</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -1604,7 +1604,7 @@
 <tbody>
 <tr>
 <td><code>index.vue</code> 템플릿</td>
-<td><code>u-*</code> 레이아웃 + ag-grid/DevExtreme 배치</td>
+<td><code>e-*</code> 레이아웃 + ag-grid/DevExtreme 배치</td>
 </tr>
 <tr>
 <td><code>index.vue</code> 스크립트</td>

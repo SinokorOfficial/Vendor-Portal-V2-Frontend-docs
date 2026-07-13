@@ -1496,13 +1496,13 @@
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nx">extensions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s1">&#39;vue&#39;</span><span class="w"> </span><span class="p">],</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nx">dts</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;src/components.d.ts&#39;</span><span class="p">,</span><span class="w">     </span><span class="c1">// 등록명 타입 자동 생성(권위 있는 목록)</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nx">directoryAsNamespace</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w">     </span><span class="c1">// 하위 폴더명을 컴포넌트명 접두로</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nx">collapseSamePrefixes</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w">      </span><span class="c1">// UCard + Grid → UCardGrid (중복 접두 제거)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nx">collapseSamePrefixes</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="w">      </span><span class="c1">// ECard + Grid → ECardGrid (중복 접두 제거)</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">})</span>
 </code></pre></div>
 <ul>
-<li><code>src/components/auto/app/UCard/Grid/index.vue</code> → 등록명 <code>UCardGrid</code> → 태그 <code>&lt;u-card-grid&gt;</code></li>
-<li><code>src/components/auto/app/UBtn/index.vue</code> → <code>UBtn</code> → <code>&lt;u-btn&gt;</code></li>
-<li><code>src/components/manual/app/UHeader/index.vue</code> → <code>AppUHeader</code> → <code>&lt;app-u-header&gt;</code></li>
+<li><code>src/components/auto/app/ECard/Grid/index.vue</code> → 등록명 <code>ECardGrid</code> → 태그 <code>&lt;e-card-grid&gt;</code></li>
+<li><code>src/components/auto/app/EBtn/index.vue</code> → <code>EBtn</code> → <code>&lt;e-btn&gt;</code></li>
+<li><code>src/components/manual/app/EHeader/index.vue</code> → <code>EHeader</code> → <code>&lt;e-header&gt;</code></li>
 </ul>
 <div class="admonition tip">
 <p class="admonition-title">전체 목록은 자동 생성</p>
@@ -1520,13 +1520,13 @@
 <tbody>
 <tr>
 <td><code>src/components/auto/app</code></td>
-<td>화면에서 조립하는 <strong>공통 <code>u-*</code> UI</strong></td>
-<td><code>UContentLayout</code>, <code>UCardGrid</code>, <code>UDateBox</code>, <code>UCodeBox</code>, <code>UBtn</code>, <code>UFileUploader</code></td>
+<td>화면에서 조립하는 <strong>공통 <code>e-*</code> UI</strong></td>
+<td><code>EContentLayout</code>, <code>ECardGrid</code>, <code>EDateBox</code>, <code>ECodeBox</code>, <code>EBtn</code>, <code>EFileUploader</code></td>
 </tr>
 <tr>
 <td><code>src/components/manual</code></td>
 <td>앱 셸·그리드 렌더러·도메인 컴포넌트</td>
-<td><code>AppUHeader</code>, <code>AppUSideMenu</code>, <code>AgGridVue*</code> 렌더러/에디터, <code>DashboardKbel*</code>, <code>LoginUlt</code></td>
+<td><code>EHeader</code>, <code>AppUSideMenu</code>, <code>AgGridVue*</code> 렌더러/에디터, <code>DashboardKbel*</code>, <code>LoginUlt</code></td>
 </tr>
 </tbody>
 </table>
@@ -1540,31 +1540,31 @@
 </thead>
 <tbody>
 <tr>
-<td><code>&lt;u-content-layout&gt;</code></td>
+<td><code>&lt;e-content-layout&gt;</code></td>
 <td>화면 기본 래퍼. <code>btn-search</code>/<code>btn-reset</code>/<code>btn-send</code> 등 액션 이벤트 노출</td>
 </tr>
 <tr>
-<td><code>&lt;u-card-grid&gt;</code> / <code>&lt;u-card-form&gt;</code> / <code>&lt;u-card-tab&gt;</code></td>
+<td><code>&lt;e-card-grid&gt;</code> / <code>&lt;e-card-form&gt;</code> / <code>&lt;e-card-tab&gt;</code></td>
 <td>카드형 그리드 / 폼 / 탭 컨테이너</td>
 </tr>
 <tr>
-<td><code>&lt;u-code-box&gt;</code></td>
+<td><code>&lt;e-code-box&gt;</code></td>
 <td>공통코드 드롭다운(=codeMap 연계)</td>
 </tr>
 <tr>
-<td><code>&lt;u-date-box&gt;</code></td>
+<td><code>&lt;e-date-box&gt;</code></td>
 <td>날짜 선택</td>
 </tr>
 <tr>
-<td><code>&lt;u-file-uploader&gt;</code> / <code>&lt;u-attach-file-grid&gt;</code></td>
+<td><code>&lt;e-file-uploader&gt;</code> / <code>&lt;e-attach-file-grid&gt;</code></td>
 <td>파일 업로드 / 첨부 그리드</td>
 </tr>
 <tr>
-<td><code>&lt;u-btn&gt;</code></td>
+<td><code>&lt;e-btn&gt;</code></td>
 <td>표준 버튼(색상군은 <a href="../conventions/">코드 컨벤션</a> 참고)</td>
 </tr>
 <tr>
-<td><code>&lt;u-grid-btn&gt;</code> / <code>&lt;u-list-btn&gt;</code></td>
+<td><code>&lt;e-grid-btn&gt;</code> / <code>&lt;e-list-btn&gt;</code></td>
 <td>그리드/목록 액션 버튼군</td>
 </tr>
 </tbody>

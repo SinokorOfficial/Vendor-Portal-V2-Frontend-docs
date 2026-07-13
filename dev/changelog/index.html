@@ -1636,11 +1636,11 @@
 </ul>
 <h3 id="_5">화면 · 공통 컴포넌트<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>MANUAL 버튼 → 화면별 PDF 매뉴얼 뷰어</strong> + 파일 다운로드/뷰어 로딩 스피너 (PR #13). <code>UHeader</code> <code>openManual()</code>, <code>util/http</code> <code>pdfViewer</code>/<code>fileOriginDown</code>.</li>
+<li><strong>MANUAL 버튼 → 화면별 PDF 매뉴얼 뷰어</strong> + 파일 다운로드/뷰어 로딩 스피너 (PR #13). <code>EHeader</code> <code>openManual()</code>, <code>util/http</code> <code>pdfViewer</code>/<code>fileOriginDown</code>.</li>
 <li><strong>TES Expn 화면 버튼 가로 정렬</strong> (TesInspExpn · TesLashingExpn · TesTugExpn · TesLineHandleExpn): 전월/금월, ATFILE/+/− 가 세로로 쌓이던 것 → <code>d-flex</code> 로 가로 배열.</li>
-<li><strong>팝업 영역 밖 클릭으로 닫기</strong> — <code>UDialog</code> 오버레이 <code>@click.self</code>. 모든 팝업 공통.</li>
-<li><strong>그리드 버튼 스타일/레이아웃 통일</strong> — <code>UGridBtn</code>: <code>button-type</code> 별 기본 색(add=<code>normal-line</code>, delete=<code>delete</code>), 아이콘 전용 버튼(+/−·excel 등) 정사각형 너비. 아이콘 중앙 정렬 버그 수정. → <a href="../troubleshooting/">트러블슈팅 §2</a>.</li>
-<li><strong>대시보드 캘린더</strong> — 높이를 영역 100%로(고정 px 폐기), 오늘 날짜 셀 강조. UserDashBoard(<code>UScheduler</code>)·FeederDashBoard(raw <code>dx-scheduler</code>) 각각 적용. → <a href="../troubleshooting/">트러블슈팅 §4</a>.</li>
+<li><strong>팝업 영역 밖 클릭으로 닫기</strong> — <code>EDialog</code> 오버레이 <code>@click.self</code>. 모든 팝업 공통.</li>
+<li><strong>그리드 버튼 스타일/레이아웃 통일</strong> — <code>EGridBtn</code>: <code>button-type</code> 별 기본 색(add=<code>normal-line</code>, delete=<code>delete</code>), 아이콘 전용 버튼(+/−·excel 등) 정사각형 너비. 아이콘 중앙 정렬 버그 수정. → <a href="../troubleshooting/">트러블슈팅 §2</a>.</li>
+<li><strong>대시보드 캘린더</strong> — 높이를 영역 100%로(고정 px 폐기), 오늘 날짜 셀 강조. UserDashBoard(<code>EScheduler</code>)·FeederDashBoard(raw <code>dx-scheduler</code>) 각각 적용. → <a href="../troubleshooting/">트러블슈팅 §4</a>.</li>
 </ul>
 <h3 id="_6">기반<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <ul>

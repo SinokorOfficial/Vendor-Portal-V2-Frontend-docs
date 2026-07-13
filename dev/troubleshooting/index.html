@@ -1298,15 +1298,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-ubtn-ugridbtn" class="md-nav__link">
+  <a href="#2-ebtn-egridbtn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 공통 버튼 (UBtn / UGridBtn)
+        2. 공통 버튼 (EBtn / EGridBtn)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. 공통 버튼 (UBtn / UGridBtn)">
+    <nav class="md-nav" aria-label="2. 공통 버튼 (EBtn / EGridBtn)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1337,15 +1337,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-udialog" class="md-nav__link">
+  <a href="#3-edialog" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. 팝업 (UDialog)
+        3. 팝업 (EDialog)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. 팝업 (UDialog)">
+    <nav class="md-nav" aria-label="3. 팝업 (EDialog)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1655,15 +1655,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-ubtn-ugridbtn" class="md-nav__link">
+  <a href="#2-ebtn-egridbtn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 공통 버튼 (UBtn / UGridBtn)
+        2. 공통 버튼 (EBtn / EGridBtn)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. 공통 버튼 (UBtn / UGridBtn)">
+    <nav class="md-nav" aria-label="2. 공통 버튼 (EBtn / EGridBtn)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1694,15 +1694,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-udialog" class="md-nav__link">
+  <a href="#3-edialog" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. 팝업 (UDialog)
+        3. 팝업 (EDialog)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. 팝업 (UDialog)">
+    <nav class="md-nav" aria-label="3. 팝업 (EDialog)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1960,46 +1960,46 @@
 <p>호출부는 <code>MENU_PATH</code> 만 <code>/cms/popup/CmsReportPopup</code>(DevExpress) ↔ <code>/cms/popup/CmsHtmlReportPopup</code>(HTML) 로 바꾼다. DevExpress 호출 코드는 남겨두어 경로 원복만으로 즉시 롤백 가능. 신규 리포트 = <code>reports/</code> 에 <code>.vue</code> 1개 + 셸 <code>REPORTS</code> 레지스트리 한 줄.</p>
 </div>
 <hr />
-<h2 id="2-ubtn-ugridbtn">2. 공통 버튼 (<code>UBtn</code> / <code>UGridBtn</code>)<a class="headerlink" href="#2-ubtn-ugridbtn" title="Permanent link">&para;</a></h2>
+<h2 id="2-ebtn-egridbtn">2. 공통 버튼 (<code>EBtn</code> / <code>EGridBtn</code>)<a class="headerlink" href="#2-ebtn-egridbtn" title="Permanent link">&para;</a></h2>
 <h3 id="21-excel">2.1 아이콘 전용 버튼(+/−, excel 등)의 아이콘이 오른쪽으로 치우침<a class="headerlink" href="#21-excel" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong>: 좁은 정사각형 아이콘 버튼에서 글자/아이콘이 가운데가 아닌 오른쪽으로 쏠림.</li>
-<li><strong>원인</strong>: <code>UGridBtn</code> 이 항상 <code>&lt;u-btn&gt;&lt;slot/&gt;&lt;/u-btn&gt;</code> 래퍼로 슬롯을 넘겨, 내용이 비어도 <code>UBtn</code> 의 <code>hasSlot</code> 이 true(빈 슬롯도 Fragment vnode로 옴) → 아이콘에 <code>ml-1</code>(좌측 마진)이 붙음.</li>
-<li><strong>해결</strong>: <code>UGridBtn</code> 이 <strong>슬롯 내용이 없으면 u-btn 에 슬롯을 아예 안 넘김</strong>(<code>v-if="hasContent"</code>) → <code>UBtn</code> 이 아이콘 전용(<code>.icon</code>, 좌우 대칭 패딩·마진0)으로 렌더해 중앙 정렬.</li>
-<li><strong>근거</strong>: <code>src/components/auto/app/UGridBtn/index.vue</code>(<code>hasContent</code>), <code>UBtn/index.vue</code>(<code>.icon</code> 클래스).</li>
+<li><strong>원인</strong>: <code>EGridBtn</code> 이 항상 <code>&lt;e-btn&gt;&lt;slot/&gt;&lt;/e-btn&gt;</code> 래퍼로 슬롯을 넘겨, 내용이 비어도 <code>EBtn</code> 의 <code>hasSlot</code> 이 true(빈 슬롯도 Fragment vnode로 옴) → 아이콘에 <code>ml-1</code>(좌측 마진)이 붙음.</li>
+<li><strong>해결</strong>: <code>EGridBtn</code> 이 <strong>슬롯 내용이 없으면 u-btn 에 슬롯을 아예 안 넘김</strong>(<code>v-if="hasContent"</code>) → <code>EBtn</code> 이 아이콘 전용(<code>.icon</code>, 좌우 대칭 패딩·마진0)으로 렌더해 중앙 정렬.</li>
+<li><strong>근거</strong>: <code>src/components/auto/app/EGridBtn/index.vue</code>(<code>hasContent</code>), <code>EBtn/index.vue</code>(<code>.icon</code> 클래스).</li>
 </ul>
 <h3 id="22-adddelete">2.2 그리드 add/delete 버튼 색·너비 통일<a class="headerlink" href="#22-adddelete" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>방식</strong>: <code>UGridBtn</code> 에서 <code>button-type</code> 별 기본 색을 분기 — <code>add</code> → <code>normal-line</code>, <code>delete</code> → <code>delete</code>, 그 외 → <code>grid-button</code>. 사용처에서 <code>color</code> 명시 시 그대로 우선.</li>
+<li><strong>방식</strong>: <code>EGridBtn</code> 에서 <code>button-type</code> 별 기본 색을 분기 — <code>add</code> → <code>normal-line</code>, <code>delete</code> → <code>delete</code>, 그 외 → <code>grid-button</code>. 사용처에서 <code>color</code> 명시 시 그대로 우선.</li>
 <li><strong>정사각형</strong>: 슬롯이 빈 아이콘 전용 버튼(+/−, excel 등)은 너비 <code>30px</code> + <code>min-width:0</code> 로 통일. 텍스트 버튼(ATFILE 등)은 내용 폭 유지.</li>
-<li><strong>근거</strong>: <code>UGridBtn/index.vue</code> <code>propParams</code>.</li>
+<li><strong>근거</strong>: <code>EGridBtn/index.vue</code> <code>propParams</code>.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">버튼 색 클래스</p>
-<p><code>&lt;u-btn color="..."&gt;</code> 는 CSS 클래스로 적용된다(예 <code>normal-line</code> = <code>src/styles/cal-theme.scss</code>, <code>delete</code> = <code>global.scss</code>). 색 목록은 <a href="../conventions/">코드 컨벤션</a> 참고.</p>
+<p><code>&lt;e-btn color="..."&gt;</code> 는 CSS 클래스로 적용된다(예 <code>normal-line</code> = <code>src/styles/cal-theme.scss</code>, <code>delete</code> = <code>global.scss</code>). 색 목록은 <a href="../conventions/">코드 컨벤션</a> 참고.</p>
 </div>
 <hr />
-<h2 id="3-udialog">3. 팝업 (<code>UDialog</code>)<a class="headerlink" href="#3-udialog" title="Permanent link">&para;</a></h2>
+<h2 id="3-edialog">3. 팝업 (<code>EDialog</code>)<a class="headerlink" href="#3-edialog" title="Permanent link">&para;</a></h2>
 <h3 id="31">3.1 팝업 영역 밖(딤 배경) 클릭으로 닫기<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>요구</strong>: X 버튼뿐 아니라 팝업 박스 밖을 클릭해도 닫히게.</li>
-<li><strong>해결</strong>: <code>UDialog</code> 는 커스텀 오버레이(<code>.u-dialog-overlay</code> &gt; <code>.u-dialog</code>) 구조. 오버레이에 <code>@click.self="closeButtonClick"</code> 추가 → 딤 영역 클릭 시 X 버튼과 동일하게 닫힘(reject). <code>.self</code> 라 팝업 내부 클릭·내부 셀렉트(별도 오버레이)는 영향 없음.</li>
-<li><strong>근거</strong>: <code>src/components/manual/app/UDialog/index.vue</code>.</li>
+<li><strong>해결</strong>: <code>EDialog</code> 는 커스텀 오버레이(<code>.e-dialog-overlay</code> &gt; <code>.e-dialog</code>) 구조. 오버레이에 <code>@click.self="closeButtonClick"</code> 추가 → 딤 영역 클릭 시 X 버튼과 동일하게 닫힘(reject). <code>.self</code> 라 팝업 내부 클릭·내부 셀렉트(별도 오버레이)는 영향 없음.</li>
+<li><strong>근거</strong>: <code>src/components/manual/app/EDialog/index.vue</code>.</li>
 </ul>
 <hr />
 <h2 id="4-devextreme-scheduler">4. 대시보드 캘린더 (DevExtreme Scheduler)<a class="headerlink" href="#4-devextreme-scheduler" title="Permanent link">&para;</a></h2>
-<p>Home(<code>src/pages/index.vue</code>)은 역할별로 대시보드를 렌더한다(admin→Admin / <code>INLAND</code>→Feeder / 그 외→User). <strong>캘린더는 두 대시보드가 공유하지 않는다</strong>: <code>UserDashBoard</code> 는 공통 래퍼 <code>UScheduler</code>(<code>&lt;u-scheduler&gt;</code>), <code>FeederDashBoard</code> 는 raw <code>&lt;dx-scheduler&gt;</code> 를 직접 사용(공통 래퍼는 주석 처리). 둘 다 바탕은 DevExtreme <code>DxScheduler</code> 지만 설정은 따로 → <strong>변경은 두 곳에 각각</strong> 적용해야 한다.</p>
+<p>Home(<code>src/pages/index.vue</code>)은 역할별로 대시보드를 렌더한다(admin→Admin / <code>INLAND</code>→Feeder / 그 외→User). <strong>캘린더는 두 대시보드가 공유하지 않는다</strong>: <code>UserDashBoard</code> 는 공통 래퍼 <code>EScheduler</code>(<code>&lt;e-scheduler&gt;</code>), <code>FeederDashBoard</code> 는 raw <code>&lt;dx-scheduler&gt;</code> 를 직접 사용(공통 래퍼는 주석 처리). 둘 다 바탕은 DevExtreme <code>DxScheduler</code> 지만 설정은 따로 → <strong>변경은 두 곳에 각각</strong> 적용해야 한다.</p>
 <h3 id="41">4.1 오늘 날짜가 잘 안 보임<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong>: 월간뷰에서 오늘이 어느 칸인지 표시가 약함.</li>
 <li><strong>원인</strong>: DevExtreme 기본은 오늘 셀(<code>.dx-scheduler-date-table-current-date</code>)에 <code>font-weight:700</code> 만 적용.</li>
 <li><strong>해결</strong>: 두 <code>.my-booking</code> 스타일에 오늘 셀 배경 틴트 + 날짜 숫자 색(<code>#1565c0</code>) 추가.</li>
-<li><strong>근거</strong>: <code>UScheduler/index.vue</code>, <code>FeederDashBoard/index.vue</code> 의 <code>.my-booking</code>.</li>
+<li><strong>근거</strong>: <code>EScheduler/index.vue</code>, <code>FeederDashBoard/index.vue</code> 의 <code>.my-booking</code>.</li>
 </ul>
 <h3 id="42-100">4.2 캘린더 높이를 영역 100%로<a class="headerlink" href="#42-100" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong>: 캘린더가 고정 px(User 600 / Feeder 800)로만 보임.</li>
-<li><strong>원인</strong>: 루트~컨테이너(<code>u-layout</code>)에 높이 전파가 없어 <code>height:100%</code> 가 0으로 무너짐.</li>
+<li><strong>원인</strong>: 루트~컨테이너(<code>e-layout</code>)에 높이 전파가 없어 <code>height:100%</code> 가 0으로 무너짐.</li>
 <li><strong>해결</strong>: 높이 체인 수립 — <code>.user-dashboard { height:100%; display:flex; flex-direction:column }</code> → <code>.user-dashboard-bottom { flex:1; min-height:0 }</code> → <code>.bottom-left { height:100% }</code> → 스케줄러 <code>height:'100%'</code>. 상위 체인(<code>App.vue</code> <code>.shell-content</code> = <code>calc(100vh-48px)</code> → <code>tab-workspace</code> → <code>.dashboard</code> <code>height:100%</code>)이 높이를 제공.</li>
 <li><strong>근거</strong>: <code>UserDashBoard/index.vue</code>, <code>FeederDashBoard/index.vue</code>.</li>
 </ul>

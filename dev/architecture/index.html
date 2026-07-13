@@ -1515,8 +1515,8 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&lt;v-app&gt;
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ├─ 로딩 오버레이(v-overlay)            ← loading 스토어
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  ├─ showShell == true (업무 화면)
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  │     ├─ &lt;u-app-header&gt;                ← 상단바
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  │     ├─ &lt;v-navigation-drawer&gt; &lt;u-app-side-menu&gt;  ← 좌측 메뉴(menuTree)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  │     ├─ &lt;e-header&gt;                ← 상단바
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  │     ├─ &lt;v-navigation-drawer&gt; &lt;e-side-menu&gt;  ← 좌측 메뉴(menuTree)
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  │     └─ &lt;v-main&gt; TabWorkspace          ← 멀티탭 컨테이너
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  └─ showShell == false → &lt;router-view&gt;   ← 로그인 / 팝업 전체화면
 </code></pre></div>
@@ -1527,7 +1527,7 @@
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├─ App.vue              앱 셸(헤더/메뉴/탭)
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>├─ pages/&lt;module&gt;/&lt;Screen&gt;/   화면 (index.vue + dataset.js)
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├─ components/
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   ├─ auto/app/        u-* 공통 컴포넌트(자동등록)
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   ├─ auto/app/        e-* 공통 컴포넌트(자동등록)
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   └─ manual/          앱 셸/ag-grid 렌더러/대시보드 등(자동등록)
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>├─ router/              라우터 + 가드(menuAuthGuard, codeDataGuard, tabGuard)
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>├─ stores/              Pinia (auth/menu/ui/i18n/tabs/loading/pageArgs)
