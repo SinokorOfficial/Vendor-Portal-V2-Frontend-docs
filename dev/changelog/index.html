@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#executevendorcommonprocedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공통 프로시저 호출 통합 (executeVendorCommonProcedure)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ag-grid" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1438,6 +1449,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#executevendorcommonprocedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공통 프로시저 호출 통합 (executeVendorCommonProcedure)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ag-grid" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1556,6 +1578,11 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-07">2026-07<a class="headerlink" href="#2026-07" title="Permanent link">&para;</a></h2>
+<h3 id="executevendorcommonprocedure">공통 프로시저 호출 통합 (<code>executeVendorCommonProcedure</code>)<a class="headerlink" href="#executevendorcommonprocedure" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>조회/저장 통합 엔드포인트 전환</strong>(PR #58·#59) — <code>select/saveVendorCommonProcedure</code> → 통합 <code>executeVendorCommonProcedure</code>. <strong>EIR 제외 전 모듈</strong>(FDS·CRS·MVS·CFS·TES·CMS·MDM 등) 적용. 백엔드 배경은 <a href="https://sinokorofficial.github.io/Vendor-Portal-V2-Backend-docs/adr/0004-common-procedure-unification/">ADR-0004</a>. 호출 규약은 <a href="../http-api/">HTTP/API</a>·<a href="../screen-pattern/">화면 작성 패턴</a>.</li>
+<li><strong>날짜 셀 에디터(<code>AgEDateBoxEditor</code>) v-model 계약 교정</strong>(PR #58) — 레거시 <code>:value/@input</code> → <code>v-model</code>. <code>@input</code> 폴스루로 <code>getValue()</code> 가 DOM Event를 반환하던 버그(<code>params.newValue.replace is not a function</code>) 해결, 공유 에디터라 전역 정상화. → <a href="../troubleshooting/">트러블슈팅 §6.4</a>.</li>
+</ul>
 <h3 id="ag-grid">ag-grid 그리드 셀 편집 안정화<a class="headerlink" href="#ag-grid" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>셀 렌더러/에디터가 메인 앱 컨텍스트 상속</strong>(PR #45) — ag-grid 격리 셀 앱에 전역 컴포넌트(dx-*)·전역 프로퍼티(<code>$lang</code>/<code>$dialog</code>)가 없어 코드박스 팝업 등이 크래시하던 것을 <code>VueComponentFactory</code> 패치로 근본 해결. → <a href="../troubleshooting/">트러블슈팅 §6.1</a>.</li>

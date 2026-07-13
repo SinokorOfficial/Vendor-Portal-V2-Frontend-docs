@@ -1543,9 +1543,9 @@
 <li><strong>로딩바</strong> → 요청 시작/종료에 맞춰 <code>loading</code> 스토어 갱신. <code>config.quiet === true</code> 면 오버레이 억제.</li>
 </ul>
 <h2 id="_3">화면에서의 전형적 호출<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// 1) 공통 프로시저 실행 (dataset 기반)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// 1) 공통 프로시저 실행 (dataset 기반) — 조회/저장 통합 엔드포인트</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">$post</span><span class="p">(</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="sb">`</span><span class="si">${</span><span class="nx">vendorCommonUrlPrefix</span><span class="si">}</span><span class="sb">/saveVendorCommonProcedure`</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="sb">`</span><span class="si">${</span><span class="nx">vendorCommonUrlPrefix</span><span class="si">}</span><span class="sb">/executeVendorCommonProcedure`</span><span class="p">,</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">DATASET</span><span class="o">:</span><span class="w"> </span><span class="nx">dataset</span><span class="p">.</span><span class="nx">SEARCH_NEW</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="w"> </span><span class="nx">procedureName</span><span class="w"> </span><span class="p">].</span><span class="nx">P_RS</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">[]</span>
@@ -1554,6 +1554,10 @@
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// 2) 전용 엔드포인트 직접 호출</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">$post</span><span class="p">(</span><span class="w"> </span><span class="s1">&#39;/api/eir/issueEirNew&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="w"> </span><span class="p">)</span>
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">조회/저장 통합 엔드포인트</p>
+<p>공통 프로시저 호출은 조회·저장 구분 없이 <strong><code>executeVendorCommonProcedure</code></strong> 하나로 보낸다(EIR 제외 전 모듈 적용). 기존 <code>select/saveVendorCommonProcedure</code> 는 하위호환으로 남아 있고 현재 EIR 화면만 사용한다. 백엔드 배경은 <a href="https://sinokorofficial.github.io/Vendor-Portal-V2-Backend-docs/adr/0004-common-procedure-unification/">ADR-0004</a>.</p>
+</div>
 <h2 id="api">/api 프록시 (개발 서버)<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
 <p>개발 시 <code>/api</code> 요청은 <code>vite.config.ts</code> 의 프록시가 백엔드로 전달합니다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">server</span><span class="p">.</span><span class="nx">proxy</span><span class="p">[</span><span class="s1">&#39;/api&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>

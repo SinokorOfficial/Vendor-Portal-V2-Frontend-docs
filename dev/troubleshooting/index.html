@@ -1459,6 +1459,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#64-agedateboxeditor-paramsnewvaluereplace-is-not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 날짜 셀 에디터(AgEDateBoxEditor) — params.newValue.replace is not a function
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1805,6 +1816,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#64-agedateboxeditor-paramsnewvaluereplace-is-not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 날짜 셀 에디터(AgEDateBoxEditor) — params.newValue.replace is not a function
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2008,6 +2030,12 @@
 <li><strong>증상</strong>: 편집 시 dx 입력에 라운드 테두리+파란 포커스 글로우가 셀 안에 floating; 편집 셀이 행보다 커져 겉 회색 박스가 삐져나옴.</li>
 <li><strong>원인</strong>: Cal 테마 입력 스타일(라운드+글로우, <code>cal-theme.scss</code>)은 폼엔 좋으나 24px 셀엔 부적합; dx 는 <code>texteditor→container→input-container</code> <strong>3중 컨테이너가 각각 <code>min-height</code></strong> 를 물어 <code>height:100%</code> 가 안 먹음.</li>
 <li><strong>해결</strong>: <code>global.scss</code> <code>.ag-cell-inline-editing</code> — 편집 셀을 행 높이(<code>var(--ag-row-height)</code>)로 고정+<code>overflow:hidden</code>, dx 3중 컨테이너 <code>min-height:0</code>+<code>height:100%</code>, 라운드/글로우 제거, 돋보기 버튼 중앙+미클립. 폼 입력의 Cal 스타일은 유지. — PR #46·#49.</li>
+</ul>
+<h3 id="64-agedateboxeditor-paramsnewvaluereplace-is-not-a-function">6.4 날짜 셀 에디터(<code>AgEDateBoxEditor</code>) — <code>params.newValue.replace is not a function</code><a class="headerlink" href="#64-agedateboxeditor-paramsnewvaluereplace-is-not-a-function" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 그리드 날짜 셀에 입력/선택 시 valueSetter에서 <code>params.newValue.replace is not a function</code>. <code>getValue()</code> 가 문자열이 아닌 <strong>DOM <code>Event</code> 객체</strong>를 반환.</li>
+<li><strong>원인</strong>: 레거시 이식본이 <code>&lt;e-date-box :value @input&gt;</code> 계약을 그대로 씀. 그러나 V2 <code>e-date-box</code> 는 표준 <strong>v-model</strong>(<code>modelValue</code>+<code>update:modelValue</code>)이라 <code>input</code> 을 emit하지 않는다 → <code>@input</code> 이 내부 <code>&lt;input&gt;</code> 의 네이티브 DOM <code>input</code> 이벤트로 폴스루돼 <code>getValue()</code> 가 <code>Event</code> 를 돌려줌(Vue 2 이벤트 계약 잔재).</li>
+<li><strong>해결</strong>: 공유 에디터 <code>AgEDateBoxEditor.vue</code> 를 <code>&lt;e-date-box v-model="internalValue"&gt;</code> 로 교정(+미사용 <code>onInput</code> 제거). <code>getValue()</code> 가 <code>pureValue</code>(<code>yyyyMMdd</code> 문자열)를 반환해 valueSetter의 8자리 체크와 정합. 55개 화면 공유 컴포넌트라 전역 정상화 — PR #58.</li>
 </ul>
 <h2 id="7-spa-stale">7. 배포 후 화면 "먹통" (SPA stale 청크)<a class="headerlink" href="#7-spa-stale" title="Permanent link">&para;</a></h2>
 <ul>
