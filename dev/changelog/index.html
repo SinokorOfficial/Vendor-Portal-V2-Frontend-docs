@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        미사용 화면 3종 제거 + 파일 로직 死코드 정리
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#manual" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1482,6 +1493,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        미사용 화면 3종 제거 + 파일 로직 死코드 정리
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#manual" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1644,6 +1666,12 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-07">2026-07<a class="headerlink" href="#2026-07" title="Permanent link">&para;</a></h2>
+<h3 id="3">미사용 화면 3종 제거 + 파일 로직 死코드 정리<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>미사용 화면 3종 제거</strong>(PR #69, 백엔드 #49) — <code>CmsMyBooking</code>(내 부킹)·<code>MdmPricingMgt</code>(단가관리)·<code>CmsGridLayoutCopyMgt</code>(레이아웃 복사) 폴더 삭제(라우트 자동 제거) + CmsMyBooking 전용 EScheduler 컴포넌트(<code>ESchedulerBookingItem</code>·<code>ESchedulerBookingItemTooltip</code>) 제거. 공용 <code>EScheduler</code> 본체·HomeItem(대시보드 공유)·<code>EGridLayoutAddon</code>(전 그리드 컬럼 레이아웃)은 보존.</li>
+<li><strong>파일 로직 死코드 정리</strong>(PR #69) — 호출 0 확인된 <code>http.formUrl</code>·<code>http.fileDownByUrl</code>·<code>fileAixosInterceptor</code> + <code>FileService.getFile()</code>·<code>append()</code> 제거.</li>
+<li><strong>CrsEstUploadExl 레거시 업데이트 반영</strong>(PR #69) — 테스트용 메서드 제거 + FM_UNIT/TO_UNIT 빈값 기본값(0.00)·필수검증 조정·검증 메시지 라벨(LENGTH→WIDTH) 수정.</li>
+</ul>
 <h3 id="manual">사용자 매뉴얼 화면(<code>/manual</code>) 추가<a class="headerlink" href="#manual" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>레거시 가이드 시스템의 정적 사용자 매뉴얼을 V2로 이식</strong>(PR #68) — 헤더 <strong>MANUAL</strong> 버튼 → 새 탭 <code>/manual</code>. 좌측 네비 + 화면별 스크린샷 + 스텝/표/FAQ/단축키, 언어 전환(KO/EN/CN). <code>pages/manual/{index.vue,manual-i18n.ts}</code> + <code>public/manual-screenshots/</code>(V2 실화면 캡처, 좌측 메뉴 접힘).</li>
