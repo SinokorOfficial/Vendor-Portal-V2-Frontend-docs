@@ -1277,6 +1277,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자 매뉴얼 화면(/manual) 추가
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carrier-be" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        死 선사(Carrier) 화면 제거 (BE 동반)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#api-fileservice" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1460,6 +1482,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자 매뉴얼 화면(/manual) 추가
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carrier-be" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        死 선사(Carrier) 화면 제거 (BE 동반)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#api-fileservice" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1600,6 +1644,17 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-07">2026-07<a class="headerlink" href="#2026-07" title="Permanent link">&para;</a></h2>
+<h3 id="manual">사용자 매뉴얼 화면(<code>/manual</code>) 추가<a class="headerlink" href="#manual" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>레거시 가이드 시스템의 정적 사용자 매뉴얼을 V2로 이식</strong>(PR #68) — 헤더 <strong>MANUAL</strong> 버튼 → 새 탭 <code>/manual</code>. 좌측 네비 + 화면별 스크린샷 + 스텝/표/FAQ/단축키, 언어 전환(KO/EN/CN). <code>pages/manual/{index.vue,manual-i18n.ts}</code> + <code>public/manual-screenshots/</code>(V2 실화면 캡처, 좌측 메뉴 접힘).</li>
+<li><strong>셸 없이 전체화면</strong> — <code>App.vue</code> <code>showShell</code> + <code>router/menuAuthGuard.ts</code> 에 <code>/manual</code> 예외(레거시 <code>layout:'blank'</code> 동등).</li>
+<li><strong>유저별 접근 메뉴 필터</strong> — 각 화면 <code>MENU_PATH</code> 를 로그인 시 로드된 <code>useMenuStore().menuMap</code>(역할별) 과 교집합 → 접근 권한 있는 화면만 노출. 백엔드/DB/새 쿼리 없음.</li>
+<li><strong>구 화면별 PDF MANUAL 버튼(<code>EHeader</code> <code>openManual()</code>)은 주석 비활성</strong> — 매뉴얼 페이지로 대체(로직 보존). 범위: 도메인 6모듈(TES/FDS/EIR/MVS/CFS/CRS), AI 챗봇 제외.</li>
+</ul>
+<h3 id="carrier-be">死 선사(Carrier) 화면 제거 (BE 동반)<a class="headerlink" href="#carrier-be" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>선사 화면 제거</strong>(PR #65) — 백엔드 선사 기능 死(연결 DB에 <code>TB_MDM_CARRIER</code>/<code>TB_CMS_CARRIER_SITE</code> 부재, BE #45)에 대응해 <code>MdmCarrierMgt</code>(선사관리)·<code>CmsCarrierSiteMgt</code>(선사 사이트 관리) 화면 삭제 + 대시보드/MyBooking 스케줄러의 선사 로고 표시(<code>imageServerLocation</code>) 제거. <code>reference/*</code>는 배포 시 코드 기준 자동 재생성.</li>
+</ul>
 <h3 id="api-fileservice">파일 API 정리 (엔드포인트 개명 · FileService 死메서드)<a class="headerlink" href="#api-fileservice" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong><code>/api/file/*</code> 엔드포인트 verb-first 개명 반영</strong>(PR #62) — 백엔드 URL 개명(BE #44)에 맞춰 전 호출부 이관: <code>FileService</code>(<code>uploadFile</code>·<code>uploadInvFile</code>), 첨부 삭제 3화면(<code>deleteFile</code>), TES 템플릿 4화면(<code>downloadTemplate4TES</code>), 폐기 <code>templateDown</code>(<code>downloadTemplate</code>). ⚠️ <strong>API 경로 변경(breaking) — 백엔드와 동시 배포</strong>.</li>
