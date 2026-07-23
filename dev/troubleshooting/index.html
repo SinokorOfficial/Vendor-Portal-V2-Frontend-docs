@@ -1470,6 +1470,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#65" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 데이터 재로드 후에도 이전 셀 범위 선택이 남음
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1533,6 +1544,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-home-activetabmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Home 탭에 이전 화면 버튼 잔존 (activeTabMap)
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1866,6 +1888,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#65" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 데이터 재로드 후에도 이전 셀 범위 선택이 남음
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1929,6 +1962,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-home-activetabmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Home 탭에 이전 화면 버튼 잔존 (activeTabMap)
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2115,6 +2159,12 @@
 <li><strong>원인</strong>: 레거시 이식본이 <code>&lt;e-date-box :value @input&gt;</code> 계약을 그대로 씀. 그러나 V2 <code>e-date-box</code> 는 표준 <strong>v-model</strong>(<code>modelValue</code>+<code>update:modelValue</code>)이라 <code>input</code> 을 emit하지 않는다 → <code>@input</code> 이 내부 <code>&lt;input&gt;</code> 의 네이티브 DOM <code>input</code> 이벤트로 폴스루돼 <code>getValue()</code> 가 <code>Event</code> 를 돌려줌(Vue 2 이벤트 계약 잔재).</li>
 <li><strong>해결</strong>: 공유 에디터 <code>AgEDateBoxEditor.vue</code> 를 <code>&lt;e-date-box v-model="internalValue"&gt;</code> 로 교정(+미사용 <code>onInput</code> 제거). <code>getValue()</code> 가 <code>pureValue</code>(<code>yyyyMMdd</code> 문자열)를 반환해 valueSetter의 8자리 체크와 정합. 55개 화면 공유 컴포넌트라 전역 정상화 — PR #58.</li>
 </ul>
+<h3 id="65">6.5 데이터 재로드 후에도 이전 셀 범위 선택이 남음<a class="headerlink" href="#65" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 그리드에서 셀 범위를 잡아 복사(Ctrl+C)한 뒤 다른 역할/조건으로 재조회하면, 새 데이터 위에 <strong>이전 범위 하이라이트가 그대로</strong> 남는다(예: 버튼별 권한관리 <code>CmsRoleButtonMgt</code>; 특정 화면이 아닌 전 그리드 공통).</li>
+<li><strong>원인</strong>: 모든 그리드 데이터 교체가 통과하는 <code>AgGridAdapter.setItems()</code> 의 <code>setRowData()</code> 는 ag-grid 25.3 에서 <strong>행 선택은 초기화하나 셀 범위 선택은 초기화하지 않는다</strong>. 소스 전체에 <code>clearRangeSelection()</code> 호출이 없었다.</li>
+<li><strong>해결</strong>: <code>setItems()</code> 의 <code>setRowData</code> 직후 <code>this._api?.clearRangeSelection()</code> 1줄 추가 → 112개 화면 전 그리드 공통 해소. 프로그램적 range 조작(<code>addRangeSelection</code> 등) 화면 0건이라 충돌 없음. 행 추가/삭제(<code>applyTransaction</code>) 경로·focus 는 별도 관리라 미변경. — PR #81.</li>
+</ul>
 <h2 id="7-spa-stale">7. 배포 후 화면 "먹통" (SPA stale 청크)<a class="headerlink" href="#7-spa-stale" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>증상</strong>: 새 배포 전부터 열려 있던 탭에서 이어 작업(미방문 화면 이동) 시 화면이 안 그려지고 멈춤. 콘솔 <code>Failed to fetch dynamically imported module</code>.</li>
@@ -2128,6 +2178,9 @@
 <li><strong>enforcing 전환</strong>: Report-Only 관찰의 잔여 위반(死코드 <code>CmsReportPopup</code>→jsdelivr, <code>/dev/**</code> 라우트) 정리 후.</li>
 </ul>
 <h2 id="9-self-hosted-windows-azure-cli-cp949">9. self-hosted Windows 러너 배포 (Azure CLI cp949 인코딩)<a class="headerlink" href="#9-self-hosted-windows-azure-cli-cp949" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>★ <strong>2026-07-23 GitHub-hosted(ubuntu-latest)로 복귀</strong>(PR #85) — GH Actions 분 복구로 활성 CI/CD 는 다시 GitHub-hosted 다. 아래는 <strong>self-hosted 재전환 시 참고</strong>(self-hosted PowerShell/stub 버전은 각 워크플로 하단 주석 블록으로 보관 → 각 줄 <code>#</code> 제거로 재활성).</p>
+</blockquote>
 <p>GitHub Actions 월 쿼터 소진으로 CI/CD 를 온프렘 self-hosted Windows 러너로 옮기며 <code>deploy.yml</code> 을 PowerShell 로 이식했다(<code>runs-on: [self-hosted, Windows, vendor-portal-v2]</code>, <code>shell: powershell</code> — 본문은 Windows PowerShell 5.1 호환이라 PowerShell 7 불필요). <code>az acr build</code> 가 이미지를 ACR(클라우드)에서 빌드하므로 러너엔 Docker/Node 가 필요 없고 <strong>Git + PowerShell + Azure CLI</strong> 만 있으면 된다(az 는 MSI 1회 설치 후 러너 서비스 재시작 — 설치로 바뀐 PATH 반영).</p>
 <h3 id="91-az-acr-build-unicodeencodeerror-cp949-codec">9.1 <code>az acr build</code> 가 <code>UnicodeEncodeError: 'cp949' codec</code> 로 실패<a class="headerlink" href="#91-az-acr-build-unicodeencodeerror-cp949-codec" title="Permanent link">&para;</a></h3>
 <ul>
@@ -2140,7 +2193,13 @@
 <li><strong>대안(미사용)</strong>: 빌드 스텝에서 az 번들 python 을 <code>python -I -X utf8 -m azure.cli acr build ...</code> 로 직접 호출 — 커맨드라인 플래그(<code>-X utf8</code>)는 격리모드에도 적용된다.</li>
 </ul>
 <h3 id="92-ciymldocs-deployyml">9.2 <code>ci.yml</code>·<code>docs-deploy.yml</code> 은 아직 스텁<a class="headerlink" href="#92-ciymldocs-deployyml" title="Permanent link">&para;</a></h3>
-<p>self-hosted 이전 중 <code>ci.yml</code>(빌드 게이트)·<code>docs-deploy.yml</code>(문서 발행)은 checkout 만 하는 스텁(<code>jobs: build:</code>)이다. 이식하려면 러너에 Node 20(CI/프론트)·Python(문서)이 필요하고, 문서 발행의 <code>peaceiris/actions-gh-pages</code> 는 <strong>Docker 컨테이너 액션</strong>이라 Windows 러너에서 실행되지 않으므로 PAT(<code>DOCS_DEPLOY_TOKEN</code>) 기반 <code>git push</code> 로 대체해야 한다. 그때까지 문서 배포는 수동 스크립트를 쓴다.</p>
+<p>self-hosted 이전 중 <code>ci.yml</code>(빌드 게이트)·<code>docs-deploy.yml</code>(문서 발행)은 checkout 만 하는 스텁(<code>jobs: build:</code>)이다. 이식하려면 러너에 Node 20(CI/프론트)·Python(문서)이 필요하고, 문서 발행의 <code>peaceiris/actions-gh-pages</code> 는 <strong>Docker 컨테이너 액션</strong>이라 Windows 러너에서 실행되지 않으므로 PAT(<code>DOCS_DEPLOY_TOKEN</code>) 기반 <code>git push</code> 로 대체해야 한다. (그 뒤 실제로 docs-deploy 는 venv+<code>git push</code> 로 이식됐고, 2026-07-23 전체 hosted 복귀로 다시 <code>peaceiris</code> 기반 원본이 활성화됨 — §9 상단 참고.)</p>
+<h2 id="10-home-activetabmap">10. Home 탭에 이전 화면 버튼 잔존 (<code>activeTabMap</code>)<a class="headerlink" href="#10-home-activetabmap" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 관리자로 다른 메뉴 화면을 보다가 <strong>Home 탭</strong>을 누르면 대시보드에 직전 화면의 액션 버튼이 함께 표시된다.</li>
+<li><strong>원인</strong>: <code>menuAuthGuard</code> 의 <code>/</code>(Home) 진입 분기가 <code>activeTabMap</code> 을 초기화하지 않아 직전 화면의 <code>activeTabMap.buttons</code> 가 남는다. admin 대시보드가 임베드한 <code>MdmNotice</code> 의 <code>EContentLayout</code> 가 그 <code>BTN_TP==='MAIN'</code> 버튼을 렌더(+ <code>&lt;keep-alive&gt;</code> 로 첫 마운트 시 그 값이 고정). 비-admin 대시보드는 <code>EContentLayout</code> 임베드가 없어 admin 에서만 발생.</li>
+<li><strong>해결</strong>: <code>/</code> 진입(Home 유지 경로)에서 <code>useMenuStore().saveActiveTabMap({})</code> 로 초기화. 소비처(<code>EContentLayout</code> <code>mainButtons</code>·<code>EBtn</code> <code>setAuthButton</code> 등)는 빈 객체 방어(<code>buttons ? … : []</code> / <code>if(buttons)</code>)라 안전. 로그인 직후 즐겨찾기 자동이동(리다이렉트) 경로는 대상 화면이 자체 <code>activeTabMap</code> 을 세팅하므로 무관. — PR #82.</li>
+</ul>
 
 
 
