@@ -8,14 +8,46 @@
 .md-nav {
   font-size: 0.62rem;
 }
-/* ── Partner Portal 브랜드 커스터마이징 (favicon 로고 · 헤더색 · 우상단) ──────
-   헤더·상단 탭 색상 = 파비콘 블루(#007AFF). mkdocs.yml palette 의 primary: custom 과 짝. */
+
+/* ── Partner Portal 브랜드 커스터마이징 ─────────────────────────────
+   헤더·상단 탭: 배경 = 톤다운 블루(#2C6CB0), 글자·아이콘 = 흰색. mkdocs palette 의 primary: custom 과 짝. */
 [data-md-color-primary="custom"] {
-  --md-primary-fg-color: #007AFF;
-  --md-primary-fg-color--light: #4da3ff;
-  --md-primary-fg-color--dark: #0062cc;
+  --md-primary-fg-color: #2C6CB0;
+  --md-primary-fg-color--light: #4d86c4;
+  --md-primary-fg-color--dark: #205596;
   --md-primary-bg-color: #ffffff;
   --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
 }
-/* 우측 상단: 레포명 텍스트는 숨기고 git 아이콘만 노출(링크는 유지). */
+
+/* 우측 상단: 레포명 텍스트 숨기고 git 아이콘만(링크 유지). */
 .md-header__source .md-source__repository { display: none; }
+
+/* 헤더 우측 배치: 검색 · 🌗토글 · github 순 + 여백 통일(검색↔토글 = 토글↔github).
+   토글/github 자체 여백은 0, 컨테이너 margin-left 로만 간격을 준다. */
+.md-header__option { order: 10; margin-left: 0.4rem; }
+.md-header__option .md-header__button { margin-left: 0; margin-right: 0; }
+.md-header__source { order: 11; display: block; width: auto; max-width: none; }
+[dir=ltr] .md-header__source { margin-left: 0.4rem; }
+[dir=rtl] .md-header__source { margin-right: 0.4rem; }
+
+/* 좁은 화면: 좌측 드로어(사이드메뉴)로 옮겨가던 레포소스 숨김(github 는 헤더에 유지). */
+.md-nav__source { display: none; }
+
+/* 좁은 화면 드로어(사이드메뉴) 제목: 가운데점 대신 개행으로 2줄 고정(원문 텍스트 숨김·로고 유지). */
+@media screen and (max-width: 76.234375em) {
+  .md-nav--primary .md-nav__title[for="__drawer"] {
+    font-size: 0;
+    white-space: normal;
+    height: auto;
+    overflow: visible;
+    line-height: 1.4;
+  }
+  .md-nav--primary .md-nav__title[for="__drawer"]::after {
+    content: "Partner Portal\A개발자 문서";
+    display: block;
+    white-space: pre-line;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.7rem 0;
+  }
+}
