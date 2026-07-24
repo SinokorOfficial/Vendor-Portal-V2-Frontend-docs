@@ -8,3 +8,14 @@
 .md-nav {
   font-size: 0.62rem;
 }
+/* ── Partner Portal 브랜드 커스터마이징 (favicon 로고 · 헤더색 · 우상단) ──────
+   헤더·상단 탭 색상 = 파비콘 블루(#007AFF). mkdocs.yml palette 의 primary: custom 과 짝. */
+[data-md-color-primary="custom"] {
+  --md-primary-fg-color: #007AFF;
+  --md-primary-fg-color--light: #4da3ff;
+  --md-primary-fg-color--dark: #0062cc;
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+}
+/* 우측 상단: 레포명 텍스트는 숨기고 git 아이콘만 노출(링크는 유지). */
+.md-header__source .md-source__repository { display: none; }
