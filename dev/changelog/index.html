@@ -1275,6 +1275,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#codebox-total-cmsusermgt-pr-94" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        그리드 codebox 셀 매핑 · Total 반응성 · CmsUserMgt 중복확인 · 즐겨찾기 랜딩 (PR #94)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ui-3-partner-portal" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1535,6 +1546,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#codebox-total-cmsusermgt-pr-94" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        그리드 codebox 셀 매핑 · Total 반응성 · CmsUserMgt 중복확인 · 즐겨찾기 랜딩 (PR #94)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ui-3-partner-portal" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1752,6 +1774,13 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-07">2026-07<a class="headerlink" href="#2026-07" title="Permanent link">&para;</a></h2>
+<h3 id="codebox-total-cmsusermgt-pr-94">그리드 codebox 셀 매핑 · Total 반응성 · CmsUserMgt 중복확인 · 즐겨찾기 랜딩 (PR #94)<a class="headerlink" href="#codebox-total-cmsusermgt-pr-94" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>그리드 codebox 셀 자기-재편집 제거</strong>(PR #94) — codebox <code>onCallBack</code> 이 방금 <code>setDataValue</code> 한 <em>같은</em> 셀을 <code>setFocusedCellByRowIndex(같은 필드, true)</code> 로 재편집하던 패턴 제거(23개 컬럼: CmsUserMgt·MdmCountry/ExpnCd/Exrate/Port/Vessel/Warehouse/CustomerMgt/CustomerSearch). ag-grid-vue3 에서 재오픈 에디터가 매핑값을 덮어써 <strong>코드 미매핑(명만 매핑)</strong>·2번째 Enter <code>removeChild</code> 크래시가 나던 것 해소. <em>다른</em> 필드로 이동하는 정상 재편집(다음 입력칸)은 유지.</li>
+<li><strong>그리드 Total 표시 반응성 복구</strong>(PR #94) — <code>:total="...getRowCount()"</code> 이 vue3 에서 데이터 로드 후 재계산되지 않아 카운트가 안 뜨던 회귀를, <code>AgGridAdapter</code> 에 ag-grid <code>modelUpdated</code> 기반 반응성 시그널(<code>_rowRev</code>)+<code>of()</code> <code>markRaw</code> 로 복구(전 그리드 공통·화면 60곳 무수정).</li>
+<li><strong>CmsUserMgt 중복확인 저장 오류</strong>(PR #94) — 기존 유저 편집 시 <code>fnSearchDetail</code> 이 <code>duplicateChkedId</code> 를 로드 유저로 맞추지 않아, 직전 다른 ID 중복확인 잔재로 저장이 막히던 것 해소(유저 구분만 바꿔 저장 시 재현).</li>
+<li><strong>첫 즐겨찾기 랜딩 제외를 관리자('1000-01')만으로</strong>(PR #94) — <code>roleId '1000'</code> 시작 전체 제외 → <code>'1000-01'</code> 관리자만. <code>1000-02</code> 등 다른 내부 role 은 일반 유저처럼 첫 즐겨찾기로 랜딩(대시보드 판정과 동일 계약).</li>
+</ul>
 <h3 id="ui-3-partner-portal">엑셀 다운로드 파일명 지정 스윕 + UI 개선 3건 + 문서 Partner Portal 브랜딩<a class="headerlink" href="#ui-3-partner-portal" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>엑셀 다운로드 파일명·포맷 지정</strong>(PR #92) — 다수 화면의 <code>exportExcel()</code> 호출에 <code>fileName</code>(회사·화면명·<code>yyyyMMdd</code>)·<code>exportMode: 'xlsx'</code> 지정 → 다운로드 파일명이 화면별로 명확해짐(CMS/CRS/EIR/FDS/MVS/MDM/CFS 등).</li>
