@@ -1556,6 +1556,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#11-eir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. EIR 전송 화면 중복 전송 (재진입 가드)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1974,6 +1985,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#11-eir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. EIR 전송 화면 중복 전송 (재진입 가드)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2197,6 +2219,12 @@
 <li><strong>증상</strong>: 관리자로 다른 메뉴 화면을 보다가 <strong>Home 탭</strong>을 누르면 대시보드에 직전 화면의 액션 버튼이 함께 표시된다.</li>
 <li><strong>원인</strong>: <code>menuAuthGuard</code> 의 <code>/</code>(Home) 진입 분기가 <code>activeTabMap</code> 을 초기화하지 않아 직전 화면의 <code>activeTabMap.buttons</code> 가 남는다. admin 대시보드가 임베드한 <code>MdmNotice</code> 의 <code>EContentLayout</code> 가 그 <code>BTN_TP==='MAIN'</code> 버튼을 렌더(+ <code>&lt;keep-alive&gt;</code> 로 첫 마운트 시 그 값이 고정). 비-admin 대시보드는 <code>EContentLayout</code> 임베드가 없어 admin 에서만 발생.</li>
 <li><strong>해결</strong>: <code>/</code> 진입(Home 유지 경로)에서 <code>useMenuStore().saveActiveTabMap({})</code> 로 초기화. 소비처(<code>EContentLayout</code> <code>mainButtons</code>·<code>EBtn</code> <code>setAuthButton</code> 등)는 빈 객체 방어(<code>buttons ? … : []</code> / <code>if(buttons)</code>)라 안전. 로그인 직후 즐겨찾기 자동이동(리다이렉트) 경로는 대상 화면이 자체 <code>activeTabMap</code> 을 세팅하므로 무관. — PR #82.</li>
+</ul>
+<h2 id="11-eir">11. EIR 전송 화면 중복 전송 (재진입 가드)<a class="headerlink" href="#11-eir" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: EIR 발급/취소 전송 버튼을 빠르게 두 번 누르면 확인창이 두 개 쌓이고, 각각 확인하면 같은 건이 2번 전송된다.</li>
+<li><strong>원인</strong>: <code>fnSend</code> 가 <code>$message.question</code>(비동기 확인창)을 여는 동안 재진입을 막지 않아 확인창이 중첩되고 <code>fnSendEIR</code>/<code>fnSubmit</code> 이 2회 실행된다.</li>
+<li><strong>해결</strong>: <code>data().isSubmitting</code> 플래그 — <code>fnSend</code> 진입 즉시 <code>if (this.isSubmitting) return</code>, 확인창 열기 <strong>前</strong> <code>this.isSubmitting = true</code>, 본문 전체를 <code>try</code>/<code>finally</code> 로 감싸 처리 후 <code>false</code>(확인창 열기 前 세팅이 핵심). <code>fnSubmit</code> 은 issue/cancel 호출에 <code>{ timeout: 300000 }</code>(서버가 컨테이너마다 SIPG 왕복해 전역 타임아웃 초과 가능) + 실패 시 재전송 대신 재조회 안내(<code>fnGetSubmitErrorMessage</code>). Export 만 <code>fnSendEIR</code> 진입 시 <code>sendArray</code> 초기화. 백엔드는 Redis 분산락으로 인스턴스 간 중복도 차단([백엔드 마이그레이션 함정 §4.5]). — 프론트 PR #102.</li>
 </ul>
 
 

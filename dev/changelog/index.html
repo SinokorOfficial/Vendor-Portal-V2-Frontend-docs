@@ -1263,6 +1263,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-08
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eir-pr-102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EIR 전송 화면 중복 전송 방지 (PR #102)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026-07" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1545,6 +1573,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-08
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eir-pr-102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EIR 전송 화면 중복 전송 방지 (PR #102)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026-07" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1795,6 +1851,11 @@
 
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
+<h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="eir-pr-102">EIR 전송 화면 중복 전송 방지 (PR #102)<a class="headerlink" href="#eir-pr-102" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>확인창 겹침 재진입 차단</strong>(PR #102) — <code>EirExportIssue</code>·<code>EirImportIssue</code> 의 <code>fnSend</code> 가 확인창(<code>$message.question</code>)이 열린 동안 재클릭되면 확인창이 겹쳐 쌓여 한 번의 조작이 2번 전송되던 문제. <code>data().isSubmitting</code> 플래그로 진입 즉시 가드(<code>if (this.isSubmitting) return</code>) + 확인창 열기 <strong>前</strong> <code>true</code> 세팅 + 본문 전체 <code>try</code>/<code>finally</code> 로 처리 후 해제. <code>fnSubmit</code> 의 issue/cancel 두 axios 호출에 <code>{ timeout: 300000 }</code>(서버가 컨테이너마다 SIPG 왕복 → 전역 60s 초과 가능), 빈 catch → <code>fnGetSubmitErrorMessage</code> 로 "재전송 말고 재조회하라" 안내(응답을 못 받아도 서버는 발급을 계속 진행). Export 만 <code>fnSendEIR</code> 진입 시 <code>sendArray</code> 초기화(누적 중복 방지). 백엔드 Redis 분산락과 한 쌍(백 PR #71). → <a href="../troubleshooting/">트러블슈팅 §11</a>.</li>
+</ul>
 <h2 id="2026-07">2026-07<a class="headerlink" href="#2026-07" title="Permanent link">&para;</a></h2>
 <h3 id="role-ux-pr-95">관리자 판정 role 기반 전환 + 역할 복사 UX (PR #95)<a class="headerlink" href="#role-ux-pr-95" title="Permanent link">&para;</a></h3>
 <ul>
