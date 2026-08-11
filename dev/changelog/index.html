@@ -1275,6 +1275,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsusermgt-cust_cd-repair-pr-106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt CUST_CD 코드박스 팝업(REPAIR/거래처) + 그리드 코드박스 셀값 전달 복원 (PR #106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#eir-pr-102" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1585,6 +1596,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsusermgt-cust_cd-repair-pr-106" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt CUST_CD 코드박스 팝업(REPAIR/거래처) + 그리드 코드박스 셀값 전달 복원 (PR #106)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#eir-pr-102" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1852,6 +1874,13 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="cmsusermgt-cust_cd-repair-pr-106">CmsUserMgt CUST_CD 코드박스 팝업(REPAIR/거래처) + 그리드 코드박스 셀값 전달 복원 (PR #106)<a class="headerlink" href="#cmsusermgt-cust_cd-repair-pr-106" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CmsUserMgt 거래처 코드박스 분기 팝업</strong>(PR #106) — 사용자관리 corp 탭 <code>CUST_CD</code> 컬럼을 <code>AgCodeBoxEditor</code> 코드박스로 전환, <code>main.CORP_CD === 'REPAIR'</code> 면 신설 <code>RepairCompany</code> 팝업(회사별 스키마 조회, 백 <code>selectRepairCompany</code>), 그 외는 기존 <code>CmsCustomerCodePopup</code>(<code>selectCustomerCode</code>). <code>codeBoxType.ts</code> 에 <code>RepairCompany</code>·<code>CustomerCode</code> 항목 추가 — 주석 '사용 X' 였던 <code>Customer</code> 는 실제 dev/template·MdmWarehouseMgt·MdmTariffMgt·MdmCustomerMgt 에서 사용 중이라 건드리지 않고 신규 추가. 해당 row 의 <code>CORP_CD</code> 를 <code>COMP_CD</code> 파라미터로 팝업에 전달하고, <code>CmsCustomerCodePopup</code> 을 조회 전용 → 코드박스 타깃으로 보강(선택행 <code>resolve</code>/<code>reject</code>·CHOOSE/CLOSE·행 더블클릭·전달 <code>COMP_CD</code> 수신·셀값 선조회). 백 PR #72 와 한 쌍.</li>
+<li><strong>그리드 코드박스 셀값 → 팝업 초기 검색어 전달 복원</strong>(PR #106) — Vue3 전환 때 <code>ECodeBox</code> 의 v-model 이 <code>value</code>→<code>modelValue</code> 로 바뀌었지만 그리드 셀 에디터(<code>baseMixinEditor</code>)는 레거시대로 <code>value</code> prop 으로 셀값을 넘겨, 그리드 코드박스가 셀 기존값을 <code>internalValue</code> 로 못 받아 팝업 초기 검색어(<code>SEARCH_KEYWORD</code>)가 비던 문제. <code>ECodeBox</code> 에 <code>value</code> prop 복원 + <code>internalValue</code> 를 <code>modelValue ?? value</code> 로 시드(레거시 <code>u-code-box</code> 동일) — 검색폼(<code>v-model</code>)은 무영향, 모든 그리드 코드박스가 셀값을 팝업으로 전달(+셀 편집 시 입력창에 기존값 표시).</li>
+<li><strong>CmsDataDicMgt PK 검증 + 다국어명 여러줄 입력</strong>(PR #106) — 저장 전 <code>fnPkValidation</code> 으로 PK(<code>DATA_ABBR</code>,<code>LANG_CD</code>) 필수·그리드 내 중복(DB PK 위반)을 차단(재검증 시 <code>isDuplicate</code> 초기화로 stale 방지). <code>DATA_NM</code> 을 <code>agLargeTextCellEditor</code>(textarea)로 여러 줄 입력 지원(개행 저장·메시지 박스 <code>pre-line</code> 렌더).</li>
+<li><strong>CrsEstimate 견적 생성 업체정보 누락 가드</strong>(PR #106) — 신규 생성 프로시저 결과 <code>P_RS_COMPINFO</code> 가 비면 저장 중단·안내(<code>MSG000428</code>) 널 가드.</li>
+</ul>
 <h3 id="eir-pr-102">EIR 전송 화면 중복 전송 방지 (PR #102)<a class="headerlink" href="#eir-pr-102" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>확인창 겹침 재진입 차단</strong>(PR #102) — <code>EirExportIssue</code>·<code>EirImportIssue</code> 의 <code>fnSend</code> 가 확인창(<code>$message.question</code>)이 열린 동안 재클릭되면 확인창이 겹쳐 쌓여 한 번의 조작이 2번 전송되던 문제. <code>data().isSubmitting</code> 플래그로 진입 즉시 가드(<code>if (this.isSubmitting) return</code>) + 확인창 열기 <strong>前</strong> <code>true</code> 세팅 + 본문 전체 <code>try</code>/<code>finally</code> 로 처리 후 해제. <code>fnSubmit</code> 의 issue/cancel 두 axios 호출에 <code>{ timeout: 300000 }</code>(서버가 컨테이너마다 SIPG 왕복 → 전역 60s 초과 가능), 빈 catch → <code>fnGetSubmitErrorMessage</code> 로 "재전송 말고 재조회하라" 안내(응답을 못 받아도 서버는 발급을 계속 진행). Export 만 <code>fnSendEIR</code> 진입 시 <code>sendArray</code> 초기화(누적 중복 방지). 백엔드 Redis 분산락과 한 쌍(백 PR #71). → <a href="../troubleshooting/">트러블슈팅 §11</a>.</li>
