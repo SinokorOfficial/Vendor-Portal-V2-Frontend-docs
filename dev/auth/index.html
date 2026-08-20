@@ -1512,6 +1512,10 @@
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nx">setAuthRedirect</span><span class="p">(</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">router</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'/login'</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
 </code></pre></div>
 <p>응답이 401 이면 인터셉터가 <code>authRedirect()</code> 를 호출해 로그인 화면으로 보냅니다.</p>
+<div class="admonition warning">
+<p class="admonition-title">무로그인 공개 화면 주의</p>
+<p>이 리다이렉트는 <strong>모든 401</strong>에 걸린다(<code>quiet</code> 요청도 예외 없음). 따라서 로그인 없이 여는 공개 화면(예: <code>CmsImageCarouselPopup</code>)은 <strong>세션 필요 API 를 호출하면 안 된다</strong> — 401 하나로 <code>/login</code> 튕김. 특히 베이스 mixin 의 방문로그(<code>insertVisitLog</code>, <code>/api/insertVisitLog</code>)가 무세션에서 401 을 내므로 <code>context.MENU_ID</code> 가 있을 때만 호출한다. 상세: <a href="../troubleshooting/">트러블슈팅 §13</a>.</p>
+</div>
 <h2 id="_4">메뉴 권한<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>라우트 접근 권한은 <strong>메뉴 기반</strong>입니다. <code>menuAuthGuard</code> 가 쿼리 <code>?mid=MENU_ID</code> 가 <code>menuStore.menuMap</code> 에 있는지 검사하고, 없으면 <code>/</code> 로 돌려보냅니다. 즉 사용자가 접근 가능한 메뉴 집합(백엔드 menuMap)이 곧 권한 경계입니다 → <a href="../routing/">라우팅</a>.</p>
 

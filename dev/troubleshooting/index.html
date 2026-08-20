@@ -1597,6 +1597,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#13-cmsimagecarouselpopup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 무로그인 공개 팝업 (CmsImageCarouselPopup)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. 무로그인 공개 팝업 (CmsImageCarouselPopup)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 팝업을 열면 /login 으로 튕김
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 팝업 배경이 흰색 (레거시는 검정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2054,6 +2093,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#13-cmsimagecarouselpopup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 무로그인 공개 팝업 (CmsImageCarouselPopup)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. 무로그인 공개 팝업 (CmsImageCarouselPopup)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 팝업을 열면 /login 으로 튕김
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 팝업 배경이 흰색 (레거시는 검정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2304,6 +2382,25 @@
 <p class="admonition-title">근본 제거 후보</p>
 <p>devextreme-vue <strong>22.2.x 승격</strong>(레거시와 동일선상)이 근본해결일 수 있으나, 전 dx위젯(그리드·셀렉트박스 등 16종+) 회귀 리스크로 <strong>별도 TODO 보류</strong>. (§6.4 <code>AgEDateBoxEditor</code> 의 Vue2 이벤트 계약 잔재와 같은 계열의 Vue2→Vue3 바인딩 함정.)</p>
 </div>
+<h2 id="13-cmsimagecarouselpopup">13. 무로그인 공개 팝업 (<code>CmsImageCarouselPopup</code>)<a class="headerlink" href="#13-cmsimagecarouselpopup" title="Permanent link">&para;</a></h2>
+<p>수리 이미지 뷰어(<code>CmsImageCarouselPopup</code>)는 포탈/외부에서 <strong>로그인 없이</strong> URL(<code>?COMP_CD=&amp;MNGT_NO=</code>)로 여는 공개 팝업이다. <code>window.open</code> 독립 창(App.vue 가 <code>/popup/</code> 은 셸 없이 풀스크린 렌더 — 레거시 <code>layout:'blank'</code> 동등).</p>
+<h3 id="131-login">13.1 팝업을 열면 <code>/login</code> 으로 튕김<a class="headerlink" href="#131-login" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 무세션(비로그인) 상태로 팝업 URL 진입 시 이미지 대신 로그인 화면으로 리다이렉트. (레거시는 그냥 열렸음.)</li>
+<li><strong>원인</strong>: 베이스 mixin(<code>src/mixins/page/index.ts</code>)의 <code>beforeMount</code> 가 <strong>모든 화면에서</strong> <code>insertVisitLog(MENU_ID)</code>(<code>POST /api/insertVisitLog</code>)를 호출하는데, 이 엔드포인트는 세션 필요(permit-all 아님)라 무세션 팝업에선 <strong>401</strong>. <code>$http</code> 인터셉터는 401 이면 <code>quiet</code> 여부와 무관하게 <code>authRedirect()</code>(→<code>router.push('/login')</code>) → 튕김. 팝업이 실제로 쓰는 API 2종(<code>/api/crs/repair/disabledFileExtList</code>·<code>/api/file/getBase64ImageList</code>)은 이미 permit-all(200)이라 무관 — <strong>엔드포인트 permit-all 만으로는 부족</strong>하고, 베이스 mixin 의 방문로그 텔레메트리가 공개 화면을 깬 것.</li>
+<li><strong>해결</strong>: 방문로그는 "메뉴 화면 방문" 기록이므로 <strong>메뉴 컨텍스트(<code>context.MENU_ID</code>)가 있을 때만</strong> 호출. 공개 팝업은 <code>activeTabMap</code> 이 비어 <code>MENU_ID</code> 없음 → 스킵 → 401/리다이렉트 제거(실화면은 <code>menuAuthGuard</code> 가 MENU_ID 세팅 → 기존대로 기록). — PR #124.</li>
+<li><strong>근거</strong>: <code>src/mixins/page/index.ts</code> <code>beforeMount</code> 가드. 401 인터셉터는 <a href="../auth/">인증/로그인 §401 처리</a>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">레거시는 왜 안 튕겼나</p>
+<p>백엔드 동작은 <strong>레거시=V2 동일</strong>하게 무세션 <code>insertVisitLog</code> 에 401 을 낸다(라이브 대조 확인). 차이는 프론트 — 레거시 Nuxt2 컨텍스트 <code>redirect()</code> 는 페이지 로드 후 도착하는 <strong>비동기 401 엔 사실상 no-op</strong> 이라 401 이 조용히 삼켜져 팝업이 그냥 열렸을 뿐, 진짜 익명-안전했던 게 아니다. V2 는 <code>router.push</code> 라 실제 네비게이트되며 잠복 버그가 표면화됐다(이번 수정으로 레거시보다 오히려 정상).</p>
+</div>
+<h3 id="132">13.2 팝업 배경이 흰색 (레거시는 검정)<a class="headerlink" href="#132" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 레거시 이미지 뷰어는 다크(<code>#111</code>) 배경인데 V2 는 흰색.</li>
+<li><strong>원인</strong>: 마이그레이션 때 <code>ImageCarousel</code> 을 밝은 테마로 재스타일 + 레거시의 페이지 다크 배경(<code>#__nuxt #__layout { background:#111 }</code>)을 "v2 미해당"이라 제거. V2 는 <code>/popup/</code> 을 셸 없이 <code>router-view</code> 로 풀스크린 렌더해 <code>v-app</code> 흰 배경이 비쳤음.</li>
+<li><strong>해결</strong>: 팝업 루트 <code>.image-carousel-popup</code> 에 <code>position:fixed;inset:0;background:#111</code>(레거시 <code>#__layout</code> 다크 동등) + <code>ImageCarousel</code> 내부(image-container/thumbnails <code>#111</code>, 이미지 흰bg·테두리 제거, active 액센트 오렌지) 레거시 다크 스타일 1:1 복원. <code>ImageCarousel</code> 은 이 팝업 전용 컴포넌트라 영향 격리. — PR #125.</li>
+</ul>
 
 
 
