@@ -51,13 +51,3 @@
     padding: 0.7rem 0;
   }
 }
-
-
-/* ── 상단 네비 탭 고정: 스크롤 내려가도 유지 ──
-   navigation.tabs.sticky 는 Material Insiders 전용이라 community 에선 CSS 로 구현.
-   헤더(.md-header: sticky top:0, 높이 2.4rem) 바로 아래에 탭을 붙인다. */
-.md-tabs {
-  position: sticky;
-  top: 2.4rem;
-  z-index: 3;
-}
