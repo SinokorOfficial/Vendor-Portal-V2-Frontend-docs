@@ -51,3 +51,19 @@
     padding: 0.7rem 0;
   }
 }
+
+/* ── 스크롤 시 헤더 제목을 페이지명으로 바꾸지 않음 ──
+   상단 sticky 탭이 현재 위치를 하이라이트로 보여주므로, 헤더는 항상 사이트명 유지.
+   Material 은 --active(스크롤) 시 topic1(사이트명)을 숨기고 topic2(페이지명)를 띄우는데 이를 되돌린다. */
+.md-header__title--active .md-header__topic:first-child {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  z-index: auto;
+}
+.md-header__title--active .md-header__topic + .md-header__topic {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(1.25rem);
+  z-index: -1;
+}
