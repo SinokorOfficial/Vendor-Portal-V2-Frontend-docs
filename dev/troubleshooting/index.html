@@ -1636,6 +1636,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#14-ag-grid-hhmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. ag-grid 시간(HHMM) 셀 — 재편집 시 입력 막힘
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-nginx-resolver-aca-internal-fqdn-app-unavailable-404" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. nginx resolver — ACA .internal FQDN "App Unavailable" 404
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2132,6 +2154,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#14-ag-grid-hhmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. ag-grid 시간(HHMM) 셀 — 재편집 시 입력 막힘
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-nginx-resolver-aca-internal-fqdn-app-unavailable-404" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. nginx resolver — ACA .internal FQDN "App Unavailable" 404
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2400,6 +2444,18 @@
 <li><strong>증상</strong>: 레거시 이미지 뷰어는 다크(<code>#111</code>) 배경인데 V2 는 흰색.</li>
 <li><strong>원인</strong>: 마이그레이션 때 <code>ImageCarousel</code> 을 밝은 테마로 재스타일 + 레거시의 페이지 다크 배경(<code>#__nuxt #__layout { background:#111 }</code>)을 "v2 미해당"이라 제거. V2 는 <code>/popup/</code> 을 셸 없이 <code>router-view</code> 로 풀스크린 렌더해 <code>v-app</code> 흰 배경이 비쳤음.</li>
 <li><strong>해결</strong>: 팝업 루트 <code>.image-carousel-popup</code> 에 <code>position:fixed;inset:0;background:#111</code>(레거시 <code>#__layout</code> 다크 동등) + <code>ImageCarousel</code> 내부(image-container/thumbnails <code>#111</code>, 이미지 흰bg·테두리 제거, active 액센트 오렌지) 레거시 다크 스타일 1:1 복원. <code>ImageCarousel</code> 은 이 팝업 전용 컴포넌트라 영향 격리. — PR #125.</li>
+</ul>
+<h2 id="14-ag-grid-hhmm">14. ag-grid 시간(HHMM) 셀 — 재편집 시 입력 막힘<a class="headerlink" href="#14-ag-grid-hhmm" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 시간 셀을 한 번 저장한 뒤 다시 편집하면 한 글자 지운 뒤로 입력이 안 됨(레거시도 동일 — 회귀 아님).</li>
+<li><strong>원인</strong>: 구 valueSetter 가 저장 시 콜론을 삽입해 데이터가 5자(<code>12:30</code>)가 됨 → 에디터 <code>maxLength:4</code> 와 충돌해 재편집 시 입력 불가. 부수로 <code>fnTimeValidation</code> 이 <code>substring(2,4)</code>(=<code>:3</code>)를 분(minute)으로 파싱해 <code>NaN</code> — 분 검증이 무력화돼 있었음.</li>
+<li><strong>해결</strong>: <strong>데이터는 콜론 없는 4자리 유지</strong>, 표시만 <code>formatPattern('##:##')</code>, 세터는 공통 <code>ValueSetter.time()</code>(신설) 사용. 4화면 19곳 적용 — PR #110. 새 시간 컬럼을 만들 땐 이 3종 세트(<code>ValueSetter.time</code> + <code>formatPattern</code> + <code>maxLength:4</code> 에디터)를 그대로 따른다. 참고: <code>AgMaskedBoxEditor</code> 는 이름과 달리 실제 mask 동작이 아니다.</li>
+</ul>
+<h2 id="15-nginx-resolver-aca-internal-fqdn-app-unavailable-404">15. nginx resolver — ACA <code>.internal</code> FQDN "App Unavailable" 404<a class="headerlink" href="#15-nginx-resolver-aca-internal-fqdn-app-unavailable-404" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 백엔드를 <code>external:false</code>(internal ingress)로 돌리면 프론트 <code>/api</code> 프록시가 "App Unavailable" 404 (2026-06-23 첫 시도 실패·08-19 재현으로 원인 확정).</li>
+<li><strong>원인</strong>: nginx <code>resolver</code> 가 <code>168.63.129.16</code>(Azure 공용 DNS)이면 ACA <code>.internal</code> FQDN 을 <strong>공용 인그레스 IP 로 오해석</strong>한다 — 내부 인그레스로 못 감.</li>
+<li><strong>해결</strong>: 부트스크립트 <code>docker-entrypoint.d/15-set-resolver.envsh</code>(공식 nginx 엔트리포인트가 <code>*.envsh</code> 를 envsubst 이전에 source)가 <code>/etc/resolv.conf</code> 의 nameserver(ACA=<code>127.0.0.11</code>→클러스터 DNS)를 읽어 <code>NGINX_RESOLVER</code> 로 주입 → <code>.internal</code> 이 사설 인그레스로 정확히 해석. ⚠️ <code>COPY --chmod</code> 는 BuildKit 전용이라 <code>az acr build</code> 에서 실패 — <code>RUN chmod 755</code> 로. — PR #117/#118 (개요는 <a href="../changelog/">변경 이력</a> 참고).</li>
 </ul>
 
 

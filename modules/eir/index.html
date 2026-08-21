@@ -1033,6 +1033,10 @@
 <p class="admonition-title">발행 전 점검</p>
 <p>발행 대상의 컨테이너 번호·부킹 정보가 맞는지 확인하세요. 발행은 외부 시스템으로 전송되므로, 잘못 발행한 경우 정해진 취소/정정 절차(응답 로그 확인)를 따릅니다.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">전송 중 재클릭·재전송 금지</p>
+<p>발행/취소 전송 중에는 버튼 재클릭이 차단됩니다. 전송 후 응답이 늦거나 오류가 표시되어도 <strong>재전송하지 말고</strong>, <strong>EIR 발행 현황</strong>(EirIssueStatus)에서 재조회해 결과를 먼저 확인한 뒤 진행하세요. 응답을 받지 못했어도 서버에서는 발행이 진행됐을 수 있어 재전송 시 중복 발행될 수 있습니다.</p>
+</div>
 <h2 id="_2">자주 보는 상황<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>조회 결과가 비어 있음</strong> — 상단의 회사/고객 컨텍스트와 검색 기간을 확인하세요.</li>

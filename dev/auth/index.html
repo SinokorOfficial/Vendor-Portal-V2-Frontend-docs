@@ -793,6 +793,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#v2-sso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        레거시→V2 SSO 유입 (점진 전환, 운영 가동 중)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#401" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1399,6 +1410,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#v2-sso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        레거시→V2 SSO 유입 (점진 전환, 운영 가동 중)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#401" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1503,6 +1525,8 @@
 <li><strong>토큰은 httpOnly 쿠키</strong>에 있어 브라우저가 자동 전송합니다. <code>localStorage</code> 등에 토큰을 저장하지 않습니다.</li>
 <li>세션 "데이터"(userId, corpCd 등)는 <code>useAuthStore().session</code> 에 보관됩니다.</li>
 </ul>
+<h2 id="v2-sso">레거시→V2 SSO 유입 (점진 전환, 운영 가동 중)<a class="headerlink" href="#v2-sso" title="Permanent link">&para;</a></h2>
+<p>로그인 화면을 거치지 않는 진입 경로가 하나 더 있다: <code>TB_CMS_USER.USER_DIV='V2'</code> 로 지정된 사용자가 <strong>레거시 포탈에 로그인하면</strong>, 레거시가 JWT 를 발급해 V2 의 <code>/api/link?token=&lt;jwt&gt;</code> 로 리다이렉트하고 백엔드가 토큰을 검증해 <strong>무비밀번호로 세션을 수립</strong>한다(이후 흐름은 위 세션 방식과 동일 — httpOnly 쿠키). 프론트에 별도 코드는 없고 전부 백엔드 필터 체인에서 처리된다. 컷오버 카나리로 <strong>운영에서 실사용 중</strong>(2026-08-20 기준)이며, 최초 진입 시 간헐 500 이력은 JWT <code>nbf</code> clock skew(백엔드 <code>acceptLeeway(30)</code> 로 해소, BE PR #84)였다. 상세: <a href="https://sinokorofficial.github.io/Vendor-Portal-V2-Backend-docs/security/">백엔드 보안·인증 문서</a>.</p>
 <h2 id="401">401 처리<a class="headerlink" href="#401" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// src/util/http</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">let</span><span class="w"> </span><span class="nx">authRedirect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="s1">'/login'</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>

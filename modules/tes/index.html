@@ -1011,6 +1011,10 @@
 <li><strong>엑셀 업로드 팝업</strong>: 각 비용 종류별로 대량 등록(TesTugExpnExcelUpload, TesLashExpnExcelUpload, TesInspExpnExcelUpload).</li>
 <li><strong>그룹 인보이스 설정</strong>(SetGroupInvoice), <strong>정정</strong>(AmendPopup), <strong>CFS 변경 이력</strong>(TesCfsChangeHistoryPopup) 등 보조 팝업.</li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">엑셀 업로드 검증</p>
+<p>업로드한 데이터의 <strong>VESSEL·PORT·WHARF</strong> 는 마스터와 대조되며, 오류가 있으면 항목별로 해당 라인 번호를 한 번에 안내합니다(앞 10건 표시 + "외 N건"). 대소문자·앞뒤 공백은 무시되므로 표기 차이만으로 실패하지 않습니다.</p>
+</div>
 <h2 id="_2">일반 흐름<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ol>
 <li>비용 종류별 <strong>비용 등록</strong> 화면에서 작업 비용을 입력(또는 엑셀 업로드).</li>
