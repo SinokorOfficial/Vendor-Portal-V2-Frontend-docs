@@ -1658,6 +1658,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#16-dxchart-400px" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. DxChart — 마운트 타이밍에 크기를 못 읽으면 400px 로 굳음
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2176,6 +2187,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#16-dxchart-400px" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16. DxChart — 마운트 타이밍에 크기를 못 읽으면 400px 로 굳음
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2456,6 +2478,12 @@
 <li><strong>증상</strong>: 백엔드를 <code>external:false</code>(internal ingress)로 돌리면 프론트 <code>/api</code> 프록시가 "App Unavailable" 404 (2026-06-23 첫 시도 실패·08-19 재현으로 원인 확정).</li>
 <li><strong>원인</strong>: nginx <code>resolver</code> 가 <code>168.63.129.16</code>(Azure 공용 DNS)이면 ACA <code>.internal</code> FQDN 을 <strong>공용 인그레스 IP 로 오해석</strong>한다 — 내부 인그레스로 못 감.</li>
 <li><strong>해결</strong>: 부트스크립트 <code>docker-entrypoint.d/15-set-resolver.envsh</code>(공식 nginx 엔트리포인트가 <code>*.envsh</code> 를 envsubst 이전에 source)가 <code>/etc/resolv.conf</code> 의 nameserver(ACA=<code>127.0.0.11</code>→클러스터 DNS)를 읽어 <code>NGINX_RESOLVER</code> 로 주입 → <code>.internal</code> 이 사설 인그레스로 정확히 해석. ⚠️ <code>COPY --chmod</code> 는 BuildKit 전용이라 <code>az acr build</code> 에서 실패 — <code>RUN chmod 755</code> 로. — PR #117/#118 (개요는 <a href="../changelog/">변경 이력</a> 참고).</li>
+</ul>
+<h2 id="16-dxchart-400px">16. DxChart — 마운트 타이밍에 크기를 못 읽으면 400px 로 굳음<a class="headerlink" href="#16-dxchart-400px" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: CmsAzureLog 개요 차트가 박스를 넘어 축 라벨이 잘리고 탭 스크롤 발생(높이 400px 고정), 또는 가로가 좁게 남는다. 창을 리사이즈해도 <strong>높이·폭이 회복되지 않는다</strong>(실측 — <code>redrawOnResize</code> 로도 재측정 안 됨).</li>
+<li><strong>원인</strong>: DevExtreme Chart 는 렌더 시점에 컨테이너 크기를 1회 측정한다. 탭(v-window)/라우트 전환 중이라 컨테이너 크기가 확정 전이면 <strong>높이는 기본 400px, 폭은 그 순간 값으로 굳는다</strong>. flex/grid 파생 크기(명시 CSS height 없음)에서 발생.</li>
+<li><strong>해결</strong>: 측정을 DevExtreme 에 맡기지 않는다 — <code>ResizeObserver</code> 로 차트 div 의 폭·높이를 실측해 <code>:size="{ width, height }"</code> 옵션으로 직접 바인딩(측정 전 0 이면 미지정). 데이터 로드 직후 <code>$nextTick</code> 재측정 1회 포함. 창/컨테이너 크기가 바뀌면 observer 가 다시 실측해 재조정된다. — PR #138 (CmsAzureLog <code>chartPx</code>/<code>chartW</code>/<code>measureCharts</code> 참고).</li>
 </ul>
 
 

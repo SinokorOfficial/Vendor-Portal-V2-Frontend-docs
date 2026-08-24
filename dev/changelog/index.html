@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsazurelog-pr-135138" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog 관측성 대시보드 — 조회 범위 확장 + 원인추적 패널 + 레이아웃 (PR #135~#138)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#github-app-pr-130-129" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1730,6 +1741,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsazurelog-pr-135138" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog 관측성 대시보드 — 조회 범위 확장 + 원인추적 패널 + 레이아웃 (PR #135~#138)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#github-app-pr-130-129" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2140,6 +2162,13 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="cmsazurelog-pr-135138">CmsAzureLog 관측성 대시보드 — 조회 범위 확장 + 원인추적 패널 + 레이아웃 (PR #135~#138)<a class="headerlink" href="#cmsazurelog-pr-135138" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>기간 직접 지정(일자 from~to) + 프리셋 7d/30d</strong>(PR #135·#136, 백엔드 #94·#95 짝) — 기존 1h/6h/24h 프리셋에 최근 7일/30일과 '직접 지정'(e-date-box 일자, 시작일 00:00~종료일 23:59, 같은 날=그 하루)을 추가. 이 화면은 메뉴 DB 버튼이 없어 <code>front-button</code> 슬롯으로 SEARCH 버튼 제공(날짜 입력은 Enter 로도 조회). 서버측 검증 사유(형식/역전/90일 초과)는 상단 notice 로 표시.</li>
+<li><strong>실패 요청 TOP(엔드포인트 × 상태코드) 그리드 신설</strong>(PR #135) — 에러율 차트는 전체 합산이라 급등해도 원인 API 를 못 짚던 공백을 채움. '의존성 · 이벤트' 탭을 원인 추적 흐름(실패 요청 → 예외 → 의존성 → 시스템 이벤트)으로 재배치.</li>
+<li><strong>개요 차트 화면 채움 + 그리드 사이 splitpanes</strong>(PR #137) — 개요 탭 차트 2행이 잔여 높이를 나눠 화면 아래까지 채우고(240px 미만은 탭 내부 스크롤), '의존성 · 이벤트' 탭은 splitpanes 3단(실패요청|예외 / 의존성 / 시스템 이벤트) 드래그 리사이즈로 전환.</li>
+<li><strong>DxChart 기본 400px 렌더 함정 수정</strong>(PR #138) — 마운트 타이밍(탭/라우트 전환 중)에 컨테이너 크기를 못 읽으면 높이 400px·좁은 폭으로 굳은 채 재측정하지 않아 축 라벨 잘림·탭 스크롤·가로 여백이 생기던 문제. ResizeObserver 실측값을 <code>size</code> 옵션으로 직접 바인딩해 측정 의존을 원천 차단. → <a href="../troubleshooting/">트러블슈팅 §16</a>.</li>
+</ul>
 <h3 id="github-app-pr-130-129">문서 배포 인증 GitHub App 전환 + 매뉴얼 로그인 절 현행화 (PR #130, #129)<a class="headerlink" href="#github-app-pr-130-129" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>PAT → GitHub App</strong>(PR #130, 백엔드 #90 짝) — 문서 발행용 fine-grained PAT(<code>DOCS_DEPLOY_TOKEN</code>)가 2026-09-14 만료 예정 + PAT 는 자동 재발급 불가 → GitHub App(<code>vendorportal-docs-deployer</code>) 설치 토큰으로 전환. <code>actions/create-github-app-token</code>(SHA 고정)이 실행 시마다 1시간짜리 토큰을 발급해 <code>peaceiris</code> 에 주입 — <strong>토큰 만료 관리 소멸</strong>. 검증(dispatch success·no-op push 인증 통과) 후 구 PAT revoke·시크릿 삭제 완료. 상세: <code>DOCS-DEPLOY.md</code>.</li>
