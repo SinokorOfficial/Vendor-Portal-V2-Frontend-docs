@@ -912,6 +912,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조회 결과 처리 (0건 규약)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1432,6 +1443,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조회 결과 처리 (0건 규약)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1626,11 +1648,29 @@
 <li><strong>전용 엔드포인트</strong> — <code>this.$axios.$post('/api/eir/issueEirNew', ...)</code> 처럼 백엔드 컨트롤러를 직접 호출(발행/연동 등 도메인 로직).</li>
 </ol>
 <p>자세한 호출 규약·헤더 주입은 <a href="../http-api/">HTTP / API</a> 참고.</p>
+<h2 id="0">조회 결과 처리 (0건 규약)<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p>조회 응답을 그리드에 넣을 때 <strong>0건도 하나의 결과로 취급</strong>합니다. 두 가지를 지킵니다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="w"> </span><span class="nx">procedureName</span><span class="w"> </span><span class="p">].</span><span class="nx">P_RS</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">mainGridAdapter</span><span class="p">.</span><span class="nx">setItems</span><span class="p">(</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="p">)</span><span class="w">          </span><span class="c1">// ① 조건 밖에서 항상 호출</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">$notify</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">$lang</span><span class="p">(</span><span class="w"> </span><span class="s1">'MSG000004'</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">     </span><span class="c1">// 조회가 되었습니다.</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">$notify</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">$lang</span><span class="p">(</span><span class="w"> </span><span class="s1">'MSG000016'</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">// ② 조회된 데이터가 없습니다.</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">}</span><span class="w"> </span><span class="p">)</span>
+</code></pre></div>
+<p><strong>① <code>setItems</code> 는 <code>if</code> 밖에서</strong> — <code>if ( rows.length &gt; 0 )</code> 안에 두면 0건 응답에서 호출 자체가 안 돼 <strong>직전 조회 결과가 화면에 그대로 남습니다</strong>. "데이터가 없습니다" 알림은 떴는데 이전 행이 보이는 상태가 됩니다. 앞에서 <code>clear()</code> 를 부르는 형태도 동일하게 유효합니다. 상세 그리드(마스터 행 클릭 → 상세 조회)에서 특히 잘 드러납니다 — 다른 행을 눌렀는데 이전 행의 상세가 남습니다.</p>
+<p><strong>② 0건 알림은 <code>$notify.warn</code></strong> — 성공(<code>$notify</code>, 초록)과 같은 모양이면 사용자가 성공/빈결과를 구분하지 못합니다. 모달(<code>$message</code>)은 확인 클릭을 강요하므로 <strong>조회 0건에는 쓰지 않습니다</strong>. 모달은 "선택된 행이 없습니다"(<code>MSG000009</code>)처럼 <strong>사용자 조작을 되돌려야 하는</strong> 경우에만 씁니다.</p>
+<p>메시지 코드는 조회 성공 <code>MSG000004</code>, 조회 0건 <code>MSG000016</code>(화면에 따라 <code>MSG000390</code>/<code>MSG000393</code>), 선택 행 없음 <code>MSG000009</code>. — PR #143, #148.</p>
 <h2 id="_4">새 화면 추가 체크리스트<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ol>
 <li><code>src/pages/&lt;module&gt;/&lt;Screen&gt;/index.vue</code> 생성(+ 필요 시 <code>dataset.js</code>).</li>
 <li><code>mixins: [ pageMixin ]</code> 적용, 필요한 공통코드는 <code>codeData()</code> 에 선언.</li>
-<li>그리드는 <code>fnGetXxxGridOptions()</code> 로 컬럼 정의 후 <code>AgGridAdapter.of(...)</code>.</li>
+<li>그리드는 <code>fnGetXxxGridOptions()</code> 로 컬럼 정의 후 <code>AgGridAdapter.of(...)</code>.
+   조회 결과 반영은 위 <strong>조회 결과 처리(0건 규약)</strong> 절을 따릅니다(<code>setItems</code> 는 조건 밖, 0건은 <code>$notify.warn</code>).</li>
 <li>메뉴 노출은 백엔드 <code>menuMap</code>(MENU_PATH=<code>/module/Screen</code>, MENU_NM) 등록 필요 — 프론트만 추가하면 메뉴/제목이 안 잡힙니다.</li>
 <li>push → 배포 시 <a href="../reference/screens/">화면 인벤토리</a>에 자동 반영.</li>
 </ol>

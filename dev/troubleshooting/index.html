@@ -1669,6 +1669,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#17-401-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. 미인증 진입 시 401 3건 — 부트스트랩 병렬 발사 (관측 데이터 해석 주의)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2198,6 +2209,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#17-401-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        17. 미인증 진입 시 401 3건 — 부트스트랩 병렬 발사 (관측 데이터 해석 주의)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2484,6 +2506,14 @@
 <li><strong>증상</strong>: CmsAzureLog 개요 차트가 박스를 넘어 축 라벨이 잘리고 탭 스크롤 발생(높이 400px 고정), 또는 가로가 좁게 남는다. 창을 리사이즈해도 <strong>높이·폭이 회복되지 않는다</strong>(실측 — <code>redrawOnResize</code> 로도 재측정 안 됨).</li>
 <li><strong>원인</strong>: DevExtreme Chart 는 렌더 시점에 컨테이너 크기를 1회 측정한다. 탭(v-window)/라우트 전환 중이라 컨테이너 크기가 확정 전이면 <strong>높이는 기본 400px, 폭은 그 순간 값으로 굳는다</strong>. flex/grid 파생 크기(명시 CSS height 없음)에서 발생.</li>
 <li><strong>해결</strong>: 측정을 DevExtreme 에 맡기지 않는다 — <code>ResizeObserver</code> 로 차트 div 의 폭·높이를 실측해 <code>:size="{ width, height }"</code> 옵션으로 직접 바인딩(측정 전 0 이면 미지정). 데이터 로드 직후 <code>$nextTick</code> 재측정 1회 포함. 창/컨테이너 크기가 바뀌면 observer 가 다시 실측해 재조정된다. — PR #138 (CmsAzureLog <code>chartPx</code>/<code>chartW</code>/<code>measureCharts</code> 참고).</li>
+</ul>
+<h2 id="17-401-3">17. 미인증 진입 시 401 3건 — 부트스트랩 병렬 발사 (관측 데이터 해석 주의)<a class="headerlink" href="#17-401-3" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 실패 요청 TOP·에러율 지표에 <code>/api/session</code>·<code>/api/menuMap</code>·<code>/api/languageMap</code> 401 이 <strong>항상 세 개 세트로</strong> 올라온다(운영 실측 최근 7일 각 44~46건).</li>
+<li><strong>원인</strong>: <code>plugins/bootstrap.ts</code> 가 셋을 <code>Promise.all</code> 로 <strong>병렬 발사</strong>해, 세션이 없는 진입(딥링크·세션 만료·로그인 페이지에서 뒤로가기)에서 셋 다 401 이 된다. menuMap/languageMap 은 로그인해야 받는 데이터라 미인증 상태에서 보낼 이유가 없었다.</li>
+<li><strong>해결</strong>: 세션을 먼저 확인하고 실패하면 나머지 둘을 아예 보내지 않는다(기존 catch 가 그대로 받고, http 인터셉터가 <code>/login</code> 으로 보낸다). 진입당 401 이 <strong>3건 → 1건</strong>. 부팅 지연은 사실상 없다 — 운영 p50 이 <code>$session</code> 18.7ms / languageMap 61.2ms / menuMap 106.7ms 로 <strong>세션이 셋 중 가장 싸서</strong> 병렬 ~107ms → 직렬 ~126ms(<strong>+19ms</strong>). — PR #146.</li>
+<li><strong>남는 1건은 정상이다</strong> — <code>/api/session</code> 401 은 "로그인돼 있나"를 묻는 <strong>프로브 자체</strong>다. 서버 세션 유효성은 물어봐야 알 수 있으므로(HttpOnly 쿠키) 원리상 제거 대상이 아니다. 판단 기준은 분당 1건=일상, 2건=드물지만 정상, <strong>10초 내 5건 이상 클러스터</strong>=자동화 스캔/리다이렉트 루프 의심.</li>
+<li><strong>⚠️ 과거 데이터와 비교할 때</strong>: 2026-08-25(PR #146) <strong>이전 구간은 진입 1회당 401 이 3건</strong>이라 그만큼 부풀어 있다. 백엔드 <code>CmsAzureLogService</code> 는 401 을 <code>Success == false</code> 로 실패에 포함해 집계하므로(에러율 시계열·요약·실패 요청 TOP 3곳) 배포 전후를 그대로 비교하면 <strong>에러율이 개선된 것처럼 보인다</strong>. 이 화면은 트래픽 자체가 적어(헬스체크 제외 분당 p50 4건) 에러율(%)이 구조적으로 과장되니, 스파이크는 % 가 아니라 <strong>실패 건수/분모</strong>로 판단한다(툴팁이 <code>실패 n / 전체 m</code> 을 병기 — PR #147).</li>
 </ul>
 
 
