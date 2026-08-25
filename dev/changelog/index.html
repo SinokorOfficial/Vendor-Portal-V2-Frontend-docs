@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#pr-145" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        즐겨찾기 순서 변경(드래그) — 레거시 편집 모드 이식 (PR #145)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsazurelog-pr-135138" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1741,6 +1752,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#pr-145" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        즐겨찾기 순서 변경(드래그) — 레거시 편집 모드 이식 (PR #145)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsazurelog-pr-135138" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2162,6 +2184,15 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="pr-145">즐겨찾기 순서 변경(드래그) — 레거시 편집 모드 이식 (PR #145)<a class="headerlink" href="#pr-145" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>순서 변경 기능 신설</strong>(PR #145, 백엔드 #104 주석 짝) — V2 즐겨찾기는 목록 + 제거만 이식돼 순서를 바꿀 수 없었다. 순서는 표시 순서일 뿐 아니라 <strong>로그인 직후 랜딩 메뉴</strong>도 결정하므로(<code>menuAuthGuard</code> 가 <code>myMenuList[0]</code> 으로 이동) 첫 화면을 고를 방법이 없던 셈. 즐겨찾기 패널 상단에 편집/저장/되돌리기 버튼(<code>normal-line</code>, 폭 3등분)을 두고, 편집 모드에서 <code>vuedraggable</code> 로 행을 끌어 재정렬 → 저장 시 <code>reorderMyMenu</code>(전체 삭제 후 순서대로 재삽입 = <code>MENU_SEQ</code> 재부여)로 확정.</li>
+<li><strong>백엔드 변경 없음</strong> — <code>POST /api/reorderMyMenu</code>·<code>http.reorderMyMenu</code>·<code>vuedraggable@4.1.0</code> 이 모두 이미 있었고 이를 쓰는 화면만 빠져 있었다(<code>http.reorderMyMenu</code> 는 호출처 0건 상태로 방치돼 있던 것).</li>
+<li><strong>편집 중 제거는 복사본에서만</strong> — 저장해야 서버 반영(레거시 동일). <code>reorderMyMenu</code> 가 "받은 목록 = 전체"로 덮어쓰는 성질을 그대로 이용한다. 편집 모드가 아닐 때의 × 는 기존처럼 <code>registMyMenu</code> 즉시 토글.</li>
+<li><strong><code>normal-line</code> 비활성 버튼 색 반전 수정</strong> — Vuetify 가 disabled 를 <code>.v-btn__overlay</code>(currentColor)로 덮는데 <code>normal-line</code> 은 글자색이 파랑이라 <strong>비활성이 오히려 파랗게 채워져 활성처럼</strong> 보였다(배경·테두리·아이콘 자체는 정상, 실측 확인). 이 툴바에 한해 오버레이를 끄고 <code>opacity</code> 로 표현 — <strong>다른 화면의 <code>normal-line</code> 비활성 버튼도 동일 증상</strong>이나 전역 수정은 범위 밖으로 두었다.</li>
+<li><strong>레거시 <code>INIT_YN</code>('초기화면 지정' 북마크)은 이식하지 않음</strong> — 레거시 프론트·레거시 백엔드·V2 어디에도 이 값을 <strong>읽는 코드가 없다</strong>(운영 268행 중 <code>Y</code> 1건, 그마저 <code>MENU_SEQ=1</code> 이라 무관). 순서 변경이 그 자리를 실제 동작하는 형태로 대신한다. 저장 시 서버가 받은 값을 되쓰므로 기존 <code>INIT_YN</code> 은 보존.</li>
+<li><strong>문서</strong> — 사용자 가이드 <code>getting-started.md</code> 에 「즐겨찾기」 절 신설(그간 즐겨찾기 설명이 전무했다), 앱 매뉴얼(<code>/manual</code>)에 <code>gs-favorite</code> 절 3언어(ko/en/zh) 추가.</li>
+</ul>
 <h3 id="cmsazurelog-pr-135138">CmsAzureLog 관측성 대시보드 — 조회 범위 확장 + 원인추적 패널 + 레이아웃 (PR #135~#138)<a class="headerlink" href="#cmsazurelog-pr-135138" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>기간 직접 지정(일자 from~to) + 프리셋 7d/30d</strong>(PR #135·#136, 백엔드 #94·#95 짝) — 기존 1h/6h/24h 프리셋에 최근 7일/30일과 '직접 지정'(e-date-box 일자, 시작일 00:00~종료일 23:59, 같은 날=그 하루)을 추가. 이 화면은 메뉴 DB 버튼이 없어 <code>front-button</code> 슬롯으로 SEARCH 버튼 제공(날짜 입력은 Enter 로도 조회). 서버측 검증 사유(형식/역전/90일 초과)는 상단 notice 로 표시.</li>
