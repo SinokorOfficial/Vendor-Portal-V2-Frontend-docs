@@ -1680,6 +1680,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#18-e-html-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. e-html-editor — 읽기 전용인데 툴바가 그대로 보임
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2220,6 +2231,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#18-e-html-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18. e-html-editor — 읽기 전용인데 툴바가 그대로 보임
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2514,6 +2536,14 @@
 <li><strong>해결</strong>: 세션을 먼저 확인하고 실패하면 나머지 둘을 아예 보내지 않는다(기존 catch 가 그대로 받고, http 인터셉터가 <code>/login</code> 으로 보낸다). 진입당 401 이 <strong>3건 → 1건</strong>. 부팅 지연은 사실상 없다 — 운영 p50 이 <code>$session</code> 18.7ms / languageMap 61.2ms / menuMap 106.7ms 로 <strong>세션이 셋 중 가장 싸서</strong> 병렬 ~107ms → 직렬 ~126ms(<strong>+19ms</strong>). — PR #146.</li>
 <li><strong>남는 1건은 정상이다</strong> — <code>/api/session</code> 401 은 "로그인돼 있나"를 묻는 <strong>프로브 자체</strong>다. 서버 세션 유효성은 물어봐야 알 수 있으므로(HttpOnly 쿠키) 원리상 제거 대상이 아니다. 판단 기준은 분당 1건=일상, 2건=드물지만 정상, <strong>10초 내 5건 이상 클러스터</strong>=자동화 스캔/리다이렉트 루프 의심.</li>
 <li><strong>⚠️ 과거 데이터와 비교할 때</strong>: 2026-08-25(PR #146) <strong>이전 구간은 진입 1회당 401 이 3건</strong>이라 그만큼 부풀어 있다. 백엔드 <code>CmsAzureLogService</code> 는 401 을 <code>Success == false</code> 로 실패에 포함해 집계하므로(에러율 시계열·요약·실패 요청 TOP 3곳) 배포 전후를 그대로 비교하면 <strong>에러율이 개선된 것처럼 보인다</strong>. 이 화면은 트래픽 자체가 적어(헬스체크 제외 분당 p50 4건) 에러율(%)이 구조적으로 과장되니, 스파이크는 % 가 아니라 <strong>실패 건수/분모</strong>로 판단한다(툴팁이 <code>실패 n / 전체 m</code> 을 병기 — PR #147).</li>
+</ul>
+<h2 id="18-e-html-editor">18. <code>e-html-editor</code> — 읽기 전용인데 툴바가 그대로 보임<a class="headerlink" href="#18-e-html-editor" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 비관리자가 공지 상세를 열면 편집이 안 되는데도 상단에 <strong>서식 툴바(2줄)가 회색으로 깔려 있다</strong>. 클릭해도 아무 일이 없는 죽은 UI 인데 본문이 그만큼 아래로 밀린다.</li>
+<li><strong>원인</strong>: <code>:read-only</code> 는 이미 걸려 있었다. DevExtreme 의 <code>readOnly</code> 는 툴바 버튼을 <strong>비활성(회색)만 시킬 뿐 숨기지 않고</strong>, <code>dxHtmlEditorToolbar</code> 에는 <code>visible</code> 옵션 자체가 없다(<code>container</code>/<code>items</code>/<code>multiline</code> 뿐). <code>EHtmlEditor</code> 가 <code>&lt;dx-html-editor-toolbar&gt;</code> 를 <strong>무조건 선언</strong>하고 있었으므로 항상 그려졌다.</li>
+<li><strong>해결</strong>: <code>toolbar</code> 옵션이 아예 없으면 Quill toolbar 모듈이 붙지 않아 <strong>툴바 DOM 이 생성되지 않는다</strong>(<code>ui.html_editor.js</code> <code>_getModuleConfigByOption</code> 이 값 미정의면 <code>undefined</code> 반환). <code>EHtmlEditor</code> 에서 <code>&lt;dx-html-editor-toolbar v-if="!readOnly"&gt;</code> 로 렌더 자체를 끊는다. <code>readOnly</code> 는 <code>$attrs</code> 통과 대신 <strong>prop 으로 선언</strong> — 호출부가 <code>:read-only</code> 를 쓰느냐 <code>:readOnly</code> 를 쓰느냐에 따라 <code>$attrs</code> 키가 달라져 판정이 불안정하기 때문이고, 값은 <code>propParams</code> 로 다시 실어 보내 편집 잠금 동작은 그대로다. — PR #152.</li>
+<li><strong>런타임 토글은 안전하다</strong> — 툴바 유무가 바뀌면 devextreme-vue 가 <code>resetOption('toolbar')</code> → DevExtreme <code>_invalidate()</code> 로 <strong>에디터를 통째로 재생성</strong>한다. 값(<code>value</code>)은 위젯 옵션이라 보존된다(실측: 토글 전후 본문 862자 동일). 조회 결과에 따라 read-only 가 바뀌는 화면(<code>CsmRequestMgt</code>)이 여기 해당.</li>
+<li><strong>⚠️ 다만 첫 렌더에 확정하는 편이 낫다</strong> — 재생성 비용이 있으므로 <code>isAdmin</code> 같은 세션 파생 플래그는 <code>mounted()</code> 가 아니라 <strong><code>created()</code></strong> 에서 잡는다. 늦게 잡으면 화면을 열자마자 툴바가 한 번 깜빡인다.</li>
 </ul>
 
 
