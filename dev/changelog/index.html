@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#html-5-pr-153" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTML 리포트 — 리포트 레이아웃을 업무 모듈로 이동 + 인쇄 페이지/푸터/자동분할 결함 5건 (PR #153)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#table-admindashboard-log-pr-152" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1807,6 +1818,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#html-5-pr-153" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTML 리포트 — 리포트 레이아웃을 업무 모듈로 이동 + 인쇄 페이지/푸터/자동분할 결함 5건 (PR #153)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#table-admindashboard-log-pr-152" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2294,6 +2316,15 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="html-5-pr-153">HTML 리포트 — 리포트 레이아웃을 업무 모듈로 이동 + 인쇄 페이지/푸터/자동분할 결함 5건 (PR #153)<a class="headerlink" href="#html-5-pr-153" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>리포트 레이아웃 파일을 각 업무 모듈 아래로 이동</strong> — <code>cms/popup/CmsHtmlReportPopup/reports/</code> 에 몰려 있던 5종을 <code>src/pages/crs/reports/</code>(CRS 4종)·<code>src/pages/fds/reports/</code>(SurrenderNotice)로 옮겼다. 셸(<code>CmsHtmlReportPopup</code>)만 <code>cms/popup</code> 에 남고, import 는 상대경로 대신 <code>~/pages/&lt;모듈&gt;/reports/...</code>. 라우트 경로가 <code>/crs/reports/*</code>·<code>/fds/reports/*</code> 로 바뀌지만 <strong>여는 코드가 없다</strong>(셸이 import 로만 쓴다).</li>
+<li><strong>푸터를 페이지 맨 아래로</strong> — <code>es-foot</code>·<code>el-foot</code> 만 <code>margin-top:6mm</code>(예전에 "짧은 리포트 여백" 때문에 <code>auto</code> 를 뺐던 자리)이라 나머지 3종과 달랐다. 5종 전부 <code>margin-top:auto</code> 로 통일. 마진이 <code>auto</code> 라 셸의 분할 측정(<code>footerPx</code> = 마진 제외 높이)과도 어긋나지 않는다.</li>
+<li><strong>인쇄 페이지 박스 고정</strong>(핵심) — 인쇄 CSS 가 <code>.hr-page{height:auto}</code> 라 종이에선 ① 짧은 장의 푸터가 위로 붙고 ② 내용이 A4 를 조금만 넘어도 푸터가 다음 물리 페이지로 밀렸다(운영 신고). <code>height:297mm</code> + <code>box-sizing:border-box</code> + 푸터 <code>position:absolute; bottom:12mm</code> 로 해결. 과거 "한 장 걸러 빈 페이지"는 border-box 미지정이 원인이라 재발하지 않는다 — 실측 <code>.hr-page</code> 수 = PDF 물리 페이지 수(1:1).</li>
+<li><strong>분할 결함 3건</strong>(전부 실측으로 발견) — ⓐ 마지막 행이 푸터 구분선과 붙어 보임 → <code>footGapPx = 4mm</code> 예약. ⓑ <strong>마지막 장에서 합계블록이 푸터를 덮음</strong> — 분할 루프가 행 소진 경로(<code>j === n</code>)에서 <code>grandPx</code> 를 예약하지 않았다 → <code>usableLast</code> 까지 행을 되돌린다. ⓒ <strong><code>grandPx</code> 과대측정</strong> — <code>푸터 상단 − tbody 바닥</code> 으로 재는데 푸터가 <code>margin-top:auto</code> 라 측정패스의 빈 공간이 통째로 합계블록 높이로 잡혀 <code>usableLast</code> 가 1px 로 붕괴, 페이지당 1행이 됐다 → <strong>본문 마지막 요소의 바닥</strong> 기준으로 변경.</li>
+<li><strong>★자동 페이지 분할이 2개 리포트에서 아예 안 돌고 있었다</strong> — 셸이 <code>querySelector('tbody')</code> 로 첫 tbody 를 집는데 <code>InvoiceDetail</code>·<code>Estimate</code> 는 데이터 표 위에 메타박스 <code>&lt;table&gt;</code> 이 있어 메타박스 tbody 를 집었다 → <code>n !== list.length</code> → 항상 고정 <code>rowsPerPage</code> 폴백. 2026-06-29 의 실측 분할이 사실상 <code>EstimateList</code> 전용이었던 셈. 데이터 tbody 에 <code>hr-rows</code> 를 붙여 해결하고, <code>Estimate</code>(아이템당 <code>&lt;tr&gt;</code> 2개)를 위해 <strong>아이템당 tr 수로 묶어</strong> 높이를 재도록 일반화. 결과로 페이지 밀도가 올랐다 — Estimate 100행 9장→<strong>7장</strong>(12→16행/장), InvoiceDetail 150행 6장→<strong>5장</strong>(28→31행/장).</li>
+<li><strong>검증</strong> — 5종 × 행수 25가지를 A4 뷰포트 + print 미디어에서 실측: 장 높이 297.01mm, 푸터 하단 12mm, 세로·가로 초과 0, 본문 바닥 &lt; 푸터 상단, <code>.hr-page</code> 수 = PDF 물리 페이지 수, 분할 합 = 원본 행수 — 전 케이스 통과. 재현 절차는 <a href="../troubleshooting/">트러블슈팅 §19</a>.</li>
+</ul>
 <h3 id="table-admindashboard-log-pr-152">공지사항 화면 <code>&lt;table&gt;</code> 전환 + 읽기 전용 에디터 툴바 숨김 · AdminDashBoard LOG 탭 제거 (PR #152)<a class="headerlink" href="#table-admindashboard-log-pr-152" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>MdmNotice 를 ag-grid → <code>&lt;table&gt;</code> 로 전환</strong> — 공지 목록은 정렬·필터·범위선택·컬럼 리사이즈가 전혀 필요 없는 <strong>읽기 전용 게시판</strong>인데 ag-grid 를 얹고 있어 헤더 UI 만 무거웠다. 순수 <code>&lt;table&gt;</code> 로 바꾸고 검색 인풋 + 목록을 화면 가운데(폭 70%, 최대 1100px)에 배치, 상단 40px 여백. <strong>12건/페이지</strong> 는 실측 기준 — 행 41px, 가용 높이 ≈ 뷰포트 − 284px 이라 12건이면 900px 화면에서도 스크롤이 안 생긴다(15건은 950px, 18건은 1080px 필요). 페이저는 1페이지뿐이어도 항상 그려 목록 높이가 흔들리지 않게 했다(<code>PAGE_LENGTH || 1</code>).</li>

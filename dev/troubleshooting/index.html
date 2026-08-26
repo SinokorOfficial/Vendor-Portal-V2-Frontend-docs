@@ -1691,6 +1691,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#19-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19. HTML 리포트 인쇄 — 푸터가 다음 장으로 밀리거나 합계블록과 겹침
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2242,6 +2253,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#19-html" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        19. HTML 리포트 인쇄 — 푸터가 다음 장으로 밀리거나 합계블록과 겹침
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2545,6 +2567,26 @@
 <li><strong>런타임 토글은 안전하다</strong> — 툴바 유무가 바뀌면 devextreme-vue 가 <code>resetOption('toolbar')</code> → DevExtreme <code>_invalidate()</code> 로 <strong>에디터를 통째로 재생성</strong>한다. 값(<code>value</code>)은 위젯 옵션이라 보존된다(실측: 토글 전후 본문 862자 동일). 조회 결과에 따라 read-only 가 바뀌는 화면(<code>CsmRequestMgt</code>)이 여기 해당.</li>
 <li><strong>⚠️ 다만 첫 렌더에 확정하는 편이 낫다</strong> — 재생성 비용이 있으므로 <code>isAdmin</code> 같은 세션 파생 플래그는 <code>mounted()</code> 가 아니라 <strong><code>created()</code></strong> 에서 잡는다. 늦게 잡으면 화면을 열자마자 툴바가 한 번 깜빡인다.</li>
 </ul>
+<h2 id="19-html">19. HTML 리포트 인쇄 — 푸터가 다음 장으로 밀리거나 합계블록과 겹침<a class="headerlink" href="#19-html" title="Permanent link">&para;</a></h2>
+<p>화면 뷰어는 멀쩡한데 브라우저 PDF 로 뽑으면 무너지는 증상들. 원인이 서로 달라 하나씩 본다.</p>
+<ul>
+<li><strong>① 푸터가 페이지 하단에 안 붙는다 / 다음 물리 페이지 맨 위로 밀려난다</strong></li>
+<li>인쇄 CSS 가 <code>.hr-page{height:auto}</code> 로 페이지 박스를 없애고 있었다. 그러면 (a) 남는 공간이 없어 푸터의 <code>margin-top:auto</code> 가 접혀 내용 바로 뒤에 붙고, (b) 내용이 A4 를 1mm 만 넘어도 푸터 블록이 통째로 다음 장으로 넘어간다.</li>
+<li><strong>해결</strong>: <code>.hr-page{height:297mm; box-sizing:border-box; position:relative}</code> 로 한 장에 고정하고, 푸터(<code>.hr-foot</code>)는 <code>position:absolute; bottom:12mm</code> 로 흐름에서 뺀다. 과거 "한 장 걸러 빈 페이지"는 <code>min-height:297mm</code> 에 padding 24mm 가 더해져 321mm 가 되던 것이 원인이라, <strong>border-box 를 명시하면 재발하지 않는다</strong>(실측: <code>.hr-page</code> 수 = PDF 물리 페이지 수).</li>
+<li><strong>② 마지막 행과 푸터 구분선이 붙어 보인다</strong></li>
+<li>푸터가 흐름 밖이라 스스로 간격을 못 만든다. 셸이 예약하는 건 <code>footerPx</code>(푸터 높이)뿐이라 행이 구분선 바로 위까지 찬다.</li>
+<li><strong>해결</strong>: <code>computePages()</code> 에서 <code>footGapPx = 4mm</code> 를 함께 예약.</li>
+<li><strong>③ 마지막 장에서 합계블록(GRAND TOTAL/매트릭스)이 푸터를 덮는다</strong></li>
+<li>분할 루프가 <code>usableForRows</code>(합계블록 자리 미반영) 로 담다가 <strong>행이 소진되면 그 장이 곧 마지막 장</strong>이 되는데, 그 경로엔 <code>grandPx</code> 예약이 없었다.</li>
+<li><strong>해결</strong>: <code>j === n</code> 이면 <code>usableLast</code> 안에 들어올 때까지 행을 되돌려 넘치는 행을 다음(진짜 마지막) 장으로 보낸다.</li>
+<li><strong>④ 페이지당 1행씩만 나온다(짧은 리포트일수록 심함)</strong></li>
+<li><code>grandPx</code> 를 <code>푸터 상단 − tbody 바닥</code> 으로 재고 있었다. 푸터는 <code>margin-top:auto</code> 라 <strong>측정패스에서 남는 공간만큼 밀려나므로 그 빈 공간이 통째로 합계블록 높이로 잡힌다</strong> → <code>usableLast</code> 가 1px 로 붕괴.</li>
+<li><strong>해결</strong>: 푸터가 아니라 <strong>본문 마지막 요소의 바닥</strong>을 기준으로 잰다(<code>root.bottom</code> 도 같은 이유로 못 쓴다).</li>
+<li><strong>⑤ 자동 페이지 분할이 아예 안 도는 리포트가 있다(고정 rowsPerPage 로만 나옴)</strong></li>
+<li>셸이 <code>pageEl.querySelector('tbody')</code> 로 <strong>첫</strong> tbody 를 집는데, <code>InvoiceDetail</code>·<code>Estimate</code> 는 데이터 표 <strong>위에 메타박스 <code>&lt;table&gt;</code></strong> 이 있어 메타박스 tbody 를 집었다 → <code>n !== list.length</code> → 항상 <code>fixedChunks()</code> 폴백. 2026-06-29 에 넣은 실측 분할이 사실상 <code>EstimateList</code> 에서만 동작하고 있었다.</li>
+<li><strong>해결</strong>: 데이터 tbody 에 <code>hr-rows</code> 클래스를 붙이고 셸이 그걸 고른다. <code>Estimate</code> 는 <strong>아이템당 <code>&lt;tr&gt;</code> 이 2개</strong>(코드행 + 명칭행)라 "1행=1아이템" 전제도 깨졌으므로, 아이템당 tr 수(<code>per</code>)로 묶어 높이를 재도록 일반화했다.</li>
+</ul>
+<p><strong>점검 방법</strong>(재발 시 그대로 재현 가능): <code>nativePrint()</code> 를 호출해 만들어진 인쇄 iframe 의 문서를 꺼낸 뒤, <strong>A4 뷰포트(794×1123) + <code>emulateMedia({media:'print'})</code></strong> 인 페이지에 써서 잰다. 인쇄 iframe 자체는 <code>width:0;height:0</code> 이라 <strong>그 안에서 잰 행 높이는 무의미하다</strong>. 확인 항목 = 장 높이 297mm / 푸터 하단 12mm / <code>scrollHeight-clientHeight</code> 0 / 본문 마지막 요소 바닥 &lt; 푸터 상단 / <code>.hr-page</code> 수 == PDF 물리 페이지 수 / 분할 합 == 원본 행수. — PR #153.</p>
 
 
 
