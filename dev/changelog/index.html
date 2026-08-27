@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#crsinvoice-0-pr-154" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsInvoice 상세 조회 0건 판정 오류 (PR #154)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#html-5-pr-153" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1840,6 +1851,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#crsinvoice-0-pr-154" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsInvoice 상세 조회 0건 판정 오류 (PR #154)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#html-5-pr-153" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2360,6 +2382,11 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="crsinvoice-0-pr-154">CrsInvoice 상세 조회 0건 판정 오류 (PR #154)<a class="headerlink" href="#crsinvoice-0-pr-154" title="Permanent link">&para;</a></h3>
+<ul>
+<li>인보이스 상세가 정상 조회됐는데도 "조회 된 데이터가 없습니다" 경고가 뜨던 결함. <code>fnSearchDetail</code> 의 <code>data</code> 는 세 커서 결과를 전개해 만든 <strong>객체</strong>인데 <code>data.length &gt; 0</code> 으로 검사해 <code>undefined &gt; 0</code> = 항상 <code>false</code> → 조회 성공 여부와 무관하게 늘 0건 분기로 빠졌다. 초기 커밋부터 있던 결함이 PR #143(0건 알림 <code>$notify.warn</code> 전환)으로 초록→주황 경고가 되며 드러난 것.</li>
+<li><strong>truthy 검사로는 반대로 틀린다</strong> — 프로시저가 빈 결과를 줘도 <code>{...undefined}</code> 는 <code>{}</code> 를 만들어 <code>data</code> 는 어떤 경우에도 객체이므로, <code>if (data)</code> 면 0건에도 성공 알림이 뜬다. <code>Object.keys(data).length &gt; 0</code> 로 판정(되돌리기 방지 주석 포함). 같은 패턴(전개 객체를 <code>.length</code> 로 검사) 전수 스캔 결과 다른 화면엔 <strong>0건</strong> — 이 자리만의 문제.</li>
+</ul>
 <h3 id="html-5-pr-153">HTML 리포트 — 리포트 레이아웃을 업무 모듈로 이동 + 인쇄 페이지/푸터/자동분할 결함 5건 (PR #153)<a class="headerlink" href="#html-5-pr-153" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>리포트 레이아웃 파일을 각 업무 모듈 아래로 이동</strong> — <code>cms/popup/CmsHtmlReportPopup/reports/</code> 에 몰려 있던 5종을 <code>src/pages/crs/reports/</code>(CRS 4종)·<code>src/pages/fds/reports/</code>(SurrenderNotice)로 옮겼다. 셸(<code>CmsHtmlReportPopup</code>)만 <code>cms/popup</code> 에 남고, import 는 상대경로 대신 <code>~/pages/&lt;모듈&gt;/reports/...</code>. 라우트 경로가 <code>/crs/reports/*</code>·<code>/fds/reports/*</code> 로 바뀌지만 <strong>여는 코드가 없다</strong>(셸이 import 로만 쓴다).</li>
