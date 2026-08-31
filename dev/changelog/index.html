@@ -1277,6 +1277,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#500-pr-158" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        날짜 자릿수 미달로 인한 공통 프로시저 500 차단 (PR #158)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#userdashboard-pr-157-111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UserDashBoard 달력 개인 메모 활성화 (PR #157, 백엔드 #111)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crsinvoice-0-pr-154" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1851,6 +1873,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#500-pr-158" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        날짜 자릿수 미달로 인한 공통 프로시저 500 차단 (PR #158)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#userdashboard-pr-157-111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UserDashBoard 달력 개인 메모 활성화 (PR #157, 백엔드 #111)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crsinvoice-0-pr-154" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2382,6 +2426,24 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-08">2026-08<a class="headerlink" href="#2026-08" title="Permanent link">&para;</a></h2>
+<h3 id="500-pr-158">날짜 자릿수 미달로 인한 공통 프로시저 500 차단 (PR #158)<a class="headerlink" href="#500-pr-158" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong> — 날짜 칸이 <strong>비어 보이는데</strong> 조회/저장 시 500(<code>StringIndexOutOfBoundsException</code>). 운영 에러로그 실측 18건(2025-07-16~2026-01-21, 유저 8명), 잘린 길이 1/2/4/6/7자로 <strong>8자가 나온 적은 없다</strong>. V2 에서도 동일 재현(EirResponseLog → <code>FM_DT="2026"</code> → HTTP 500).</li>
+<li><strong>원인은 화면이 아니라 <code>EDateBox</code></strong> — 타이핑 중 매 입력마다 <code>update:modelValue</code> 를 emit 하는데 그 값은 숫자만 남길 뿐 길이검사가 없고, <code>onInputFocusOut</code> 은 자릿수 미달이면 <strong>표시만 지우고 emit 하지 않았다.</strong> 화면은 빈칸인데 모델엔 <code>"2026"</code> 이 남아 그대로 전송됐다. <code>AgEDateBoxEditor</code> 가 이를 <code>v-model</code> 로 감싸 그리드 커서 컬럼도 같은 경로.</li>
+<li><strong>백엔드 규칙</strong>(무수정) — 인자·커서컬럼이 <code>_DT</code>(8)/<code>_DI</code>(12)/<code>_DY</code>(4)/<code>_DM</code>(6) 로 끝나면 <code>substring(0,N)</code> 을 길이검사 없이 수행. <code>VSL_DT</code> 만 예외. DB 실측 노출면은 <code>FM_DT</code>/<code>TO_DT</code>(조회기간 14화면)·<code>GRP_INV_DT</code>·<code>JOB_DT</code>·<code>INV_DT</code>·<code>APP_DT</code>·<code>TRAN_DT</code>·<code>OEV/IFE/OFD/IED_DT</code>·<code>INP_DT</code>·<code>INST_DI</code>/<code>UPST_DI</code> 로 <strong>약 40화면</strong>.</li>
+<li><strong>수정은 화면별이 아니라 중앙 4곳</strong> — ① <code>ValidateUtil.sanitizeVmsDatasetDates</code>(백엔드 규칙의 거울, 단위테스트 9건) ② <code>util/http/index.ts</code> <strong>axios request 인터셉터</strong>가 관문 — 자릿수 미달이면 <code>MSG000409</code> 와 함께 요청 자체를 보내지 않는다 ③ <code>EDateBox.onInputFocusOut</code> 이 부분값 표시를 지우지 않아 화면=모델 ④ <code>AgEDateBoxEditor.isCancelAfterEnd</code> 로 미달 셀 커밋 취소. 화면 183 호출부·<code>&lt;e-date-box&gt;</code> 143태그·그리드 컬럼 117개는 <strong>무수정</strong>.</li>
+<li><strong>★관문을 <code>http.$post</code> 가 아니라 인터셉터에 둔 이유</strong> — <code>CmsEmailPopup</code> 이 <code>$axios.post</code> 로 <code>$post</code> 를 우회한다(3곳). <code>$post</code> 에 두면 그 경로가 샌다.</li>
+<li><strong>틀리기 쉬운 3가지</strong>(전부 실측 확인) — 빈값·null 은 <strong>통과</strong>시켜야 기간 비운 전기간 조회 5화면이 산다 / 짧은 값 <strong>자동 보정 금지</strong>(조용한 오저장) / <code>VSL_DT</code> 는 <strong>정확 일치로 제외</strong>(TES 4화면이 <code>yyyyMMddHHmm</code> 12자를 의도적으로 보내 8자 규칙을 걸면 500 없이 시각이 사라진다). 덤으로 <code>2026/08/31</code> 처럼 백엔드가 <code>2026/08/</code> 로 썩히던 구분자는 정규화해 보낸다.</li>
+<li>상세·재현절차는 <a href="../troubleshooting/">트러블슈팅 §20</a>. <strong>잔여</strong>: 프론트 경유만 막으므로 다른 클라이언트는 여전히 500 — 배포 후 <code>TB_CMS_ERROR_LOG</code> 의 <code>setDateColumn</code> 건수 추이로 확인한다.</li>
+</ul>
+<h3 id="userdashboard-pr-157-111">UserDashBoard 달력 개인 메모 활성화 (PR #157, 백엔드 #111)<a class="headerlink" href="#userdashboard-pr-157-111" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>한 번도 동작한 적 없던 기능</strong> — 프론트에 <code>fnSelectMemo</code>/<code>fnSaveMemo</code> 와 <code>EScheduler</code> 의 add·update·delete 배선이 전부 있었는데 <code>mounted()</code> 의 호출만 주석 처리돼 있었고, 그것들이 부르는 <code>/api/dsh/Home/*</code> 는 <strong>V2 에도 레거시에도 없었다</strong>(레거시 프론트도 같은 줄이 주석). 테이블(<code>TB_CMS_USER_MEMO</code>)만 남아 있었다 — 운영 데이터 0건, 컬럼이 프론트 기대와 일치해 DDL 없이 붙었다.</li>
+<li><strong>백엔드 신설</strong>(#111) — <code>dsh</code> 모듈(<code>HomeController</code>/<code>HomeService</code>/<code>HomeDao</code> + 매퍼) 4파일 전부 신규, 기존 파일 수정 0. 경로는 프론트를 고치지 않으려고 <strong>프론트가 이미 호출하던 값</strong>에 맞췄다(<code>selectUserMemo</code>/<code>saveMemo</code>). 프론트와 <strong>동시 배포 필요</strong>(백엔드가 늦으면 404 지만 <code>quiet:true</code>+<code>.catch</code> 라 달력만 빈 채로 뜬다).</li>
+<li><strong>★잠재 데이터 손상 제거</strong> — <code>getResponseDate</code> 가 <code>new Date(data.startDate + 9*60*60*1000)</code> 였는데 <code>data.startDate</code> 가 <strong>Date 객체</strong>라 <code>+</code> 가 문자열 연결이 된다(<code>"...GMT+0900 (…)32400000"</code>). V8 이 꼬리를 무시해 우연히 맞게 동작했을 뿐 <strong><code>+9h</code> 는 아무 일도 안 하는 연산</strong>이었고, 파싱 관용성이 다른 엔진에서 <code>Invalid Date</code> 가 되면 <code>START_DT</code> 가 <code>'NaNNaNNaN'</code> 으로 저장된다. 이 PR 이 바로 그 경로를 켜므로 함께 정정했다.</li>
+<li><strong>팝업 바깥 클릭으로 닫기</strong> — DX 22.1 <code>hideOnOutsideClick</code> 을 그냥 <code>true</code> 로 켜면 회귀가 난다(대조 실험): 팝업이 여는 더블클릭의 <strong>첫 클릭 직후</strong> 열려 전체화면 wrapper 가 이미 떠 있고, 두 번째 클릭의 <code>pointerdown</code> 이 wrapper 로 들어와(+41ms) DX 가 바깥 클릭으로 판정해 <strong>자가폐쇄</strong>한다(같은 셀 재열기 불가). 함수형 <code>hideOnOutsideClick</code> 으로 열린 뒤 500ms 동안만 바깥 클릭을 무시하도록 해결.</li>
+<li><code>fnSelectDash</code>(D-Day 차트)는 백엔드 <code>selectUserDash</code> 가 없어 주석 유지하고 사유를 남겼다. 사용법은 사용자 가이드 <code>getting-started.md</code> 의 「홈 달력 메모」 절 참고.</li>
+</ul>
 <h3 id="crsinvoice-0-pr-154">CrsInvoice 상세 조회 0건 판정 오류 (PR #154)<a class="headerlink" href="#crsinvoice-0-pr-154" title="Permanent link">&para;</a></h3>
 <ul>
 <li>인보이스 상세가 정상 조회됐는데도 "조회 된 데이터가 없습니다" 경고가 뜨던 결함. <code>fnSearchDetail</code> 의 <code>data</code> 는 세 커서 결과를 전개해 만든 <strong>객체</strong>인데 <code>data.length &gt; 0</code> 으로 검사해 <code>undefined &gt; 0</code> = 항상 <code>false</code> → 조회 성공 여부와 무관하게 늘 0건 분기로 빠졌다. 초기 커밋부터 있던 결함이 PR #143(0건 알림 <code>$notify.warn</code> 전환)으로 초록→주황 경고가 되며 드러난 것.</li>

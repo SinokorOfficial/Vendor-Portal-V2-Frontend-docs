@@ -1702,6 +1702,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#20-500-stringindexoutofboundsexception" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        20. 날짜를 덜 입력하고 조회·저장하면 500 (StringIndexOutOfBoundsException)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2264,6 +2275,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#20-500-stringindexoutofboundsexception" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        20. 날짜를 덜 입력하고 조회·저장하면 500 (StringIndexOutOfBoundsException)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2587,6 +2609,27 @@
 <li><strong>해결</strong>: 데이터 tbody 에 <code>hr-rows</code> 클래스를 붙이고 셸이 그걸 고른다. <code>Estimate</code> 는 <strong>아이템당 <code>&lt;tr&gt;</code> 이 2개</strong>(코드행 + 명칭행)라 "1행=1아이템" 전제도 깨졌으므로, 아이템당 tr 수(<code>per</code>)로 묶어 높이를 재도록 일반화했다.</li>
 </ul>
 <p><strong>점검 방법</strong>(재발 시 그대로 재현 가능): <code>nativePrint()</code> 를 호출해 만들어진 인쇄 iframe 의 문서를 꺼낸 뒤, <strong>A4 뷰포트(794×1123) + <code>emulateMedia({media:'print'})</code></strong> 인 페이지에 써서 잰다. 인쇄 iframe 자체는 <code>width:0;height:0</code> 이라 <strong>그 안에서 잰 행 높이는 무의미하다</strong>. 확인 항목 = 장 높이 297mm / 푸터 하단 12mm / <code>scrollHeight-clientHeight</code> 0 / 본문 마지막 요소 바닥 &lt; 푸터 상단 / <code>.hr-page</code> 수 == PDF 물리 페이지 수 / 분할 합 == 원본 행수. — PR #153.</p>
+<h2 id="20-500-stringindexoutofboundsexception">20. 날짜를 덜 입력하고 조회·저장하면 500 (<code>StringIndexOutOfBoundsException</code>)<a class="headerlink" href="#20-500-stringindexoutofboundsexception" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 화면의 날짜 칸은 <strong>비어 보이는데</strong> 조회/저장을 누르면 500. 서버 로그는 <code>VmsCommonService.setDateColumn</code> 의 <code>String.substring</code> 에서 <code>begin 0, end 8, length 4</code> 처럼 끊긴다. 재현이 안 돼 "가끔 난다"로 방치되기 쉽다.</li>
+<li><strong>백엔드 규칙</strong>: 인자·커서컬럼 이름이 <code>_DT</code>(8)/<code>_DI</code>(12)/<code>_DY</code>(4)/<code>_DM</code>(6) 으로 끝나면 <code>value.replaceAll("[-T:]","").substring(0, N)</code> 을 <strong>길이검사 없이</strong> 수행한다. 짧으면 예외, 구분자가 <code>/</code>·<code>.</code> 이면 <code>2026/08/</code> 처럼 <strong>조용히 썩은 값</strong>이 저장된다. <code>VSL_DT</code> 만 <code>equals</code> 로 예외 통과(TES 가 <code>yyyyMMddHHmm</code> 12자를 의도적으로 싣는다 — 여기에 8자 규칙을 걸면 500 없이 시각이 사라진다).</li>
+<li><strong>원인(프론트)</strong>: <code>EDateBox</code> 가 <strong>타이핑 중 매 입력마다</strong> <code>update:modelValue</code> 를 emit 하는데 그 값(<code>pureValue</code>)은 숫자만 남길 뿐 길이검사가 없다. 그리고 <code>onInputFocusOut</code> 은 자릿수 미달이면 <strong>표시만 지우고 emit 하지 않았다.</strong> 결과적으로 화면은 빈칸인데 모델엔 <code>"2026"</code> 이 남아, 사용자가 지웠다고 믿는 값이 그대로 전송됐다. <code>AgEDateBoxEditor</code> 는 이 컴포넌트를 <code>v-model</code> 로 감싸 <code>getValue()</code> 로 넘기므로 그리드 커서 컬럼도 같은 경로다.</li>
+<li><strong>해결</strong>(PR #158) — 화면별 검증이 아니라 중앙 4곳:<ol>
+<li><code>ValidateUtil.sanitizeVmsDatasetDates</code> — 백엔드 규칙의 거울(순수함수 + 단위테스트).</li>
+<li><code>util/http/index.ts</code> <strong>axios request 인터셉터</strong> = 관문. <code>*VendorCommonProcedure</code> 요청의 <code>PARAM</code>/<code>CURSOR</code> 를 훑어 자릿수 미달이면 <code>MSG000409</code> 와 함께 <strong>요청 자체를 보내지 않는다</strong>. ★<code>http.$post</code> 가 아니라 인터셉터인 이유: <code>CmsEmailPopup</code> 이 <code>$axios.post</code> 로 <code>$post</code> 를 우회한다(3곳).</li>
+<li><code>EDateBox.onInputFocusOut</code> — 부분값 표시를 지우지 않는다(화면과 모델을 일치시켜 원인이 눈에 보이게).</li>
+<li><code>AgEDateBoxEditor.isCancelAfterEnd</code> — 자릿수 미달 셀 커밋을 취소.</li>
+</ol>
+</li>
+<li><strong>규칙에서 틀리기 쉬운 3가지</strong><ul>
+<li><strong>빈값·null 은 통과시켜야 한다.</strong> 백엔드도 <code>isEmpty</code> 를 건너뛴다. 막으면 기간을 비워 전기간 조회하는 5화면(CmsApiLog·CmsEmailLog·EirResponseLog·MvsDropOff·MvsRedeliveryStts)이 깨진다.</li>
+<li><strong>자동 보정 금지.</strong> 짧은 값을 <code>01</code> 로 패딩하면 조용한 오저장이 된다. 차단이 맞다.</li>
+<li><strong><code>VSL_DT</code> 는 정확 일치로 제외.</strong> <code>endsWith('_DT')</code> 로 잡으면 TES 4화면의 시각이 잘린다.</li>
+</ul>
+</li>
+<li><strong>정규화는 한다</strong>: <code>2026/08/31</code> 처럼 백엔드 결과(<code>2026/08/</code>)와 달라지는 구분자만 <code>20260831</code> 로 고쳐 보낸다. 이때만 페이로드를 복제한다(★<code>structuredClone</code> 금지 — <code>LocalDate</code> 프로토타입을 잃어 <code>{"_year":..}</code> 가 전송된다. JSON 왕복만).</li>
+<li><strong>잔여</strong>: 프론트 경유만 막는다(백엔드 무수정이라 다른 클라이언트는 여전히 500). 그리드 <strong>붙여넣기</strong> 부분값은 셀에 남고 저장 시 관문이 잡는데, 포매터가 <code>2026-01-01</code> 로 렌더해 눈으로 못 찾으므로 <strong>메시지의 커서명·행번호가 유일한 단서</strong>다.</li>
+</ul>
 
 
 
