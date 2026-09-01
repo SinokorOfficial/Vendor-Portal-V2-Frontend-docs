@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsazurelog-api-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR 예정, 백엔드 짝)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#v2-pr-160" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1901,6 +1912,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsazurelog-api-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR 예정, 백엔드 짝)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#v2-pr-160" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2482,6 +2504,14 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="cmsazurelog-api-pr">CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR 예정, 백엔드 짝)<a class="headerlink" href="#cmsazurelog-api-pr" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>왜</strong> — 메일 발송 복구(PR #160) 이후 "V2 에서 나간 메일"을 확인할 방법이 없었다. <code>TB_CMS_EMAIL</code> 에는 <strong>출처 컬럼이 없고</strong> V2·레거시가 같은 서비스에서 같은 프로시저(<code>PKG_CM_EMAIL.SP_SET_EMAIL</code>)를 호출하므로 메일 로그 화면으로는 두 포털을 영원히 못 가린다. 반면 V2 백엔드의 <code>sendMail</code> <strong>200 응답 1건 = V2 발송 1건</strong>으로 1:1 대응한다(행은 Graph 발송 성공 뒤에만 쓰이므로).</li>
+<li><strong>무엇</strong> — URL 조각(예: <code>sendMail</code>)을 넣으면 상단 공통 기간 안에서 ① 상태코드별 건수·평균/p95 소요·최근시각 ② 최근 50건의 시각·상태·<strong>화면</strong>·클라이언트 IP 를 보여준다. 기존 '실패 요청 TOP' 은 <code>Success == false</code> 만 세므로 <strong>성공 건수를 볼 수 없다</strong> — 이 탭이 그 빈자리를 채운다.</li>
+<li><strong>★두 소스를 조인하지 않고 나눠 쓴다</strong> — 집계는 App Insights <code>AppRequests</code>(구조화 필드), 최근 목록은 nginx 액세스로그다. <code>AppRequests</code> 에는 <strong>Referer 필드가 아예 없고 <code>ClientIP</code> 가 <code>0.0.0.0</code></strong>(프록시 뒤)이라 "어느 화면에서 눌렀나 / 누가 눌렀나"를 알 수 없다(실측). 반대로 nginx 로그엔 소요시간이 없다. 그래서 소요는 집계 그리드에 평균/p95 로만 싣는다. 두 그리드의 건수는 어긋날 수 있다(집계=기간 전체, 목록=최근 50건 컷).</li>
+<li><strong>함정</strong> — 두 그리드는 조회 전 <code>v-else</code> 로 미마운트라 어댑터에 <code>api</code> 가 없다. <code>mounted()</code> 에서 만든 어댑터로 <code>setItems</code> 하면 죽는다 → <strong>api 준비 후 어댑터 재생성</strong>(실패 상세 그리드와 동일 처리). 기간을 바꿔 재조회하면 이 탭도 같은 기간으로 자동 재조회한다(안 하면 좌측만 새 기간이라 오독).</li>
+<li><strong>검증</strong>(실측) — 로컬에서 운영 워크스페이스를 향해 조회: <code>sendMail</code> → 200 4건(평균 550ms·p95 753ms), 목록에 화면(<code>/tes/TesLashingExpn</code>)·실 IP 정상 표시. 로컬은 <code>azure.monitor.*</code> 4개가 비어 있어 기본적으로 "설정 없음" 이 뜬다 — <code>AZURE_MONITOR_*</code> env 를 넣으면 <code>DefaultAzureCredential</code> 이 az CLI 로그인으로 떨어져 로컬에서도 조회된다.</li>
+</ul>
 <h3 id="v2-pr-160">메일 전송이 V2 에서 한 번도 동작하지 않던 결함 (PR #160)<a class="headerlink" href="#v2-pr-160" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong> — 메일 전송 시 "네트워크 문제로 저장/업로드가 중단되었습니다. 다시 시도해 주세요. [20260901|40]". 서버는 <code>MultipartException</code> → <code>InvalidContentTypeException: ... content type header is application/json; charset=UTF-8</code>. 꼬리의 <code>[20260901|40]</code> 은 <code>TB_CMS_ERROR_LOG</code> 의 <code>ERR_DT|ERR_SN</code> = 그날 40번째 에러다.</li>
