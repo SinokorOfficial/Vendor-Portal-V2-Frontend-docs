@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 팝업 — 목록이 있는데 클라우드 워터마크가 비쳐 보임 (PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#keep-alive-pr-166" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1967,6 +1978,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 팝업 — 목록이 있는데 클라우드 워터마크가 비쳐 보임 (PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#keep-alive-pr-166" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2614,6 +2636,14 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="pr">첨부 팝업 — 목록이 있는데 클라우드 워터마크가 비쳐 보임 (PR 예정)<a class="headerlink" href="#pr" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong> — <code>CmsFileUploadPopup</code>(및 <code>e-attach-file-grid</code> 를 쓰는 모든 화면)에서 첨부가 여러 건일 때 그리드 뒤 클라우드 아이콘이 행 사이·뒤로 비쳐 보였다.</li>
+<li><strong>원인</strong> — 워터마크가 빈 영역에 보이도록 <code>.attach-file-ag</code> 의 ag-grid 배경(<code>.ag-root-wrapper</code>/<code>.ag-body-viewport</code> 등)을 <strong>투명 처리</strong>해 둔 구조라, 행이 채워져도 그대로 비친다.</li>
+<li><strong>수정</strong> — <code>hasRows</code> 상태를 두고 <code>v-if="!hasRows"</code> 로 목록이 있으면 워터마크를 감춘다. 행 변경은 전부 <code>loadList()</code> 를 거치므로(업로드·삭제 후에도 재조회) <strong>갱신 지점은 그 한 곳뿐</strong>이다.</li>
+<li><strong>검증</strong>(실측) — <code>selectFileList</code> 응답을 가로채 0건/6건으로 바꿔가며 확인: 0건 → 워터마크 1개·<code>hasRows=false</code>, 6건 → 워터마크 <strong>0개</strong>·<code>hasRows=true</code>.</li>
+<li>레거시는 해당 없음 — 첨부 UI 구조가 다르다(<code>UFileUploader</code> 의 아이콘 prop, 그리드 뒤 워터마크 아님).</li>
+</ul>
 <h3 id="keep-alive-pr-166">탭 우클릭 컨텍스트 메뉴 + 닫은 탭 keep-alive 캐시 파기 (PR #166)<a class="headerlink" href="#keep-alive-pr-166" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>탭 우클릭 메뉴 신설</strong> — 레거시(vue-router-tab)와 동일한 6항목(Refresh / Refresh All / Close / Close to the Left / Close to the Right / Close Others)·동일 비활성 규칙(Home 은 Close 불가, 좌/우/기타는 닫을 대상 존재 시 활성). 복수 닫기로 활성 탭이 닫히면 우클릭한 탭으로 이동(레거시 <code>closeMulti</code> 동등). 항목 앞 불릿 점은 <code>currentColor</code> 라 비활성이면 점도 회색.</li>
