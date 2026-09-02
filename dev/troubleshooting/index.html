@@ -1746,6 +1746,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24. 엑셀 내보내기 — 긴 숫자문자열이 지수표기로 깨지고, 체크박스 열이 빈 칸으로 나온다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2352,6 +2363,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        24. 엑셀 내보내기 — 긴 숫자문자열이 지수표기로 깨지고, 체크박스 열이 빈 칸으로 나온다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2745,6 +2767,25 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
 </code></pre></div></li>
 <li>PR #163 (CmsAzureLog 엔드포인트·실패 상세 그리드).</li>
+</ul>
+<h2 id="24">24. 엑셀 내보내기 — 긴 숫자문자열이 지수표기로 깨지고, 체크박스 열이 빈 칸으로 나온다<a class="headerlink" href="#24" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상 ①</strong>: 항차(<code>FD_VYG</code>) 같은 값이 엑셀에서 <code>5.15403E+11</code> 로 보인다. 화면에는 <code>515402608020</code> 으로 정상 표시된다. 앞자리 <code>0</code> 이 있는 값(컨테이너번호·코드 등)은 <strong>0 이 사라진다</strong>.</li>
+<li><strong>원인 ①</strong>: ag-grid 는 셀 값이 <strong>문자열이어도 숫자로 파싱되면 숫자 셀로 내보낸다</strong>.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// ExcelSerializingSession</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">isNumerical</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">Number</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+  DB 가 VARCHAR 라 프론트에는 문자열로 오지만, 엑셀에는 <code>n</code>(number)로 기록돼 Excel 이 지수표기로 렌더한다.</li>
+<li><strong>해결 ①</strong>: 컬럼에 <code>cellClassRules</code> 로 <code>stringType</code>(= <code>excelStyles</code> 의 <code>dataType: 'String'</code>)을 <strong>값이 문자열일 때만</strong> 건다. <code>AgUtils.setExcelStyle</code> 이 모든 컬럼에 자동 부여하므로 화면별 조치는 필요 없다.<ul>
+<li><strong>★<code>cellClass</code> 가 아니라 <code>cellClassRules</code> 인 이유</strong> = 엑셀 내보내기도 이 규칙을 <strong>셀 값과 함께</strong> 평가한다(<code>ExcelCreator.styleLinker</code> → <code>stylingService.processAllCellClasses</code>). 덕분에 진짜 숫자(<code>typeof number</code>, 금액 등)는 숫자로 남아 <strong>엑셀에서 합계가 된다</strong>. 컬럼 단위로 <code>String</code> 을 고정하면 금액까지 텍스트가 돼 합계가 깨진다.</li>
+<li><strong>★이미 서식을 지정한 컬럼은 제외</strong>한다(<code>numberType*</code>/<code>dateType*</code>/<code>booleanType</code>/<code>currencyFormat</code>/<code>negativeInBrackets</code>). <code>styleLinker</code> 가 <strong><code>excelStyles</code> 배열 순서로 정렬</strong>해 뒤엣것이 이기는데 <code>stringType</code> 이 <code>numberType</code> 보다 뒤라, 그냥 걸면 숫자 서식이 죽는다.</li>
+</ul>
+</li>
+<li><strong>증상 ②</strong>: 선택 체크박스 열이 엑셀에 <strong>머리글도 값도 없는 빈 칸</strong>으로 따라 나온다.</li>
+<li><strong>원인 ②</strong>: <code>chk</code>/<code>disableHeaderChk</code> 로 주입되는 선택 열은 <code>field</code> 가 없다. ag-grid 25 의 colDef 에는 <code>suppressExcelExport</code> 류 옵션이 <strong>없어</strong> 표시 중인 열은 그대로 내보내진다.</li>
+<li><strong>해결 ②</strong>: <code>AgGridAdapter.exportExcel</code> 이 호출부가 <code>columnKeys</code> 를 주지 않았을 때 <code>getAllDisplayedColumns()</code> 에서 <code>checkboxSelection</code>/<code>headerCheckboxSelection</code> 열을 빼고 넘긴다.</li>
+<li><strong>부수효과</strong>: 행번호(<code>No</code>) 열도 값이 문자열이라 <strong>텍스트로 나간다</strong>(종전 숫자). 표시상 좌측정렬이 되는 것 외 영향은 없다.</li>
+<li><strong>레거시 동일 반영 필요</strong> — 레거시도 같은 ag-grid 25.3.0 · 같은 코드다(<code>sinokor-frontend/util/ag-grid/grid/</code>).</li>
 </ul>
 
 
