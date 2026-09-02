@@ -1724,6 +1724,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#22-0px-e-table-colgroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22. 검색조건 칸이 0px 로 붕괴하거나 라벨이 화면 한가운데로 밀린다 (.e-table colgroup)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-ag-grid-v-else-setitems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        23. ag-grid 어댑터 — v-else 로 안 그려진 그리드엔 setItems 가 안 먹는다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2308,6 +2330,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#22-0px-e-table-colgroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22. 검색조건 칸이 0px 로 붕괴하거나 라벨이 화면 한가운데로 밀린다 (.e-table colgroup)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-ag-grid-v-else-setitems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        23. ag-grid 어댑터 — v-else 로 안 그려진 그리드엔 setItems 가 안 먹는다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2663,6 +2707,44 @@
 <li><strong>호출부 규약</strong>: multipart 는 <strong><code>$axios.multipart( url, form )</code></strong> 를 쓴다(<code>$axios.post</code> 금지). <code>http.multipart</code> 가 넘기는 <code>Content-Type: multipart/form-data</code>(boundary 없음)는 실제로 전송되지 않는다 — <strong>JSON 변환 분기를 회피하는 마커</strong>이고 최종 헤더는 브라우저가 만든다.</li>
 <li><strong>회귀 테스트</strong>: <code>src/util/http/__tests__/http.formdata.spec.ts</code>. 가드가 사라지면 <code>expected '{"MAIN":{}}' to be an instance of FormData</code> 로 실패한다 — 이 문자열이 실제 운영 장애의 와이어 본문이었다.</li>
 <li><strong>★진단이 늦어진 이유</strong>: 백엔드가 <code>MultipartException</code> 을 전부 "네트워크 문제니 다시 시도"(MSG000429)로 안내해, 재시도해도 100% 실패하는 상황에 재시도를 유도했다(같은 날 40회). 백엔드에서 원인 체인에 <code>InvalidContentTypeException</code> 이 있으면 형식 오류로 갈라 응답하도록 별도 수정했다.</li>
+</ul>
+<h2 id="22-0px-e-table-colgroup">22. 검색조건 칸이 0px 로 붕괴하거나 라벨이 화면 한가운데로 밀린다 (<code>.e-table</code> colgroup)<a class="headerlink" href="#22-0px-e-table-colgroup" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 검색영역(<code>#search</code> 의 <code>e-table</code>)에 조건을 하나 더 붙였더니 ① 라벨이 앞 조건에서 멀찍이 떨어져 화면 한가운데에 놓이거나, ② 앞 칸이 <strong>0px 로 붕괴</strong>해 셀렉트가 화살표만 남는다(실측: <code>td</code> 0px · <code>dx-select-box</code> 30px).</li>
+<li><strong>원인</strong>: <code>.e-table</code> 은 <strong><code>table-layout: fixed</code></strong>(<code>global.scss</code> — "검색영역 라벨(th)을 고정폭 셀로"). 이 모드에선 <strong>colgroup 이 절대적이고 내용이 칸을 넓히지 못한다.</strong><ul>
+<li><code>width="*"</code> 는 HTML5 에서 <strong>무효</strong>라 auto 로 떨어진다. auto 칸이 <strong>둘 이상이면 남은 폭을 나눠 가져</strong> 뒤 조건이 한가운데로 밀린다.</li>
+<li>반대로 앞 칸을 <code>auto</code>/무지정으로 두고 뒤 칸에 <code>100%</code> 를 주면 뒤 칸이 남은 폭을 <strong>전부</strong> 가져가 앞 칸이 0px 이 된다.</li>
+</ul>
+</li>
+<li><strong>해결</strong>: 조건 칸 폭을 <strong>상태별로 명시</strong>한다. 조건이 조건부 노출이면 <code>&lt;col&gt;</code> 도 같이 <code>v-if</code> 로 묶어 열 개수를 맞춘다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">col</span> <span class="na">width</span><span class="o">=</span><span class="s">"70px"</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">&lt;</span><span class="nt">col</span> <span class="na">:width</span><span class="o">=</span><span class="s">"activeTab !== 'endpoint' ? '*' : ( search.WINDOW === 'custom' ? '480px' : '210px' )"</span><span class="p">&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">&lt;</span><span class="nt">template</span> <span class="na">v-if</span><span class="o">=</span><span class="s">"activeTab === 'endpoint'"</span><span class="p">&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="p">&lt;</span><span class="nt">col</span> <span class="na">width</span><span class="o">=</span><span class="s">"80px"</span><span class="p">&gt;&lt;</span><span class="nt">col</span> <span class="na">width</span><span class="o">=</span><span class="s">"*"</span><span class="p">&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</code></pre></div></li>
+<li><strong>★같이 드러난 것 — 폭이 "우연히" 맞아 보이는 구조</strong>: <code>class="w200"</code> 같은 <strong>정의가 없는 클래스</strong>로 폭을 주던 자리가 있다. DevExtreme 위젯은 부모를 100% 채우므로 <strong>칸이 넓을 땐 멀쩡해 보이다가</strong>, 칸을 좁히는 순간 붕괴한다. 폭은 실제 CSS 가 있는 클래스(예: <code>.obs-range__win { width: 200px }</code>)로 준다.</li>
+<li><strong>★<code>width</code> prop 은 위젯마다 다르다</strong>: <code>dx-text-box</code> 에는 <code>width="260"</code> 이 먹지만 <strong><code>dx-select-box</code> 프록시에는 전달되지 않는다</strong>(<code>DxSelectBoxProxy</code> 는 <code>inheritAttrs: false</code>). 셀렉트는 <strong>래퍼 div + CSS 폭</strong>으로 줘야 한다. 같은 줄의 <code>e-date-box</code> 가 <code>.obs-range__box { width: 120px }</code> 로 감싸인 것과 같은 이유다.</li>
+<li>PR #163 (CmsAzureLog 검색영역).</li>
+</ul>
+<h2 id="23-ag-grid-v-else-setitems">23. ag-grid 어댑터 — <code>v-else</code> 로 안 그려진 그리드엔 <code>setItems</code> 가 안 먹는다<a class="headerlink" href="#23-ag-grid-v-else-setitems" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 조회는 200 인데 그리드가 비어 있다. 또는 반영을 기다리는 <code>setTimeout</code> 폴링이 <strong>영영 돈다</strong>.</li>
+<li><strong>원인</strong>: <code>AgGridAdapter.of( gridOptions )</code> 는 <strong>생성자에서 <code>_api</code> 를 캡처</strong>한다(readonly). <code>mounted()</code> 에서 어댑터를 만들어도 그 그리드가 <code>v-if</code>/<code>v-else</code> 로 <strong>미마운트면 <code>api</code> 가 없어</strong>, 이후 아무리 <code>setItems</code> 를 불러도 반영되지 않는다. <code>EContentLayout</code> 의 <code>fnReset</code> 조기호출 케이스와 같은 함정이다.</li>
+<li><strong>해결(권장)</strong>: <strong>컬럼이 고정이면 그리드를 조회 전에도 그려둔다.</strong> "선택하면 표시됩니다" 같은 빈 상태 안내문 대신 <strong>헤더를 먼저 노출</strong>하면 그리드가 상시 마운트라 <code>mounted()</code> 어댑터가 계속 유효하다. 화면도 조회 전후로 흔들리지 않는다.</li>
+<li><strong>그래도 남는 경우</strong>: 에러 분기(<code>v-if="err.xxx"</code>)로 그리드가 사라졌다 돌아오면 <code>api</code> 가 새로 생기므로 어댑터를 <strong>재생성</strong>해야 한다. ag-grid 의 <code>api</code> 는 자기 마운트 시점에 붙으므로 <code>$nextTick</code> 만으론 이르다 → 짧은 폴링이 필요하다.</li>
+<li><strong>★폴링은 반드시 유한하게</strong>: 부분 실패(그리드 A 만 에러)면 A 는 <strong>계속 없는 상태</strong>다. 두 그리드의 <code>api</code> 를 <strong>함께</strong> 기다리는 루프는 그대로 무한이 된다. 그리드별로 독립 처리하고 재시도 상한을 둔다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">setRows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">optKey</span><span class="p">,</span><span class="w"> </span><span class="nx">adapterKey</span><span class="p">,</span><span class="w"> </span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">tries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">[</span><span class="w"> </span><span class="nx">optKey</span><span class="w"> </span><span class="p">]</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">options</span><span class="p">.</span><span class="nx">api</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="k">this</span><span class="p">[</span><span class="w"> </span><span class="nx">adapterKey</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">AgGridAdapter</span><span class="p">.</span><span class="k">of</span><span class="p">(</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="k">this</span><span class="p">[</span><span class="w"> </span><span class="nx">adapterKey</span><span class="w"> </span><span class="p">].</span><span class="nx">setItems</span><span class="p">(</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">tries</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nx">setTimeout</span><span class="p">(</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setRows</span><span class="p">(</span><span class="w"> </span><span class="nx">optKey</span><span class="p">,</span><span class="w"> </span><span class="nx">adapterKey</span><span class="p">,</span><span class="w"> </span><span class="nx">rows</span><span class="p">,</span><span class="w"> </span><span class="nx">tries</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mf">50</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</code></pre></div></li>
+<li>PR #163 (CmsAzureLog 엔드포인트·실패 상세 그리드).</li>
 </ul>
 
 

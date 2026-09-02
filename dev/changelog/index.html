@@ -1277,10 +1277,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cmsazurelog-api-pr" class="md-nav__link">
+  <a href="#cmsazurelog-api-pr-162163-114" class="md-nav__link">
     <span class="md-ellipsis">
       
-        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR 예정, 백엔드 짝)
+        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)
       
     </span>
   </a>
@@ -1912,10 +1912,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cmsazurelog-api-pr" class="md-nav__link">
+  <a href="#cmsazurelog-api-pr-162163-114" class="md-nav__link">
     <span class="md-ellipsis">
       
-        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR 예정, 백엔드 짝)
+        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)
       
     </span>
   </a>
@@ -2504,12 +2504,14 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
-<h3 id="cmsazurelog-api-pr">CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR 예정, 백엔드 짝)<a class="headerlink" href="#cmsazurelog-api-pr" title="Permanent link">&para;</a></h3>
+<h3 id="cmsazurelog-api-pr-162163-114">CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)<a class="headerlink" href="#cmsazurelog-api-pr-162163-114" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>왜</strong> — 메일 발송 복구(PR #160) 이후 "V2 에서 나간 메일"을 확인할 방법이 없었다. <code>TB_CMS_EMAIL</code> 에는 <strong>출처 컬럼이 없고</strong> V2·레거시가 같은 서비스에서 같은 프로시저(<code>PKG_CM_EMAIL.SP_SET_EMAIL</code>)를 호출하므로 메일 로그 화면으로는 두 포털을 영원히 못 가린다. 반면 V2 백엔드의 <code>sendMail</code> <strong>200 응답 1건 = V2 발송 1건</strong>으로 1:1 대응한다(행은 Graph 발송 성공 뒤에만 쓰이므로).</li>
 <li><strong>무엇</strong> — URL 조각(예: <code>sendMail</code>)을 넣으면 상단 공통 기간 안에서 ① 상태코드별 건수·평균/p95 소요·최근시각 ② 최근 50건의 시각·상태·<strong>화면</strong>·클라이언트 IP 를 보여준다. 기존 '실패 요청 TOP' 은 <code>Success == false</code> 만 세므로 <strong>성공 건수를 볼 수 없다</strong> — 이 탭이 그 빈자리를 채운다.</li>
 <li><strong>★두 소스를 조인하지 않고 나눠 쓴다</strong> — 집계는 App Insights <code>AppRequests</code>(구조화 필드), 최근 목록은 nginx 액세스로그다. <code>AppRequests</code> 에는 <strong>Referer 필드가 아예 없고 <code>ClientIP</code> 가 <code>0.0.0.0</code></strong>(프록시 뒤)이라 "어느 화면에서 눌렀나 / 누가 눌렀나"를 알 수 없다(실측). 반대로 nginx 로그엔 소요시간이 없다. 그래서 소요는 집계 그리드에 평균/p95 로만 싣는다. 두 그리드의 건수는 어긋날 수 있다(집계=기간 전체, 목록=최근 50건 컷).</li>
-<li><strong>함정</strong> — 두 그리드는 조회 전 <code>v-else</code> 로 미마운트라 어댑터에 <code>api</code> 가 없다. <code>mounted()</code> 에서 만든 어댑터로 <code>setItems</code> 하면 죽는다 → <strong>api 준비 후 어댑터 재생성</strong>(실패 상세 그리드와 동일 처리). 기간을 바꿔 재조회하면 이 탭도 같은 기간으로 자동 재조회한다(안 하면 좌측만 새 기간이라 오독).</li>
+<li><strong>그리드는 조회 전에도 그려둔다</strong>(후속) — 컬럼이 고정이므로 빈 상태 안내문 대신 <strong>헤더를 먼저 노출</strong>한다. 같은 이유로 '의존성 · 이벤트' 탭의 <strong>실패 상세</strong> 그리드(행 선택 전 안내문)도 상시 렌더로 바꿨다 — 이 탭의 나머지 4개 그리드는 원래 상시 렌더라 이제 5개가 일관된다. 부수효과로 그리드가 상시 마운트라 <code>mounted()</code> 어댑터가 그대로 유효해져, 초기 구현의 "api 준비까지 폴링 후 어댑터 재생성" 우회가 <strong>에러→성공 전환 때만</strong> 필요해졌다. ★그 폴링은 <strong>유한해야 한다</strong> — 부분 실패(<code>SUMMARY_ERROR</code> 만 세팅)면 그 그리드는 계속 없는 상태라, 두 그리드를 함께 기다리던 초기 구현의 <code>setTimeout</code> 은 영영 돈다(초기 구현 결함, 함께 수정). 재시도 상한 20회·그리드별 독립 처리로 바꿨다.</li>
+<li><strong>함정</strong> — 기간을 바꿔 재조회하면 이 탭도 같은 기간으로 자동 재조회한다(안 하면 좌측만 새 기간이라 오독).</li>
+<li><strong>조건은 탭 안이 아니라 상단 검색영역에 둔다</strong>(후속) — 처음엔 탭 안에 자체 검색바(입력 + 조회 버튼)를 뒀는데, 화면에 조회 트리거가 둘이 되어 어느 쪽이 무엇을 새로 고치는지 알기 어려웠다. 'URL 포함' 입력을 <strong>기간과 같은 줄</strong>에 <code>&lt;th&gt;</code>/<code>&lt;td&gt;</code> 쌍으로 붙이고(다른 화면의 <code>col 라벨/입력</code> 쌍 반복 관례 동일) <code>activeTab === 'endpoint'</code> 일 때만 노출한다 — 별도 행을 쓰면 검색영역이 두 줄이 되어 그리드 높이를 깎는데, 기간 우측은 비어 있다. ★<strong><code>.e-table</code> 은 <code>table-layout: fixed</code></strong>(global.scss)라 <strong>colgroup 이 절대적이고 내용이 칸을 넓히지 못한다</strong> — 기간 칸을 <code>*</code>/auto 로 두면 뒤 칸이 남은 폭을 다 가져가 <strong>0px 로 붕괴</strong>한다(실측: td 0px·셀렉트 30px). 그래서 기간 칸 폭을 상태별로 명시한다(탭 아님 <code>*</code> / 프리셋 210px / 직접지정 480px). ★같은 이유로 종전 <code>.w200</code> 래퍼는 <strong>정의가 없는 클래스</strong>였는데 칸이 넓을 땐 위젯이 셀을 100% 채워 우연히 멀쩡해 보였다 → <code>.obs-range__win</code>(200px) 신설. <code>width</code> prop 은 <code>dx-text-box</code> 엔 먹지만 <code>dx-select-box</code> 프록시엔 전달되지 않는다. 탭 안 버튼은 제거하고 <strong>상단 SEARCH 하나가 대시보드와 엔드포인트를 함께</strong> 조회한다(조각이 비어 있으면 조용히 건너뛴다 — 다른 탭에서 SEARCH 할 때 경고가 뜨면 안 된다). ★활성 탭은 <code>e-card-tab</code> 의 <code>@change</code>(탭 이름)로 받는데 <strong>클릭할 때만 emit 된다</strong> — 초기값을 <code>'overview'</code> 로 직접 넣어야 한다. ★<code>dx-text-box</code> 는 폭 유틸(<code>w200</code>) 래퍼로는 안 잡혀 <code>td</code> 전체로 늘어난다 → 컴포넌트 <code>width</code> 옵션으로 지정.</li>
 <li><strong>검증</strong>(실측) — 로컬에서 운영 워크스페이스를 향해 조회: <code>sendMail</code> → 200 4건(평균 550ms·p95 753ms), 목록에 화면(<code>/tes/TesLashingExpn</code>)·실 IP 정상 표시. 로컬은 <code>azure.monitor.*</code> 4개가 비어 있어 기본적으로 "설정 없음" 이 뜬다 — <code>AZURE_MONITOR_*</code> env 를 넣으면 <code>DefaultAzureCredential</code> 이 az CLI 로그인으로 떨어져 로컬에서도 조회된다.</li>
 </ul>
 <h3 id="v2-pr-160">메일 전송이 V2 에서 한 번도 동작하지 않던 결함 (PR #160)<a class="headerlink" href="#v2-pr-160" title="Permanent link">&para;</a></h3>
