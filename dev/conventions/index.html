@@ -1567,13 +1567,12 @@
 </tbody>
 </table>
 <h2 id="_4">버튼 색상군<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p><code>&lt;e-btn&gt;</code> 의 <code>color</code> 는 버튼 그룹명(<code>BTN_GRP_NM</code>)→CSS 클래스로 매핑됩니다. 사용 가능 16종:</p>
+<p><code>&lt;e-btn&gt;</code> 의 <code>color</code> 는 버튼 그룹명(<code>BTN_GRP_NM</code>)→CSS 클래스로 매핑됩니다(정의: <code>src/styles/cal-theme.scss</code>). 사용 가능 17종:</p>
 <ul>
-<li>기능군: <code>normal</code> / <code>optional</code>(EBtn 기본값) / <code>transactional</code> / <code>delete</code></li>
-<li>각 <code>±line/fill</code> 변형</li>
-<li>색상군: 5색 × <code>-line</code> / <code>-fill</code></li>
+<li>기능군(7): <code>normal</code>(+<code>normal-line</code>) / <code>optional</code>(EBtn 기본값) / <code>linker</code>(회색 채움 보조버튼) / <code>transactional</code> / <code>delete</code>(+<code>delete-fill</code>)</li>
+<li>색상군(10): 5색(green/amber/teal/purple/pink) × <code>-line</code> / <code>-fill</code></li>
 </ul>
-<p><code>main</code> / <code>linker</code> / <code>gold</code> 는 <strong>deprecated → 제거</strong>됨. <code>grey</code> / <code>grid-button</code> 은 Vuetify 표준색으로 유지. 자세한 이력은 사내 메모리 <code>button-color-group-system</code> 참고.</p>
+<p><code>main</code> / <code>gold</code> 는 <strong>deprecated → 제거</strong>됨(<code>linker</code> 는 한때 제거됐다가 복원). <code>grey</code> / <code>grid-button</code> 은 optional 동일 규칙으로 유지. 자세한 이력은 사내 메모리 <code>button-color-group-system</code> 참고.</p>
 <h2 id="_5">언어 / 주석<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <ul>
 <li>주석·UI 문구는 <strong>한국어</strong> 위주(주변 파일 언어에 맞춤).</li>

@@ -1757,6 +1757,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#25-keep-alive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        25. 멀티탭 keep-alive — 탭을 닫는 순간 화면 전체가 백지가 된다 (유령 재마운트)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2374,6 +2385,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#25-keep-alive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        25. 멀티탭 keep-alive — 탭을 닫는 순간 화면 전체가 백지가 된다 (유령 재마운트)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2786,6 +2808,16 @@
 <li><strong>해결 ②</strong>: <code>AgGridAdapter.exportExcel</code> 이 호출부가 <code>columnKeys</code> 를 주지 않았을 때 <code>getAllDisplayedColumns()</code> 에서 <code>checkboxSelection</code>/<code>headerCheckboxSelection</code> 열을 빼고 넘긴다.</li>
 <li><strong>부수효과</strong>: 행번호(<code>No</code>) 열도 값이 문자열이라 <strong>텍스트로 나간다</strong>(종전 숫자). 표시상 좌측정렬이 되는 것 외 영향은 없다.</li>
 <li><strong>레거시 동일 반영 필요</strong> — 레거시도 같은 ag-grid 25.3.0 · 같은 코드다(<code>sinokor-frontend/util/ag-grid/grid/</code>).</li>
+</ul>
+<h2 id="25-keep-alive">25. 멀티탭 keep-alive — 탭을 닫는 순간 화면 전체가 백지가 된다 (유령 재마운트)<a class="headerlink" href="#25-keep-alive" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 활성 탭을 닫으면 탭바·콘텐츠가 전부 사라지고, 다른 탭으로도 못 가며 재오픈도 백지. 콘솔에 그리드(ag-grid) 파괴 중 에러.</li>
+<li><strong>원인</strong>: <code>TabWorkspace</code> 는 keep-alive <code>include</code> 를 열린 탭 목록에서 파생시키는데, "탭 제거 → 라우터 이동" 순서로 닫으면 <strong>라우트가 아직 닫힌 탭을 가리키는 한 프레임</strong> 동안 include/래퍼가 먼저 비워진다. 같은 key 에 새 래퍼 타입이 만들어져 닫힌 화면이 <strong>강제 재마운트</strong>(자동조회·그리드 부트)됐다가 곧바로 파괴된다. 가벼운 화면은 버티지만 그리드 화면은 마운트-파괴 경합에서 크래시하고, 그 에러가 워크스페이스 렌더 트리를 통째로 죽인다.<ul>
+<li>재현 시그니처: 닫기 직후 그 메뉴의 <code>insertVisitLog</code> 가 <strong>한 번 더</strong> 발화(재마운트 증거).</li>
+</ul>
+</li>
+<li><strong>해결</strong>: 활성 탭 닫기(X·Close·복수 닫기 모두)는 <strong>이웃/대상 탭으로 <code>await router.push</code> 를 완료한 뒤</strong> 스토어에서 제거한다. 닫힐 화면은 평범한 탭 전환으로 비활성화된 뒤 캐시에서 조용히 파기된다. 래퍼/props 정리 워처도 같은 이유로 <code>flush:'post'</code> + 현재 라우트 제외.</li>
+<li><strong>같은 계열 함정 — Refresh 재마운트 시 codeMap 유실</strong>: 재진입 내비게이션은 codeData 가드(<code>router/guards.ts</code>)가 <code>record.instances</code> 존재를 보고 prefetch 를 <strong>생략</strong>하므로 그 시점 슬롯 vnode 의 props 엔 <code>codeMap</code> 이 없다. 우클릭 Refresh 가 그 props 로 재마운트하면 화면이 <code>codeMap.XXX</code> 에서 죽는다 → <code>TabWorkspace</code> 가 <strong>최초 진입 때 받은 props 를 탭이 열려있는 동안 보존</strong>해 재마운트에 재사용한다(레거시 RouterAlive refresh 와 동일 의미). 탭을 닫으면 버려지므로 다음 오픈은 새로 prefetch 된다.</li>
 </ul>
 
 

@@ -1644,7 +1644,7 @@
 </table>
 <h2 id="_3">두 가지 호출 방식<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>공통 프로시저 실행</strong> — <code>executeVendorCommonProcedure</code> 에 <code>dataset</code> 을 보내 DB 프로시저를 직접 구동(목록 조회/CRUD 의 다수). 조회·저장 통합 엔드포인트다(구 <code>select/saveVendorCommonProcedure</code> 는 EIR만 사용).</li>
+<li><strong>공통 프로시저 실행</strong> — <code>executeVendorCommonProcedure</code> 에 <code>dataset</code> 을 보내 DB 프로시저를 직접 구동(목록 조회/CRUD 의 다수). 조회·저장 통합 엔드포인트다(구 <code>select/saveVendorCommonProcedure</code> 는 2026-08 EIR 까지 전환 완료 — 더 이상 사용하지 않는다).</li>
 <li><strong>전용 엔드포인트</strong> — <code>this.$axios.$post('/api/eir/issueEirNew', ...)</code> 처럼 백엔드 컨트롤러를 직접 호출(발행/연동 등 도메인 로직).</li>
 </ol>
 <p>자세한 호출 규약·헤더 주입은 <a href="../http-api/">HTTP / API</a> 참고.</p>
