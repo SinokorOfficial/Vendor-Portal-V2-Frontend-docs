@@ -1277,6 +1277,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#220px-14-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        검색영역 날짜 칸 폭 고정(% → 220px) + 필수 표시·주석 정리 — 14화면 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fdsinvoice-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsInvoice — 빈 영역 우클릭 크래시 방지 + 엑셀 다운로드 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsazurelog-api-pr-162163-114" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1912,6 +1934,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#220px-14-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        검색영역 날짜 칸 폭 고정(% → 220px) + 필수 표시·주석 정리 — 14화면 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fdsinvoice-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsInvoice — 빈 영역 우클릭 크래시 방지 + 엑셀 다운로드 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsazurelog-api-pr-162163-114" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2504,6 +2548,20 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="220px-14-pr-164">검색영역 날짜 칸 폭 고정(<code>%</code> → <code>220px</code>) + 필수 표시·주석 정리 — 14화면 (PR #164)<a class="headerlink" href="#220px-14-pr-164" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>무엇</strong> — 검색조건 <code>e-table</code> 에서 <strong>from~to 날짜 구간이 들어가는 칸</strong>의 <code>&lt;col width&gt;</code> 를 <code>12~15%</code> 에서 <strong><code>220px</code> 고정</strong>으로 바꿨다. 대상: CfsStuffExpn·CfsStuffInvoice·CrsAcepMgt·CrsCntrMove·CrsEstApproval·CrsEstimate·EirDemList·EirIssueStatus·EirResponseLog·FdsFeederageMgt·FdsInvoice·FdsMoveInspect·FdsOrdMgt·MvsDropOff·MvsRedeliveryStts.</li>
+<li><strong>왜</strong> — <code>.e-table</code> 은 <code>table-layout: fixed</code> 라 <strong>colgroup 이 절대적이고 내용이 칸을 넓히지 못한다</strong>. <code>%</code> 는 화면 폭·조건 개수에 따라 날짜박스 2개+물결이 들어갈 폭을 못 만들어 잘리거나 들쭉날쭉했다. 실제 필요한 폭(날짜 2칸 + 구분자)이 고정이므로 px 로 못박는 게 맞다. 같은 함정의 배경은 <a href="../troubleshooting/">트러블슈팅 §22</a>.</li>
+<li><strong>함께</strong> — colgroup 에 어느 칸이 무슨 필드인지 주석 부여(DATE/GRP_INV_NO/Container No./BL_NO/TYPE 등), 필수 조건에 <code>essential</code>(빨간 <code>*</code>) 누락분 보강(EirDemList DATE·In/Out, EirIssueStatus TYPE·DATE, EirResponseLog Date), CrsAcepMgt 오타 <code>esseatial</code> → <code>essential</code>. ★<code>essential</code> 은 <strong>표시 전용</strong>이라(ELabel 이 <code>&lt;span style="color:red"&gt;*&lt;/span&gt;</code> 만 렌더) 검증 동작에는 영향이 없다.</li>
+<li><strong>FdsInvoice 는 함께 재배치</strong> — <code>Order No.</code> 검색조건 신설(전송 파라미터 <code>ORD_NO</code> 추가), <code>GRP_INV_NO</code> 의 <code>colspan=3</code> 해제 후 <code>Not Created</code> 체크박스를 같은 행 우측으로, 전송 파라미터 오타 <code>FRDT</code> → <code>FMDT</code> 교정. <code>APPROACH_YN</code> 은 ORD_NO 가 있으면 <code>'N'</code> 으로 보낸다.</li>
+<li><strong>검증</strong> — <code>vue-tsc</code> + <code>vite build</code> 통과, 대표 2화면(EIR Issuance Status·Drop Off Container Status) 실측 렌더 확인(날짜 구간 정상 배치, pageerror 0).</li>
+</ul>
+<h3 id="fdsinvoice-pr-164">FdsInvoice — 빈 영역 우클릭 크래시 방지 + 엑셀 다운로드 (PR #164)<a class="headerlink" href="#fdsinvoice-pr-164" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>행 없는 우클릭</strong> — 목록 아래 여백을 우클릭하고 <code>ORDER MANAGEMENT</code> 를 고르면 <code>param.node</code> 가 <code>null</code> 이라 <code>param.node.data.ORD_NO</code> 에서 크래시했다(메뉴만 닫히고 아무 반응 없음 — 사용자에겐 "먹통"으로 보인다). 액션 진입부에서 <code>param.node</code>/<code>param.node.data</code> 를 확인해 <strong>MSG000009</strong>("선택된 행이 없습니다.")를 띄운다. ★메뉴 항목 자체를 숨기는 방식(FdsOrdMgt) 대신 <strong>띄우고 안내하는 쪽</strong>을 택했다 — 왜 안 되는지 알려주기 위함.</li>
+<li><strong>엑셀 다운로드 신설</strong> — 우클릭 메뉴(<code>DOWN_EXCEL</code>, 구분선 뒤)와 <code>Attach File</code> 버튼 우측 아이콘 버튼 두 경로. 파일명은 FdsOrdMgt 관례와 동일하게 <code>[선사]INVOICE LIST_yyyyMMdd.xlsx</code>. ★액션 슬롯의 <code>.mb-1</code> 래퍼가 좁아 버튼이 <strong>아래로 줄바꿈</strong>된다 → <code>d-flex align-center</code> 필요하고, flex 는 간격이 0 이라 엑셀 버튼에 <code>ml-2</code>(8px)를 준다.</li>
+<li><strong>검증</strong>(실측) — 빈 영역 우클릭 → "선택된 행이 없습니다." 확인. 두 경로 모두 <code>[SNKO]INVOICE LIST_20260902.xlsx</code> 다운로드, 파일 열어 컬럼 20개(No/Type/Order Date/Order No./포트/Vessel/…) 확인. 버튼 두 개가 같은 줄(y 동일)에 배치되는 것까지 좌표로 확인.</li>
+</ul>
 <h3 id="cmsazurelog-api-pr-162163-114">CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)<a class="headerlink" href="#cmsazurelog-api-pr-162163-114" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>왜</strong> — 메일 발송 복구(PR #160) 이후 "V2 에서 나간 메일"을 확인할 방법이 없었다. <code>TB_CMS_EMAIL</code> 에는 <strong>출처 컬럼이 없고</strong> V2·레거시가 같은 서비스에서 같은 프로시저(<code>PKG_CM_EMAIL.SP_SET_EMAIL</code>)를 호출하므로 메일 로그 화면으로는 두 포털을 영원히 못 가린다. 반면 V2 백엔드의 <code>sendMail</code> <strong>200 응답 1건 = V2 발송 1건</strong>으로 1:1 대응한다(행은 Graph 발송 성공 뒤에만 쓰이므로).</li>
