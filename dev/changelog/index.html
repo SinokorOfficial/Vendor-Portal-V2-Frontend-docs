@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#ui-e-attach-file-grid-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#lightgray-pr-168" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1989,6 +2000,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#ui-e-attach-file-grid-pr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#lightgray-pr-168" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2658,6 +2680,27 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="ui-e-attach-file-grid-pr">첨부 UI 표준화 — <code>e-attach-file-grid</code> 일원화 + 이미지 뷰어 통합 (PR 예정)<a class="headerlink" href="#ui-e-attach-file-grid-pr" title="Permanent link">&para;</a></h3>
+<p>첨부 UI 가 <code>e-file-uploader</code>(구방식) / <code>e-attach-file-grid</code>(표준) / 그리드 셀 인라인 에디터로 갈라져 있던 것을 표준 하나로 모았다. 상세 조사·판단 근거는 Infra 이슈 #21·#23.</p>
+<p><strong>데드코드 정리</strong>
+- <code>AgFileTextBoxEditor</code> + 내부 부품 <code>EFileTextBox</code> <strong>삭제</strong> — 선언 10곳 중 운영 화면에서 실제로 열리는 곳이 <strong>0</strong>이었다. 셀 에디터라 컬럼이 <code>editable:true</code> 여야 열리는데 전부 <code>editable:false</code> 였고, 유일하게 살아있던 <code>CmsDocumentPopup</code> 은 참조 0(미사용 화면)이었다. 첨부 그리드에 붙어 있던 건 레거시 <code>CmsFileUploadPopup</code> 을 1:1 이식하며 딸려온 잔재로, <strong>레거시 시절부터 열리지 않던 설정</strong>이다.
+- 미사용 화면 4곳(<code>CsmRequestMgt</code> <code>CmsUserDashBoardPopup</code> <code>CmsDocumentPopup</code> <code>TesInspExpnPopup</code>)은 화면은 존치하되 죽은 업로드 UI 만 들어냈다. 나중에 <code>e-file-uploader</code> 를 grep 했을 때 죽은 사용처가 섞이지 않게 하려는 것.
+- dev 샘플(<code>dev/layout/layout1</code>)을 표준 컴포넌트로 교체.</p>
+<p><strong>표준 컴포넌트 보강</strong> (<code>EAttachFileGrid</code>)
+- <code>MNGT_NO</code> 숨은 컬럼 추가(다중 그룹 조회 대비) / <code>FILE_PATH</code> 없는 행은 Download·Viewer 버튼 미렌더
+- 미선택 삭제 시 <code>MSG000009</code> 경고 / 삭제 후 같은 자리 재선택(연속 삭제)
+- 카드 헤더 총건수(<code>:total</code>) / 업로드 중 <code>$loadingBar</code>
+- <code>allowed-ext</code>(업로드 확장자 제한) · <code>upload-viewable-only</code>(뷰어 허용목록과 동일하게 묶기)</p>
+<p><strong><code>CrsEstimate</code> 교체</strong>
+- 자체 파일그리드 + 인라인 업로더 → <code>e-attach-file-grid</code>. 화면 코드 300줄 이상 감소.
+- ⚠️ <code>list-param</code> 에 <code>DOC_TYPE:'RP'</code> + <code>COMP_CD</code> 필수 — 백엔드가 이 둘로 레거시 <code>SKR_DOC_MST</code> UNION 쿼리로 분기한다(<a href="../troubleshooting/">트러블슈팅 §27</a>).
+- 삭제 API 를 <code>deleteFileByName</code>(<code>DISP_NM</code> 기준, <strong>MNGT_NO·COMP_CD 스코프 없음</strong>) → 표준 <code>deleteFile</code>(<code>FILE_SN</code> 기준)로 전환. 같은 이름 파일이 다른 견적서에 붙어 있으면 함께 지워지던 문제가 해소된다.
+- 삭제 순서도 <code>프로시저 → DB삭제</code> 에서 <code>DB삭제 성공 → 프로시저</code> 로 바뀌었다(삭제 실패인데 프로시저가 돌던 문제).</p>
+<p><strong>뷰어 통합 + 확장자 판정 일원화</strong>
+- 뷰어 가능 확장자의 정본을 <strong>공통코드 <code>TB_CMS_CD_DTL / MSTR_CD='FILE_EXT'</code></strong>(10종)로 통일. 기존엔 프론트 하드코딩 2곳 + 서버 1곳으로 갈라져 있었고, 양방향으로 틀렸다 — <code>ZIP</code> 은 사실 열리는데 막고 있었고, <code>DOC</code>·<code>PPT</code>·<code>HWP</code> 등은 목록에 없어 통과된 뒤 서버에서 500 이 났다.
+- 단건 뷰어 <code>CmsImageViewerPopup</code> <strong>삭제</strong> → 캐러셀 새 창으로 통일. <code>FILE_SN</code> 을 넘겨 클릭한 첨부부터 열린다. <code>CrsEstApproval</code> 도 같은 팝업을 쓰고 있어 함께 교체했다.
+- 캐러셀의 사전 차단(첨부 중 하나라도 뷰어 불가면 alert 후 창 닫기) 제거 — 서버가 렌더 못 하는 항목을 건너뛰도록 바뀌어 불필요해졌다.
+- 백엔드: <code>getBase64ImageList</code> 가 지원 못 하는 최상위 항목을 예외 대신 <strong>스킵</strong>, 각 이미지에 <code>FILE_SN</code> 동봉.</p>
 <h3 id="lightgray-pr-168">업로드 클라우드 아이콘이 검게 나옴 — 테마 미등록 색상 <code>lightGray</code> (PR #168)<a class="headerlink" href="#lightgray-pr-168" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong> — <code>CrsEstimate</code>·<code>CrsEstUploadExl</code>(및 <code>e-file-uploader</code> 를 쓰는 화면 전부)에서 드래그&amp;드롭 영역의 클라우드 아이콘이 다른 곳처럼 옅은 회색이 아니라 <strong>검게</strong> 보였다.</li>

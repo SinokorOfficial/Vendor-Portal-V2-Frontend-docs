@@ -926,6 +926,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="자주 쓰는 공통 컴포넌트">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-attach-file-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;e-attach-file-grid&gt; — 첨부 표준
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1407,6 +1424,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="자주 쓰는 공통 컴포넌트">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-attach-file-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;e-attach-file-grid&gt; — 첨부 표준
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1556,8 +1590,12 @@
 <td>날짜 선택</td>
 </tr>
 <tr>
-<td><code>&lt;e-file-uploader&gt;</code> / <code>&lt;e-attach-file-grid&gt;</code></td>
-<td>파일 업로드 / 첨부 그리드</td>
+<td><code>&lt;e-attach-file-grid&gt;</code></td>
+<td><strong>첨부 표준 컴포넌트.</strong> 그리드 자체가 드래그&amp;드롭 존이고 조회·업로드·삭제·다운로드·뷰어를 캡슐화. 아래 참고</td>
+</tr>
+<tr>
+<td><code>&lt;e-file-uploader&gt;</code></td>
+<td>dx-file-uploader 래퍼(구방식). 신규 화면은 <code>e-attach-file-grid</code> 를 쓴다</td>
 </tr>
 <tr>
 <td><code>&lt;e-btn&gt;</code></td>
@@ -1569,6 +1607,61 @@
 </tr>
 </tbody>
 </table>
+<h3 id="e-attach-file-grid"><code>&lt;e-attach-file-grid&gt;</code> — 첨부 표준<a class="headerlink" href="#e-attach-file-grid" title="Permanent link">&para;</a></h3>
+<p>첨부 UI 는 이 컴포넌트로 일원화한다. 변형은 전부 props/이벤트로 처리하고, 화면에서 그리드를 다시 짜지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>props</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mngt-no</code></td>
+<td>파일 그룹 키. 값이 바뀌면 자동 조회하고, 비면 서버 호출 없이 목록만 비운다</td>
+</tr>
+<tr>
+<td><code>list-param</code></td>
+<td>조회 param 오버라이드. <strong>CRS 는 <code>DOC_TYPE:'RP'</code> + <code>COMP_CD</code> 가 필수</strong> — 백엔드가 이 둘로 레거시 <code>SKR_DOC_MST</code> UNION 쿼리로 분기한다</td>
+</tr>
+<tr>
+<td><code>upload-param</code></td>
+<td>업로드 추가 param(기본 <code>FILE_EXPL/MNGT_NO/CORP_CD/CUST_CD/COMP_CD</code> 에 병합)</td>
+</tr>
+<tr>
+<td><code>allowed-ext</code> / <code>upload-viewable-only</code></td>
+<td>업로드 확장자 제한. 후자는 뷰어 허용목록(공통코드 <code>FILE_EXT</code>)과 같게 묶는다</td>
+</tr>
+<tr>
+<td><code>can-upload</code> / <code>can-delete</code> / <code>readonly</code> / <code>viewer</code> / <code>auto-load</code> / <code>columns</code> / <code>title</code></td>
+<td>노출·동작 제어</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>이벤트</th>
+<th>시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@uploaded</code></td>
+<td>업로드 성공 후(목록 갱신은 컴포넌트가 이미 끝냄). 화면 후속 처리용</td>
+</tr>
+<tr>
+<td><code>@deleted</code></td>
+<td>삭제 성공 후. 인자로 삭제된 행을 넘긴다</td>
+</tr>
+<tr>
+<td><code>@loaded</code></td>
+<td>목록 조회 후</td>
+</tr>
+</tbody>
+</table>
+<p><strong>뷰어 판정의 정본은 공통코드 <code>TB_CMS_CD_DTL / MSTR_CD='FILE_EXT'</code>(화이트리스트)</strong> 다. 컴포넌트가 <code>/api/code/selectCommonCode</code> 로 모듈 단위 1회만 조회해 공유한다. 허용목록 밖이면 <code>MSG000400</code> 경고, <code>PDF</code> 는 <code>openPdfViewer</code>, 나머지(이미지·ZIP)는 캐러셀 새 창(<code>CmsImageCarouselPopup</code>)으로 연다. 확장자를 늘리려면 <strong>코드가 아니라 공통코드</strong>를 고친다.</p>
 <h2 id="ag-grid">ag-grid 렌더러/에디터<a class="headerlink" href="#ag-grid" title="Permanent link">&para;</a></h2>
 <p><code>src/components/manual/ag-grid/vue/</code> 에 그리드 셀용 렌더러·에디터가 있습니다 (<code>AgCheckBoxRender</code>, <code>AgCodeBoxEditor</code>, <code>AgNumberBoxEditor</code>, <code>AgButtonRender</code> 등). 그리드 컬럼 정의에서 이들을 지정해 셀 UI 를 구성합니다. ag-grid 는 <strong>25.3.0</strong> 으로 고정이며 이 버전의 <code>cellRendererFramework</code> API 가 유효합니다.</p>
 

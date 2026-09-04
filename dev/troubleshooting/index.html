@@ -1768,6 +1768,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#26-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        26. 팝업을 열었을 뿐인데 화면이 통째로 리로드된다 (dev 한정)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-selectfilelist-union" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27. 첨부 목록에 레거시 문서가 안 보인다 (selectFileList UNION 분기)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        28. 메시지 줄바꿈이 \n 글자 그대로 보인다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2396,6 +2429,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#26-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        26. 팝업을 열었을 뿐인데 화면이 통째로 리로드된다 (dev 한정)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-selectfilelist-union" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27. 첨부 목록에 레거시 문서가 안 보인다 (selectFileList UNION 분기)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        28. 메시지 줄바꿈이 \n 글자 그대로 보인다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2818,6 +2884,39 @@
 </li>
 <li><strong>해결</strong>: 활성 탭 닫기(X·Close·복수 닫기 모두)는 <strong>이웃/대상 탭으로 <code>await router.push</code> 를 완료한 뒤</strong> 스토어에서 제거한다. 닫힐 화면은 평범한 탭 전환으로 비활성화된 뒤 캐시에서 조용히 파기된다. 래퍼/props 정리 워처도 같은 이유로 <code>flush:'post'</code> + 현재 라우트 제외.</li>
 <li><strong>같은 계열 함정 — Refresh 재마운트 시 codeMap 유실</strong>: 재진입 내비게이션은 codeData 가드(<code>router/guards.ts</code>)가 <code>record.instances</code> 존재를 보고 prefetch 를 <strong>생략</strong>하므로 그 시점 슬롯 vnode 의 props 엔 <code>codeMap</code> 이 없다. 우클릭 Refresh 가 그 props 로 재마운트하면 화면이 <code>codeMap.XXX</code> 에서 죽는다 → <code>TabWorkspace</code> 가 <strong>최초 진입 때 받은 props 를 탭이 열려있는 동안 보존</strong>해 재마운트에 재사용한다(레거시 RouterAlive refresh 와 동일 의미). 탭을 닫으면 버려지므로 다음 오픈은 새로 prefetch 된다.</li>
+</ul>
+<h2 id="26-dev">26. 팝업을 열었을 뿐인데 화면이 통째로 리로드된다 (dev 한정)<a class="headerlink" href="#26-dev" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — 뷰어 버튼 등 팝업을 여는 버튼을 눌렀는데 페이지가 새로고침된 것처럼 초기화된다. 재현이 들쭉날쭉하고, 한 번 겪은 뒤에는 한동안 안 난다.</li>
+<li><strong>원인</strong> — <code>router/index.ts</code> 의 <strong>stale 청크 자가치유</strong>가 발동한 것이다. 배포 후 옛 해시 청크가 404 날 때 화면이 먹통이 되는 걸 막으려고 <code>router.onError</code> / <code>vite:preloadError</code> 에서 <code>window.location.assign()</code> 으로 하드 이동한다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">STALE_CHUNK_RE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sr">/Failed to fetch dynamically imported module|error loading dynamically imported module|.../i</span>
+</code></pre></div>
+  <strong>dev 서버에서 의존성 재최적화가 걸리면 같은 문구의 에러가 난다</strong>(<code>504 Outdated Optimize Dep</code>). <code>$dialog</code> 는 팝업 화면을 동적 import 하므로, 그 상태에서 팝업을 여는 순간 이 정규식에 걸려 하드 리로드된다. 리로드되면서 캐시가 새로 잡히니 그 뒤로는 안 난다.</li>
+<li><strong>확인</strong> — 리로드를 넘어 살아남는 값이라 사후에도 볼 수 있다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">sessionStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">'vp:chunk-reload'</span><span class="p">)</span><span class="w">   </span><span class="c1">// 경로가 있으면 자가치유가 돌았다는 뜻</span>
+</code></pre></div>
+  Network 탭의 <code>504 (Outdated Optimize Dep)</code> 나 <code>/assets/*.js</code> 404 가 같이 보이면 확정.</li>
+<li><strong>처방</strong> — dev 는 <code>rm -rf node_modules/.vite</code> → vite 재기동 → 강력 새로고침. 운영에서 같은 증상이면 그건 배포 직후 stale 청크라 <strong>의도대로 동작한 것</strong>이다.</li>
+</ul>
+<h2 id="27-selectfilelist-union">27. 첨부 목록에 레거시 문서가 안 보인다 (<code>selectFileList</code> UNION 분기)<a class="headerlink" href="#27-selectfilelist-union" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — CRS 견적서 첨부 목록에 <code>TB_CMS_ATFILE</code> 것만 나오고 레거시 <code>SKR_DOC_MST</code> 문서가 통째로 빠진다.</li>
+<li><strong>원인</strong> — 백엔드 <code>FileDataService.selectFileList</code> 가 <strong><code>DOC_TYPE</code>·<code>COMP_CD</code> 로 쿼리를 갈아탄다.</strong>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">StringUtils</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">SEARCH</span><span class="p">.</span><span class="na">DOC_TYPE</span><span class="p">,</span><span class="w"> </span><span class="s">"RP"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="c1">// COMP_CD 별 selectFileListUnionSNKO / HALK / HSLI  (레거시 SKR_DOC_MST UNION TB_CMS_ATFILE)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="c1">// selectFileList  (TB_CMS_ATFILE 만)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
+</code></pre></div>
+  <code>e-attach-file-grid</code> 의 <code>list-param</code> 에서 이 둘을 빠뜨리면 <code>else</code> 로 떨어져 레거시 문서가 사라진다. 조회는 성공하고 건수만 줄어서 버그로 보이지 않는 게 함정.</li>
+<li><strong>처방</strong> — CRS 계열은 <code>:list-param="{ MNGT_NO, DOC_TYPE: 'RP', COMP_CD }"</code> 를 반드시 함께 넘긴다.</li>
+</ul>
+<h2 id="28-n">28. 메시지 줄바꿈이 <code>\n</code> 글자 그대로 보인다<a class="headerlink" href="#28-n" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — <code>$message.warning( $lang('MSGxxxxxx') )</code> 결과가 <code>... 입니다. \n\n사용 가능한 ...</code> 처럼 백슬래시-n 이 그대로 출력된다.</li>
+<li><strong>원인</strong> — 코드가 아니라 <strong>사전 데이터</strong>다. <code>EMsgBox</code> 는 이미 <code>white-space: pre-line</code> 이라 실제 개행이면 정상 렌더된다. <code>TB_CMS_DATA_DIC</code> 에 개행을 <code>\n</code> <strong>두 글자로</strong> 입력한 항목만 이렇게 보인다(2026-09-03 기준 사전 전체에서 <code>MSG000400</code> 1건, 정상 항목 <code>MSG000428~431</code> 은 실제 개행).</li>
+<li><strong>처방</strong> — 코드에서 일괄 치환하지 말 것(정상 항목까지 건드린다). 해당 사전 항목만 실제 줄바꿈으로 수정한다.</li>
+<li><strong>확인법</strong> — <code>/api/languageMap</code> 응답을 받아 <code>JSON.stringify(value)</code> 로 보면 <code>\\n</code>(리터럴) 과 <code>\n</code>(실제 개행) 이 구분된다.</li>
 </ul>
 
 
