@@ -1277,10 +1277,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ui-e-attach-file-grid-pr" class="md-nav__link">
+  <a href="#crsfileuploadpopup-e-file-uploader-pr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR 예정)
+        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ui-e-attach-file-grid-pr-169-be-119" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR #169, BE #119)
       
     </span>
   </a>
@@ -2000,10 +2011,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ui-e-attach-file-grid-pr" class="md-nav__link">
+  <a href="#crsfileuploadpopup-e-file-uploader-pr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR 예정)
+        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ui-e-attach-file-grid-pr-169-be-119" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR #169, BE #119)
       
     </span>
   </a>
@@ -2680,7 +2702,22 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
-<h3 id="ui-e-attach-file-grid-pr">첨부 UI 표준화 — <code>e-attach-file-grid</code> 일원화 + 이미지 뷰어 통합 (PR 예정)<a class="headerlink" href="#ui-e-attach-file-grid-pr" title="Permanent link">&para;</a></h3>
+<h3 id="crsfileuploadpopup-e-file-uploader-pr">첨부 표준화 마무리 — <code>CrsFileUploadPopup</code> 전환, <code>e-file-uploader</code> 폐지 (PR 예정)<a class="headerlink" href="#crsfileuploadpopup-e-file-uploader-pr" title="Permanent link">&para;</a></h3>
+<p><code>e-file-uploader</code> 를 쓰던 마지막 화면을 표준으로 옮기고 컴포넌트를 제거했다. Infra 이슈 #21 완료.</p>
+<p><strong>표준 컴포넌트에 스테이징 모드 추가</strong> (<code>EAttachFileGrid</code>)
+- <code>staging</code> prop — 선택/드롭한 파일을 서버로 보내지 않고 <code>@files-added</code> 로 넘긴다. 모아뒀다 일괄 전송하는 화면용.
+- <code>#actions</code> 슬롯 패스스루 — 화면이 버튼(UPLOAD 등)을 얹을 수 있다.
+- 삭제용 확장점은 만들지 않았다. <code>:can-delete="false"</code> 로 기본 버튼을 끄고 화면이 자기 버튼을 넣으면 된다(이 화면은 "이미 업로드된 행은 Estimate 화면에서 지우세요" 판단이 화면 몫).
+- <code>rowCount</code> 를 data 에서 <strong>어댑터 기반 computed</strong> 로 변경. <code>AgGridAdapter.getRowCount()</code> 가 <code>modelUpdated</code> 마다 갱신되는 반응형이라, 화면이 직접 행을 넣는 스테이징에서도 총건수·워터마크가 자동으로 맞는다.</p>
+<p><strong><code>CrsFileUploadPopup</code> 전환</strong>
+- 자체 그리드 + <code>e-file-uploader</code> → <code>&lt;e-attach-file-grid staging&gt;</code>. 화면 코드 144줄 감소.
+- 이 화면의 그리드는 서버 첨부 목록이 아니라 <strong>매칭 결과 리포트</strong>(<code>ESTIMATE_NO</code>/<code>MSG</code>)라 <code>columns</code> 로 자체 구성하고, <code>auto-load</code>/<code>can-delete</code> 는 끈다.
+- <code>fnFileValidation</code>(확장자 검증 + dx-file-uploader value 되돌리기)은 표준의 <code>allowed-ext</code> 로 대체돼 삭제.
+- 업로드 확장자 정책을 <code>upload-viewable-only</code> 로 <strong><code>CrsEstimate</code> 와 통일</strong>(하드코딩 7종 → 공통코드 <code>FILE_EXT</code> 10종). 같은 견적서 첨부인데 화면마다 다를 이유가 없다.</p>
+<p><strong><code>EFileUploader</code> 삭제</strong>
+- 위 전환으로 <code>&lt;e-file-uploader&gt;</code> 사용처가 0 이 됐다. 컴포넌트와 함께 그 전용 테마색 <code>lightGray</code>(PR #168)도 제거.
+- <code>dx-file-uploader</code> DevExtreme 전역 등록은 유지 — 미사용 화면 <code>CmsDocumentPopup</code> 이 아직 raw 태그로 쓴다.</p>
+<h3 id="ui-e-attach-file-grid-pr-169-be-119">첨부 UI 표준화 — <code>e-attach-file-grid</code> 일원화 + 이미지 뷰어 통합 (PR #169, BE #119)<a class="headerlink" href="#ui-e-attach-file-grid-pr-169-be-119" title="Permanent link">&para;</a></h3>
 <p>첨부 UI 가 <code>e-file-uploader</code>(구방식) / <code>e-attach-file-grid</code>(표준) / 그리드 셀 인라인 에디터로 갈라져 있던 것을 표준 하나로 모았다. 상세 조사·판단 근거는 Infra 이슈 #21·#23.</p>
 <p><strong>데드코드 정리</strong>
 - <code>AgFileTextBoxEditor</code> + 내부 부품 <code>EFileTextBox</code> <strong>삭제</strong> — 선언 10곳 중 운영 화면에서 실제로 열리는 곳이 <strong>0</strong>이었다. 셀 에디터라 컬럼이 <code>editable:true</code> 여야 열리는데 전부 <code>editable:false</code> 였고, 유일하게 살아있던 <code>CmsDocumentPopup</code> 은 참조 0(미사용 화면)이었다. 첨부 그리드에 붙어 있던 건 레거시 <code>CmsFileUploadPopup</code> 을 1:1 이식하며 딸려온 잔재로, <strong>레거시 시절부터 열리지 않던 설정</strong>이다.
