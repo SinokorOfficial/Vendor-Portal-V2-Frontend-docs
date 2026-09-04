@@ -942,6 +942,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#multi-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다건 삭제 (multi-select)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1457,6 +1468,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#multi-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        다건 삭제 (multi-select)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1668,6 +1690,10 @@
 <td>선택/드롭한 파일을 서버로 보내지 않고 <code>@files-added</code> 로 넘긴다. 모아뒀다 일괄 전송하는 화면용</td>
 </tr>
 <tr>
+<td><code>multi-select</code></td>
+<td>체크박스 다중선택 + 다건 삭제(<code>/api/file/deleteFiles</code> 1회 호출). 기본은 단일선택</td>
+</tr>
+<tr>
 <td><code>can-upload</code> / <code>can-delete</code> / <code>readonly</code> / <code>viewer</code> / <code>auto-load</code> / <code>columns</code> / <code>title</code></td>
 <td>노출·동작 제어</td>
 </tr>
@@ -1699,6 +1725,12 @@
 </tr>
 </tbody>
 </table>
+<h4 id="multi-select">다건 삭제 (<code>multi-select</code>)<a class="headerlink" href="#multi-select" title="Permanent link">&para;</a></h4>
+<p><code>multi-select</code> 를 켜면 체크박스 컬럼이 붙고, 삭제 버튼이 <strong>선택한 전부</strong>를 <code>/api/file/deleteFiles</code> 한 번에 보낸다.
+DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 원자적이고, FTP 는 롤백이 불가능하므로
+삭제하지 못한 항목을 응답으로 돌려준다(컴포넌트가 경고로 알린다).</p>
+<p>기본값이 <code>false</code> 인 이유는 켜는 순간 그 화면의 행 선택 방식이 바뀌기 때문이다. 첨부가 여러 건 붙는
+화면(<code>CmsFileUploadPopup</code>)만 켜져 있다.</p>
 <h4 id="_4">스테이징 모드<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
 <p>첨부 목록이 아니라 <strong>올리기 전 파일 목록</strong>을 다루는 화면(예: <code>CrsFileUploadPopup</code> 의 견적서 일괄 매칭 업로드)은 <code>staging</code> 으로 쓴다. 서버 조회·업로드·삭제를 끄고 <strong>드롭존·워터마크·확장자 검증·총건수만</strong> 재사용한다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>

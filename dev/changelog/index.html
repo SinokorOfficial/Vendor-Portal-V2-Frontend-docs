@@ -1277,10 +1277,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#crsfileuploadpopup-e-file-uploader-pr" class="md-nav__link">
+  <a href="#api-pr-be-pr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR 예정)
+        첨부 다건 삭제 + 파일 삭제 API 정리 (PR 예정, BE PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crsfileuploadpopup-e-file-uploader-pr-170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR #170)
       
     </span>
   </a>
@@ -2011,10 +2022,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#crsfileuploadpopup-e-file-uploader-pr" class="md-nav__link">
+  <a href="#api-pr-be-pr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR 예정)
+        첨부 다건 삭제 + 파일 삭제 API 정리 (PR 예정, BE PR 예정)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crsfileuploadpopup-e-file-uploader-pr-170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR #170)
       
     </span>
   </a>
@@ -2702,7 +2724,48 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
-<h3 id="crsfileuploadpopup-e-file-uploader-pr">첨부 표준화 마무리 — <code>CrsFileUploadPopup</code> 전환, <code>e-file-uploader</code> 폐지 (PR 예정)<a class="headerlink" href="#crsfileuploadpopup-e-file-uploader-pr" title="Permanent link">&para;</a></h3>
+<h3 id="api-pr-be-pr">첨부 다건 삭제 + 파일 삭제 API 정리 (PR 예정, BE PR 예정)<a class="headerlink" href="#api-pr-be-pr" title="Permanent link">&para;</a></h3>
+<p>삭제 쿼리 3종이 기준도 위험도도 제각각이라 정리하고, 없던 다건 삭제를 만들었다. Infra 이슈 #22.</p>
+<p><strong>정리 전 3종</strong></p>
+<table>
+<thead>
+<tr>
+<th>매퍼</th>
+<th>WHERE</th>
+<th>지우는 단위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deleteFileByFileSn</code></td>
+<td><code>FILE_SN</code></td>
+<td>1건</td>
+</tr>
+<tr>
+<td><code>deleteFileByName</code></td>
+<td><code>DISP_NM</code></td>
+<td><strong>이름이 같은 전부</strong> (MNGT_NO·COMP_CD 스코프 없음)</td>
+</tr>
+<tr>
+<td><code>deleteFileList</code></td>
+<td><code>MNGT_NO</code></td>
+<td>그룹 통째 (템플릿 교체 전용인데 이름이 "목록 삭제"로 읽힘)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>백엔드</strong>
+- <code>deleteFileByName</code> <strong>제거</strong> — <code>CrsEstimate</code> 전환(PR #169)으로 사용처 0. 엔드포인트·서비스·DAO·매퍼까지.
+- <code>deleteFileList</code> → <strong><code>deleteTemplateFile</code></strong> 개명. 실제 용도(매뉴얼/템플릿 교체)를 이름에 담고, "선택 삭제에 쓰면 그룹이 전멸한다"는 경고를 주석으로 박았다.
+- <code>deleteFileByFileSn</code> → <strong><code>deleteFilesByFileSn</code></strong>(<code>IN</code> 절)로 흡수. 단건 <code>deleteFile()</code> 은 1건짜리 리스트로 이 경로를 재사용해 매퍼가 하나 줄었다.
+- 🆕 <code>POST /api/file/deleteFiles</code> — DB 는 <code>@Transactional</code> 하나로 원자적, FTP 는 롤백 불가라 <strong>삭제 못 한 항목을 응답으로 반환</strong>한다("DB 는 지웠는데 파일이 남은 건"을 숨기지 않는다).
+- <code>FILE_SN_LIST</code> 가 비면 <code>WHERE 1=0</code> 으로 떨어뜨려 <strong>전량 삭제를 원천 차단</strong>(<code>deleteTemplateFile</code> 과 혼동해도 사고가 안 나게).
+- 오복붙된 SQL 주석(<code>deleteFileByFileSn</code> 인데 <code>/* ... deleteFileList */</code>) 정정.
+- FTP 두 번째 인자를 <code>SAVE_NM</code> 으로 정직하게 받는다. <code>FtpServiceInq.delete(remoteFilePath, **fileName**)</code> 인데 구 API 는 이 자리를 <code>MNGT_NO</code> 키로 받고 있었다(이름만 MNGT_NO). 옛 키로 보내는 호출자를 위해 <code>MNGT_NO</code> 폴백 유지.</p>
+<p><strong>프론트</strong>
+- <code>EAttachFileGrid</code> : 삭제가 <code>getSelectedRows()</code> 기반 + 신규 다건 API 호출. FTP 실패 시 경고.
+- <code>multi-select</code> prop 추가(기본 off) — 켜면 체크박스 컬럼 + 다중선택. <code>CmsFileUploadPopup</code>(TES·CFS·FDS 첨부 팝업 10곳)에 적용.
+- 체크박스 컬럼 정렬 보정 — <a href="../troubleshooting/">트러블슈팅 §29</a>.</p>
+<h3 id="crsfileuploadpopup-e-file-uploader-pr-170">첨부 표준화 마무리 — <code>CrsFileUploadPopup</code> 전환, <code>e-file-uploader</code> 폐지 (PR #170)<a class="headerlink" href="#crsfileuploadpopup-e-file-uploader-pr-170" title="Permanent link">&para;</a></h3>
 <p><code>e-file-uploader</code> 를 쓰던 마지막 화면을 표준으로 옮기고 컴포넌트를 제거했다. Infra 이슈 #21 완료.</p>
 <p><strong>표준 컴포넌트에 스테이징 모드 추가</strong> (<code>EAttachFileGrid</code>)
 - <code>staging</code> prop — 선택/드롭한 파일을 서버로 보내지 않고 <code>@files-added</code> 로 넘긴다. 모아뒀다 일괄 전송하는 화면용.

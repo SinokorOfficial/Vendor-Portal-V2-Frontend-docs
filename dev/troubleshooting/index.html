@@ -1801,6 +1801,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#29-chk-true" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        29. 체크박스 컬럼(chk: true)의 체크박스가 왼쪽으로 치우친다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2462,6 +2473,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#29-chk-true" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        29. 체크박스 컬럼(chk: true)의 체크박스가 왼쪽으로 치우친다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2917,6 +2939,32 @@
 <li><strong>원인</strong> — 코드가 아니라 <strong>사전 데이터</strong>다. <code>EMsgBox</code> 는 이미 <code>white-space: pre-line</code> 이라 실제 개행이면 정상 렌더된다. <code>TB_CMS_DATA_DIC</code> 에 개행을 <code>\n</code> <strong>두 글자로</strong> 입력한 항목만 이렇게 보인다(2026-09-03 기준 사전 전체에서 <code>MSG000400</code> 1건, 정상 항목 <code>MSG000428~431</code> 은 실제 개행).</li>
 <li><strong>처방</strong> — 코드에서 일괄 치환하지 말 것(정상 항목까지 건드린다). 해당 사전 항목만 실제 줄바꿈으로 수정한다.</li>
 <li><strong>확인법</strong> — <code>/api/languageMap</code> 응답을 받아 <code>JSON.stringify(value)</code> 로 보면 <code>\\n</code>(리터럴) 과 <code>\n</code>(실제 개행) 이 구분된다.</li>
+</ul>
+<h2 id="29-chk-true">29. 체크박스 컬럼(<code>chk: true</code>)의 체크박스가 왼쪽으로 치우친다<a class="headerlink" href="#29-chk-true" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — 체크박스 전용 컬럼인데 체크박스가 셀 중앙이 아니라 왼쪽에 붙고, 헤더의 전체선택 체크박스와 행 체크박스가 서로 몇 px 어긋나 보인다.</li>
+<li><strong>원인 두 가지</strong></li>
+<li><strong>헤더와 셀의 중앙 정렬 방식이 다르다.</strong> <code>global.scss</code> 의 <code>.ag-header-checkbox-center</code> 는 <code>justify-content: center</code>, <code>.ag-cell-checkbox-center</code> 는 <code>padding-left: 8px</code> 로 왼쪽 고정이다.</li>
+<li><strong>balham 이 체크박스에 <code>margin-right: 12px</code>(<code>--ag-cell-widget-spacing</code>)를 준다.</strong> 셀 텍스트와 띄우려는 값인데 체크박스만 있는 컬럼에는 띄울 텍스트가 없다. flex 가 <code>체크박스 16px + 여백 12px = 28px</code> 를 40px 안에서 중앙에 놓으므로 체크박스가 <strong>6px 왼쪽</strong>으로 밀린다.
+     <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>셀:   [ 311 ─────────── 351 ]  중심 331
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>내용: [ 317 ☑16 ][ 여백 12 ]   → 체크박스 중심 325
+</code></pre></div></li>
+<li><strong>처방</strong> — 두 클래스를 같은 방식(중앙)으로 맞추고 <code>margin-right</code> 를 없앤다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nc">.ag-header-checkbox-center</span><span class="o">,</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nc">.ag-cell-checkbox-center</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">display</span><span class="nd">:</span><span class="w"> </span><span class="nt">flex</span><span class="w"> </span><span class="o">!</span><span class="nt">important</span><span class="o">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">align-items</span><span class="nd">:</span><span class="w"> </span><span class="nt">center</span><span class="o">;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="nt">justify-content</span><span class="nd">:</span><span class="w"> </span><span class="nt">center</span><span class="o">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="nt">padding-left</span><span class="nd">:</span><span class="w"> </span><span class="nt">0</span><span class="w"> </span><span class="o">!</span><span class="nt">important</span><span class="o">;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">padding-right</span><span class="nd">:</span><span class="w"> </span><span class="nt">0</span><span class="w"> </span><span class="o">!</span><span class="nt">important</span><span class="o">;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">}</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nc">.ag-header-checkbox-center</span><span class="w"> </span><span class="nc">.ag-header-select-all</span><span class="o">,</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="nc">.ag-cell-checkbox-center</span><span class="w"> </span><span class="nc">.ag-selection-checkbox</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="nt">margin-right</span><span class="nd">:</span><span class="w"> </span><span class="nt">0</span><span class="w"> </span><span class="o">!</span><span class="nt">important</span><span class="o">;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">}</span>
+</code></pre></div></li>
+<li>⚠️ <strong>전역 규칙을 고치면 <code>chk: true</code> 를 쓰는 다른 화면(<code>EirExportIssue</code>, <code>CmsMultiCustomerPopup</code> 등)도 같이 움직인다.</strong> <code>EAttachFileGrid</code> 는 자기 그리드(<code>.attach-file-ag</code>)로 스코프를 걸어 적용했다. 원인이 전역 CSS 라 다른 화면도 같은 증상일 가능성이 높지만, 범위를 넓히는 건 별건으로 둔다.</li>
+<li><strong>진단 팁</strong> — 눈으로 재지 말고 <code>getBoundingClientRect()</code> 로 셀 중심과 체크박스 중심을 찍어 비교하면 원인(정렬 vs 마진)이 바로 갈린다.</li>
 </ul>
 
 
