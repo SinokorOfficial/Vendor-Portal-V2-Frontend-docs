@@ -953,6 +953,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#50mb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 크기 사전검증 (50MB)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#readonly" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1490,6 +1501,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#50mb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 크기 사전검증 (50MB)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#readonly" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1708,6 +1730,10 @@
 <td>업로드 확장자 제한. 후자는 뷰어 허용목록(공통코드 <code>FILE_EXT</code>)과 같게 묶는다</td>
 </tr>
 <tr>
+<td>(크기 제한)</td>
+<td>prop 없음. <strong>50MB 고정</strong>(운영 nginx <code>client_max_body_size</code>) — 아래 참고</td>
+</tr>
+<tr>
 <td><code>staging</code></td>
 <td>선택/드롭한 파일을 서버로 보내지 않고 <code>@files-added</code> 로 넘긴다. 모아뒀다 일괄 전송하는 화면용</td>
 </tr>
@@ -1757,6 +1783,37 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 삭제하지 못한 항목을 응답으로 돌려준다(컴포넌트가 경고로 알린다).</p>
 <p>기본값이 <code>false</code> 인 이유는 켜는 순간 그 화면의 행 선택 방식이 바뀌기 때문이다. 첨부가 여러 건 붙는
 화면(<code>CmsFileUploadPopup</code>)만 켜져 있다.</p>
+<h4 id="50mb">업로드 크기 사전검증 (50MB)<a class="headerlink" href="#50mb" title="Permanent link">&para;</a></h4>
+<p>업로드 상한의 <strong>정본은 운영 nginx 의 <code>client_max_body_size 50m</code></strong>(<code>frontend/nginx.conf</code>)다. 백엔드 <code>spring.servlet.multipart</code> 는 1000MB 지만 nginx 가 앞이라 실효값이 아니다.</p>
+<p>컴포넌트가 보내기 전에 두 단계로 거른다.</p>
+<table>
+<thead>
+<tr>
+<th>검증</th>
+<th>동작</th>
+<th>메시지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>파일 1건 &gt; 50MB</td>
+<td>그 파일만 제외하고 나머지는 업로드</td>
+<td><code>MSG000432</code> (파일명 + 용량 나열)</td>
+</tr>
+<tr>
+<td>한 요청 합계 &gt; 50MB</td>
+<td>통째로 차단</td>
+<td><code>MSG000433</code> (합계 용량)</td>
+</tr>
+</tbody>
+</table>
+<p>합계까지 보는 이유는 <code>FileService</code> 가 <strong>선택한 파일 전부를 하나의 multipart 요청</strong>으로 묶기 때문이다(<code>appendFile('files', file)</code> × N → <code>multipart()</code> 1회). 개별이 다 통과해도 합계가 넘으면 그대로 413 이다.</p>
+<p><code>staging</code> 모드에서는 <strong>파일 1건 검증만</strong> 돈다. 스테이징 화면(<code>CrsFileUploadPopup</code>)은 모아둔 파일을 1건씩 별도 요청으로 보내므로 합계가 상한에 걸리지 않는다.</p>
+<blockquote>
+<p>★<strong>로컬은 nginx 를 거치지 않는다</strong>(4050 vite 프록시 → 백엔드 직결). 이 사전검증이 없으면 로컬에서만 되는 업로드가 생기고, 운영에서는 nginx 가 413 을 <strong>HTML</strong> 로 돌려줘 화면에 정상 문구조차 못 띄운다.</p>
+</blockquote>
+<p>크기 표기는 <strong>올림</strong>이다. 반올림하면 상한을 1바이트 넘긴 파일이 <code>50.0 MB</code> 로 찍혀 "50MB인데 왜 안 되냐"가 된다 — 거절 사유로 보여주는 숫자는 상한 이하로 보이면 안 된다.</p>
+<p>사전(<code>TB_CMS_DATA_DIC</code>)에 코드가 없으면 <code>$lang</code> 이 코드 문자열을 그대로 돌려주므로, 등록 전 배포에서 <code>MSG000432</code> 가 화면에 노출되지 않도록 <strong>영문 기본 문구로 폴백</strong>한다(<code>langOr</code>).</p>
 <h4 id="readonly">조회 전용 (<code>readonly</code>)<a class="headerlink" href="#readonly" title="Permanent link">&para;</a></h4>
 <p>첨부를 <strong>보기만</strong> 하는 화면(예: <code>CrsEstApproval</code> — 첨부 추가/삭제는 <code>CrsEstimate</code> 에서만 한다)은 <code>readonly</code> 로 쓴다.
 업로드 버튼·삭제 버튼·<code>&lt;input type=file&gt;</code> 이 사라지고 <code>onDrop</code> 도 막히며, 다운로드·뷰어 컬럼만 남는다.</p>
