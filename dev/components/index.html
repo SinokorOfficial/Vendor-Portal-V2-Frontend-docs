@@ -953,6 +953,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#readonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조회 전용 (readonly)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1479,6 +1490,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#readonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조회 전용 (readonly)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1694,7 +1716,11 @@
 <td>체크박스 다중선택 + 다건 삭제(<code>/api/file/deleteFiles</code> 1회 호출). 기본은 단일선택</td>
 </tr>
 <tr>
-<td><code>can-upload</code> / <code>can-delete</code> / <code>readonly</code> / <code>viewer</code> / <code>auto-load</code> / <code>columns</code> / <code>title</code></td>
+<td><code>readonly</code></td>
+<td><strong>조회 전용.</strong> 업로드·삭제 버튼과 드래그&amp;드롭이 모두 꺼지고 다운로드·뷰어만 남는다</td>
+</tr>
+<tr>
+<td><code>can-upload</code> / <code>can-delete</code> / <code>viewer</code> / <code>auto-load</code> / <code>columns</code> / <code>title</code></td>
 <td>노출·동작 제어</td>
 </tr>
 </tbody>
@@ -1731,21 +1757,33 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 삭제하지 못한 항목을 응답으로 돌려준다(컴포넌트가 경고로 알린다).</p>
 <p>기본값이 <code>false</code> 인 이유는 켜는 순간 그 화면의 행 선택 방식이 바뀌기 때문이다. 첨부가 여러 건 붙는
 화면(<code>CmsFileUploadPopup</code>)만 켜져 있다.</p>
+<h4 id="readonly">조회 전용 (<code>readonly</code>)<a class="headerlink" href="#readonly" title="Permanent link">&para;</a></h4>
+<p>첨부를 <strong>보기만</strong> 하는 화면(예: <code>CrsEstApproval</code> — 첨부 추가/삭제는 <code>CrsEstimate</code> 에서만 한다)은 <code>readonly</code> 로 쓴다.
+업로드 버튼·삭제 버튼·<code>&lt;input type=file&gt;</code> 이 사라지고 <code>onDrop</code> 도 막히며, 다운로드·뷰어 컬럼만 남는다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="na">readonly</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="na">:mngt-no</span><span class="o">=</span><span class="s">"main.ESTIMATE_NO || ''"</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="na">:list-param</span><span class="o">=</span><span class="s">"fileListParam"</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">/&gt;</span>
+</code></pre></div>
+<p>업로드가 막힌 상태(<code>readonly</code> 또는 <code>can-upload="false"</code>)에서는 <strong>드롭존 워터마크(구름 아이콘)도 감춘다.</strong>
+드롭을 권하는 그림인데 실제로는 아무 일도 일어나지 않아 사용자를 헷갈리게 하기 때문이다.
+<code>CrsEstimate</code> 처럼 조건부로 막는 화면에서는 올릴 수 있게 된 순간 구름이 나타나 상태 표시 역할도 한다.</p>
 <h4 id="_4">스테이징 모드<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
 <p>첨부 목록이 아니라 <strong>올리기 전 파일 목록</strong>을 다루는 화면(예: <code>CrsFileUploadPopup</code> 의 견적서 일괄 매칭 업로드)은 <code>staging</code> 으로 쓴다. 서버 조회·업로드·삭제를 끄고 <strong>드롭존·워터마크·확장자 검증·총건수만</strong> 재사용한다.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="na">ref</span><span class="o">=</span><span class="s">"attachGrid"</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="na">staging</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="na">:auto-load</span><span class="o">=</span><span class="s">"false"</span>     <span class="err">&lt;!</span><span class="na">--</span> <span class="na">서버</span> <span class="na">조회</span> <span class="na">안</span> <span class="na">함</span> <span class="na">--</span><span class="p">&gt;</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    :can-delete="false"    <span class="cm">&lt;!-- 삭제 판단은 화면 몫 --&gt;</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    :columns="fileColumns"
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    upload-viewable-only
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    @files-added="fnAttachFiles"
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>&gt;
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="p">&lt;</span><span class="nt">template</span> <span class="err">#</span><span class="na">actions</span><span class="p">&gt;</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="p">&lt;</span><span class="nt">e-grid-btn</span> <span class="na">button-type</span><span class="o">=</span><span class="s">"delete"</span> <span class="err">@</span><span class="na">click</span><span class="err">.</span><span class="na">stop</span><span class="o">=</span><span class="s">"fnDeleteRow"</span><span class="p">/&gt;</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">&lt;/</span><span class="nt">e-attach-file-grid</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="na">ref</span><span class="o">=</span><span class="s">"attachGrid"</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="na">staging</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="na">:auto-load</span><span class="o">=</span><span class="s">"false"</span>     <span class="err">&lt;!</span><span class="na">--</span> <span class="na">서버</span> <span class="na">조회</span> <span class="na">안</span> <span class="na">함</span> <span class="na">--</span><span class="p">&gt;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    :can-delete="false"    <span class="cm">&lt;!-- 삭제 판단은 화면 몫 --&gt;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    :columns="fileColumns"
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    upload-viewable-only
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    @files-added="fnAttachFiles"
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>&gt;
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">&lt;</span><span class="nt">template</span> <span class="err">#</span><span class="na">actions</span><span class="p">&gt;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="p">&lt;</span><span class="nt">e-grid-btn</span> <span class="na">button-type</span><span class="o">=</span><span class="s">"delete"</span> <span class="err">@</span><span class="na">click</span><span class="err">.</span><span class="na">stop</span><span class="o">=</span><span class="s">"fnDeleteRow"</span><span class="p">/&gt;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">&lt;/</span><span class="nt">e-attach-file-grid</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>행 조작은 <code>this.$refs.attachGrid.getAdapter()</code> 로 직접 한다. 총건수(<code>:total</code>)와 워터마크는 어댑터의 <code>getRowCount()</code> 를 읽는 반응형이라 화면이 행을 직접 넣어도 맞는다.</p>
 <p><strong>뷰어 판정의 정본은 공통코드 <code>TB_CMS_CD_DTL / MSTR_CD='FILE_EXT'</code>(화이트리스트)</strong> 다. 컴포넌트가 <code>/api/code/selectCommonCode</code> 로 모듈 단위 1회만 조회해 공유한다. 허용목록 밖이면 <code>MSG000400</code> 경고, <code>PDF</code> 는 <code>openPdfViewer</code>, 나머지(이미지·ZIP)는 캐러셀 새 창(<code>CmsImageCarouselPopup</code>)으로 연다. 확장자를 늘리려면 <strong>코드가 아니라 공통코드</strong>를 고친다.</p>
