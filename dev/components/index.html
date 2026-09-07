@@ -1809,8 +1809,8 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 </table>
 <p>합계까지 보는 이유는 <code>FileService</code> 가 <strong>선택한 파일 전부를 하나의 multipart 요청</strong>으로 묶기 때문이다(<code>appendFile('files', file)</code> × N → <code>multipart()</code> 1회). 개별이 다 통과해도 합계가 넘으면 그대로 413 이다.</p>
 <p><code>staging</code> 모드에서는 <strong>파일 1건 검증만</strong> 돈다. 스테이징 화면(<code>CrsFileUploadPopup</code>)은 모아둔 파일을 1건씩 별도 요청으로 보내므로 합계가 상한에 걸리지 않는다.</p>
-<p><strong>컴포넌트를 안 거치는 업로드도 막힌다.</strong> 상한·문구는 <code>~/util/service/uploadSize</code> 한 곳에 있고, <code>FileService.upload()</code> 가 전송 직전 같은 규칙으로 최종 검증해 초과 시 reject 한다. 화면이 <code>new FileService(...)</code> 를 직접 부르는 경로(매뉴얼/양식 업로드 등)가 여기에 해당한다 — 호출부가 전부 <code>.catch(error =&gt; this.$message.error(error.message))</code> 라 문구가 그대로 뜬다.</p>
-<p>둘의 차이는 <strong>초과분 처리</strong>뿐이다. 컴포넌트는 파일을 고르는 시점이라 <strong>초과분만 빼고 나머지는 올리고</strong>, <code>FileService</code> 는 <code>FormData</code> 가 이미 만들어진 뒤라 <strong>통째로 막는다</strong>.</p>
+<p><strong>컴포넌트를 안 거치는 업로드도 막힌다.</strong> 상한·문구는 <code>~/util/service/uploadSize</code> 한 곳에 있고, 최종 검증은 <strong><code>http.multipart</code></strong> 가 한다. 파일이 실리는 요청은 예외 없이 그 함수를 지나므로 — <code>FileService</code> 경유(첨부·매뉴얼)든 화면이 <code>$axios.multipart</code> 를 직접 부르는 경로(엑셀 업로드·환율·메일)든 — 한 곳으로 전부 덮인다. 호출부가 전부 <code>.catch(error =&gt; this.$message.error(error.message))</code> 라 문구가 그대로 뜬다.</p>
+<p>둘의 차이는 <strong>초과분 처리</strong>뿐이다. 컴포넌트는 파일을 고르는 시점이라 <strong>초과분만 빼고 나머지는 올리고</strong>, <code>http.multipart</code> 는 <code>FormData</code> 가 이미 만들어진 뒤라 <strong>통째로 막는다</strong>. 합계는 JSON 파트(<code>appendJson</code> 의 Blob)까지 더한다 — nginx 는 파트를 가리지 않고 본문 전체를 보기 때문이다.</p>
 <blockquote>
 <p>★<strong>로컬은 nginx 를 거치지 않는다</strong>(4050 vite 프록시 → 백엔드 직결). 이 사전검증이 없으면 로컬에서만 되는 업로드가 생기고, 운영에서는 nginx 가 413 을 <strong>HTML</strong> 로 돌려줘 화면에 정상 문구조차 못 띄운다.</p>
 </blockquote>

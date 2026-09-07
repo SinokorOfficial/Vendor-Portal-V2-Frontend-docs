@@ -1277,10 +1277,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#50mb-pr-174-pr" class="md-nav__link">
+  <a href="#50mb-pr-174-175-pr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        업로드 50MB 사전검증 (PR #174 · 전 경로 확대 PR 예정)
+        업로드 50MB 사전검증 (PR #174 · #175 · 전 경로 확대 PR 예정)
       
     </span>
   </a>
@@ -2055,10 +2055,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#50mb-pr-174-pr" class="md-nav__link">
+  <a href="#50mb-pr-174-175-pr" class="md-nav__link">
     <span class="md-ellipsis">
       
-        업로드 50MB 사전검증 (PR #174 · 전 경로 확대 PR 예정)
+        업로드 50MB 사전검증 (PR #174 · #175 · 전 경로 확대 PR 예정)
       
     </span>
   </a>
@@ -2790,7 +2790,7 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
-<h3 id="50mb-pr-174-pr">업로드 50MB 사전검증 (PR #174 · 전 경로 확대 PR 예정)<a class="headerlink" href="#50mb-pr-174-pr" title="Permanent link">&para;</a></h3>
+<h3 id="50mb-pr-174-175-pr">업로드 50MB 사전검증 (PR #174 · #175 · 전 경로 확대 PR 예정)<a class="headerlink" href="#50mb-pr-174-175-pr" title="Permanent link">&para;</a></h3>
 <p>업로드 상한(운영 nginx <code>client_max_body_size 50m</code>)을 <strong>보내기 전에</strong> 검증한다. Infra 이슈 #20 백로그.</p>
 <ul>
 <li>그동안 프론트에 크기 검증이 <strong>0건</strong>이었다. 초과하면 nginx 가 413 을 <strong>HTML</strong> 로 돌려주는데 프론트는 JSON 을 기대하므로, 사용자는 사유를 알 수 없는 에러만 봤다.</li>
@@ -2829,6 +2829,14 @@
 <li>상한·문구·표기 규칙을 <strong><code>~/util/service/uploadSize</code></strong> 로 추출해 컴포넌트와 공유(중복 제거). util 에서의 다국어는 <code>~/i18n/lang</code> 의 <code>setLangResolver</code>(<code>ValidateUtil</code> 과 동일한 훅).</li>
 <li>둘의 차이는 초과분 처리뿐 — 컴포넌트는 <strong>초과분만 제외</strong>하고 계속, <code>FileService</code> 는 <code>FormData</code> 가 이미 만들어진 뒤라 <strong>통째 차단</strong>.</li>
 <li>경계 동작 단위테스트 5건 추가(<code>uploadSize.spec.ts</code>). 특히 상한 정확히 = 통과 / 1바이트 초과 = <code>50.1 MB</code> 표기.</li>
+</ul>
+<p><strong>[후속 2] 검증 지점을 <code>http.multipart</code> 로 내림 — 남은 18곳까지</strong></p>
+<p>PR #175 의 <code>FileService.upload()</code> 검증은 <strong><code>/api/file/uploadFile</code> 만</strong> 덮었다. <code>FileService</code> 는 그 엔드포인트 전용 편의 클래스이고, <code>$axios.multipart(...)</code> 를 직접 부르는 곳이 따로 <strong>18곳</strong> 있었다(엑셀 업로드 14 · 환율 1 · dev 샘플 1 · 메일 2).</p>
+<ul>
+<li>검증을 <strong><code>http.multipart</code></strong> 로 내렸다. <code>FileService</code> 도 결국 이 함수를 부르므로 <strong>모든 multipart 요청이 한 지점으로 덮인다.</strong> <code>FileService</code> 쪽 중복 검증은 제거.</li>
+<li>입력이 <code>File[]</code> 이 아니라 <code>FormData</code> 라 <code>validateUploadSize</code> → <strong><code>validateFormDataSize</code></strong> 로 교체. <code>FormData.forEach</code> 로 <code>File</code> 파트만 추려 1건 상한을 보고, 합계는 <strong>JSON 파트(Blob)까지 더한다</strong> — nginx 는 파트를 가리지 않고 본문 전체를 보기 때문.</li>
+<li>★요청 인터셉터가 아니라 <code>multipart</code> 헬퍼에서 reject 한다. 인터셉터에서 throw 하면 모든 요청이 죽는다(해당 파일에 경고 주석 존재).</li>
+<li>단위테스트 7건(2건 추가 — 비-FormData 통과 / JSON 파트 합산).</li>
 </ul>
 <h3 id="crsestapproval-readonly-pr"><code>CrsEstApproval</code> 첨부 표준 전환 — 조회 전용(<code>readonly</code>) (PR 예정)<a class="headerlink" href="#crsestapproval-readonly-pr" title="Permanent link">&para;</a></h3>
 <p>첨부 표준화의 마지막 화면. 승인 화면은 첨부를 <strong>보기만</strong> 하므로(추가·삭제는 <code>CrsEstimate</code> 에서만) <code>readonly</code> 로 붙였다. Infra 이슈 #20 백로그 항목.</p>
