@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#eslint-error-pr-188189190-infra-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESLint 게이트 강화 — 사각지대 정리·배포 게이트·미사용 변수 error (PR #188·#189·#190, Infra #36)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cfs-4-pr-177-be-124" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2066,6 +2077,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#eslint-error-pr-188189190-infra-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESLint 게이트 강화 — 사각지대 정리·배포 게이트·미사용 변수 error (PR #188·#189·#190, Infra #36)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cfs-4-pr-177-be-124" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2812,6 +2834,13 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="eslint-error-pr-188189190-infra-36">ESLint 게이트 강화 — 사각지대 정리·배포 게이트·미사용 변수 error (PR #188·#189·#190, Infra #36)<a class="headerlink" href="#eslint-error-pr-188189190-infra-36" title="Permanent link">&para;</a></h3>
+<p>FE #184 로 도입한 ESLint 게이트(<code>no-undef</code>)의 사각지대를 정리하고 실효성을 높였다.</p>
+<ul>
+<li><strong>커버리지·규칙</strong>(#188): 死 <code>e2e/**</code> ignore 제거, <code>docs-tools/**</code> 편입, <code>public/</code> 주석 정정, <code>.vue</code> DOM 타입 오탐 예방(<code>parserOptions.lib</code>+<code>NodeJS</code>), <strong><code>vue/no-undef-components</code> 활성</strong>(템플릿 미등록 컴포넌트 차단). ★그냥 켜면 전역 자동등록군(<code>e-</code>/<code>dx-</code>/<code>v-</code>/<code>ag-</code>/<code>router-</code>/<code>splitpanes</code>… <strong>3800건</strong>)이 오탐 — 런타임 전역 해석이라 로컬 import 대상이 아니므로 <code>ignorePatterns</code> 로 제외해야 "잔여 0건"이 성립한다(그 뒤엔 로컬 import 누락만 잡힌다).</li>
+<li><strong>배포 게이트</strong>(#189): 브랜치 보호가 플랜상 불가(private+403, Infra #29)라 CI 는 머지를 못 막으므로, <strong>Dockerfile 빌드에 <code>RUN npm run lint</code>(build 앞)</strong> 를 넣어 실효 게이트로 만들었다 — undef/미사용 에러 시 이미지 빌드 실패→배포 중단. eslint 는 error 에서만 실패라 현재 0 errors 는 무해하고, 누가 undef 를 넣는 순간에만 발동한다.</li>
+<li><strong><code>no-unused-vars</code> error 승격</strong>(#190): 이관 잔재 <strong>183건(unused import 115 + 죽은 지역변수 68)</strong> 을 전량 선정리한 뒤 <code>warn→error</code>. 부작용 호출(<code>adapter.addItem(...)</code>)은 바인딩만 제거하고 호출은 보존, dev 가 의도적으로 남긴 미사용(<code>focusedCell</code>)은 <code>eslint-disable</code>. 검증 = eslint(error) 0 · vue-tsc 0 · vite build 성공(2140 modules). ⚠️정리 중 흔한 이름(<code>adapter</code>) line-match 스크립트가 과제거→<code>no-undef</code> 25건을 냈으나 게이트가 즉시 검출해 고유 문자열로 재작업.</li>
+</ul>
 <h3 id="cfs-4-pr-177-be-124">CFS 4화면 死엑셀 업로드 제거 (PR #177, BE #124)<a class="headerlink" href="#cfs-4-pr-177-be-124" title="Permanent link">&para;</a></h3>
 <p><code>CfsWorkHistory</code> · <code>CfsShuttleHistory</code> · <code>CfsRtnRepairHistory</code> · <code>CfsStuffExpn</code> 의 엑셀 업로드가 <strong>한 번도 도달할 수 없는 코드</strong>였다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;input type="file" ref="uploadFile" style="display:none"&gt;   ← 숨김. change 로만 clickFile 발화

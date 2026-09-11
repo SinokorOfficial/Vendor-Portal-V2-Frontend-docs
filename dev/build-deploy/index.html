@@ -1547,11 +1547,12 @@
 <p>백엔드 비밀값을 <code>.env</code> 에 넣지 마세요 — 빌드 번들에 박혀 노출됩니다.</p>
 </div>
 <h2 id="ci-pr">CI 품질게이트 (PR 체크)<a class="headerlink" href="#ci-pr" title="Permanent link">&para;</a></h2>
-<p><code>dev</code>/<code>main</code> 대상 PR 에서 <code>.github/workflows/ci.yml</code>(<code>build-scan</code> 잡)이 실행된다. <strong>리포트 전용·비차단</strong>으로 시작하며, 안정화 후 브랜치 보호로 빌드 통과를 필수 체크로 승격할 수 있다. 앱 배포 <code>deploy.yml</code>·문서 배포 <code>docs-deploy.yml</code> 과는 별개다.</p>
+<p><code>dev</code>/<code>main</code> 대상 PR 에서 <code>.github/workflows/ci.yml</code>(<code>build-scan</code> 잡)이 실행된다. <strong>리포트 전용</strong>(빨간불만 표시) — ⚠️ <strong>브랜치 보호로 "필수 체크" 승격은 현재 플랜상 불가</strong>(private + GitHub 플랜 403, Infra #29). CI 는 머지를 막지 못하므로 <strong>실효 게이트는 배포 경로</strong>에 둔다 — Dockerfile 빌드 스테이지에 <code>RUN npm run lint</code>(build 앞)를 넣어 undef/미사용 에러 시 이미지 빌드가 실패해 배포가 중단된다(FE #189). 앱 배포 <code>deploy.yml</code>·문서 배포 <code>docs-deploy.yml</code> 과는 별개다.</p>
 <ul>
-<li><strong>① 빌드 게이트</strong> — <code>npm ci</code> → <code>npm run build</code>(vue-tsc 타입체크 + vite build). 타입/구문/import 오류가 머지되는 것을 막는다.</li>
-<li><strong>② Trivy 취약점 스캔(리포트)</strong> — <code>package-lock.json</code> 의존성의 CRITICAL/HIGH CVE. <strong>결과는 Actions 실행 로그에 테이블로</strong> 출력한다(<code>exit-code: 0</code> 비차단).</li>
-<li><strong>③ SBOM</strong> — CycloneDX(<code>sbom-frontend.cdx.json</code>)를 아티팩트로 업로드.</li>
+<li><strong>① 린트 게이트(ESLint)</strong> — <code>npm run lint</code>. 미정의 식별자(<code>no-undef</code>)와 미사용 변수(<code>no-unused-vars</code>, <strong>error</strong>)를 잡는다 — <code>vue-tsc</code> 가 못 보는 JS <code>&lt;script&gt;</code> 블록 담당(checkJs 는 this 타입 노이즈로 미채택). 설정은 <code>eslint.config.js</code>. (FE #184·#188·#190, Infra #36)</li>
+<li><strong>② 빌드 게이트</strong> — <code>npm ci</code> → <code>npm run build</code>(vue-tsc 타입체크 + vite build). 타입/구문/import 오류가 머지되는 것을 막는다.</li>
+<li><strong>③ Trivy 취약점 스캔(리포트)</strong> — <code>package-lock.json</code> 의존성의 CRITICAL/HIGH CVE. <strong>결과는 Actions 실행 로그에 테이블로</strong> 출력한다(<code>exit-code: 0</code> 비차단).</li>
+<li><strong>④ SBOM</strong> — CycloneDX(<code>sbom-frontend.cdx.json</code>)를 아티팩트로 업로드.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Security 탭 대신 Actions 로그</p>
