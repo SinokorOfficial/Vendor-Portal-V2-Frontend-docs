@@ -2681,9 +2681,19 @@
 </ul>
 <h2 id="8-cspcontent-security-policy">8. CSP(Content-Security-Policy)<a class="headerlink" href="#8-cspcontent-security-policy" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>현황</strong>: <code>nginx.conf</code> 에 <code>Content-Security-Policy-Report-Only</code>(차단 없이 위반만 보고) 로 배포 후 관찰 중. — PR #41·#43.</li>
-<li><strong>함정</strong>: <code>script-src</code> 에 <strong><code>unsafe-eval</code> 필요</strong>(DevExtreme <code>config.optionsParser</code>·ag-grid <code>ExpressionService</code> 가 런타임 <code>new Function</code> 사용). 단 <code>unsafe-inline</code>(스크립트)은 계속 차단해 핵심 XSS 방어 유지. <code>font-src</code>·<code>img-src</code> 에 <code>data:</code>(ag-grid 아이콘 폰트 WOFF·base64 이미지 뷰어). 정상 흐름 외부 호스트 0(프록시 경유=self).</li>
-<li><strong>enforcing 전환</strong>: Report-Only 관찰의 잔여 위반(死코드 <code>CmsReportPopup</code>→jsdelivr, <code>/dev/**</code> 라우트) 정리 후.</li>
+<li><strong>현황</strong>: <strong>enforcing</strong>(2026-09-14, PR #193 / Infra #39 ③). 2026-07-09 Report-Only 배포(PR #41·#43) → 관찰 → 전환.
+  ⚠️<strong>Report-Only 는 검사만 하고 차단하지 않는다 = 보안 효과 0.</strong> 관찰이 끝났으면 반드시 전환할 것.</li>
+<li><strong>함정</strong>: <code>script-src</code> 에 <strong><code>unsafe-eval</code> 필요</strong>(DevExtreme <code>config.optionsParser</code>·ag-grid <code>ExpressionService</code> 가 런타임 <code>new Function</code> 사용). 단 <code>unsafe-inline</code>(스크립트)은 계속 차단해 핵심 XSS 방어 유지. <code>font-src</code>·<code>img-src</code> 에 <code>data:</code>(ag-grid 아이콘 폰트 WOFF·base64 이미지 뷰어). 정상 흐름 외부 호스트 0(프록시 경유=self).
+  ★<code>unsafe-eval</code> 은 <strong>초기 정적분석이 '불요' 로 예측했다가 라이브 위반으로 뒤집힌</strong> 항목이다 — 이 앱에서 코드 읽기만으로 CSP 를 판정하면 틀릴 수 있다는 전례.</li>
+<li><strong>★<code>frame-ancestors</code> 는 <code>'self'</code> 여야 한다</strong>: 앱이 자기 화면을 iframe 으로 띄운다(PDF/리포트 뷰어). 관찰용으로 두었던 <code>'none'</code> 인 채 enforcing 하면 그게 막힌다. <code>X-Frame-Options: SAMEORIGIN</code> 과도 정합.</li>
+<li><strong>PDF 뷰어 검증(전환 전 실측)</strong>: <code>util/http/index.ts</code> 가 PDF 를 <code>blob:</code> 으로 만들어 <code>window.open</code> 하는데, <strong><code>blob:</code> URL 은 생성 문서의 CSP 를 상속</strong>하고 크롬 PDF 뷰어는 내부적으로 <code>&lt;embed&gt;</code> 를 쓴다 → <code>object-src 'none'</code> 에 막힐 수 있다는 우려가 있었다. 코드로는 판별 불가라 <strong>실제 Windows Chrome 152 / Edge 로 A/B 실측</strong>:<ul>
+<li>Edge 는 팝업 문서에 <strong><code>&lt;embed&gt;</code> 를 실제로 생성</strong>(그 메커니즘이 발동)했는데 <strong>위반 0건</strong>.</li>
+<li>enforce 와 report-only 가 <strong>모든 수치 동일</strong>(Chrome 은 스크린샷 md5 까지 일치) → 현재 동작이 그대로 유지된다는 뜻.</li>
+<li>양성 대조군 <code>&lt;object data=…&gt;</code> 는 정상 차단 → 측정계가 살아있음을 먼저 증명.</li>
+<li>⚠️<strong>Playwright 번들 Chromium 은 PDF 뷰어가 없어 이 검증에 못 쓴다</strong>(양쪽 다 빈 문서라 차이가 안 나옴). 실브라우저를 써야 한다.</li>
+</ul>
+</li>
+<li><strong>증상이 나오면</strong>: 차단된 리소스는 <strong>콘솔에만</strong> 뜨고 화면은 조용히 일부만 안 된다. <code>report-uri</code> 가 없어 서버로 수집되지 않으므로 브라우저 콘솔로 확인할 것. <strong>되돌리기 = <code>nginx.conf</code> 헤더 이름에 <code>-Report-Only</code> 를 다시 붙이고 재배포</strong>(단일 변경).</li>
 </ul>
 <h2 id="9-self-hosted-windows-azure-cli-cp949">9. self-hosted Windows 러너 배포 (Azure CLI cp949 인코딩)<a class="headerlink" href="#9-self-hosted-windows-azure-cli-cp949" title="Permanent link">&para;</a></h2>
 <blockquote>
