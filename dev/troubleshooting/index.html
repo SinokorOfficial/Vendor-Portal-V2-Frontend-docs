@@ -2693,6 +2693,13 @@
 <li>⚠️<strong>Playwright 번들 Chromium 은 PDF 뷰어가 없어 이 검증에 못 쓴다</strong>(양쪽 다 빈 문서라 차이가 안 나옴). 실브라우저를 써야 한다.</li>
 </ul>
 </li>
+<li><strong>★운영 검증 체크리스트(2026-09-14 전환 시 실측)</strong> — CSP 를 다시 손댈 때 그대로 재사용할 회귀 표면이다:<ul>
+<li><em>무인증(자동화 가능)</em>: <code>/login</code> · <code>/cms/popup/CmsImageCarouselPopup?COMP_CD=HALK&amp;MNGT_NO=&lt;아무거나&gt;</code> → <strong>위반 0</strong>. 후자가 <code>/login</code> 으로 안 튕기고 마운트되는지가 판정점이며, 번들·Vuetify 인라인 스타일·<code>img-src data:</code> 까지 태운다. Playwright 로 <code>securitypolicyviolation</code> 을 수집하면 된다.</li>
+<li><em>인증 필요(수동 클릭)</em>: <strong>PDF 뷰어 · 리포트 인쇄</strong>(iframe → <code>frame-ancestors</code>) <strong>· 그리드 편집</strong>(<code>unsafe-eval</code>) <strong>· 엑셀 다운로드</strong>(blob 앵커) <strong>· 첨부 이미지 뷰어</strong>(<code>data:</code> 이미지) <strong>· 첨부 파일 업로드</strong> → 전부 정상 확인.</li>
+<li><em>구조적으로 배제된 위험</em>(코드 전수 확인): <code>&lt;img src="blob:"&gt;</code> <strong>없음</strong>(<code>createObjectURL</code> 은 앱 전체에 2곳뿐 — 앵커 다운로드·<code>window.open</code>), blob·외부 <strong>iframe 없음</strong>(<code>EDialog</code> 의 <code>iframeSrc</code> 는 넘기는 호출부가 0 인 死 슬롯). <code>img-src</code>/<code>frame-src</code> 가 <code>blob:</code> 을 허용하지 않으므로 새로 blob 이미지·blob iframe 을 도입하면 <strong>그때 막힌다</strong>.</li>
+<li>⚠️<em>의도된 파손</em>: <code>/dev/**</code> 의 <code>DevPdfViewer</code> 는 외부(<code>africau.edu</code>) iframe 이라 차단된다. 메뉴에 없는 개발 샘플이며 정리는 死코드 <code>CmsReportPopup</code> 과 함께(Infra #31 §2).</li>
+</ul>
+</li>
 <li><strong>증상이 나오면</strong>: 차단된 리소스는 <strong>콘솔에만</strong> 뜨고 화면은 조용히 일부만 안 된다. <code>report-uri</code> 가 없어 서버로 수집되지 않으므로 브라우저 콘솔로 확인할 것. <strong>되돌리기 = <code>nginx.conf</code> 헤더 이름에 <code>-Report-Only</code> 를 다시 붙이고 재배포</strong>(단일 변경).</li>
 </ul>
 <h2 id="9-self-hosted-windows-azure-cli-cp949">9. self-hosted Windows 러너 배포 (Azure CLI cp949 인코딩)<a class="headerlink" href="#9-self-hosted-windows-azure-cli-cp949" title="Permanent link">&para;</a></h2>
