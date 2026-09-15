@@ -1668,7 +1668,7 @@
 </code></pre></div>
 <ul>
 <li><strong>프록시 타깃은 <code>.env</code> 의 <code>API_URL</code> 만</strong> 읽습니다(로컬 단일 소스). <code>.env.development</code>/<code>.env.production</code> 의 <code>API_URL</code>(예: <code>http://pilos2-backend:8080</code>)은 dev 프록시에 쓰이지 않습니다 — 자세한 이유는 <code>vite.config.ts</code> 주석과 <a href="../build-deploy/">빌드/배포/환경</a> 참고.</li>
-<li>그 외 프록시: <code>/WebDocumentViewer</code>(DevExpress 문서 뷰어), <code>/sendSIPG</code>(SIPG EIR 취소 ESB).</li>
+<li>그 외 프록시: <code>/sendSIPG</code>(SIPG EIR 취소 ESB). <em>(<code>/WebDocumentViewer</code>(DevExpress 문서 뷰어) 는 2026-09-15 제거 — PR #200)</em></li>
 <li>배포 환경에서는 동일 출처로 백엔드에 붙으므로 프록시가 필요 없습니다.</li>
 </ul>
 

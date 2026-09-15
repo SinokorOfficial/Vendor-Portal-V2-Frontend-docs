@@ -2556,7 +2556,7 @@
 <p>프론트(Vite·Vue 3) 개발/이관 중 <strong>드러나 해결한 문제들</strong>을 모은다. 각 항목은 <strong>증상 → 원인 → 해결 → 근거(파일)</strong> 형식. 새 문제는 영역별 섹션에 같은 형식으로 추가한다.</p>
 <hr />
 <h2 id="1-html-cmshtmlreportpopup">1. 리포트 HTML 뷰어 (<code>CmsHtmlReportPopup</code>)<a class="headerlink" href="#1-html-cmshtmlreportpopup" title="Permanent link">&para;</a></h2>
-<p>DevExpress(.NET 리포트 서버, Windows 전용 → Azure Linux 이전 불가) 의존을 없애려고 리포트를 자체 HTML/CSS 뷰어로 이식하며 겪은 문제들. 공통 셸 = <code>src/pages/cms/popup/CmsHtmlReportPopup/index.vue</code>, 리포트별 레이아웃 = <code>CmsHtmlReportPopup/reports/&lt;Report&gt;.vue</code>.</p>
+<p>DevExpress(.NET 리포트 서버, Windows 전용 → Azure Linux 이전 불가) 의존을 없애려고 리포트를 자체 HTML/CSS 뷰어로 이식하며 겪은 문제들. <strong>2026-09-15 로 DevExpress 잔재는 전량 제거됐고(PR #200) HTML 뷰어가 유일한 리포트 경로다.</strong> 공통 셸 = <code>src/pages/cms/popup/CmsHtmlReportPopup/index.vue</code>, 리포트별 레이아웃 = <code>CmsHtmlReportPopup/reports/&lt;Report&gt;.vue</code>.</p>
 <h3 id="11">1.1 항목이 많아지면 행이 페이지 경계에서 잘리거나 빈 영역으로 흘러넘침<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong>: 견적 상세처럼 라인아이템이 많은 리포트에서, 페이지 경계에 걸린 행이 반쯤 잘리거나 행들이 회색 캔버스 배경으로 흘러넘쳐 레이아웃이 깨짐.</li>
@@ -2585,9 +2585,11 @@
 <li><strong>해결</strong>: 데이터 준비 함수(<code>setEstimateList</code>/<code>setEstimateDtl</code> 등)에서 전체 합계를 계산해 <code>MAIN.GT_*</code> 에 실어 보냄.</li>
 <li><strong>근거</strong>: 각 화면 <code>index.vue</code> 의 set* 함수.</li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-title">DevExpress ↔ HTML 뷰어 전환/롤백</p>
-<p>호출부는 <code>MENU_PATH</code> 만 <code>/cms/popup/CmsReportPopup</code>(DevExpress) ↔ <code>/cms/popup/CmsHtmlReportPopup</code>(HTML) 로 바꾼다. DevExpress 호출 코드는 남겨두어 경로 원복만으로 즉시 롤백 가능. 신규 리포트 = <code>reports/</code> 에 <code>.vue</code> 1개 + 셸 <code>REPORTS</code> 레지스트리 한 줄.</p>
+<div class="admonition success">
+<p class="admonition-title">DevExpress 제거 완료 — 롤백 경로 없음 (2026-09-15, PR #200)</p>
+<p>한동안은 호출부의 <code>MENU_PATH</code> 만 <code>/cms/popup/CmsReportPopup</code>(DevExpress) ↔ <code>/cms/popup/CmsHtmlReportPopup</code>(HTML) 로 바꿔 되돌릴 수 있었으나, <strong>그 경로는 이제 없다.</strong></p>
+<p>컷오버(2026-09-08)가 <code>partner.sinokor.co.kr:8095</code>(리포트 서버) 도달을 끊었고 — 그 호스트명이 ACA 를 가리키게 됐는데 ACA 는 8095 를 열지 않는다 — 이후 <strong>리포트 서버 불필요가 확정</strong>돼 <code>CmsReportPopup</code> 페이지·<code>/WebDocumentViewer</code> 프록시(nginx·vite)·dev 샘플 호출부를 전량 제거했다. 소스는 Azure DevOps <code>VendorPortal-Print</code> 에 남지만 <strong>.NET Framework 4.5.2 + ASP.NET/System.Web 이라 리눅스 이전은 불가</strong>(DevExpress 버전 문제가 아니라 웹 계층 재작성이 선행).</p>
+<p>신규 리포트 = <code>reports/</code> 에 <code>.vue</code> 1개 + 셸 <code>REPORTS</code> 레지스트리 한 줄(그대로).</p>
 </div>
 <hr />
 <h2 id="2-ebtn-egridbtn">2. 공통 버튼 (<code>EBtn</code> / <code>EGridBtn</code>)<a class="headerlink" href="#2-ebtn-egridbtn" title="Permanent link">&para;</a></h2>

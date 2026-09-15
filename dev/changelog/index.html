@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#devexpress-pr-200-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DevExpress 리포트 잔재 전량 제거 (PR #200, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#partner-v2sinokorcokr-pr-199-infra-43-3931" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2110,6 +2121,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#devexpress-pr-200-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DevExpress 리포트 잔재 전량 제거 (PR #200, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#partner-v2sinokorcokr-pr-199-infra-43-3931" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2900,6 +2922,12 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="devexpress-pr-200-infra-31">DevExpress 리포트 잔재 전량 제거 (PR #200, Infra #31)<a class="headerlink" href="#devexpress-pr-200-infra-31" title="Permanent link">&para;</a></h3>
+<p>레거시 박스의 DevExpress 리포트 서버(<code>:8095</code>)가 <strong>불필요로 확정</strong>돼 V2 잔재를 걷어냈다. 리포트 5종은 이미 <code>CmsHtmlReportPopup</code> 으로 이식돼 돌고 있었고, <code>:8095</code> 는 컷오버(2026-09-08)로 이미 도달 불가였다(9/8 17시 8회 시도 전부 504/499, 이후 0건).</p>
+<p>제거 = <code>CmsReportPopup</code> 페이지(205줄) · <code>nginx.conf</code> 의 <code>location /WebDocumentViewer/</code> · <code>vite.config.ts</code> dev 프록시 · dev 샘플 <code>layout1</code> 의 <code>fnPrint</code>(유일한 실호출).</p>
+<p>★<strong><code>client_max_body_size 50m</code> 은 존치</strong>했다. 주석은 "WebDocumentViewer Detail 리포트 본문(1.1~1.4MB) 때문"이라 DevExpress 정리 대상처럼 보이지만, <strong>지금은 파일 업로드의 실질 상한</strong>이다 — 같이 지우면 nginx 기본값 <code>1m</code> 으로 떨어져 첨부 업로드가 413 으로 막힌다. 디렉티브는 두고 주석만 실제 이유로 고쳤다.</p>
+<p>오도 주석 6곳 정정: <em>"되돌리려면 경로만 <code>CmsReportPopup</code> 으로"</em> 는 이제 대상 자체가 없다. ★PR #192 에서 <code>CrsEstimate</code>·<code>CrsEstApproval</code>(4곳)만 고치고 <strong><code>CrsInvoice</code>·<code>FdsOrdMgt</code>(2곳)를 놓쳤던 것</strong>도 함께 잡았다(조사 <code>을/를</code> 차이로 일괄 치환에서 빠진 1곳 포함).</p>
+<p>검증: <code>vue-tsc</code> 진단 0 · <code>vite build</code> 성공 · <strong>번들 문자열로 확인</strong>(<code>CmsHtmlReportPopup</code> 5파일 생존 / <code>CmsReportPopup</code> 0 / <code>WebDocumentViewer</code> 0) · <code>nginx -t</code> ok. ⚠️<code>npm run build</code> 는 WSL 에서 <code>vue-tsc</code> 를 못 찾고도 exit 0 을 내므로 <code>./node_modules/.bin/</code> 로 직접 실행해야 한다.</p>
 <h3 id="partner-v2sinokorcokr-pr-199-infra-43-3931"><code>partner-v2.sinokor.co.kr</code> 폐기 완료 (PR #199, Infra #43 / #39·#31)<a class="headerlink" href="#partner-v2sinokorcokr-pr-199-infra-43-3931" title="Permanent link">&para;</a></h3>
 <p>소프트런칭용 URL 을 최종 폐기하고 <code>nginx.conf</code> 의 301 리다이렉트 server 블록을 제거했다. 이제 도달 경로가 없어 死 설정이다.</p>
 <p><strong>폐기해도 안전했던 이유</strong>: partner-v2 는 <strong>업체에 안내된 적이 없고</strong> 레거시 SSO 자동전환(<code>V2SsoLinkController</code> → <code>partner-v2/?ssoToken=</code>)으로만 유입되던 주소인데, 컷오버(2026-09-08)로 그 경로가 소멸했다. 지금은 레거시 셸이 부르는 <code>/api/v2SsoLink</code> 를 V2 nginx 스텁이 받아 <strong>상대경로</strong> <code>/?v2=1</code> 을 돌려주므로 partner-v2 주소 자체가 더는 생성되지 않는다. 즉 북마크 모집단이 사실상 없다.</p>
