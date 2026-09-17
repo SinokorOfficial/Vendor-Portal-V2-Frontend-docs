@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#pr-203-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 — 개선 프로시저 전체 확대 (PR #203, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ab-pr-201-infra-38" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2132,6 +2143,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#pr-203-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 — 개선 프로시저 전체 확대 (PR #203, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ab-pr-201-infra-38" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2944,6 +2966,20 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="pr-203-infra-38">견적 엑셀 저장 — 개선 프로시저 전체 확대 (PR #203, Infra #38)<a class="headerlink" href="#pr-203-infra-38" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>전 사용자가 <code>SP_SET_EST4EXL_NEW</code> 를 탄다.</strong> PR #201 의 계정 기반 A/B(<code>NEW_SP_TEST_USERS</code>)를 거쳐 2026-09-17 확대했다. 개선본은 ①루프를 <strong>상세 행 단위 → 컨테이너 단위</strong>로 바꿔 반복을 실측 평균 1/6.5 로 줄이고 ②<code>sp_set_est_mst_new</code>(내부 commit/rollback 제거)를 써 <strong>저장 전체를 한 트랜잭션</strong>으로 만든다.</li>
+<li>★<strong>본론은 ②다.</strong> 종전에는 마스터만 행마다 commit 되고 상세는 루프 뒤 MERGE 한 번이라, 4분 벽(<code>ORA-17002</code>)에 끊기면 <strong>헤더만 있고 내역 0건인 고아 견적</strong>이 남았다(2026-09-15 운영 149건). 이제 끊겨도 통째로 롤백된다. 함께 정상 저장에도 뜨던 <strong>허위 경고 <code>This Data is already confirmed !</code> 가 사라진다</strong>(원본은 컨테이너당 <code>sp_set_est_mst</code> 를 상세 건수만큼 불러, 2번째 호출부터 상세가 아직 없어 <code>v_rep_main</code> 서브쿼리가 NULL → 0건 갱신 → 그 메시지가 떴다).</li>
+<li><strong>운영 검증(2026-09-17, SHA03)</strong> — SNKO 137건 · HALK 7건 저장. 고아 <strong>0</strong> · cmnt 유실 <strong>0</strong>(137 중 133 기입, 나머지 4건은 파일에 REMARK 가 원래 없음) · <code>ORA-17002</code>/<code>00060</code>(deadlock)/<code>04063</code>/<code>20001</code> <strong>0건</strong>. HSLI 분기는 미실행이나 <code>order_no</code> 블록이 원본부터 비활성이라 변경 표면이 가장 작다.</li>
+<li>⚠️<strong>감수하는 것</strong> — 실패 시 부분 저장 없이 <strong>통째로 롤백</strong>된다(사용자는 전체 재업로드). 그리고 마스터 행 락을 <strong>실행 내내</strong> 쥔다(<code>.100</code> 실측 경쟁세션 대기 36.2초, 운영 240초짜리면 240초). 같은 견적을 동시에 만지면 그만큼 대기하므로 <code>ORA-00060</code> 을 지켜볼 것.</li>
+<li>★<strong>롤백 레버를 남겼다</strong> — <code>USE_NEW_SP_FOR_ALL = false</code> <strong>한 줄</strong>이면 전원이 즉시 원본 경로로 돌아간다. 원본 프로시저는 DB 에 그대로 있어 <strong>DB 작업이 필요 없다</strong>. <code>NEW_SP_TEST_USERS</code> 도 남겨, false 로 되돌린 뒤 계정 단위 A/B 를 다시 쓸 수 있다.</li>
+<li>
+<p>⚠️<strong>4분 벽 자체는 그대로다</strong> — 이건 호출 시간을 벽 안쪽으로 끌어내리는 완충이지 벽을 없애지 않는다. 파일이 더 커지면 다시 닿고, 그때는 부분 저장도 없이 전량 실패한다(Infra #41).</p>
+</li>
+<li>
+<p><strong>CRS 견적 엑셀 저장을 개선 프로시저로 전체 확대</strong>(PR #203) — <code>SP_SET_EST4EXL</code> → <code>SP_SET_EST4EXL_NEW</code>. 개선본은 ①루프를 상세 행 단위에서 <strong>컨테이너 단위</strong>로 바꿔 반복을 실측 평균 1/6.5 로 줄이고 ②<code>sp_set_est_mst_new</code>(내부 commit/rollback 제거)를 써 <strong>저장 전체를 한 트랜잭션</strong>으로 만든다. 후자가 본론이다 — 종전에는 마스터만 행마다 commit 되고 상세는 루프 뒤 MERGE 한 번이라, 4분 벽(<code>ORA-17002</code>)에 끊기면 <strong>헤더만 있고 내역 0건인 고아 견적</strong>이 남았다(2026-09-15 운영 149건 발생). 함께 정상 저장에도 뜨던 허위 경고 <code>This Data is already confirmed !</code> 가 사라진다. <strong>운영 검증(2026-09-17, SHA03 계정)</strong>: SNKO 137건 · HALK 7건 저장 — 고아 <strong>0</strong> · cmnt 유실 <strong>0</strong> · <code>ORA-17002</code>/<code>00060</code>(deadlock)/<code>04063</code>/<code>20001</code> <strong>0건</strong>. ⚠️감수하는 것 = 실패 시 부분 저장 없이 <strong>통째로 롤백</strong>되고(사용자는 전체 재업로드 필요), 마스터 행 락을 실행 내내 쥔다(<code>.100</code> 실측 경쟁세션 대기 36.2초 — 운영 240초짜리면 240초). ★<strong>롤백 레버를 남겼다</strong> — <code>USE_NEW_SP_FOR_ALL = false</code> 한 줄이면 전원이 즉시 원본 경로로 돌아간다(원본 프로시저는 DB 에 그대로 있어 DB 작업 불필요). <code>NEW_SP_TEST_USERS</code> 도 남겨 계정 단위 A/B 가 계속 가능하다. ⚠️4분 벽 자체는 그대로다 — 이건 호출 시간을 벽 안쪽으로 끌어내리는 완충이고, 파일이 더 커지면 다시 닿는다(Infra #41). Infra #38.</p>
+</li>
+</ul>
 <h3 id="ab-pr-201-infra-38">견적 엑셀 저장 — 개선 프로시저 A/B 스위치 (PR #201, Infra #38)<a class="headerlink" href="#ab-pr-201-infra-38" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong><code>CrsEstUploadExl</code> 저장에 계정 기반 분기 추가.</strong> <code>NEW_SP_TEST_USERS</code> 에 적힌 계정만 <code>dataset.SAVE_NEW</code>(<code>SP_SET_EST4EXL_NEW</code>)를 타고 나머지는 기존 <code>SAVE</code> 그대로다. 원본 프로시저를 남겨 둔 채 특정 사용자만 개선본으로 태워보기 위한 스위치이며, <strong>문제가 생기면 배열을 비우는 것만으로 전원이 원래 경로로 복귀</strong>한다.</li>
