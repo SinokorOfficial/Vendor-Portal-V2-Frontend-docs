@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#504-nginx-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        저장은 성공했는데 사용자는 504 — nginx 응답 대기 상한 추가 (Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pr-206-be-151-infra-31" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2165,6 +2176,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#504-nginx-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        저장은 성공했는데 사용자는 504 — nginx 응답 대기 상한 추가 (Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pr-206-be-151-infra-31" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3010,6 +3032,17 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="504-nginx-infra-38">저장은 성공했는데 사용자는 504 — nginx 응답 대기 상한 추가 (Infra #38)<a class="headerlink" href="#504-nginx-infra-38" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>nginx.conf</code> 의 <code>location /api/</code> 에 <strong><code>proxy_read_timeout 300s</code> / <code>proxy_send_timeout 300s</code></strong> 를 넣었다. 지금까지 <strong>nginx 기본값 60초</strong>가 요청 경로의 실효 상한이었다.</li>
+<li>★<strong>증상이 고약하다 — 사용자는 실패로 보는데 데이터는 저장된다.</strong> 60초가 지나면 nginx 가 504 를 돌려주지만 그건 nginx↔브라우저 사이의 사정일 뿐이라, 백엔드는 모르고 끝까지 돌아 <strong>커밋까지 마친 뒤</strong> 응답을 쓰다 <code>ClientAbortException</code>(Broken pipe)으로 깨진다. <strong>중간 타임아웃은 작업을 취소하지 않는다 — 기다리기를 포기할 뿐이다.</strong> 사용자가 실패로 알고 재시도하면 <strong>중복 저장</strong>이다.</li>
+<li>★<strong>화면 axios 의 300초는 무의미했다</strong> — 그 앞단 60초에서 먼저 잘려 도달한 적이 없다. "프론트 타임아웃이 실효 상한" 이라는 판단은 틀렸다. 같은 값으로 맞춰 사슬을 정합시킨다.</li>
+<li><strong>실측(2026-09-18)</strong>: CRS 견적 887행 저장 74.6초 — 10:13:17 요청 / <strong>10:14:17 nginx 504</strong> / 10:14:32 백엔드 완주(<code>ResultCode 200</code>). 30일 누적 <strong>23건</strong> — <code>CrsEstUploadExl</code> 12 · <code>CrsEstimate</code> 9 · <code>EirImportIssue</code> 2. 9/15 에 9건이 몰린 건 구 프로시저(240초대) 시절이고, <code>SP_SET_EST4EXL_NEW</code> 전환 후로는 이 887행이 처음 60초를 넘겼다.</li>
+<li><strong>이 값으로 정한 이유</strong>: 백엔드↔온프렘 Oracle 에 <strong>약 240초 벽</strong>(<code>ORA-17002</code>, Infra #41)이 따로 있어 그게 먼저 온다. 240초를 넘는 저장은 DB 에서 실제로 실패하므로 <strong>화면의 실패와 실제가 일치</strong>한다. 즉 "서버는 성공인데 화면은 실패" 구간이 구조적으로 닫힌다.</li>
+<li>⚠️<strong>저장만 골라서 길게 줄 수 없다</strong> — 저장도 조회도 같은 URI(VMS 통합 엔드포인트 <code>/api/vendor/comm/executeVendorCommonProcedure</code>)라 <code>location</code> 분기가 불가능하다. <code>/api/</code> 전체가 300초까지 기다린다(트래픽이 분당 p95 22건이라 커넥션 점유는 무시 가능).</li>
+<li>⚠️<strong>남는 것</strong>: ①240초를 넘는 저장은 여전히 실패 — 근본은 프로시저 성능(Infra #38) ②백엔드 statement timeout 은 아직 없어 커넥션 점유 상한이 없다 ③ACA ingress 가 300초를 버티는지는 배포 후 실트래픽으로만 확인된다.</li>
+<li>상세는 <a href="../troubleshooting/">트러블슈팅 §30</a>.</li>
+</ul>
 <h3 id="pr-206-be-151-infra-31">역할별 권한 관리 — 사용여부 검색 조건 추가 (PR #206, BE #151, Infra #31)<a class="headerlink" href="#pr-206-be-151-infra-31" title="Permanent link">&para;</a></h3>
 <ul>
 <li>역할 명 오른쪽에 <strong>사용여부 셀렉트박스</strong>를 둔다. 구 role_id 15개를 <code>USE_YN='N'</code> 으로 내린 뒤(Infra #31 리허설) 그리드에서 활성/비활성을 구분해 볼 방법이 없었다. 검색용 소스 <code>S_USE_YN</code>(<code>prependCodeAll</code> = '전체' 포함)을 켜고, 백엔드 <code>CmsRoleMenuMgt.select</code> 에 <code>USE_YN</code> <code>&lt;if&gt;</code> 를 추가했다.</li>
