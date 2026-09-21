@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#upper-case-enter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upper-case 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsemaillog-pr-214-be-158" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2209,6 +2220,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#upper-case-enter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upper-case 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsemaillog-pr-214-be-158" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3098,6 +3120,15 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="upper-case-enter"><code>upper-case</code> 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제<a class="headerlink" href="#upper-case-enter" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>DxTextBoxProxy</code> 의 대문자 변환을 <strong><code>keyup</code> 핸들러의 DOM 조작에서 값 경로(<code>parseValue</code>)로</strong> 옮겼다. <code>:upper-case="true"</code> 사용처 <strong>98곳</strong> 전부에 적용된다.</li>
+<li>★<strong>증상이 고약하다.</strong> 값을 바꾸는 건 <code>onPressKeyUp</code> 하나뿐인데 화면은 <code>text-transform: uppercase</code> 라 <strong>항상 대문자로 보인다.</strong> 그래서 keyup 을 안 타는 입력은 소문자가 그대로 전송되는데도 사용자가 눈치챌 수 없다. 신고 경위도 "화면엔 <code>ERR</code> 인데 조회가 안 된다" 였고, 페이로드를 열어보니 <code>ERr</code> 이었다.</li>
+<li><strong>새는 경로 2개</strong>(실측): ①키 이벤트 없는 입력 — 우클릭 붙여넣기, IME 확정, 자동완성, 드래그&amp;드롭 ②마지막 글자의 keyup 보다 조회가 먼저 나가는 경우 — 빠른 타이핑 + Enter. <code>Ctrl+V</code> 는 <code>v</code> 의 keyup 이 보정해 정상이었다.</li>
+<li>★<strong>레거시부터 있던 결함이다(V2 회귀 아님).</strong> 레거시 <code>plugins/dev-extreme.js</code> 에 같은 내용의 <code>parseValue</code> 가 <strong>주석 처리</strong>돼 있다. 값 경로 변환을 끄고 keyup + CSS 로 우회한 것인데, 레거시 git 최초 커밋부터 주석이라 이유는 확인되지 않는다.</li>
+<li><strong>검증</strong>(Playwright 하네스): 새는 경로 2개 → <code>ERR</code> · <code>upper-case</code> 미지정 입력 원본 보존 · <code>split-length=4</code> 조합 <code>ABCD</code> · Enter 조회에 실리는 값 <code>ERR</code> · <strong>중간 삽입 시 커서 유지</strong>(<code>AXBC</code>/커서 2, <code>valueChangeEvent='keyup'</code> 모드 포함). 커서 튐은 레거시가 껐던 이유로 의심돼 별도로 쟀고, 재현되지 않았다.</li>
+<li><strong><code>ECodeBox</code> 는 손대지 않았다</strong> — 같은 구멍이 있으나 코드 조회가 대소문자를 흡수하므로 소문자 입력을 허용하는 동작으로 둔다(저장값이 소문자로 남는 것은 감수). 상세는 <a href="../troubleshooting/">트러블슈팅 §31</a>.</li>
+</ul>
 <h3 id="cmsemaillog-pr-214-be-158">CmsEmailLog — 상세 본문 전문 로드 (PR #214, BE #158)<a class="headerlink" href="#cmsemaillog-pr-214-be-158" title="Permanent link">&para;</a></h3>
 <ul>
 <li>이메일 로그 상세의 본문을 목록 데이터가 아니라 <strong>행 선택 시 전용 조회</strong>로 가져오도록 변경. 목록 SP(<code>SP_GET_EMAIL_LOG</code>)가 본문 CLOB 을 잘라 담다 멀티바이트 본문에서 ORA-06502(4000자 SUBSTR 이 4000바이트 초과)로 조회가 죽던 문제의 짝 조치 — 목록에서 본문을 빼고 상세만 전문을 받는다.</li>
