@@ -1299,6 +1299,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cmsfileintegrity-pr-216-be-162" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsFileIntegrity — 파일 정합성 점검 화면 신설 (PR #216, BE #162)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsemaillog-pr-214-be-158" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2253,6 +2264,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cmsfileintegrity-pr-216-be-162" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsFileIntegrity — 파일 정합성 점검 화면 신설 (PR #216, BE #162)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsemaillog-pr-214-be-158" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3159,6 +3181,14 @@
 <li>★<strong>레거시부터 있던 결함이다(V2 회귀 아님).</strong> 레거시 <code>plugins/dev-extreme.js</code> 에 같은 내용의 <code>parseValue</code> 가 <strong>주석 처리</strong>돼 있다. 값 경로 변환을 끄고 keyup + CSS 로 우회한 것인데, 레거시 git 최초 커밋부터 주석이라 이유는 확인되지 않는다.</li>
 <li><strong>검증</strong>(Playwright 하네스): 새는 경로 2개 → <code>ERR</code> · <code>upper-case</code> 미지정 입력 원본 보존 · <code>split-length=4</code> 조합 <code>ABCD</code> · Enter 조회에 실리는 값 <code>ERR</code> · <strong>중간 삽입 시 커서 유지</strong>(<code>AXBC</code>/커서 2, <code>valueChangeEvent='keyup'</code> 모드 포함). 커서 튐은 레거시가 껐던 이유로 의심돼 별도로 쟀고, 재현되지 않았다.</li>
 <li><strong><code>ECodeBox</code> 는 손대지 않았다</strong> — 같은 구멍이 있으나 코드 조회가 대소문자를 흡수하므로 소문자 입력을 허용하는 동작으로 둔다(저장값이 소문자로 남는 것은 감수). 상세는 <a href="../troubleshooting/">트러블슈팅 §31</a>.</li>
+</ul>
+<h3 id="cmsfileintegrity-pr-216-be-162">CmsFileIntegrity — 파일 정합성 점검 화면 신설 (PR #216, BE #162)<a class="headerlink" href="#cmsfileintegrity-pr-216-be-162" title="Permanent link">&para;</a></h3>
+<ul>
+<li>DB(<code>TB_CMS_ATFILE</code>)와 NAS 실물의 불일치를 조회하는 <strong>관리자 전용 화면</strong> 신설(<code>/cms/comm/CmsFileIntegrity</code>, 1단계 읽기전용).</li>
+<li>검색: <strong>기간(REG_TM) + MNGT_NO(부분일치)</strong> + <strong><code>포탈시스템 포함</code> 체크박스</strong>(기본 off) → <code>POST /api/cms/comm/cmsFileIntegrity/check</code> → 결과 그리드에 <code>구분(MISSING🔴/MISSING_FALLBACK🔴/ORPHAN🟢/SCAN_ERROR⚠) · MNGT_NO · FILE_PATH · SAVE_NM · 원본명 · 크기 · 등록일 · COMP_CD · 비고</code>. 헤더에 스코프/스캔폴더/스캔실패 요약.</li>
+<li><strong>포탈시스템 포함</strong> 체크 시 포탈 폴백 노출 미러의 NAS 누락(<code>MISSING_FALLBACK</code>, 뷰어 550 냈던 부류)도 점검(BE #162). 기본 off — 포탈은 V2 통제 밖이라 필요할 때만.</li>
+<li><strong>삭제 기능 없음</strong>(읽기전용). 고아(ORPHAN) 판정에는 포탈시스템(SKR_DOC_MST) 미포함(BE #162).</li>
+<li>⚠️ 후속(DB): 메뉴 등록(ADMIN) 필요. 화면 라벨 일부(<code>FILE_INTEGRITY</code> 등)는 용어사전 미등록 시 키가 그대로 노출될 수 있음.</li>
 </ul>
 <h3 id="cmsemaillog-pr-214-be-158">CmsEmailLog — 상세 본문 전문 로드 (PR #214, BE #158)<a class="headerlink" href="#cmsemaillog-pr-214-be-158" title="Permanent link">&para;</a></h3>
 <ul>
