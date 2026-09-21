@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할 화면 사용여부 — 버튼 관리에 검색·컬럼 추가, 권한 관리 기본값을 'Y' 로
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#upper-case-enter" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2220,6 +2231,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할 화면 사용여부 — 버튼 관리에 검색·컬럼 추가, 권한 관리 기본값을 'Y' 로
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#upper-case-enter" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3120,6 +3142,15 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="y">역할 화면 사용여부 — 버튼 관리에 검색·컬럼 추가, 권한 관리 기본값을 'Y' 로<a class="headerlink" href="#y" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>CmsRoleButtonMgt</code>(역할별 버튼 관리)</strong> — 검색바에 <strong>사용여부 셀렉트박스</strong>(<code>S_USE_YN</code>, 전체 포함)를 두고, <strong>역할 정보 그리드에 <code>USE_YN</code> 컬럼</strong>을 넣었다. <code>fnReset</code> 은 이미 <code>'Y'</code> 였는데 <strong>컨트롤이 없어 보이지도 바꾸지도 못하는 값</strong>이었다. 짝 = BE PR #164 — 매퍼에 컬럼도 필터도 없었다.</li>
+<li>★<strong>그 그리드의 <code>USE_YN</code> 은 읽기 전용이다.</strong> 이 화면은 역할 레코드를 저장하지 않는다 — <code>fnSave</code> 는 <code>BTN_GRID</code>/<code>SUB_BTN_GRID</code> 만 보내고, 매퍼의 insert/update/delete 는 전부 <code>TB_CMS_ROLE_BUTTON</code> 대상이라 <code>TB_CMS_ROLE</code> 을 갱신할 경로가 없다. 편집 가능하게 두면 <strong>고쳐도 조용히 아무 일도 안 일어난다.</strong> <code>CmsRoleMenuMgt</code> 의 역할 그리드는 저장 경로가 있어 편집 가능하니, 같은 모양이라고 따라 만들지 말 것.</li>
+<li><strong><code>CmsRoleMenuMgt</code>(역할별 권한 관리)</strong> — <code>fnReset</code> 의 사용여부 기본값을 <code>''</code>(전체) → <strong><code>'Y'</code>(사용중)</strong> 로 되돌렸다. 폐기한 역할이 기본 화면에 안 보이는 것이 맞는 상태다.</li>
+<li>⚠️<strong>사용여부 셀렉트박스를 지우지 말 것.</strong> 비활성 역할을 되살리려면 그걸로 전체/<code>'N'</code> 을 골라 조회해야 한다. 컨트롤이 없어지면 그때는 정말 길이 막힌다. PR #206 이 기본값을 <code>''</code> 로 둔 근거였던 "되살릴 방법이 없어진다" 는 <strong>같은 PR 이 셀렉트박스를 추가했으므로 과장이었다</strong>(2026-09-21 정정, 작성자 본인 확인).</li>
+<li>복사 기능의 <code>원본 역할</code> 드롭다운이 <code>USE_YN='Y'</code> 만 담는 필터(PR #204)는 <strong>별개</strong>라 그대로다.</li>
+<li>검증: 수정한 두 파일 ESLint 0, 매퍼 수정본을 Oracle(<code>.100</code>)에서 실제 실행 — 전체 17건 / <code>'Y'</code> 16건 / <code>'N'</code> 1건으로 분할 정상.</li>
+</ul>
 <h3 id="upper-case-enter"><code>upper-case</code> 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제<a class="headerlink" href="#upper-case-enter" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>DxTextBoxProxy</code> 의 대문자 변환을 <strong><code>keyup</code> 핸들러의 DOM 조작에서 값 경로(<code>parseValue</code>)로</strong> 옮겼다. <code>:upper-case="true"</code> 사용처 <strong>98곳</strong> 전부에 적용된다.</li>
