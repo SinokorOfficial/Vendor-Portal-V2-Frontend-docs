@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsusermgt-pr-225" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#invoice-detail-pr-227" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2297,6 +2308,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsusermgt-pr-225" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#invoice-detail-pr-227" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3274,13 +3296,18 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="cmsusermgt-pr-225">CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)<a class="headerlink" href="#cmsusermgt-pr-225" title="Permanent link">&para;</a></h3>
+<ul>
+<li>조회 결과가 0 건이면 목록만 비고 <strong>오른쪽 상세에는 직전에 조회한 사용자의 정보가 그대로 남아 있었다.</strong> <code>fnSearchDetail</code> 이 선택된 행이 없으면 그대로 <code>return</code> 하기 때문이다.</li>
+<li>0 건이면 <code>MSG000016</code>(조회 된 데이터가 없습니다) 토스트를 띄우고 <code>this.main</code> 을 비운다. 그리드 넷은 <code>fnClearGrid()</code> 가 이미 비우고 있었다.</li>
+</ul>
 <h3 id="invoice-detail-pr-227">Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)<a class="headerlink" href="#invoice-detail-pr-227" title="Permanent link">&para;</a></h3>
 <ul>
 <li>PR #226 이 엑셀 버튼을 <strong>리포트 뷰어(<code>CmsHtmlReportPopup</code>)에 붙였는데 자리를 잘못 짚었다.</strong> "Invoice Detail 팝업"은 <code>CrsInvoice</code> 그리드에서 행을 눌러 뜨는 <strong><code>CrsInvDetailPopup</code></strong>(Invoice No./Invoice Date/Total 헤더 + ag-grid)이다. 리포트 뷰어에서 되돌리고 그쪽으로 옮긴다.</li>
 <li><code>CrsInvDetailPopup</code> 그리드 헤더 <code>#actions</code> 에 엑셀 버튼(<code>MdmCustomerMgt</code> 등과 같은 관례). <code>adapter.exportExcel</code> 로 <strong>보이는 열·정렬 상태 그대로</strong> 내려받고, 금액은 서식이 아닌 원본 숫자로 나가 엑셀에서 합계·정렬이 된다(<code>processCellCallback</code> 이 이미 그렇게 처리).</li>
 <li>0 건이면 내려받지 않고 <code>MSG000016</code> 안내. 파일명 = <code>[&lt;선사&gt;] Invoice Detail_&lt;INV_NO&gt;_&lt;yyyymmdd&gt;.xlsx</code> — 다른 화면들과 같은 관례(<code>[${useUiStore().activeCompany}] …</code>).</li>
 <li>리포트 뷰어 쪽은 <code>REPORTS</code> 의 <code>excel</code> 정의 · <code>excelDef</code> · <code>fnExcel</code> · <code>xlsx</code> import 를 전부 걷어내 <strong>PR #226 이전 상태로 되돌렸다</strong>(인쇄 수정 2 건은 그대로 유지).</li>
-<li>검증(헤드리스 실제 클릭): 27 행 주입 → <code>Invoice_Detail_LCH052607_20260923.xlsx</code> 28 행(헤더 1 + 데이터 27) · <code>No</code> 열 포함 · 금액 셀 숫자형 · 0 건 클릭 시 다운로드 없음 + 알림 노출. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li>검증(헤드리스 실제 클릭): 27 행 주입 → <code>[SNKO] Invoice Detail_LCH052607_20260923.xlsx</code> 28 행(헤더 1 + 데이터 27) · <code>No</code> 열 포함 · 금액 셀 숫자형 · 0 건 클릭 시 다운로드 없음 + 알림 노출. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
 </ul>
 <h3 id="pdf-pr-226">리포트 PDF 가 스타일 없이 찍히던 문제 + 행 번호 어긋남 + 엑셀 다운로드 (PR #226)<a class="headerlink" href="#pdf-pr-226" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3290,7 +3317,7 @@
 <li>같이 발견된 별개 결함 — 행 번호 <code>No.</code> 가 페이지 경계에서 <strong>겹치거나 건너뛴다</strong>(1 페이지가 <code>29</code> 로 끝나는데 2 페이지도 <code>29</code> 로 시작, 마지막이 <code>41</code> 인데 <code>Count : 42</code>). 시작 인덱스를 <code>pi * rowsPerPage</code>(고정값)로 계산했는데 자동 분할은 행 높이로 나눠 <strong>페이지마다 행 수가 다르다</strong> → 앞 페이지들의 실제 행 수를 누적하도록 변경. 화면 뷰어에도 있던 문제다.</li>
 <li>리포트 5 종이 이 셸을 공유하므로 위 두 건은 <code>InvoiceDetail</code>/<code>Invoice</code>/<code>Estimate</code>/<code>EstimateList</code>/<code>SurrenderNotice</code> 에 함께 적용된다.</li>
 <li>⚠️<strong>인쇄 관련 수정은 <code>vite build</code> + <code>vite preview</code> 로 검증할 것.</strong> 2026-08 의 인쇄 레이아웃 5 건(PR #153)을 로컬 dev 에서만 재고 고쳤던 탓에 정작 "CSS 가 안 붙는다"는 본체를 놓쳤다.</li>
-<li>~~<strong>엑셀 다운로드 추가</strong> — 리포트 뷰어 툴바에 <code>📊 엑셀</code> 버튼.~~ <strong>붙일 곳을 잘못 짚었다 — PR #227 에서 되돌리고 <code>CrsInvDetailPopup</code> 으로 옮겼다.</strong> 아래 항목 참고.</li>
+<li>~~<strong>엑셀 다운로드 추가</strong> — 리포트 뷰어 툴바에 <code>📊 엑셀</code> 버튼.~~ <strong>붙일 곳을 잘못 짚었다 — PR #227 에서 되돌리고 <code>CrsInvDetailPopup</code> 으로 옮겼다.</strong> 위 항목 참고.</li>
 <li>검증(운영 빌드): 화면 페이지 수 2 = PDF 물리 페이지 수 2 · 페이지별 넘침 <code>0px</code> · 본문 마지막 요소가 푸터 위 · 행 번호 <code>1~29</code> / <code>30~42</code> = <code>Count 42</code> · 엑셀은 실제 클릭으로 받아 파싱(49행 · 합계 6,300/73,731/80,031 · 금액셀 <code>t='n'</code> <code>z='#,##0.00'</code>) · <code>vue-tsc --noEmit</code> exit 0.</li>
 </ul>
 <h3 id="pr-220-be-174-infra-51">탭 간 세션 동기화 — 다른 계정 로그인 감지 (PR #220, BE #174, Infra #51)<a class="headerlink" href="#pr-220-be-174-infra-51" title="Permanent link">&para;</a></h3>
