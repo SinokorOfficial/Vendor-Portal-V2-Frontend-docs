@@ -1834,6 +1834,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#32-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        32. 리포트 PDF 만 레이아웃이 무너진다 (화면 뷰어는 멀쩡) — 운영에서만
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-no" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        33. 리포트 행 번호(No.)가 페이지 경계에서 겹치거나 건너뛴다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2528,6 +2550,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#32-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        32. 리포트 PDF 만 레이아웃이 무너진다 (화면 뷰어는 멀쩡) — 운영에서만
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-no" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        33. 리포트 행 번호(No.)가 페이지 경계에서 겹치거나 건너뛴다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3095,6 +3139,96 @@
 <li>★<strong>레거시에도 있던 결함이다(회귀 아님).</strong> 레거시 <code>plugins/dev-extreme.js</code> 에는 이 <code>parseValue</code> 가 <strong>주석 처리</strong>돼 있고 내용이 위와 같다. 누군가 값 경로 변환을 끄고 keyup + CSS 로 우회한 것이며, 이유는 레거시 git 최초 커밋부터 주석이라 확인되지 않는다. 껐던 이유로 가장 의심되는 <strong>커서 튐</strong>은 실측에서 재현되지 않았다(중간 삽입 <code>AXBC</code>/커서 2, <code>valueChangeEvent='keyup'</code> 모드 포함).</li>
 <li><strong>관련(수정 안 함)</strong>: <code>ECodeBox</code> 도 <code>onInternalValueChanged</code> 에 변환이 없어 같은 구멍이 있다(레거시 <code>UCodeBox</code> 와 동일). 다만 코드 조회 비교값에는 <code>changeUpper()</code> 를 쓰고 있어 <strong>조회는 대소문자를 흡수</strong>한다 → 소문자 입력을 허용하는 동작으로 두기로 했다(2026-09-21 판단). 저장값이 소문자로 남는 것은 감수한다.</li>
 <li><strong>근거</strong>: <code>src/plugins/dev-extreme.ts</code> <code>DxTextBoxProxy.parseValue</code>. — PR #215.</li>
+</ul>
+<h2 id="32-pdf">32. 리포트 PDF 만 레이아웃이 무너진다 (화면 뷰어는 멀쩡) — 운영에서만<a class="headerlink" href="#32-pdf" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: <code>CmsHtmlReportPopup</code> 에서 <code>📄 PDF</code>(또는 <code>🖨 인쇄</code>)를 누르면 나온 PDF 가 무너져 있다.<ul>
+<li>표 보더 · 회색 표 헤더 · 초록 룰이 <strong>전부 없다</strong></li>
+<li>제목이 26pt 가운데가 아니라 본문 크기로 왼쪽에 붙는다</li>
+<li>메타박스가 좌우로 안 나뉘고 세로로 쌓인다</li>
+<li>날짜가 <code>2026-</code> / <code>05-26</code> 두 줄로 쪼개진다</li>
+<li><strong>여러 장이 한 장 위에 겹쳐 찍힌다</strong>(행 번호가 두 번 나오고 중간에 레터헤드가 끼어 보인다)
+  화면 뷰어와 <strong>로컬 dev 인쇄는 멀쩡하다.</strong> 운영에서만 나온다.</li>
+</ul>
+</li>
+<li><strong>원인</strong>: 인쇄 iframe 에 스타일을 이식한 뒤 <strong>로드를 기다리지 않고 <code>print()</code> 를 호출</strong>하고 있었다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// 문제의 분기 — else 가지는 한 번도 실행되지 않는다</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">readyState</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">'complete'</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="nx">fire</span><span class="p">()</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">else</span><span class="w"> </span><span class="nx">win</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="w"> </span><span class="s1">'load'</span><span class="p">,</span><span class="w"> </span><span class="nx">fire</span><span class="w"> </span><span class="p">)</span>
+</code></pre></div>
+  ★<code>doc.close()</code> 직후 <code>readyState</code> 는 <strong>이미 <code>complete</code></strong> 다(실측). 그래서 항상 즉시 인쇄로 간다.<ul>
+<li><strong>dev</strong>: 앱 CSS 가 인라인 <code>&lt;style&gt;</code> → <code>textContent</code> 복사라 <strong>동기 적용</strong> → 멀쩡하게 보인다</li>
+<li><strong>운영 빌드</strong>: 앱 CSS 가 전부 <code>&lt;link rel="stylesheet"&gt;</code> → 재링크는 <strong>비동기</strong> → <strong>스타일 0 개로 인쇄된다</strong></li>
+</ul>
+</li>
+</ul>
+<p>운영 빌드에서 <code>print()</code> 호출 <strong>그 순간</strong>을 측정한 값:</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>수정 전</th>
+<th>수정 후</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적용된 스타일시트</td>
+<td><strong>3 / 10</strong></td>
+<td>10 / 10</td>
+</tr>
+<tr>
+<td><code>.rp-title</code></td>
+<td><code>16px</code> / <code>start</code></td>
+<td><code>26px</code> / <code>center</code></td>
+</tr>
+<tr>
+<td>표 셀 보더</td>
+<td><strong><code>0px</code></strong></td>
+<td><code>1px</code></td>
+</tr>
+<tr>
+<td><code>white-space</code></td>
+<td><strong><code>normal</code></strong></td>
+<td><code>nowrap</code></td>
+</tr>
+<tr>
+<td><code>.rp-meta</code> display</td>
+<td><strong><code>block</code></strong></td>
+<td><code>flex</code></td>
+</tr>
+</tbody>
+</table>
+<p>겹침까지 가는 경로는 이렇다 — <code>nowrap</code> 이 풀려 날짜가 두 줄이 되고, 행이 부풀어 <strong>인쇄 CSS 가 강제한 <code>.hr-page{height:297mm}</code></strong> 를 넘긴다. 넘친 내용은 흐르지 못하고 다음 장 위에 그대로 그려진다.
+- <strong>해결</strong>: <code>&lt;link&gt;</code> 가 실제로 로드된 뒤에 인쇄한다. 이미 <code>sheet</code> 가 붙은 링크는 건너뛰고, <code>error</code> 도 카운트하며(못 받아도 인쇄는 진행), 5 초 안전 타임아웃을 둔다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">(</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="w"> </span><span class="s1">'link[rel="stylesheet"]'</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="w"> </span><span class="nx">l</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="nx">l</span><span class="p">.</span><span class="nx">sheet</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="nx">links</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fire</span><span class="p">();</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kd">let</span><span class="w"> </span><span class="nx">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">links</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span><span class="w"> </span><span class="nx">fired</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="kd">const</span><span class="w"> </span><span class="nx">once</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="nx">fired</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fired</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="nx">fire</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kd">const</span><span class="w"> </span><span class="nx">tick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">--</span><span class="nx">left</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="nx">once</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nx">links</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="w"> </span><span class="nx">l</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nx">l</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="w"> </span><span class="s1">'load'</span><span class="p">,</span><span class="w"> </span><span class="nx">tick</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">once</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="nx">l</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="w"> </span><span class="s1">'error'</span><span class="p">,</span><span class="w"> </span><span class="nx">tick</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">once</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">}</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="nx">setTimeout</span><span class="p">(</span><span class="w"> </span><span class="nx">once</span><span class="p">,</span><span class="w"> </span><span class="mf">5000</span><span class="w"> </span><span class="p">)</span>
+</code></pre></div>
+- ★<strong>이 결함은 dev 검증으로는 절대 안 잡힌다.</strong> §19 의 인쇄 레이아웃 5 건(PR #153)을 로컬 dev 에서 재고 고쳤는데, 정작 운영에서는 그 CSS 자체가 안 붙고 있었다. <strong>인쇄 관련 수정은 <code>vite build</code> + <code>vite preview</code> 로 확인할 것.</strong>
+- <strong>점검 레시피</strong>: <code>print()</code> 를 가로채 그 시점 상태를 찍는다. <code>Node.prototype.appendChild</code> 를 감싸 <code>aria-hidden</code> iframe 이 붙는 순간 <code>contentWindow.print</code> 를 교체하면, 셸의 실제 경로를 그대로 타면서 <code>doc.styleSheets.length</code> 와 <code>getComputedStyle</code> 을 잴 수 있다. ⚠️MutationObserver 로는 못 잡는다 — 콜백이 마이크로태스크라 <code>doc.write</code>/<code>close</code> 가 먼저 끝난다.
+- <strong>근거</strong>: <code>src/pages/cms/popup/CmsHtmlReportPopup/index.vue</code> <code>nativePrint()</code>. — PR #226.</p>
+<h2 id="33-no">33. 리포트 행 번호(<code>No.</code>)가 페이지 경계에서 겹치거나 건너뛴다<a class="headerlink" href="#33-no" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 1 페이지가 <code>29</code> 로 끝나는데 2 페이지도 <strong><code>29</code></strong> 로 시작한다. 마지막 행이 <code>41</code> 인데 <code>GRAND TOTAL</code> 은 <code>Count : 42</code>. 화면 뷰어와 PDF 양쪽 다.</li>
+<li><strong>원인</strong>: 셸이 각 페이지에 넘기는 시작 인덱스가 <code>:start-index="pi * rowsPerPage"</code> 였다. 그런데 <code>computePages()</code> 의 자동 분할은 <strong>행의 실제 높이</strong>로 나누므로 <strong>페이지마다 행 수가 다르다.</strong> 고정값 <code>rowsPerPage</code> 는 이제 측정 실패 시 폴백값일 뿐이라, 둘이 어긋난다.</li>
+<li><strong>해결</strong>: 앞 페이지들의 <strong>실제 행 수</strong>를 누적한다.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nx">pageStarts</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">pages</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">out</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="w"> </span><span class="nx">acc</span><span class="w"> </span><span class="p">);</span><span class="w"> </span><span class="nx">acc</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">rows</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">out</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="p">}</span>
+</code></pre></div></li>
+<li><strong>영향 범위</strong>: <code>start-index</code> 를 실제로 찍는 리포트는 <code>CrsInvoiceDetailReport</code> · <code>CrsEstimateListReport</code> 둘이다. 나머지 셋은 받기만 하고 쓰지 않는다.</li>
+<li><strong>근거</strong>: <code>src/pages/cms/popup/CmsHtmlReportPopup/index.vue</code> <code>pageStarts</code>. — PR #226.</li>
 </ul>
 
 
