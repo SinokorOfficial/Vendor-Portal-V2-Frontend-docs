@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#invoice-detail-pr-227" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pdf-pr-226" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2286,6 +2297,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#invoice-detail-pr-227" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pdf-pr-226" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3252,6 +3274,14 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="invoice-detail-pr-227">Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)<a class="headerlink" href="#invoice-detail-pr-227" title="Permanent link">&para;</a></h3>
+<ul>
+<li>PR #226 이 엑셀 버튼을 <strong>리포트 뷰어(<code>CmsHtmlReportPopup</code>)에 붙였는데 자리를 잘못 짚었다.</strong> "Invoice Detail 팝업"은 <code>CrsInvoice</code> 그리드에서 행을 눌러 뜨는 <strong><code>CrsInvDetailPopup</code></strong>(Invoice No./Invoice Date/Total 헤더 + ag-grid)이다. 리포트 뷰어에서 되돌리고 그쪽으로 옮긴다.</li>
+<li><code>CrsInvDetailPopup</code> 그리드 헤더 <code>#actions</code> 에 엑셀 버튼(<code>MdmCustomerMgt</code> 등과 같은 관례). <code>adapter.exportExcel</code> 로 <strong>보이는 열·정렬 상태 그대로</strong> 내려받고, 금액은 서식이 아닌 원본 숫자로 나가 엑셀에서 합계·정렬이 된다(<code>processCellCallback</code> 이 이미 그렇게 처리).</li>
+<li>0 건이면 내려받지 않고 <code>MSG000016</code> 안내. 파일명 = <code>[&lt;선사&gt;] Invoice Detail_&lt;INV_NO&gt;_&lt;yyyymmdd&gt;.xlsx</code> — 다른 화면들과 같은 관례(<code>[${useUiStore().activeCompany}] …</code>).</li>
+<li>리포트 뷰어 쪽은 <code>REPORTS</code> 의 <code>excel</code> 정의 · <code>excelDef</code> · <code>fnExcel</code> · <code>xlsx</code> import 를 전부 걷어내 <strong>PR #226 이전 상태로 되돌렸다</strong>(인쇄 수정 2 건은 그대로 유지).</li>
+<li>검증(헤드리스 실제 클릭): 27 행 주입 → <code>Invoice_Detail_LCH052607_20260923.xlsx</code> 28 행(헤더 1 + 데이터 27) · <code>No</code> 열 포함 · 금액 셀 숫자형 · 0 건 클릭 시 다운로드 없음 + 알림 노출. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+</ul>
 <h3 id="pdf-pr-226">리포트 PDF 가 스타일 없이 찍히던 문제 + 행 번호 어긋남 + 엑셀 다운로드 (PR #226)<a class="headerlink" href="#pdf-pr-226" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>CmsHtmlReportPopup</code> 의 <code>PDF</code>/<code>인쇄</code> 결과가 운영에서만 무너졌다(표 보더·회색 헤더·초록 룰이 통째로 없고, 날짜가 두 줄로 쪼개지며, 여러 장이 한 장 위에 겹쳐 찍힘). <strong>화면 뷰어와 로컬 dev 인쇄는 멀쩡해서 그동안 안 보였다.</strong></li>
@@ -3260,13 +3290,7 @@
 <li>같이 발견된 별개 결함 — 행 번호 <code>No.</code> 가 페이지 경계에서 <strong>겹치거나 건너뛴다</strong>(1 페이지가 <code>29</code> 로 끝나는데 2 페이지도 <code>29</code> 로 시작, 마지막이 <code>41</code> 인데 <code>Count : 42</code>). 시작 인덱스를 <code>pi * rowsPerPage</code>(고정값)로 계산했는데 자동 분할은 행 높이로 나눠 <strong>페이지마다 행 수가 다르다</strong> → 앞 페이지들의 실제 행 수를 누적하도록 변경. 화면 뷰어에도 있던 문제다.</li>
 <li>리포트 5 종이 이 셸을 공유하므로 위 두 건은 <code>InvoiceDetail</code>/<code>Invoice</code>/<code>Estimate</code>/<code>EstimateList</code>/<code>SurrenderNotice</code> 에 함께 적용된다.</li>
 <li>⚠️<strong>인쇄 관련 수정은 <code>vite build</code> + <code>vite preview</code> 로 검증할 것.</strong> 2026-08 의 인쇄 레이아웃 5 건(PR #153)을 로컬 dev 에서만 재고 고쳤던 탓에 정작 "CSS 가 안 붙는다"는 본체를 놓쳤다.</li>
-<li><strong>엑셀 다운로드 추가</strong> — 툴바에 <strong><code>📊 엑셀</code></strong> 버튼. 메타 4줄(Company / Invoice No / Invoice Date / Currency) + 빈 줄 + 표 + <code>GRAND TOTAL</code> 순으로, 리포트 표와 같은 열 구성으로 내보낸다.<ul>
-<li>★<strong>화면 분할(<code>pages</code>)이 아니라 원본 <code>LIST</code> 전체를 한 시트에 담는다.</strong> 엑셀엔 페이지 개념이 없고, 장 단위로 쪼개면 필터·합계가 갈라져 오히려 쓰기 나빠진다.</li>
-<li>금액 세 열은 <strong>숫자로</strong> 넣고 <code>#,##0.00</code> 서식을 준다(문자열로 넣으면 엑셀에서 합계·정렬이 안 된다). 합계는 셸의 기존 <code>totals</code> 를 재사용해 리포트 푸터와 산식이 갈라지지 않게 했다.</li>
-<li>★<strong>버튼은 <code>REPORTS</code> 레지스트리에 <code>excel</code> 정의가 있는 리포트에만 뜬다.</strong> <code>Invoice</code> · <code>SurrenderNotice</code> 처럼 <code>LIST</code> 가 없는 리포트가 빈 시트를 내려주지 않게 하려는 것이다. 다른 리포트에 추가하려면 그 리포트 항목에 <code>excel: { sheet, file, meta, columns }</code> 한 덩어리를 넣으면 된다.</li>
-<li>파일명 = <code>Invoice_Detail_&lt;INV_NO&gt;_&lt;yyyymmdd&gt;.xlsx</code>. 라이브러리는 기존 의존성 <code>xlsx</code>(SheetJS) — 신규 의존성 없음.</li>
-</ul>
-</li>
+<li>~~<strong>엑셀 다운로드 추가</strong> — 리포트 뷰어 툴바에 <code>📊 엑셀</code> 버튼.~~ <strong>붙일 곳을 잘못 짚었다 — PR #227 에서 되돌리고 <code>CrsInvDetailPopup</code> 으로 옮겼다.</strong> 아래 항목 참고.</li>
 <li>검증(운영 빌드): 화면 페이지 수 2 = PDF 물리 페이지 수 2 · 페이지별 넘침 <code>0px</code> · 본문 마지막 요소가 푸터 위 · 행 번호 <code>1~29</code> / <code>30~42</code> = <code>Count 42</code> · 엑셀은 실제 클릭으로 받아 파싱(49행 · 합계 6,300/73,731/80,031 · 금액셀 <code>t='n'</code> <code>z='#,##0.00'</code>) · <code>vue-tsc --noEmit</code> exit 0.</li>
 </ul>
 <h3 id="pr-220-be-174-infra-51">탭 간 세션 동기화 — 다른 계정 로그인 감지 (PR #220, BE #174, Infra #51)<a class="headerlink" href="#pr-220-be-174-infra-51" title="Permanent link">&para;</a></h3>
