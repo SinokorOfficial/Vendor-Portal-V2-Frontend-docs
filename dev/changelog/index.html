@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#fdsfeederagemgt-hkdamt-pr-228" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsFeederageMgt — HKDAMT 가 비어 있던 문제 (PR #228)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsusermgt-pr-225" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2308,6 +2319,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#fdsfeederagemgt-hkdamt-pr-228" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsFeederageMgt — HKDAMT 가 비어 있던 문제 (PR #228)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsusermgt-pr-225" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3296,6 +3318,20 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="fdsfeederagemgt-hkdamt-pr-228">FdsFeederageMgt — HKDAMT 가 비어 있던 문제 (PR #228)<a class="headerlink" href="#fdsfeederagemgt-hkdamt-pr-228" title="Permanent link">&para;</a></h3>
+<ul>
+<li>홍콩 유저 화면에서 <code>HKDAMT</code> 가 항상 비어 있었고, 통화별 합계와 HKD 환산 <code>TOTAL</code> 행도 전부 0 이었다.</li>
+<li>★<strong>서버는 <code>HKDAMT</code> 를 안 준다</strong> — <code>SP_GET_FRT</code> 는 <code>HKDRATE</code> 만 내려주고 <code>PKG_FDS</code> 어디에도 <code>hkdamt</code> 가 없다. 화면이 <code>FRTAMT × HKDRATE</code> 로 채우는 설계다.</li>
+<li>원인은 이식 누락이다. 레거시 2026-07-01 커밋("피더 수정")을 옮긴 <code>523134f</code> 가 <code>FdsInvoice</code> 는 <code>fnSearch</code> 부터 손대 매핑이 들어갔는데, <code>FdsFeederageMgt</code> 는 <strong>705줄 아래(컬럼 정의·합계 그리드·합산)만</strong> 손대 값을 만드는 <code>fnSearch</code>·<code>onCellValueChanged</code> 가 빠졌다. 커밋 메시지엔 두 화면 다 했다고 적혀 있었다.</li>
+<li>레거시대로 세 곳을 맞췄다.<ul>
+<li><code>fnSearch</code> — 조회 결과에 <code>HKDAMT = FRTAMT × HKDRATE</code> 매핑</li>
+<li><code>onCellValueChanged</code> — <code>FRTAMT</code> 변경 시 <code>HKDAMT</code> 재계산(<code>FRTRATE</code>/<code>FRTCNT</code> → <code>FRTAMT</code> → <code>HKDAMT</code> 연쇄)</li>
+<li><code>HKDRATE</code>·<code>HKDAMT</code> 읽기 전용 — V2 는 새로 추가한 행(<code>BATCH_FLAG === 'I'</code>)에서만 편집이 열려 있었다. 레거시엔 <code>editable</code> 자체가 없다.</li>
+</ul>
+</li>
+<li>검증(헤드리스 실행): <code>25 × 1.1510 = 28.775</code> · 합계 CNY <code>251.0331</code> / USD <code>15.686</code> / TOTAL <code>266.7191</code> · <code>FRTRATE 500→1000</code> ⇒ <code>FRTAMT 1000</code> ⇒ <code>HKDAMT 1151</code>. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li>⚠️손대지 않은 것 — 셀 편집 재계산은 <code>FRTRATE × FRTCNT</code> 인데 커미션 행은 서버가 <code>COMMRATE</code> 까지 곱해 내려준다(500 × 5% = 25). 커미션 행에서 Rate 를 고치면 AMT 가 500 으로 덮이고 HKDAMT 도 따라간다. 레거시와 같다.</li>
+</ul>
 <h3 id="cmsusermgt-pr-225">CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)<a class="headerlink" href="#cmsusermgt-pr-225" title="Permanent link">&para;</a></h3>
 <ul>
 <li>조회 결과가 0 건이면 목록만 비고 <strong>오른쪽 상세에는 직전에 조회한 사용자의 정보가 그대로 남아 있었다.</strong> <code>fnSearchDetail</code> 이 선택된 행이 없으면 그대로 <code>return</code> 하기 때문이다.</li>
