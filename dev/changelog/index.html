@@ -1277,6 +1277,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsusermgt-user_div-admin-ced35cee33df3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — USER_DIV 는 ADMIN 만, 메인 법인 없이 역할 추가 금지 (핫픽스 ced35ce·e33df3d)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crsestapproval-remark-8c4d6d5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstApproval — 견적 REMARK 저장 실패를 삼키지 않는다 (핫픽스 8c4d6d5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crsestuploadexl" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2341,6 +2363,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cmsusermgt-user_div-admin-ced35cee33df3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — USER_DIV 는 ADMIN 만, 메인 법인 없이 역할 추가 금지 (핫픽스 ced35ce·e33df3d)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crsestapproval-remark-8c4d6d5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstApproval — 견적 REMARK 저장 실패를 삼키지 않는다 (핫픽스 8c4d6d5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crsestuploadexl" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3362,6 +3406,20 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="cmsusermgt-user_div-admin-ced35cee33df3d">CmsUserMgt — USER_DIV 는 ADMIN 만, 메인 법인 없이 역할 추가 금지 (핫픽스 <code>ced35ce</code>·<code>e33df3d</code>)<a class="headerlink" href="#cmsusermgt-user_div-admin-ced35cee33df3d" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>USER_DIV</code> 줄은 ADMIN 역할에게만 보인다</strong> — 비밀번호 초기화(PR #229)와 같은 <code>isAdmin</code> 판정. 나머지 두 칸이 비어 있는 줄이라 줄째로 숨겼다. 저장 필수값이 아니라 ADMIN 이 아닌 사용자의 저장은 막히지 않는다.</li>
+<li><strong>메인 법인(<code>CORP_CD</code>)을 고르기 전에는 역할을 추가할 수 없다</strong> — <code>roleGridAddRow</code> 맨 앞에서 <code>MSG000030</code>(<code>{0}을 선택해주세요.</code>, <code>{0}</code>=CORP) 안내 후 중단. 그리드 + 버튼과 우클릭 "행 추가" 가 모두 이 함수를 부른다.<ul>
+<li>이유: 역할 행의 <code>CORP_CD</code> 는 <strong>추가하는 순간의 <code>main.CORP_CD</code> 로 고정</strong>되고 칸이 <code>editable:false</code> 라 나중에 못 고친다. 저장 검증은 <code>main.CORP_CD</code> 만 보고 이미 추가된 역할 행은 다시 보지 않는다. 그래서 법인보다 역할을 먼저 넣으면 <strong>권한을 주지 않는 <code>CORP_CD</code> NULL 행</strong>이 저장됐다(Infra #63 에서 정리한 NULL 행들의 재발 경로).</li>
+</ul>
+</li>
+</ul>
+<h3 id="crsestapproval-remark-8c4d6d5">CrsEstApproval — 견적 REMARK 저장 실패를 삼키지 않는다 (핫픽스 <code>8c4d6d5</code>)<a class="headerlink" href="#crsestapproval-remark-8c4d6d5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>SP_SET_EST_RMK</code> 은 OUT 이 커서뿐이라 <code>resultCd</code> 가 없다. 프로시저가 실패해도 인터셉터가 못 잡고 <code>then</code> 으로 들어오는데, 거기엔 성공 분기만 있어 <strong>실패해도 아무 일도 안 일어난 것처럼 보였다.</strong></li>
+<li>이제 <code>ESTIMATE_NO</code> 가 안 맞으면 프로시저가 돌려준 <code>MSG</code>(권한 없음, No Data Found, SQL 예외)를 띄우고, 없으면 <code>MSG000387</code>(저장에 실패하였습니다)로 대체한다.</li>
+<li><code>P_RS[0]</code> 는 옵셔널 체이닝으로 읽는다 — 0행으로 끝나는 경우가 있어 그대로 읽으면 TypeError 가 난다.</li>
+</ul>
 <h3 id="crsestuploadexl">CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다<a class="headerlink" href="#crsestuploadexl" title="Permanent link">&para;</a></h3>
 <ul>
 <li>대량 업로드(2026-09-28 약 1,300행)가 <code>TransactionSystemException: JDBC rollback failed</code> 로 실패했다. 원인은 운영 경로의 <strong>약 240초 네트워크 유휴 벽</strong>이다. 프로시저가 도는 동안 JDBC 소켓엔 데이터가 오가지 않아 유휴로 보이고, 240초를 넘기면 잘린다(<code>ORA-17002</code>). 그 건은 <strong>데이터가 이미 커밋돼 있었다</strong>(마스터 631건, 고아 0) — 끊긴 건 결과를 돌려주는 연결뿐이다.</li>
