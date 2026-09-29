@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#crsestuploadexl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsusermgt-admin-pr-229" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2330,6 +2341,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#crsestuploadexl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cmsusermgt-admin-pr-229" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3340,6 +3362,37 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="crsestuploadexl">CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다<a class="headerlink" href="#crsestuploadexl" title="Permanent link">&para;</a></h3>
+<ul>
+<li>대량 업로드(2026-09-28 약 1,300행)가 <code>TransactionSystemException: JDBC rollback failed</code> 로 실패했다. 원인은 운영 경로의 <strong>약 240초 네트워크 유휴 벽</strong>이다. 프로시저가 도는 동안 JDBC 소켓엔 데이터가 오가지 않아 유휴로 보이고, 240초를 넘기면 잘린다(<code>ORA-17002</code>). 그 건은 <strong>데이터가 이미 커밋돼 있었다</strong>(마스터 631건, 고아 0) — 끊긴 건 결과를 돌려주는 연결뿐이다.</li>
+<li>★파일 <strong>용량이 아니라 서버 계산 시간</strong>이 문제라, 행이 많으면 작은 파일도 걸린다.</li>
+<li>이제 사용자는 파일을 통째로 올리고, <strong>화면이 <code>SAVE_CHUNK_ROWS</code>(300행) 단위로 나눠 순서대로 호출</strong>한다. 사용자에게 행 수 제한은 없다.<ul>
+<li><strong>컨테이너(<code>ESTIMATE_DATE</code>+<code>EQ_NO</code>)는 쪼개지 않는다</strong> — 프로시저가 같은 키로 묶어 중복체크와 REMARK 선택을 하므로 한 컨테이너는 한 호출에만 실려야 한다. 컨테이너 안 행 순서는 유지된다. 한 컨테이너가 300행을 넘으면 그 컨테이너만 단독 조각이 된다.</li>
+<li>결과(행별 <code>ERR_MSG</code>)는 각 호출의 <code>P_RS</code> 를 이어 붙여 한 번에 보여준다. 프로시저가 호출 시작 때 자기 <code>TMP_CRS_EST4EXL</code> 행을 지우고(<code>SP_SET_EST4EXL_NEW</code> 본문 <code>delete ... where comp_cd = p_comp_cd and inp_emp = p_user_id</code>) 끝에 그 tmp 에서 <code>P_RS</code> 를 열므로 조각끼리 겹치지 않는다(<code>ALL_SOURCE</code> 로 확인, 원본 <code>SP_SET_EST4EXL</code> 도 같은 구조).</li>
+<li>분할 호출 사이의 틈에도 전역 로딩 오버레이가 유지되도록 저장 전체를 <code>loadingStart()</code>/<code>loadingEnd()</code> 로 감쌌다(중복 제출 방지).</li>
+</ul>
+</li>
+<li>300 근거: 원본 최악 456ms/행 × 300 = 137초, 9/28 절단 건 역산(≥185ms/행) × 300 ≈ 55초. 둘 다 240초 한참 아래.</li>
+<li>⚠️<strong>대가 — 파일 전체 원자성은 없다.</strong> 중간 조각에서 실패하면 거기서 멈추고, 앞 조각은 커밋된 채 남는다. 그래서 실패 안내에 "N container(s) (M rows) have already been saved."를 덧붙인다(해외 수리업체가 쓰는 화면이라 영문). 컨테이너 단위 원자성은 그대로라 고아 견적은 생기지 않고, 다시 저장하면 이미 저장된 견적은 UPDATE 경로로 가서 중복되지 않는다. 그리드는 실패 시 원본 그대로 둔다.</li>
+<li><strong>300행 이하 업로드는 호출 1번이라 종전과 똑같이 동작한다.</strong></li>
+<li><strong>조각이 2개 이상이면 전역 오버레이에 진행 바를 띄운다</strong> — 흰 카드 안에 "Processing... 600 / 1,500 rows (3/5)" 문구와 바(다른 화면에서도 쓸 수 있게 범용 영문). 진한 파랑 = 저장 완료분, 연한 파랑 = 지금 저장 중인 조각(<code>buffer-value</code>), 나머지 = 남은 분량. 조각 하나가 끝날 때마다 갱신된다.<ul>
+<li>공용 부분: <code>stores/loading.ts</code> 에 선택형 <code>progress</code> 상태와 <code>setProgress</code>/<code>clearProgress</code> 추가, <code>App.vue</code> 오버레이가 <code>progress</code> 가 있으면 스피너 대신 진행 바를 그린다. <strong><code>progress</code> 를 채우지 않는 다른 화면은 종전과 똑같이 원형 스피너</strong>다.</li>
+</ul>
+</li>
+<li>검증<ul>
+<li>분할 로직 단위 실행 7케이스(120행→1조각, 300행→1조각, 1,300행→5조각, 300행 초과 단일 컨테이너 단독 조각, 파일에서 흩어진 컨테이너, 같은 EQ_NO 다른 날짜) — 행 누락 0, 컨테이너가 두 조각에 걸친 경우 0, 컨테이너 안 순서 유지.</li>
+<li>오버레이 실브라우저 캡처(Playwright) — 진행률 있음 → 카드+바 표시·스피너 없음, 진행률 없음 → 스피너만. 페이지 에러 0.</li>
+<li>스토어 테스트 <code>setProgress</code>/<code>clearProgress</code> 추가(11/11 통과). <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li><strong><code>.100</code> 실저장</strong>(SP 직접 호출, 세션 NLS 백엔드와 동일, 실패 시 롤백 후 중단). SHA03 의 실제 견적 60건·263행(첫 행만 REMARK, 같은 키 중복 3건), 조각은 이 화면의 <code>fnBuildSaveChunks</code> 를 그대로 잘라 와 상한 50행으로 6조각.<ul>
+<li>한 번에 저장 vs 6조각 저장: 결과 260행 = 260행, 조각별 결과에 <strong>다른 조각 컨테이너 0</strong>, DB 상세 19개 컬럼(공임·타리프·상세 REMARK 포함) <strong>완전 일치</strong>, 마스터 중복 0, 고아 0, REMARK 60/60, 저장 후 tmp 에는 마지막 조각만 남음.</li>
+<li>★<strong>앞 조각 재처리 없음</strong> — 6조각 저장분의 상세 <code>upd_emp</code>/<code>upd_date</code> 가 0행이다(재처리됐다면 MERGE 가 기존 행을 만나 찍는다). 조각별 소요도 80ms 안팎으로 평탄.</li>
+<li>중간 실패(3번째 조각에 상세 <code>QTY</code> NUMBER(4) 를 넘는 값 → 마스터 생성 뒤 MERGE 단계에서 실패): 1·2번째 조각은 커밋 유지, <strong>3번째 조각은 마스터까지 롤백</strong>(고아 0), 4번째부터 미전송. 이어서 전체를 다시 저장하면 앞서 저장된 94행은 UPDATE, 나머지 166행은 INSERT — 중복 0, REMARK 이중 기록 0.</li>
+</ul>
+</li>
+<li>⚠️ 테스트 중 <strong><code>.100</code> 패키지 스펙에서 <code>SP_SET_EST4EXL_NEW</code>·<code>SP_SET_EST_MST_NEW</code> 선언이 빠진 것</strong>을 발견해 복구했다(2026-09-23 운영 스펙 유실 때 <code>.3</code> 만 복구됐던 흔적). 그동안 <code>.100</code> 에 붙은 화면의 엑셀 저장은 응답 200 인데 호출 자체가 스킵됐다.</li>
+</ul>
+</li>
+</ul>
 <h3 id="cmsusermgt-admin-pr-229">CmsUserMgt — 비밀번호 초기화·사용자 삭제를 ADMIN 전용으로 (PR #229)<a class="headerlink" href="#cmsusermgt-admin-pr-229" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>비밀번호 초기화 버튼은 ADMIN 역할에게만 보인다.</strong> 판정은 화면에 이미 있던 <code>isAdmin</code>(<code>$isAdmin()</code> = 세션 roleId 에 <code>ADMIN</code>)이고, 검색바 <code>CUST_CD</code> 버튼과 같은 방식이다. 칸(<code>th</code>/<code>td</code>)은 남겨서 아래 <code>USER_DIV</code> 행처럼 빈 칸으로 보인다. 세션 기반이라 역할이 바뀌면 재로그인해야 반영된다.</li>
