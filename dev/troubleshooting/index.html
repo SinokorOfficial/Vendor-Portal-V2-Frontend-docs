@@ -1856,6 +1856,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        34. 배포 후에도 옛 탭이 옛 코드로 저장한다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2572,6 +2583,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        34. 배포 후에도 옛 탭이 옛 코드로 저장한다
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2768,6 +2790,7 @@
 <li><strong>증상</strong>: 새 배포 전부터 열려 있던 탭에서 이어 작업(미방문 화면 이동) 시 화면이 안 그려지고 멈춤. 콘솔 <code>Failed to fetch dynamically imported module</code>.</li>
 <li><strong>원인</strong>: Vite 는 라우트를 해시 청크(<code>/assets/&lt;화면&gt;-&lt;해시&gt;.js</code>)로 분할한다. 새 배포로 해시가 바뀌어 옛 청크가 사라지는데(nginx 404), 옛 탭이 그 청크를 <code>import()</code> → 실패. 복구 로직이 없으면 내비게이션이 조용히 중단된다.</li>
 <li><strong>해결</strong>: <code>router/index.ts</code> <code>router.onError</code> — 청크 로드 실패 감지 시 대상 경로로 하드 내비게이션(새 index+청크 로드). 세션당 1회 가드로 무한 리로드 방지. <code>vite:preloadError</code> 리스너 병행. (<code>index.html</code> 은 <code>no-cache</code>, <code>/assets</code> 는 immutable — 하드 새로고침은 원래 복구되나 자동 치유가 목적.) — PR #37.</li>
+<li>⚠️<strong>이 장치는 옛 청크를 새로 받으려다 실패할 때만 동작한다.</strong> 이미 메모리에 올라온 화면은 계속 옛 코드로 돈다 → §34.</li>
 </ul>
 <h2 id="8-cspcontent-security-policy">8. CSP(Content-Security-Policy)<a class="headerlink" href="#8-cspcontent-security-policy" title="Permanent link">&para;</a></h2>
 <ul>
@@ -3229,6 +3252,16 @@
 </code></pre></div></li>
 <li><strong>영향 범위</strong>: <code>start-index</code> 를 실제로 찍는 리포트는 <code>CrsInvoiceDetailReport</code> · <code>CrsEstimateListReport</code> 둘이다. 나머지 셋은 받기만 하고 쓰지 않는다.</li>
 <li><strong>근거</strong>: <code>src/pages/cms/popup/CmsHtmlReportPopup/index.vue</code> <code>pageStarts</code>. — PR #226.</li>
+</ul>
+<h2 id="34">34. 배포 후에도 옛 탭이 옛 코드로 저장한다<a class="headerlink" href="#34" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 고친 기능이 배포됐는데 운영 로그에는 고치기 전 동작이 찍힌다. 2026-09-30 <code>CrsEstUploadExl</code> 에서 1,695행이 나뉘지 않고 한 번에 세 번 저장돼 240초 벽에 걸렸다(분할 저장 PR #230 배포 하루 뒤, Infra #49).</li>
+<li><strong>원인</strong>: SPA 는 한 번 받은 화면 코드를 탭이 닫힐 때까지 메모리에 들고 있다. 그 화면에 머무는 동안은 서버에 화면 코드를 다시 요청하지 않으므로 §7 의 자가치유도 걸리지 않는다. 사무실 PC 에서 탭을 며칠씩 띄워 두는 협력사 사용자에게 흔하다.</li>
+<li><strong>판별</strong>: 프론트 nginx 접근 로그에서 그 IP·UA 가 배포 이후 해당 화면 청크(<code>/assets/index-&lt;해시&gt;.js</code>)를 받았는지 본다. 받은 기록이 있어도 <strong>같은 PC 의 다른 탭</strong>이거나 <strong>같은 사무실 NAT 뒤 다른 PC</strong> 일 수 있어 서버 로그만으로 확정은 어렵다.</li>
+<li><strong>해결</strong>: 새 배포 감지(<code>stores/appVersion.ts</code>). 빌드마다 <code>dist/version.json</code> 에 빌드 ID 를 쓰고 화면이 5분마다, 그리고 탭으로 돌아올 때 비교해 다르면 헤더 아래 배너(<code>A new version is available. Please refresh the page.</code> + <code>[Refresh]</code>)를 띄운다. 큰 손해가 나는 저장(<code>CrsEstUploadExl</code>)은 저장 직전에 다시 확인해 막는다. 새로고침 전까지 배너와 차단이 유지된다.</li>
+<li>⚠️<strong>이 장치는 그것이 들어간 빌드를 받은 탭부터 동작한다.</strong> 그 이전부터 열려 있던 탭은 여전히 안내를 받지 못한다.</li>
+<li><strong>재현</strong>: dev 서버는 빌드 ID 가 비어 있어 안 된다. <code>vite build</code> → <code>dist/version.json</code> 의 <code>buildId</code> 를 다른 값으로 바꿈 → <code>vite preview</code> → 로그인 → 다른 탭에 갔다가 돌아오기.</li>
+<li><strong>근거</strong>: <code>src/stores/appVersion.ts</code>, <code>src/App.vue</code>(배너, 확인 주기), <code>vite.config.ts</code>(<code>emit-version-json</code>, <code>VITE_BUILD_ID</code>), <code>src/pages/crs/CrsEstUploadExl/index.vue</code> <code>fnSave</code>.</li>
 </ul>
 
 

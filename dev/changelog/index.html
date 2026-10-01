@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#infra-49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#nginx-apiv2ssolink-infra-47" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2374,6 +2385,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#infra-49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#nginx-apiv2ssolink-infra-47" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3428,6 +3450,19 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
+<h3 id="infra-49">새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)<a class="headerlink" href="#infra-49" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>계기</strong>: 2026-09-30 <code>CrsEstUploadExl</code> 에서 1,695행이 <strong>나뉘지 않고 한 번에</strong> 세 번 저장돼 240초 벽에 모두 걸렸다. 분할 저장(PR #230)이 배포된 지 하루 뒤였다. 배포 전부터 열려 있던 화면이 메모리에 올라온 <strong>옛 저장 코드를 그대로 쓴 것</strong>으로 본다. 그 화면은 서버에 새로 요청할 일이 없어 router 의 자가치유(<code>healStaleChunk</code>, 옛 청크 404 때만 동작)에도 걸리지 않는다.</li>
+<li><strong>감지</strong>: 빌드마다 <code>dist/version.json</code>(<code>{ buildId }</code>)을 만들고 같은 값을 화면 코드에 <code>import.meta.env.VITE_BUILD_ID</code> 로 박는다(<code>vite.config.ts</code>). <code>stores/appVersion.ts</code> 의 <code>check()</code> 가 <code>version.json</code> 을 읽어 값이 다르면 <code>hasNewVersion</code> 을 세운다. <code>App.vue</code> 가 <strong>5분마다, 그리고 탭으로 돌아올 때</strong> 확인한다(셸 화면만, 로그인과 별도 창 팝업은 제외). dev 서버는 빌드 ID 가 비어 있어 확인하지 않는다.</li>
+<li><strong>배너</strong>: 헤더 바로 아래 화면 폭 전체 띠(높이 36px, 파랑) — <code>A new version is available. Please refresh the page.</code> + <code>[Refresh]</code>(<code>e-btn color="normal-line"</code>, <code>location.reload()</code>). <strong>닫기 버튼은 없다.</strong> 새로고침하면 새 빌드로 다시 떠 빌드 ID 가 같아지므로 저절로 사라진다. 배너가 떠 있는 동안 작업영역 높이를 36px 줄인다.<ul>
+<li>자동 새로고침은 하지 않는다 — 그리드에 올린 엑셀이나 입력 중인 내용, 열려 있는 다른 탭의 작업이 날아간다.</li>
+</ul>
+</li>
+<li><strong>저장 차단(<code>CrsEstUploadExl</code> 만)</strong>: 저장 직전에 한 번 더 확인하고, 새 버전이면 <code>$message.warning</code>(OK 로 닫는 메시지 창)으로 <code>A new version is available. Please refresh the page and save again.</code> 를 띄우고 저장하지 않는다. 5분 주기를 기다리지 않으려고 저장 시점에 확인한다. <code>hasNewVersion</code> 은 새로고침 전까지 유지되므로 <strong>OK 로 닫아도 저장할 때마다 다시 막힌다.</strong></li>
+<li>⚠️<strong>이 장치는 다음 배포부터 효과가 있다.</strong> 이 코드가 없는 옛 탭은 여전히 아무 안내도 받지 못한다. 이번 배포로 새로 뜬 화면부터 그다음 배포를 감지한다.</li>
+<li>검증: store 테스트 5종(다른 ID → 감지, 같은 ID → 그대로, dev → 확인 안 함, 404·네트워크 실패 무시, 한 번 감지하면 재요청 없음) 포함 16/16 통과. <code>vite build</code> 결과 <code>version.json</code> 의 ID 와 번들에 박힌 ID 일치. 배너는 App.vue 블록을 잘라 붙인 하네스를 빌드본(<code>vite preview</code>)에서 Playwright 로 실측 — 36px, 전체 폭, 아이콘 폰트 로드, Refresh 클릭 동작, 페이지 에러 0. 로컬 빌드본(<code>vite preview</code> 4050 + 백엔드 9050, <code>.100</code>)의 <code>dist/version.json</code> 을 다른 값으로 바꿔 <strong>버전 불일치를 재현</strong>하고, 로그인한 셸에서 배너와 저장 차단을 사용자가 직접 확인했다. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li><strong>재현법</strong>: <code>vite build</code> 후 <code>dist/version.json</code> 의 <code>buildId</code> 를 아무 값으로 바꾸고 <code>vite preview</code> → 로그인 → 다른 탭에 갔다가 돌아오면 배너가 뜬다(처음 화면을 열 때는 확인하지 않는다 — 방금 받은 화면은 최신이므로). dev 서버(<code>vite</code>)는 빌드 ID 가 비어 있어 재현되지 않는다. → <a href="../troubleshooting/">트러블슈팅 §34</a>.</li>
+</ul>
 <h3 id="nginx-apiv2ssolink-infra-47">nginx <code>/api/v2SsoLink</code> 임시 스텁 제거 (Infra #47)<a class="headerlink" href="#nginx-apiv2ssolink-infra-47" title="Permanent link">&para;</a></h3>
 <ul>
 <li>컷오버 후 브라우저 디스크에 캐시된 <strong>레거시 로그인 셸</strong>을 구제하던 임시 블록(PR #186)을 뺐다. 레거시 셸이 로그인 직후 부르는 이 경로에 <code>{"v2Url":"/?v2=1"}</code> + <code>Clear-Site-Data: "cache"</code> 를 돌려줘 로그인 루프를 풀어주던 것이다.</li>
