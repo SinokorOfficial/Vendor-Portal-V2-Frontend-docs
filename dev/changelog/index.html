@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#comp_cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        선사 전환 시 봉투(COMP_CD)가 화면과 어긋나던 경로 둘 차단
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#del4cleaning" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2413,6 +2424,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#comp_cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        선사 전환 시 봉투(COMP_CD)가 화면과 어긋나던 경로 둘 차단
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#del4cleaning" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3506,6 +3528,21 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="comp_cd">선사 전환 시 봉투(<code>COMP_CD</code>)가 화면과 어긋나던 경로 둘 차단<a class="headerlink" href="#comp_cd" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 협력사 계정이 자기 HALK 견적을 삭제하려는데 <code>You do not have permission</code>. 요청을 보니 <code>ESTIMATE_NO</code> 는 HALK 것인데 <code>COMP_CD</code> 는 <code>SNKO</code> 였다. 서버 소유검증은 정상 동작한 것이고, <strong>프론트가 봉투를 틀리게 실어 보낸 것</strong>이다.</li>
+<li><strong>원인 1 — 캐시된 탭</strong>: <code>TabWorkspace</code> 가 <code>&lt;keep-alive&gt;</code> 로 여러 화면을 동시에 캐시하는데, 선사 전환(<code>EContentLayout.changeCompany</code>)은 <strong>그때 보이던 화면 하나만</strong> <code>fnReset</code> 한다. 다른 탭은 옛 선사 데이터를 그대로 들고 있다가, 거기서 삭제하면 봉투만 새 선사가 된다.</li>
+<li><strong>원인 2 — 화면 간 인자전달</strong>: <code>sendPageArgs</code> 로 열린 화면은 <code>EContentLayout</code> 의 <code>mounted</code> 가 기본 선사(<code>MAIN_YN='Y'</code>)로 스냅하는데, 받은 데이터는 송신 화면 선사 것이다(<code>CrsEstUploadExl → CrsEstimate</code>).</li>
+<li><strong>조치</strong><ul>
+<li><code>ui</code> 스토어에 <code>applyCompany(compCd)</code> 신설 — <code>activeCompany</code>/<code>activeCustCd</code>/<code>activeLocCd</code> 를 <strong>한 묶음으로</strong> 교체. <code>companyList</code> 조회가 <code>EContentLayout</code> 안에만 있던 것을 끌어올렸다.</li>
+<li><code>EContentLayout</code>: <code>changeCompany</code> 를 <code>applyCompany</code>(봉투·스타일만) + 리셋으로 분리하고 <strong><code>onActivated</code> 에서 그 화면이 보던 선사로 봉투를 되돌린다</strong>. ★<code>onActivated</code> 에서 <code>fnReset</code> 은 부르지 않는다 — 복원된 그리드를 지우면 의미가 없다. 선택을 기억하도록 <code>changeCompany</code> 가 <code>codeMapSel</code> 을 갱신한다(종전엔 <code>created</code> 에서 한 번만 세팅돼 되돌릴 값이 없었다).</li>
+<li><code>sendPageArgs</code> → <code>receiveArgsMeta({ COMP_CD })</code>, <code>mixins/page.deliverPageArgs</code> 가 <code>onReceiveArgs</code> <strong>직전에</strong> 봉투를 송신 선사로 맞춘다. <code>$nextTick</code> 안에서 적용해 모든 <code>activated</code> 훅 이후가 되도록 했다.</li>
+</ul>
+</li>
+<li>★<strong>레거시도 같은 결함이었다</strong> — <code>UContentLayout.changeCompany</code> 가 V2 와 동일 코드(<code>$parent?.fnReset()</code> + 전역 commit)다. V2 회귀가 아니라 이관된 결함이다.</li>
+<li><strong>하지 않은 것</strong>: 선사 전환 시 모든 탭 리셋 / 탭 전부 닫기 / 그리드 행에서 <code>COMP_CD</code> 꺼내기. 앞의 둘은 사용자 작업이 날아가고, 셋째는 다른 선사 컨텍스트에서의 조작을 허용하는 셈이다.</li>
+<li>상세: <a href="../state/">상태관리 — 선사 전환은 applyCompany 로</a></li>
+</ul>
 <h3 id="del4cleaning">견적 업로드 — 클리닝 삭제 컬럼(<code>DEL4CLEANING</code>) 노출 보류 (핫픽스)<a class="headerlink" href="#del4cleaning" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>CrsEstUploadExl</code> 의 <code>onModelUpdated</code> 가 <code>ISCLEANING === 'Y'</code> 행이 있으면 <code>DEL4CLEANING</code> 컬럼을 보이게 하던 로직을 주석 처리했다. 해당 기능이 아직 오픈 전이라 운영 화면에 노출되면 안 된다(2026-10-02).</li>
