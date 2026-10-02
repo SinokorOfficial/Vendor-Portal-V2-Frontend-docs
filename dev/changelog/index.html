@@ -1265,6 +1265,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-10
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#del4cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 업로드 — 클리닝 삭제 컬럼(DEL4CLEANING) 노출 보류 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026-09" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2373,6 +2401,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-10
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#del4cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 업로드 — 클리닝 삭제 컬럼(DEL4CLEANING) 노출 보류 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026-09" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3449,6 +3505,12 @@
 
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
+<h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="del4cleaning">견적 업로드 — 클리닝 삭제 컬럼(<code>DEL4CLEANING</code>) 노출 보류 (핫픽스)<a class="headerlink" href="#del4cleaning" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>CrsEstUploadExl</code> 의 <code>onModelUpdated</code> 가 <code>ISCLEANING === 'Y'</code> 행이 있으면 <code>DEL4CLEANING</code> 컬럼을 보이게 하던 로직을 주석 처리했다. 해당 기능이 아직 오픈 전이라 운영 화면에 노출되면 안 된다(2026-10-02).</li>
+<li>컬럼 정의가 <code>hide: true</code> 라 이제 항상 숨겨진다. 오픈할 때 주석만 풀면 된다.</li>
+</ul>
 <h2 id="2026-09">2026-09<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h2>
 <h3 id="infra-49">새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)<a class="headerlink" href="#infra-49" title="Permanent link">&para;</a></h3>
 <ul>
