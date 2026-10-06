@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        에러 로그 — 다른 행을 고르면 메시지를 맨 위부터 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crsestuploadexl-pr-236-be-186-infra-49" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2285,7 +2296,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         배포 안정성 · 보안
@@ -2296,7 +2307,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         기반
@@ -2324,7 +2335,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         리포트 · 문서
@@ -2335,7 +2346,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         화면 · 공통 컴포넌트
@@ -2346,7 +2357,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         기반
@@ -2435,6 +2446,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        에러 로그 — 다른 행을 고르면 메시지를 맨 위부터 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crsestuploadexl-pr-236-be-186-infra-49" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3443,7 +3465,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         배포 안정성 · 보안
@@ -3454,7 +3476,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         기반
@@ -3482,7 +3504,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         리포트 · 문서
@@ -3493,7 +3515,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         화면 · 공통 컴포넌트
@@ -3504,7 +3526,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         기반
@@ -3550,6 +3572,11 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="_2">에러 로그 — 다른 행을 고르면 메시지를 맨 위부터 (핫픽스)<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>CmsErrorLogList</code> 의 ERR_MSG 텍스트 영역이 내용이 바뀌어도 스크롤 위치를 유지해, 긴 메시지를 내려 본 뒤 다른 행을 고르면 새 메시지의 중간이 보였다.</li>
+<li>행 선택(<code>onRowSelected</code>) 때 <code>$nextTick</code> 뒤 내부 <code>textarea.dx-texteditor-input</code> 의 <code>scrollTop</code> 을 0 으로 되돌린다(<code>fnScrollErrMsgTop</code>).</li>
+</ul>
 <h3 id="crsestuploadexl-pr-236-be-186-infra-49">CrsEstUploadExl — 옛 저장 프로시저로 되돌리던 스위치 제거 (PR #236, BE #186, Infra #49)<a class="headerlink" href="#crsestuploadexl-pr-236-be-186-infra-49" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>USE_NEW_SP_FOR_ALL</code>/<code>NEW_SP_TEST_USERS</code> 스위치와 옛 데이터셋(<code>dataset.SAVE</code> → <code>SP_SET_EST4EXL</code>)을 지웠다. 저장은 항상 <code>SP_SET_EST4EXL_NEW</code> 다.</li>
@@ -4335,25 +4362,25 @@
 <li><strong>셀 렌더러/에디터가 메인 앱 컨텍스트 상속</strong>(PR #45) — ag-grid 격리 셀 앱에 전역 컴포넌트(dx-*)·전역 프로퍼티(<code>$lang</code>/<code>$dialog</code>)가 없어 코드박스 팝업 등이 크래시하던 것을 <code>VueComponentFactory</code> 패치로 근본 해결. → <a href="../troubleshooting/">트러블슈팅 §6.1</a>.</li>
 <li><strong>셀 에디터 mount/unmount 크래시 가드</strong>(PR #42) + <strong>코드박스 셀 dx 렌더 복구</strong>(PR #44) + <strong>편집 셀 높이·flush 정렬</strong>(PR #46·#49). → <a href="../troubleshooting/">§6.2</a>·<a href="../troubleshooting/">§6.3</a>.</li>
 </ul>
-<h3 id="_2">배포 안정성 · 보안<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_3">배포 안정성 · 보안<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>배포 후 SPA stale 청크 "먹통" 자가치유</strong>(PR #37) — <code>router.onError</code>/<code>vite:preloadError</code> 로 청크 로드 실패 시 자동 복구. → <a href="../troubleshooting/">트러블슈팅 §7</a>.</li>
 <li><strong>nginx 보안 헤더 + gzip</strong>(PR #40) — HSTS·X-Frame-Options(SAMEORIGIN)·nosniff·Referrer-Policy + 텍스트 응답 gzip.</li>
 <li><strong>CSP Report-Only 도입</strong>(PR #41·#43) — 차단 없이 위반 관찰(enforcing 전 단계). → <a href="../troubleshooting/">트러블슈팅 §8</a>.</li>
 </ul>
-<h3 id="_3">기반<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_4">기반<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>문서 작성 정책 명문화</strong>(문서) — 개발자 문서 개요에 ① 사내 전용 정보(내부 IP·호스트명·계정·실운영 문서)의 공개 문서 게시 금지 ② 한국어 · MkDocs Material 조직 표준 준수 를 명시. → <a href="../">개요</a>.</li>
 <li><strong>CI 품질게이트 워크플로 추가</strong>(PR #30) — <code>dev</code>/<code>main</code> PR 에서 빌드(vue-tsc + vite build)·Trivy 의존성 CVE(리포트)·SBOM 을 실행한다. 리포트 전용·비차단. 자세히: <a href="../build-deploy/">빌드/배포 §CI 품질게이트</a>.</li>
 </ul>
 <h2 id="2026-06">2026-06<a class="headerlink" href="#2026-06" title="Permanent link">&para;</a></h2>
-<h3 id="_4">리포트 · 문서<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_5">리포트 · 문서<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>리포트 DevExpress → 자체 HTML 뷰어 이식</strong> (PR #11·#12). 공통 셸 <code>CmsHtmlReportPopup</code> + <code>reports/&lt;Report&gt;.vue</code> 구조. 이식: InvoiceDetail / Invoice(Repair Bill Summary) / Estimate(견적 상세) / EstimateList(견적 목록) / SurrenderNotice(FDS). 화면 배선: CrsInvoice · CrsEstimate · CrsEstApproval · FdsOrdMgt(<code>MENU_PATH</code> 만 교체).</li>
 <li>공통 셸: <strong>실제 높이 누적 기반 자동 페이지네이션</strong>(고정 행수 폐기, 행 잘림·빈 공간 해소), 첫/마지막 페이지 이동 버튼, 네이티브 인쇄. → <a href="../troubleshooting/">트러블슈팅 §1</a>.</li>
 <li><strong>개발자 문서에 트러블슈팅·변경 이력 페이지 추가</strong>(이 문서).</li>
 </ul>
-<h3 id="_5">화면 · 공통 컴포넌트<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_6">화면 · 공통 컴포넌트<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>MANUAL 버튼 → 화면별 PDF 매뉴얼 뷰어</strong> + 파일 다운로드/뷰어 로딩 스피너 (PR #13). <code>EHeader</code> <code>openManual()</code>, <code>util/http</code> <code>pdfViewer</code>/<code>fileOriginDown</code>.</li>
 <li><strong>TES Expn 화면 버튼 가로 정렬</strong> (TesInspExpn · TesLashingExpn · TesTugExpn · TesLineHandleExpn): 전월/금월, ATFILE/+/− 가 세로로 쌓이던 것 → <code>d-flex</code> 로 가로 배열.</li>
@@ -4361,7 +4388,7 @@
 <li><strong>그리드 버튼 스타일/레이아웃 통일</strong> — <code>EGridBtn</code>: <code>button-type</code> 별 기본 색(add=<code>normal-line</code>, delete=<code>delete</code>), 아이콘 전용 버튼(+/−·excel 등) 정사각형 너비. 아이콘 중앙 정렬 버그 수정. → <a href="../troubleshooting/">트러블슈팅 §2</a>.</li>
 <li><strong>대시보드 캘린더</strong> — 높이를 영역 100%로(고정 px 폐기), 오늘 날짜 셀 강조. UserDashBoard(<code>EScheduler</code>)·FeederDashBoard(raw <code>dx-scheduler</code>) 각각 적용. → <a href="../troubleshooting/">트러블슈팅 §4</a>.</li>
 </ul>
-<h3 id="_6">기반<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h3 id="_7">기반<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>개발자 문서 사이트 신설</strong> — MkDocs Material(<code>docs-dev/</code>) + 자동 배포(<code>main</code> 푸시 → <code>Vendor-Portal-V2-Frontend-docs</code>/gh-pages, <code>/dev/</code>). 사용자 매뉴얼은 <code>mkdocs.user.yml</code>(루트 <code>/</code>).</li>
 <li><strong>Nuxt 2 → Vite 5 / Vue 3 이관</strong> — 화면 144개 이식, ag-grid 25.3 / DevExtreme 22.1.3 현행 유지, Node 20.</li>
