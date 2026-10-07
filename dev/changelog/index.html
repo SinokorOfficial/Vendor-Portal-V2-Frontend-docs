@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#infra-71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        죽은 코드 정리 (Infra #71)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#7-validateutil-4-pr-238" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2457,6 +2468,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#infra-71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        죽은 코드 정리 (Infra #71)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#7-validateutil-4-pr-238" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3594,6 +3616,21 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="infra-71">죽은 코드 정리 (Infra #71)<a class="headerlink" href="#infra-71" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>판정 기준</strong>: 주석을 뺀 코드에서 참조 0. 자동등록 컴포넌트는 PascalCase, kebab-case, 디렉터리 접두 이름까지 모두 대조했다. 테스트에서만 쓰던 함수는 테스트 케이스와 함께 지웠다.</li>
+<li><strong>파일 삭제</strong><ul>
+<li>화면: <code>mdm/code/MdmVesselMgt</code>(쓰는 DB 테이블 6개 중 5개가 없어 첫 조회부터 <code>ORA-00942</code> — 백엔드 스택도 함께 삭제, 메뉴 <code>USE_YN=N</code>), <code>fds/FdsTariffPort</code>(메뉴 <code>USE_YN=N</code>, 90일 접근 0), <code>MdmCorpMgt/components/CorpSetting.vue</code>(주석 처리된 Setting 탭. <code>pages/</code> 아래라 의도치 않은 라우트로도 잡혀 있었다)</li>
+<li>컴포넌트: <code>ManagerDashBoard</code>(대시보드 로더가 Admin/Feeder/User 만 매핑), <code>UserDashBoard/JobDivCount.vue</code>, <code>ECard/Accordion</code></li>
+<li>그리드 엑셀: <code>AgGridExcel.ts</code> + <code>ExcelUtil.ts</code> + <code>AgGridAdapter.createExcel()</code> — 진입점 <code>createExcel()</code> 호출 0. 이제 src 에서 <code>xlsx</code> import 가 0이다(의존성 제거는 lock 재생성이 필요해 별도)</li>
+<li>mixin: <code>mixins/page/tab.ts</code>(라이프사이클 훅 없음, 메서드 호출 0), <code>mixins/page/error.ts</code>(<code>errorMessage</code> 호출 0), <code>mixins/ag-grid/baseMixinRender.ts</code>(빈 placeholder), <code>util/mixins/index.ts</code></li>
+<li>기타: <code>styles/coinbase-theme.scss</code>(직전 테마, 롤백 보존용이었음), 미사용 <code>dataset.js</code> 4개</li>
+</ul>
+</li>
+<li><strong>함수 삭제</strong>: <code>FmsUtil</code> 컨테이너 함수 6개(<code>checkLicenseNo</code> 만 남음), <code>StringUtil</code> 6개, <code>NumberUtil</code> 4개, <code>DateUtil</code> 2개, <code>ValidateUtil</code> 9개, <code>ObjectUtil.deepCopyArray</code>, <code>CodeBoxService.getColByCode</code>/<code>getRowByCode</code>, store 액션 5개(<code>countPlus</code>, <code>removeMyMenu</code>, <code>saveActiveCust</code>, <code>saveActiveLoc</code>, <code>hasArgs</code>), 전역 <code>$json</code>/<code>$number</code>/<code>$time</code> 등록과 <code>json()</code>/<code>time()</code>(<code>number()</code> 는 <code>ValueFormatter</code> 가 써서 유지), <code>vendorCostUrlPrefix</code></li>
+<li><strong>남긴 것</strong>: <code>StringUtil.validatePassword</code>/<code>validateIdPassword</code> 등은 죽은 코드가 아니라 <strong>비밀번호 정책이 연결되지 않은 것</strong>이라 남겼다(정책 도입은 Infra #71). <code>AgGridAdapter</code> 미사용 메서드 54개는 공용 래퍼 API 라 Infra #73(분해) 때 판단한다.</li>
+<li><strong>dev 화면 태그 수정 + 그로 인해 드러난 컴파일 오류</strong>: <code>dev/template/control</code> 이 <code>&lt;dynamic-print-check-option&gt;</code> 을 썼으나 자동등록 이름은 <code>DomainDynamicPrintCheckOption</code> 이라 <strong>한 번도 렌더되지 않았다</strong>. <code>&lt;domain-dynamic-print-check-option&gt;</code> 으로 고치자 그 컴포넌트가 처음 컴파일되며 Vue2 문법(<code>&lt;template v-for&gt;</code> 의 자식에 둔 <code>key</code>)이 <code>vite build</code> 에러로 드러나 <code>key</code> 를 <code>&lt;template&gt;</code> 로 옮겼다. ESLint <code>vue/no-undef-components</code> 허용 목록에 <code>^domain-</code> 을 추가하고, 틀린 태그를 통과시켜 온 <code>^dynamic-</code> 패턴은 해당 태그가 0이 되어 지웠다.</li>
+</ul>
 <h3 id="7-validateutil-4-pr-238">업로드 화면 7종 — 저장 전 형식·바이트 검사 (공용 <code>ValidateUtil</code> 4종) (PR #238)<a class="headerlink" href="#7-validateutil-4-pr-238" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>계기</strong>: LCH24(태국 람차방) 견적 엑셀 저장이 <code>ORA-06502</code> 로 실패했다. 1행 <code>EQ_NO</code> 맨 앞에 태국 성조 부호 <code>U+0E49</code>(태국어 자판에서 <code>h</code> 키)가 붙어 있었다. 화면 검사는 <code>.length !== 11</code> 이었는데 <code>.length</code> 는 UTF-16 단위라 이 문자를 1자로 세어 <strong>11자리로 통과</strong>했다. DB 는 AL32UTF8 에서 3바이트라 13바이트 → <code>VARCHAR2(11 BYTE)</code> 초과. 저장 프로시저가 IN 커서를 임시 테이블 <code>%rowtype</code> 으로 fetch 하므로 <strong>칸 하나만 넘쳐도 묶음 전체가 실패</strong>한다(같이 보낸 정상 행까지 미저장).</li>
