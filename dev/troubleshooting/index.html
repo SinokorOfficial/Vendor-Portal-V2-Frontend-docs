@@ -1570,15 +1570,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#12-devextreme-dx-tag-box-v-model-vue3" class="md-nav__link">
+  <a href="#12-devextreme-dx-tag-box-v-model-vue3-2026-10-07" class="md-nav__link">
     <span class="md-ellipsis">
       
-        12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3)
+        12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3) — 2026-10-07 근본 수정
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3)">
+    <nav class="md-nav" aria-label="12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3) — 2026-10-07 근본 수정">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2297,15 +2297,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#12-devextreme-dx-tag-box-v-model-vue3" class="md-nav__link">
+  <a href="#12-devextreme-dx-tag-box-v-model-vue3-2026-10-07" class="md-nav__link">
     <span class="md-ellipsis">
       
-        12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3)
+        12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3) — 2026-10-07 근본 수정
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3)">
+    <nav class="md-nav" aria-label="12. DevExtreme 태그박스(dx-tag-box) v-model 미동기화 (Vue3) — 2026-10-07 근본 수정">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2844,26 +2844,24 @@
 <li><strong>원인</strong>: <code>fnSend</code> 가 <code>$message.question</code>(비동기 확인창)을 여는 동안 재진입을 막지 않아 확인창이 중첩되고 <code>fnSendEIR</code>/<code>fnSubmit</code> 이 2회 실행된다.</li>
 <li><strong>해결</strong>: <code>data().isSubmitting</code> 플래그 — <code>fnSend</code> 진입 즉시 <code>if (this.isSubmitting) return</code>, 확인창 열기 <strong>前</strong> <code>this.isSubmitting = true</code>, 본문 전체를 <code>try</code>/<code>finally</code> 로 감싸 처리 후 <code>false</code>(확인창 열기 前 세팅이 핵심). <code>fnSubmit</code> 은 issue/cancel 호출에 <code>{ timeout: 300000 }</code>(서버가 컨테이너마다 SIPG 왕복해 전역 타임아웃 초과 가능) + 실패 시 재전송 대신 재조회 안내(<code>fnGetSubmitErrorMessage</code>). Export 만 <code>fnSendEIR</code> 진입 시 <code>sendArray</code> 초기화. 백엔드는 Redis 분산락으로 인스턴스 간 중복도 차단([백엔드 마이그레이션 함정 §4.5]). — 프론트 PR #102.</li>
 </ul>
-<h2 id="12-devextreme-dx-tag-box-v-model-vue3">12. DevExtreme 태그박스(<code>dx-tag-box</code>) v-model 미동기화 (Vue3)<a class="headerlink" href="#12-devextreme-dx-tag-box-v-model-vue3" title="Permanent link">&para;</a></h2>
-<p>FDS 운임 검색의 FRT 멀티셀렉트(<code>FdsFeederageMgt</code>·<code>FdsInvoice</code>). 앱 전체에서 <code>dx-tag-box</code> 를 쓰는 건 이 <strong>두 화면뿐</strong>.</p>
+<h2 id="12-devextreme-dx-tag-box-v-model-vue3-2026-10-07">12. DevExtreme 태그박스(<code>dx-tag-box</code>) v-model 미동기화 (Vue3) — 2026-10-07 근본 수정<a class="headerlink" href="#12-devextreme-dx-tag-box-v-model-vue3-2026-10-07" title="Permanent link">&para;</a></h2>
+<p>FDS 운임 검색의 FRT 멀티셀렉트(<code>FdsFeederageMgt</code>·<code>FdsInvoice</code>)에서 처음 드러났다. 2026-10 부터 <code>CrsEstimate</code> 의 Print Option 도 쓴다.</p>
 <h3 id="121-freight">12.1 선택 태그가 표시 안 되거나, 태그를 빼고 조회하면 "FREIGHT 필수"/크래시<a class="headerlink" href="#121-freight" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>증상</strong>: (1) 화면 최초 진입 시 전체선택이 태그로 표시되지 않음. (2) 태그를 몇 개 빼고 조회하면 <strong>화면엔 태그가 남아있는데</strong> <code>search</code> 데이터는 빈 값으로 넘어가 "FREIGHT 필수" 경고, 또는 <code>Cannot read properties of undefined (reading 'length')</code> 크래시.</li>
-<li><strong>원인</strong>: devextreme-vue <strong>22.1.3 + Vue3</strong> 에서 이 화면들의 <code>dx-tag-box</code> <strong>v-model 양방향 바인딩이 단절</strong>된다. 위젯 내부 <code>value</code>·화면 태그 표시는 선택을 정확히 추적하는데 <code>modelValue</code>↔데이터 동기화만 끊긴다(런타임 진단 실측: <code>search.FRT=[] | instValue=["OCF","DEM","CRF"] | domTags=3</code> — 위젯값·DOM은 정답, 데이터만 빔). 격리 재현은 실패 — 실화면의 <code>e-content-layout</code>(슬롯 깊이중첩)+<code>&lt;keep-alive&gt;</code>+<code>pageMixin</code> 조합에서만 발생. 레거시는 Vue2 + devextreme-vue <strong>22.2.12</strong> 라 정상이었음(V2가 22.1.3 정확고정한 게 배경). <code>$refs</code> 도 슬롯 중첩이라 안 잡힘.</li>
-<li><strong>해결</strong>: 깨진 반응성 다리를 우회하고 <strong>위젯 인스턴스 API를 신뢰 원본</strong>으로 쓴다.<ul>
-<li><code>@initialized="fnInitFrt"</code> 로 위젯 인스턴스 확보(<code>this.frtInstance = e.component</code>) — <code>$refs</code> 대신.</li>
-<li>조회(<code>fnSearch</code>) 시작부에서 <code>frtInstance.option('value')</code> 를 읽어 <code>search.FRT</code> 에 반영(신뢰 원본).</li>
-<li>리셋(<code>fnReset</code>)은 <code>frtInstance.option('value', [전체])</code> 로 직접 세팅(v-model 이 안 먹으니).</li>
-<li>초기 표시는 <code>data()</code> 초기값(born-with-value; 위젯 <strong>생성시점</strong> 값은 채택됨) + <code>@value-changed</code> <code>e.value</code> 배열가드 + 검증부 <code>!Array.isArray</code> 방어.</li>
-<li><strong>FRT 단일 필드</strong>: 검색 상태를 <code>S_FRT</code>(배열)+<code>FRT</code>(문자열) 2필드에서 <strong><code>FRT</code>(배열) 하나</strong>로 통합. 백엔드용 문자열(<code>'ALL'</code>/콤마조인)은 <code>fnSearch</code> <strong>전송 시점에만 파생</strong>(백엔드 계약 불변).</li>
+<li><strong>증상</strong>: (1) 리셋해도 화면 태그가 전체선택으로 돌아오지 않음. (2) 태그를 몇 개 빼고 조회하면 <strong>화면엔 태그가 남아있는데</strong> <code>search</code> 데이터는 빈 값으로 넘어가 "FREIGHT 필수" 경고, 또는 <code>Cannot read properties of undefined (reading 'length')</code> 크래시.</li>
+<li><strong>원인(확정)</strong>: 우리 래퍼 <code>DxTagBoxProxy</code>(<code>plugins/dev-extreme.ts</code>)가 Vue3 로 옮겨지지 않은 채 남아 있었다. devextreme 버전이나 화면 구조(슬롯 중첩·keep-alive) 문제가 <strong>아니었다</strong> — 예전 기록의 "반응성 결함 추정, 격리 재현 실패"는 틀렸다.<ol>
+<li>Vue3 <code>v-model</code> 이 넘기는 <code>modelValue</code> 를 읽지 않고 레거시 prop <code>value</code> 만 읽었다 → <strong>데이터→위젯</strong> 단절(리셋해도 화면이 안 바뀜).</li>
+<li>위젯 변경 핸들러를 <code>addProps()</code> 로 덮어써 <code>update:modelValue</code> 를 내보내지 않았다.</li>
+<li><code>value-changed</code> 로 이벤트 객체 대신 <strong>배열</strong>을 넘겼다 → 화면 핸들러의 <code>e.value</code> 가 <code>undefined</code> 라 <code>search.FRT</code> 를 매번 <code>[]</code> 로 덮어썼다(실측 <code>search.FRT=[] | instValue=[…]</code> 의 정체).</li>
+</ol>
+</li>
+<li><strong>해결</strong>: <code>DxSelectBoxProxy</code> 와 같은 구조로 다시 짰다 — <code>inheritAttrs: false</code> + <code>modelValue</code> 정규화(배열) + <code>update:modelValue</code> 방출 + <code>on-value-changed</code> 에는 DX 이벤트 모양(<code>e.value</code> = 배열) 그대로. 이제 화면은 <strong><code>v-model</code> 한 줄</strong>이면 된다.<ul>
+<li>종전 화면 우회(<code>@initialized</code> 로 위젯 인스턴스 잡기, <code>fnSearch</code> 에서 다시 읽기, <code>fnReset</code> 에서 직접 쓰기, <code>fnSetFRT</code>)는 제거했다.</li>
+<li>FRT 상태는 배열 하나(<code>search.FRT</code>), 백엔드용 문자열(<code>'ALL'</code>/콤마조인)은 <code>fnSearch</code> 전송 시점에만 파생(백엔드 계약 불변).</li>
 </ul>
 </li>
-<li><strong>근거</strong>: <code>pages/fds/FdsFeederageMgt/index.vue</code>·<code>FdsInvoice/index.vue</code> 의 <code>fnInitFrt</code>/<code>fnSearch</code>/<code>fnReset</code>/<code>fnSetFRT</code>/검증부. — PR #109.</li>
+<li><strong>검증</strong>: <code>plugins/__tests__/tagBoxProxy.spec.ts</code>(jsdom 에서 실제 DevExtreme 태그박스) — 수정 전 래퍼로 돌리면 "위젯→데이터", "데이터→위젯" 2건 실패, 수정 후 3건 통과. 실브라우저 하네스(FDS 의 태그를 소스에서 잘라 붙임)로 초기 표시, 태그 제거, 리셋, 데이터 변경 4단계를 A/B 확인.</li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">근본 제거 후보</p>
-<p>devextreme-vue <strong>22.2.x 승격</strong>(레거시와 동일선상)이 근본해결일 수 있으나, 전 dx위젯(그리드·셀렉트박스 등 16종+) 회귀 리스크로 <strong>별도 TODO 보류</strong>. (§6.4 <code>AgEDateBoxEditor</code> 의 Vue2 이벤트 계약 잔재와 같은 계열의 Vue2→Vue3 바인딩 함정.)</p>
-</div>
 <h2 id="13-cmsimagecarouselpopup">13. 무로그인 공개 팝업 (<code>CmsImageCarouselPopup</code>)<a class="headerlink" href="#13-cmsimagecarouselpopup" title="Permanent link">&para;</a></h2>
 <p>수리 이미지 뷰어(<code>CmsImageCarouselPopup</code>)는 포탈/외부에서 <strong>로그인 없이</strong> URL(<code>?COMP_CD=&amp;MNGT_NO=</code>)로 여는 공개 팝업이다. <code>window.open</code> 독립 창(App.vue 가 <code>/popup/</code> 은 셸 없이 풀스크린 렌더 — 레거시 <code>layout:'blank'</code> 동등).</p>
 <h3 id="131-login">13.1 팝업을 열면 <code>/login</code> 으로 튕김<a class="headerlink" href="#131-login" title="Permanent link">&para;</a></h3>

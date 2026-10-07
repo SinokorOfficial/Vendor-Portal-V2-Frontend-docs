@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#dx-tag-box-v-model-fds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dx-tag-box v-model 근본 수정 + FDS 우회 코드 제거
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#consolelog-eslint-no-console-infra-71" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2490,6 +2501,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#dx-tag-box-v-model-fds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dx-tag-box v-model 근본 수정 + FDS 우회 코드 제거
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#consolelog-eslint-no-console-infra-71" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3660,6 +3682,13 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="dx-tag-box-v-model-fds"><code>dx-tag-box</code> v-model 근본 수정 + FDS 우회 코드 제거<a class="headerlink" href="#dx-tag-box-v-model-fds" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>원인</strong>: 래퍼 <code>DxTagBoxProxy</code> 가 Vue3 <code>modelValue</code> 를 안 읽고, <code>update:modelValue</code> 를 안 내보내고, <code>value-changed</code> 로 배열을 넘겨 화면 핸들러의 <code>e.value</code> 가 <code>undefined</code> 였다. devextreme 버전 문제가 아니었다 → <a href="../troubleshooting/">트러블슈팅 §12</a>.</li>
+<li><strong>수정</strong>: <code>DxSelectBoxProxy</code> 구조로 재작성(<code>modelValue</code> 정규화, <code>update:modelValue</code>, <code>e.value</code>=배열). <code>FdsFeederageMgt</code>·<code>FdsInvoice</code> 의 <code>@initialized</code>/<code>frtInstance</code>/<code>fnSetFRT</code> 우회를 걷어내고 <code>v-model</code> 만 쓴다.</li>
+<li><strong>같이 고침</strong>: 공용 그리드 헤더 체크박스 <code>AgCheckBoxHeaderRender</code> 가 ag-grid 가 넣어 주는 <code>params</code> 대신 늘 <code>null</code> 인 지역 변수를 읽어 <strong>전체 선택 클릭 시 <code>reading 'api'</code> 오류</strong>였다(<code>CmsMyPage</code> 가 사용).</li>
+<li><strong>검증</strong>: <code>tagBoxProxy.spec.ts</code> 3건(수정 전 래퍼로는 2건 실패), 전체 테스트 통과, 실브라우저 A/B(리셋·데이터 변경이 수정 전엔 화면에 반영 안 됨).</li>
+</ul>
 <h3 id="consolelog-eslint-no-console-infra-71"><code>console.log</code> 정리 + ESLint <code>no-console</code> (Infra #71)<a class="headerlink" href="#consolelog-eslint-no-console-infra-71" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>실제 코드 62건 삭제</strong>: 디버그 흔적(<code>console.log(data)</code>, <code>'!!!!!!!'</code> 등).</li>
