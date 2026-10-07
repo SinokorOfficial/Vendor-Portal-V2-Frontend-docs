@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#crsestimate-pr-248" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstimate — 저장 전 견적을 삭제하면 '권한 없음'이 뜨던 문제 (PR #248)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#infra-77" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2534,6 +2545,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#crsestimate-pr-248" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstimate — 저장 전 견적을 삭제하면 '권한 없음'이 뜨던 문제 (PR #248)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#infra-77" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3748,6 +3770,16 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="crsestimate-pr-248">CrsEstimate — 저장 전 견적을 삭제하면 '권한 없음'이 뜨던 문제 (PR #248)<a class="headerlink" href="#crsestimate-pr-248" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>증상</strong>: 2026-10-07 PUS14 가 견적 삭제 시 <code>You do not have permission.</code>(409, 에러로그 기록). 그런데 나중에 <code>fn_can_access_est('PUS14','HALK','PUS142610000022')</code> 는 <code>Y</code> 였다.</li>
+<li><strong>원인</strong>: NEW 를 누르면 저장 전인데도 <code>SP_GET_NEW_EST</code> 가 다음 견적번호를 미리 받아 화면에 채운다. 그 상태에서 DELETE(또는 상세 0행으로 저장 → <code>fnDelete</code>)를 누르면 DB 에 없는 번호로 <code>SP_DEL_EST</code> 가 불리고, 소유 게이트 <code>fn_can_access_est</code> 는 <strong>견적이 없으면 <code>N</code></strong> 이라 권한 거절로 나갔다. 이후 같은 번호로 저장돼 지금은 <code>Y</code>.</li>
+<li><strong>수정</strong>: <code>SP_DEL_EST</code> 가 게이트 앞에서 견적 존재부터 보고, 없으면 <code>RESULT='X'</code> + 안내 문구를 돌려준다(DB, .3 반영 완료). 화면은 <code>X</code> 면 서버 삭제 없이 화면만 비우고 그 문구를 알린다.<ul>
+<li>화면의 <code>serverChk</code> 는 컨테이너 번호를 입력할 때도 <code>false</code> 가 돼 "저장된 견적인가" 판단에 쓸 수 없어서, 판정은 서버에 맡겼다.</li>
+<li>DB 반영 전에는 종전과 같다(<code>X</code> 가 안 오므로 영향 없음).</li>
+</ul>
+</li>
+</ul>
 <h3 id="infra-77">비밀번호 정책 — 내 정보 저장 전 검사 + 메시지 코드화 (Infra #77)<a class="headerlink" href="#infra-77" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>StringUtil.passwordPolicyViolation(userId, password)</code> — 서버 <code>PasswordPolicy.violation</code> 과 같은 규칙·같은 순서로 메시지 코드를 돌려준다(<code>MSG000441</code> 규칙 / <code>MSG000442</code> 4연속 / <code>MSG000443</code> 아이디 포함). 이전 비밀번호 재사용(<code>MSG000444</code>)은 이력이 필요해 서버만 판정한다.</li>
@@ -3886,7 +3918,7 @@
 <li><strong><code>FdsCntrMoveUpload</code> 저장 TypeError 수정</strong> — 저장 확인 콜백이 <code>data.FD_VYG.trim()</code> 을 무조건 호출했다. FD_VYG 는 피더 이동코드(FFL/FFD/FEL/FED)만 필수라, 처음 깔린 빈 행(<code>addItem({})</code>)에 직접 입력한 <code>IF</code> 같은 행은 FD_VYG 가 <code>undefined</code> → TypeError 로 저장 요청이 안 나갔다. <code>?.trim()</code> 으로 바꿨다.</li>
 <li><strong>발견했지만 고치지 않은 것</strong><ul>
 <li><code>TesTugExpn</code> HOURS 는 <code>VARCHAR2(3)</code> 이라 10시간 이상(<code>10.0</code>)은 저장 불가 — 이제 화면 안내로 걸린다.</li>
-<li>(DB, 사용자 반영) <code>PKG_FDS.sp_get_errcheck</code> 의 미등록 피더 선박 검사가 <code>x.emp_no = p_user_id</code> 였는데 <code>sp_set_eqmv_new</code> 는 사용자를 <code>emp_nm</code> 에 넣어 검사가 한 번도 걸리지 않았다 → <code>x.emp_nm</code> 으로 정정. ⚠️ 이제 <code>tb_fds_fdvsl</code>(use_yn='Y')에 없는 피더 선박은 저장이 거절된다(<code>.100</code> 2025년 이후 주문 18,726건 중 201건, 약 1.1%가 미등록 선박 — <code>HUI</code>, <code>XF6</code>, <code>HB28</code> 등).</li>
+<li>(DB, .3 반영 완료) <code>PKG_FDS.sp_get_errcheck</code> 의 미등록 피더 선박 검사가 <code>x.emp_no = p_user_id</code> 였는데 <code>sp_set_eqmv_new</code> 는 사용자를 <code>emp_nm</code> 에 넣어 검사가 한 번도 걸리지 않았다 → <code>x.emp_nm</code> 으로 정정. ⚠️ 이제 <code>tb_fds_fdvsl</code>(use_yn='Y')에 없는 피더 선박은 저장이 거절된다(<code>.100</code> 2025년 이후 주문 18,726건 중 201건, 약 1.1%가 미등록 선박 — <code>HUI</code>, <code>XF6</code>, <code>HB28</code> 등).</li>
 </ul>
 </li>
 <li>검증: <code>ValidateUtil.spec.ts</code> 8종 추가(실사례 문자열, 빈 값, 자릿수 부족/초과, <code>'max'</code>, 허용문자와 문자 클래스 이스케이프, 바이트, 윤년, 24시/60분) — 전체 103/103 통과. 화면마다 검증 코드를 원본에서 잘라 실행한 하네스로 실사례 차단과 정상 경계값 통과를 확인했다(<code>TesTugExpn</code> 은 <code>.100</code> <code>TB_TES_TUG</code> 2,454행 전부 통과). <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
