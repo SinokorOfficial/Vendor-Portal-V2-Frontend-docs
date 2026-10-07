@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#infra-77" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        임시 비밀번호로 로그인하면 비밀번호 변경 강제 (Infra #77)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crs-resp-brnadvvip" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2512,6 +2523,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#infra-77" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        임시 비밀번호로 로그인하면 비밀번호 변경 강제 (Infra #77)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crs-resp-brnadvvip" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3704,6 +3726,14 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="infra-77">임시 비밀번호로 로그인하면 비밀번호 변경 강제 (Infra #77)<a class="headerlink" href="#infra-77" title="Permanent link">&para;</a></h3>
+<ul>
+<li>세션의 <code>tempPwdYn</code> 이 <code>'Y'</code>(비밀번호 찾기·관리자 초기화로 받은 비밀번호)이면 <code>EHeader</code> 가 내 정보 팝업(<code>admin/ChangeMe</code>)을 <strong>닫을 수 없게</strong> 띄운다. 저장하면 기존처럼 재로그인 안내 후 로그아웃 → 백엔드가 <code>'N'</code> 으로 내려 다음 로그인부터는 안 뜬다.</li>
+<li><code>EDialog</code> 에 <code>persistent</code> prop 추가(<code>uDialog</code> 옵션 <code>persistent</code>): X 버튼을 숨기고 ESC·바깥 클릭을 무시한다. 세 경로가 모두 <code>closeButtonClick</code> 을 타므로 그 한 곳에서 막는다.</li>
+<li><code>ChangeMe</code> 강제 모드(<code>param.forcePwdChange</code>): 상단 안내문, 현재·새·확인 비밀번호 필수, 새 비밀번호 = 임시 비밀번호 금지(서버 <code>updateUser</code> 에는 이전 비밀번호 재사용 검사가 없다 — 재사용 검사는 Infra #77 정책 작업).</li>
+<li>막는 위치는 화면뿐이다(API 차단 없음 — 사용자 결정). 헤더 MY INFO 로 여는 일반 팝업은 그대로(닫기 가능).</li>
+<li>검증: .100 테스트 계정을 잠시 <code>'Y'</code> 로 두고 브라우저로 확인 — 자동 표시, X 없음, ESC·바깥 클릭 무시, 빈 칸·같은 비밀번호 저장 차단. 일반 사용자는 자동 표시 없음, MY INFO 팝업은 닫힘. 계정 값은 원복.</li>
+</ul>
 <h3 id="crs-resp-brnadvvip">CRS 견적 — 출력 옵션(RESP) 선택 + 목록 리포트 BRN/ADV/VIP 빈칸 수정<a class="headerlink" href="#crs-resp-brnadvvip" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Print Option</strong>(<code>CrsEstimate</code> 검색영역, 태그박스): RESP(Owner, User, VIP, Depot, Branch, Warranty, Advance)를 골라 <strong>PRINT(목록)·PRINT(상세) 둘 다</strong> 그 RESP 만 출력한다. 기본은 전체(= 종전 출력과 동일). 조회 조건은 아니다.<ul>
