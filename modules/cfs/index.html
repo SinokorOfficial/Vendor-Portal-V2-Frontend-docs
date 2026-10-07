@@ -965,7 +965,7 @@
 
 
 <h1 id="cfs">CFS 작업<a class="headerlink" href="#cfs" title="Permanent link">&para;</a></h1>
-<p>CFS(Container Freight Station, 보세창고)의 적입·작업 이력·수리 이력을 다룹니다.</p>
+<p>CFS(Container Freight Station, 보세창고)의 적입 비용과 청구를 다룹니다.</p>
 <h2 id="_1">화면 구성<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -976,14 +976,6 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>작업 이력</strong> (CfsWorkHistory)</td>
-<td>CFS 작업 내역 조회</td>
-</tr>
-<tr>
-<td><strong>셔틀 이력</strong> (CfsShuttleHistory)</td>
-<td>셔틀(운송) 이력 조회</td>
-</tr>
-<tr>
 <td><strong>적입 비용</strong> (CfsStuffExpn)</td>
 <td>적입(Stuffing) 비용 등록/조회</td>
 </tr>
@@ -991,16 +983,12 @@
 <td><strong>적입 인보이스</strong> (CfsStuffInvoice)</td>
 <td>적입 비용 청구(인보이스)</td>
 </tr>
-<tr>
-<td><strong>반납 수리 이력</strong> (CfsRtnRepairHistory)</td>
-<td>반납 시 수리 이력 조회</td>
-</tr>
 </tbody>
 </table>
 <h2 id="_2">일반 흐름<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ol>
-<li>CFS 작업(적입 등) 발생 시 <strong>작업 이력 / 적입 비용</strong>에 기록.</li>
-<li><strong>적입 인보이스</strong>로 비용을 청구하고, 반납/수리는 관련 이력 화면에서 확인합니다.</li>
+<li>CFS 적입 작업이 발생하면 <strong>적입 비용</strong>에 기록합니다.</li>
+<li><strong>적입 인보이스</strong>로 비용을 청구합니다.</li>
 </ol>
 <p>공통 조작은 <a href="../../common-ui/">공통 화면 사용법</a> 참고.</p>
 

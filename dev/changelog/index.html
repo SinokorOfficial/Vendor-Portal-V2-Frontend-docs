@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#10-infra-73-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 화면 10개 삭제 (Infra #73 1차)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2556,6 +2567,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#10-infra-73-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 화면 10개 삭제 (Infra #73 1차)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#crs" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3792,6 +3814,44 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="10-infra-73-1">쓰지 않는 화면 10개 삭제 (Infra #73 1차)<a class="headerlink" href="#10-infra-73-1" title="Permanent link">&para;</a></h3>
+<p>사용자 확인으로 운영에서 쓰지 않는 화면을 지웠다. 중복 덩어리로 분해 후보였던 것들이라, 고치는 대신 걷어낸다.</p>
+<table>
+<thead>
+<tr>
+<th>묶음</th>
+<th>삭제한 화면</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CFS 이력</td>
+<td><code>CfsShuttleHistory</code>, <code>CfsWorkHistory</code>, <code>CfsRtnRepairHistory</code></td>
+</tr>
+<tr>
+<td>CRS</td>
+<td><code>CrsConstExam</code>(같은 기준으로 만든 <code>CrsAcepMgt</code> 가 대체)</td>
+</tr>
+<tr>
+<td>MDM</td>
+<td><code>MdmExpnCdMgt</code>(<code>MdmPortMgt</code> 를 복사만 한 화면, <code>mdmPortMgt</code> API 는 <code>MdmPortMgt</code> 가 계속 씀)</td>
+</tr>
+<tr>
+<td>TES 인보이스</td>
+<td><code>TesInvMgt</code>, <code>TesLashingInvMgt</code>, <code>TesLineHandleInvMgt</code>, <code>TesTugExpnInvMgt</code></td>
+</tr>
+<tr>
+<td>TES 팝업</td>
+<td><code>tes/popup/AmendPopup</code>(위 TES 4화면만 열던 팝업)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>백엔드는 그대로다. 이 화면들은 공통 프로시저 API 와 공용 API(<code>getGrpInvNo</code>, <code>getBankInfo</code>, <code>mdmPortMgt</code>, 파일 목록)만 불렀고, 공용 API 는 다른 화면이 계속 쓴다.</li>
+<li>매뉴얼(<code>/manual</code>)의 "일관 점검"(<code>crs-const</code>) 항목과 문구 3개 언어, 스크린샷 삭제. 사용자 문서(<code>docs/modules</code>)의 cfs, crs, mdm, tes 화면 표 갱신.</li>
+<li><code>docs-dev/reference</code> 재생성(화면 153 → 143, 팝업 41 → 40).</li>
+<li>메뉴(<code>TB_CMS_MENU</code>)와 역할, 버튼, 즐겨찾기 매핑은 사용자가 정리한다.</li>
+</ul>
 <h3 id="crs">CRS 견적 리포트 — 금액·합계 소수 둘째 자리<a class="headerlink" href="#crs" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>견적 목록(PRINT)</strong>: 금액 칸(OWN~VIP, TOTAL)과 GRAND TOTAL 을 천단위 콤마 + <strong>소수 둘째 자리</strong>로(<code>fmtInt</code> → <code>fmtAmt</code>). 레거시 서식 <code>{0:#,#}</code> 이 정수로 반올림해 센트가 사라졌다. 0 은 종전처럼 빈 칸, 건수는 정수 그대로.</li>
