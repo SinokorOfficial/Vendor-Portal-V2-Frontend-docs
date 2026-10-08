@@ -1928,8 +1928,10 @@
 <li><code>validateColumns</code> 기본 분기는 숫자 <code>0</code> 을 미입력으로 본다(필요한 컬럼만 <code>isZeroValue</code>).</li>
 <li>행 추가 직후 <code>getSelectedNode()</code> 는 <code>null</code> 이다.</li>
 <li><code>getItems()</code> 는 조회해 온 행이 아니라 <strong>변경분 캐시</strong>만 돌려준다. 전체 행은 <code>getRows()</code> 나 <code>forEachNode</code>.</li>
-<li>셀 편집 비교가 <code>|| ''</code> 라 <code>0 → ''</code>, <code>'' → null</code> 같은 변경은 CUD 로 잡히지 않는다.</li>
-<li>푸터가 없는 그리드에서 <code>getFooterData(s)</code> 를 부르면 TypeError.</li>
+<li>셀 편집 변경 감지는 <code>null</code>, <code>undefined</code>, <code>''</code> 를 같은 빈 값으로 보고 숫자 <code>0</code> 만 따로 구분한다(Infra #82). 그래서 <code>0 → ''</code>, <code>null → 0</code>, <code>5 → 0</code> 은 U 로 잡히고 <code>'' → null</code> 같은 눈에 안 보이는 차이는 안 잡힌다. 그 밖은 엄격 비교라 <code>0</code> 과 <code>'0'</code> 은 다른 값이다.<ul>
+<li>숫자 편집기 <code>AgNumberBoxEditor</code>: 값이 없는(<code>undefined</code>) 칸을 열었다 아무것도 입력하지 않고 닫으면 원래 값을 그대로 둔다(행이 U 가 되지 않는다). 값이 있던 칸의 숫자를 지우면 빈 값이 아니라 <code>0</code> 이 들어간다 — 숫자 칸을 NULL 로 되돌리는 방법은 없다(현행 유지, 사용자 결정 2026-10-08).</li>
+</ul>
+</li>
 </ul>
 <h2 id="_4">새 화면 추가 체크리스트<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ol>

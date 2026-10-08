@@ -1639,6 +1639,68 @@
 <li>기존 106개 항목은 내용을 바꾸지 않고 옮겼다(<code>YYYYMM00-NN-…</code>, 원래 순서 보존). 제목 단계만 <code>###</code> → <code>##</code>.</li>
 <li>백엔드 레포도 같은 훅, 같은 형식으로 바꿨다.</li>
 </ul>
+<h2 id="aggridadapter-pr-256-infra-82">AgGridAdapter 잠재 버그 수정과 죽은 코드 정리 (PR #256, Infra #82)<a class="headerlink" href="#aggridadapter-pr-256-infra-82" title="Permanent link">&para;</a></h2>
+<h1 id="73-2-0-additem-0">73 2차 분리 때 특성 테스트에 "현재 동작" 으로 고정해 둔 함정 중, 화면이 그 경로를 타지 않는 것만 고쳤다(호출처 0, <code>addItem</code> 은 두 번째 인자를 쓰는 화면이 사실상 0). 화면 동작은 바뀌지 않는다(아래 셀 편집 변경 감지 항목만 예외). 특성 테스트 기대값은 고친 동작으로 바꿨다.<a class="headerlink" href="#73-2-0-additem-0" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>메서드</th>
+<th>전</th>
+<th>후</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>updateItem(s)</code></td>
+<td>캐시에 RowNode 자리로 행 데이터를 넘겨 TypeError</td>
+<td>조회 행을 U 로 캐시에 넣는다(I 행은 I 유지)</td>
+</tr>
+<tr>
+<td><code>getFooterData(s)</code>, <code>getFooterDataAsNumber</code></td>
+<td>푸터 없는 그리드에서 TypeError</td>
+<td><code>[]</code>, <code>undefined</code>, <code>{}</code></td>
+</tr>
+<tr>
+<td><code>validateCheckedColumnsCache</code></td>
+<td>그리드에서 빠진 캐시 행(D)에서 TypeError</td>
+<td>그 행은 건너뛴다(<code>validateColumns</code> 와 같음)</td>
+</tr>
+<tr>
+<td><code>openToolPanel</code></td>
+<td><code>closeToolPanel</code> 을 부름</td>
+<td><code>openToolPanel( key = 'columns' )</code></td>
+</tr>
+<tr>
+<td><code>addItem( item, isInitInsert )</code></td>
+<td>두 번째 인자 무시</td>
+<td><code>addItems</code> 로 전달(<code>INIT_INSERT=Y</code>)</td>
+</tr>
+<tr>
+<td><code>getFirstDisplayedRowIndex</code></td>
+<td>0 이 아니면 <code>+10</code></td>
+<td>첫 표시 행 index 그대로</td>
+</tr>
+<tr>
+<td><code>setScrollByRowIndex</code></td>
+<td>index 0 을 건너뜀</td>
+<td><code>null</code>/<code>undefined</code> 만 건너뜀</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>addItem</code> 에 두 번째 인자를 넘기는 화면은 <code>MdmTariffMgt</code> 한 곳인데 <code>0</code> 을 넘긴다(falsy 라 결과는 같다).</li>
+<li>죽은 코드 삭제(동작 동일): <code>setItems</code> 끝의 빈 <code>forEach</code>, 생성자의 빈 <code>_api.cacheUpdate</code> 와 그 타입 선언.</li>
+<li>보류(업무 판단): <code>validateColumns</code> 의 숫자 0 거부, <code>getColumnDefsByExcel</code> 의 HEADER_NAME 앞 공백과 그룹명 접두. 둘 다 화면 동작이나 엑셀 출력이 바뀌어 손대지 않았다.</li>
+</ul>
+<h3 id="0-2026-10-08">셀 편집 변경 감지: 0 과 빈 값 구분 (사용자 결정 2026-10-08)<a class="headerlink" href="#0-2026-10-08" title="Permanent link">&para;</a></h3>
+<p><strong>이 항목은 화면 동작이 바뀐다.</strong> 셀 편집 비교가 <code>newValue || ''</code> 와 <code>oldValue || ''</code> 를 비교해 <code>0 → ''</code>, <code>'' → 0</code>, <code>0 → null</code>, <code>null → 0</code> 이 U 로 잡히지 않았다. 그 행에 다른 변경이 없으면 저장 대상(<code>getItems()</code>)에서 빠져, 수량이나 금액을 0 으로 바꾸거나 0 을 지운 수정이 저장된 것처럼 보이고 실제로는 저장되지 않았다.</p>
+<ul>
+<li>새 규칙: <code>null</code>, <code>undefined</code>, <code>''</code> 는 같은 빈 값, 숫자 <code>0</code> 은 따로 구분. 0 이 아닌 값은 종전과 같다(엄격 비교라 <code>0</code> 과 <code>'0'</code> 은 다름, <code>false</code>, <code>NaN</code> 은 빈 값)</li>
+<li>이제 잡힘: <code>0 → ''</code>, <code>'' → 0</code>, <code>0 → null</code>, <code>null → 0</code>, <code>5 → 0</code>, <code>0 → 5</code></li>
+<li>계속 안 잡힘: <code>'' → null</code>, <code>null → undefined</code>, <code>undefined → ''</code>(텍스트 편집기가 null 셀을 열었다 닫는 소음, Delete 키로 빈 칸을 지우는 경우)</li>
+<li>숫자 편집기 <code>AgNumberBoxEditor</code>: 값이 없는(<code>undefined</code>) 칸을 열었다 그냥 닫기만 해도 <code>0</code> 을 커밋해, 위 규칙에서는 손대지 않은 행이 U 가 됐다. 사용자가 실제로 입력했는지(input 이벤트, 숫자 키로 편집 시작)를 보고, 입력이 없으면 원래 값을 돌려주게 고쳤다(사용자 결정 2026-10-08). 값이 있던 칸을 지우면 <code>0</code> 이 되는 동작은 그대로다.</li>
+<li>테스트: <code>components/manual/ag-grid/vue/__tests__/AgNumberBoxEditor.spec.ts</code>(jsdom 에 실물 dx-number-box, 6건). 이를 위해 <code>vitest.config.ts</code> 에 <code>@vitejs/plugin-vue</code> 를 넣어 <code>.vue</code> 를 읽게 했다.</li>
+</ul>
 <h2 id="aggridadapter-infra-73-2">AgGridAdapter 책임별 분리 (Infra #73 2차)<a class="headerlink" href="#aggridadapter-infra-73-2" title="Permanent link">&para;</a></h2>
 <p>전 화면 공용 그리드 어댑터 <code>util/ag-grid/grid/AgGridAdapter.ts</code>(1,143줄)를 같은 폴더 <code>adapter/</code> 하위 모듈로 나눴다. 동작 변경은 없다.</p>
 <table>
