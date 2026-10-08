@@ -1631,6 +1631,21 @@
 <li>테스트: <code>__tests__/gridOptions.spec.ts</code> 5건 추가(목 어댑터로 세 지점 검증), <code>dataUtil.spec.ts</code> 의 시간 검증 기대값을 고친 동작으로 바꾸고 경계 케이스 추가.</li>
 <li><strong>컨테이너 그리드 <code>OEV_TM</code>/<code>IFE_TM</code> 시간 검사가 실행되지 않던 것</strong>: 시간 검사 코드가 <code>OFD</code>/<code>IED</code> 분기 안에 있어, 조건에 적혀 있던 <code>OEV_TM</code>/<code>IFE_TM</code> 은 그 분기에 들어오지 못했다. 시간 검사를 분기 밖으로 빼 네 컬럼 모두에 건다(<code>OFD_TM</code>/<code>IED_TM</code> 의 순서와 동작은 그대로).</li>
 </ul>
+<h2 id="fdsmvs-4-pr-258-infra-82">FDS/MVS 4화면 시간 입력 에러와 시간 검증 수정 (PR #258, Infra #82)<a class="headerlink" href="#fdsmvs-4-pr-258-infra-82" title="Permanent link">&para;</a></h2>
+<p>FdsOrdMgt 에서 고친 시간 입력 버그 2종(PR #255)이 다른 화면에도 같은 모양으로 남아 있었다.</p>
+<ul>
+<li>시간 오입력 경고 뒤 <code>node.setFocusedCellByRowIndex(...)</code> 가 TypeError 를 냈다. <code>getSelectedNode()</code> 가 주는 ag-grid RowNode 에는 이 메서드가 없다(어댑터 메서드). 같은 그리드의 어댑터로 부르게 바꿨다.<ul>
+<li>FdsOrderMgtByCntrPopup 2곳(Feeder 미입력 경고, 시간 오입력)</li>
+<li>MvsCntrMove 1곳</li>
+<li>FdsCntrMoveUpload 1곳</li>
+</ul>
+</li>
+<li><code>fnTimeValidation</code> 이 <code>'12'</code>, <code>'abcd'</code> 같은 값을 통과시켰다. <code>parseInt</code> 가 NaN 이 되면 범위 비교가 모두 false 라서다. 숫자 4자리(<code>/^\d{4}$/</code>)가 아니면 false 를 돌려준다. 빈 값 처리는 화면마다 그대로 뒀다.<ul>
+<li>FdsOrderMgtByCntrPopup, FdsCntrMoveUpload, FdsMoveInspect: 빈 값은 지금처럼 검사하지 않음(FdsMoveInspect 의 이 함수는 지금 호출하는 곳이 없다)</li>
+<li>MvsCntrMove: 빈 문자열은 지금처럼 통과. 오입력 처리가 칸을 <code>''</code> 로 비우며 다시 검사하므로, 여기서 막으면 경고가 두 번 뜬다</li>
+</ul>
+</li>
+</ul>
 <h2 id="pr-pr-254-be-208">변경 이력을 PR 마다 파일 하나로 (PR #254, BE #208)<a class="headerlink" href="#pr-pr-254-be-208" title="Permanent link">&para;</a></h2>
 <p>PR 여러 개가 <code>changelog.md</code> 의 같은 자리(그 달 섹션 맨 위)에 항목을 끼워 넣어, 하나를 머지하면 나머지가 매번 충돌했다. 파일도 900줄 가까이 길어졌다.</p>
 <ul>
