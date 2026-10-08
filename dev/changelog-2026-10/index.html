@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#from-to-6-pr-259-infra-82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조회 기간 From &gt; To 검증이 동작하지 않던 6화면 수정 (PR #259, Infra #82)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fdsordmgt-pr-255-infra-82" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1544,6 +1555,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#from-to-6-pr-259-infra-82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조회 기간 From &gt; To 검증이 동작하지 않던 6화면 수정 (PR #259, Infra #82)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fdsordmgt-pr-255-infra-82" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1620,6 +1642,16 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="from-to-6-pr-259-infra-82">조회 기간 From &gt; To 검증이 동작하지 않던 6화면 수정 (PR #259, Infra #82)<a class="headerlink" href="#from-to-6-pr-259-infra-82" title="Permanent link">&para;</a></h2>
+<p>조회 기간 From 이 To 보다 늦으면 <code>fnSearchValidation</code> 이 MSG000047("To가 From보다 이전일자입니다") 메시지를 만들기만 하고 띄우지도, <code>false</code> 를 반환하지도 않아 잘못된 기간으로 그대로 조회됐다. FdsOrdMgt(PR #255)와 같은 패턴으로 경고를 띄우고 조회를 막는다.</p>
+<ul>
+<li>고친 화면: CfsStuffExpn, FdsOrdCreate, TesInspExpn, TesLineHandleExpn, TesTugExpn, TesLashingExpn</li>
+<li>TesInspExpn 은 비교 대상이 <code>search.TO_DT</code>(없는 필드)여서 비교가 항상 거짓이었다. <code>TODT</code> 로 바로잡았다.</li>
+<li>TesInspExpn, TesLashingExpn 은 메시지 인자 순서가 (To, From) 로 뒤집혀 있어 (From, To) 로 고쳤다.</li>
+<li>From/To 가 비었을 때의 동작(필수 입력 경고)은 그대로다.</li>
+<li>보류: CfsStuffInvoice 는 조회에서 검증 호출 자체가 레거시부터 주석 처리돼 있다. 살리면 날짜 필수 검사까지 새로 걸리므로 손대지 않았다.</li>
+<li>변경 없음: FdsInvoice 는 이미 경고를 띄우고 조회를 막고 있었다.</li>
+</ul>
 <h2 id="fdsordmgt-pr-255-infra-82">FdsOrdMgt 시간 입력 에러와 검증 버그 수정 (PR #255, Infra #82)<a class="headerlink" href="#fdsordmgt-pr-255-infra-82" title="Permanent link">&para;</a></h2>
 <h1 id="73-fdsfdsordmgt">73 분해 중 발견해 그대로 옮겨 두었던 <code>fds/FdsOrdMgt</code> 의 기존 버그를 고쳤다.<a class="headerlink" href="#73-fdsfdsordmgt" title="Permanent link">&para;</a></h1>
 <ul>
