@@ -1,0 +1,3195 @@
+
+<!doctype html>
+<html lang="ko" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Vite 5 + Vue 3 프론트엔드 개발자 기술 문서 (자동 생성 레퍼런스 포함)">
+      
+      
+      
+        <link rel="canonical" href="https://sinokorofficial.github.io/Vendor-Portal-V2-Frontend-docs/dev/changelog-2026-09/">
+      
+      
+        <link rel="prev" href="../changelog-2026-10/">
+      
+      
+        <link rel="next" href="../changelog-2026-08/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2026-09 - Partner Portal · 개발자 문서</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pretendard:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Pretendard";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2026-09" class="md-skip">
+          콘텐츠로 이동
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="상단/헤더">
+    <a href=".." title="Partner Portal · 개발자 문서" class="md-header__button md-logo" aria-label="Partner Portal · 개발자 문서" data-md-component="logo">
+      
+  <img src="../assets/favicon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Partner Portal · 개발자 문서
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2026-09
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="green"  aria-label="다크 모드로 전환"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="다크 모드로 전환" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="green"  aria-label="라이트 모드로 전환"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="라이트 모드로 전환" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="검색" placeholder="검색" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="검색">
+        
+        <button type="reset" class="md-search__icon md-icon" title="지우기" aria-label="지우기" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            검색 초기화
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SinokorOfficial/Vendor-Portal-V2-Frontend" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Vendor-Portal-V2-Frontend
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="탭" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  개요
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../build-deploy/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  시작하기
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../architecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  시스템
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../screen-pattern/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  화면 개발
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  자동 추출 레퍼런스
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../troubleshooting/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  운영·트러블슈팅
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../changelog/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  변경 이력
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://sinokorofficial.github.io/Vendor-Portal-V2-Frontend-docs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  사용자 매뉴얼 ↗
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="네비게이션" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Partner Portal · 개발자 문서" class="md-nav__button md-logo" aria-label="Partner Portal · 개발자 문서" data-md-component="logo">
+      
+  <img src="../assets/favicon.svg" alt="logo">
+
+    </a>
+    Partner Portal · 개발자 문서
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SinokorOfficial/Vendor-Portal-V2-Frontend" title="저장소로 이동" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Vendor-Portal-V2-Frontend
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    개요
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시작하기
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    시작하기
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    빌드 · 배포 · 환경변수
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    시스템
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    시스템
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    아키텍처
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../routing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    라우팅
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    코드 컨벤션
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    인증 / 로그인
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    화면 개발
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    화면 개발
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../screen-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    화면 작성 패턴
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공통 컴포넌트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    상태 관리 (Pinia)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP / API 연동
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    자동 추출 레퍼런스
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    자동 추출 레퍼런스
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/screens/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    화면 인벤토리
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/routes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    라우트 표
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    공통 컴포넌트
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pinia 스토어
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    운영·트러블슈팅
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    운영·트러블슈팅
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    트러블슈팅
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    변경 이력
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    변경 이력
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    변경 이력
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog-2026-10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-10
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-09
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-09
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#infra-49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-apiv2ssolink-infra-47" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nginx /api/v2SsoLink 임시 스텁 제거 (Infra #47)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsusermgt-user_div-admin-ced35cee33df3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — USER_DIV 는 ADMIN 만, 메인 법인 없이 역할 추가 금지 (핫픽스 ced35ce·e33df3d)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsestapproval-remark-8c4d6d5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstApproval — 견적 REMARK 저장 실패를 삼키지 않는다 (핫픽스 8c4d6d5)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsestuploadexl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsusermgt-admin-pr-229" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — 비밀번호 초기화·사용자 삭제를 ADMIN 전용으로 (PR #229)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdsfeederagemgt-hkdamt-pr-228" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsFeederageMgt — HKDAMT 가 비어 있던 문제 (PR #228)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsusermgt-pr-225" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invoice-detail-pr-227" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pdf-pr-226" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        리포트 PDF 가 스타일 없이 찍히던 문제 + 행 번호 어긋남 + 엑셀 다운로드 (PR #226)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-220-be-174-infra-51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        탭 간 세션 동기화 — 다른 계정 로그인 감지 (PR #220, BE #174, Infra #51)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-219-infra-54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        로그인 전용 레이트 리밋 추가 (PR #219, Infra #54)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsfileintegrity-60-pr-218-be-165" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsFileIntegrity — 성능 개선 (한 달 조회 60초 타임아웃 해소) (PR #218, BE #165)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할 화면 사용여부 — 버튼 관리에 검색·컬럼 추가, 권한 관리 기본값을 'Y' 로
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upper-case-enter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upper-case 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsfileintegrity-pr-216-be-162" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsFileIntegrity — 파일 정합성 점검 화면 신설 (PR #216, BE #162)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsemaillog-pr-214-be-158" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsEmailLog — 상세 본문 전문 로드 (PR #214, BE #158)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system_div-pr-213-be-157-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자관리 역할 탭 — 관리 메뉴(SYSTEM_DIV) 컬럼 제거 (PR #213, BE #157, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsazurelog-409-pr-209-be-153154-infra-46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog — 업무거절(409) 분리 표기 (PR #209, BE #153·#154, Infra #46)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#504-nginx-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        저장은 성공했는데 사용자는 504 — nginx 응답 대기 상한 추가 (Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-206-be-151-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할별 권한 관리 — 사용여부 검색 조건 추가 (PR #206, BE #151, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-204-be-149-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        권한 복사 '원본 역할' 목록에서 비활성 역할 제외 (PR #204, BE #149, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-203-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 — 개선 프로시저 전체 확대 (PR #203, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ab-pr-201-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 — 개선 프로시저 A/B 스위치 (PR #201, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#devexpress-pr-200-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DevExpress 리포트 잔재 전량 제거 (PR #200, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partner-v2sinokorcokr-pr-199-infra-43-3931" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        partner-v2.sinokor.co.kr 폐기 완료 (PR #199, Infra #43 / #39·#31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#60-pr-197-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 타임아웃 — 60초 거짓 실패로 인한 이중 실행 차단 (PR #197, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csp-enforcing-partner-v2-pr-192193-infra-39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSP enforcing 전환 + partner-v2 흡수 리다이렉트 (PR #192·#193, Infra #39)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eslint-error-pr-188189190-infra-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESLint 게이트 강화 — 사각지대 정리·배포 게이트·미사용 변수 error (PR #188·#189·#190, Infra #36)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cfs-4-pr-177-be-124" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CFS 4화면 死엑셀 업로드 제거 (PR #177, BE #124)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#50mb-pr-174-175-176" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 50MB 사전검증 (PR #174 · #175 · #176)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsestapproval-readonly-pr-173" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstApproval 첨부 표준 전환 — 조회 전용(readonly) (PR #173)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ftp-mngt_no-pr-172-be-121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파일 삭제 FTP 인자 키 정리 — MNGT_NO 폴백 제거 (PR #172, BE #121)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-pr-171-be-120" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 다건 삭제 + 파일 삭제 API 정리 (PR #171, BE #120)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsfileuploadpopup-e-file-uploader-pr-170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR #170)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui-e-attach-file-grid-pr-169-be-119" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR #169, BE #119)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lightgray-pr-168" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 클라우드 아이콘이 검게 나옴 — 테마 미등록 색상 lightGray (PR #168)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-167" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 팝업 — 목록이 있는데 클라우드 워터마크가 비쳐 보임 (PR #167)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keep-alive-pr-166" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        탭 우클릭 컨텍스트 메뉴 + 닫은 탭 keep-alive 캐시 파기 (PR #166)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-165" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        엑셀 내보내기 — 숫자문자열 지수표기·체크박스 빈 열 (PR #165, 전 화면 공통)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#220px-14-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        검색영역 날짜 칸 폭 고정(% → 220px) + 필수 표시·주석 정리 — 14화면 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdsinvoice-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsInvoice — 빈 영역 우클릭 크래시 방지 + 엑셀 다운로드 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsazurelog-api-pr-162163-114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undefined-pr-161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메일 팝업 필수입력 경고가 "undefined 은 필수..." 로 뜨던 문제 (PR #161)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v2-pr-160" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메일 전송이 V2 에서 한 번도 동작하지 않던 결함 (PR #160)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog-2026-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-08
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog-2026-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-07
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog-2026-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026-06
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://sinokorofficial.github.io/Vendor-Portal-V2-Frontend-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    사용자 매뉴얼 ↗
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="목차">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      목차
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#infra-49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-apiv2ssolink-infra-47" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nginx /api/v2SsoLink 임시 스텁 제거 (Infra #47)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsusermgt-user_div-admin-ced35cee33df3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — USER_DIV 는 ADMIN 만, 메인 법인 없이 역할 추가 금지 (핫픽스 ced35ce·e33df3d)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsestapproval-remark-8c4d6d5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstApproval — 견적 REMARK 저장 실패를 삼키지 않는다 (핫픽스 8c4d6d5)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsestuploadexl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsusermgt-admin-pr-229" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — 비밀번호 초기화·사용자 삭제를 ADMIN 전용으로 (PR #229)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdsfeederagemgt-hkdamt-pr-228" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsFeederageMgt — HKDAMT 가 비어 있던 문제 (PR #228)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsusermgt-pr-225" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invoice-detail-pr-227" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pdf-pr-226" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        리포트 PDF 가 스타일 없이 찍히던 문제 + 행 번호 어긋남 + 엑셀 다운로드 (PR #226)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-220-be-174-infra-51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        탭 간 세션 동기화 — 다른 계정 로그인 감지 (PR #220, BE #174, Infra #51)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-219-infra-54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        로그인 전용 레이트 리밋 추가 (PR #219, Infra #54)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsfileintegrity-60-pr-218-be-165" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsFileIntegrity — 성능 개선 (한 달 조회 60초 타임아웃 해소) (PR #218, BE #165)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할 화면 사용여부 — 버튼 관리에 검색·컬럼 추가, 권한 관리 기본값을 'Y' 로
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upper-case-enter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        upper-case 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsfileintegrity-pr-216-be-162" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsFileIntegrity — 파일 정합성 점검 화면 신설 (PR #216, BE #162)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsemaillog-pr-214-be-158" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsEmailLog — 상세 본문 전문 로드 (PR #214, BE #158)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system_div-pr-213-be-157-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자관리 역할 탭 — 관리 메뉴(SYSTEM_DIV) 컬럼 제거 (PR #213, BE #157, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsazurelog-409-pr-209-be-153154-infra-46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog — 업무거절(409) 분리 표기 (PR #209, BE #153·#154, Infra #46)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#504-nginx-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        저장은 성공했는데 사용자는 504 — nginx 응답 대기 상한 추가 (Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-206-be-151-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할별 권한 관리 — 사용여부 검색 조건 추가 (PR #206, BE #151, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-204-be-149-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        권한 복사 '원본 역할' 목록에서 비활성 역할 제외 (PR #204, BE #149, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-203-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 — 개선 프로시저 전체 확대 (PR #203, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ab-pr-201-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 — 개선 프로시저 A/B 스위치 (PR #201, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#devexpress-pr-200-infra-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DevExpress 리포트 잔재 전량 제거 (PR #200, Infra #31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partner-v2sinokorcokr-pr-199-infra-43-3931" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        partner-v2.sinokor.co.kr 폐기 완료 (PR #199, Infra #43 / #39·#31)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#60-pr-197-infra-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 저장 타임아웃 — 60초 거짓 실패로 인한 이중 실행 차단 (PR #197, Infra #38)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csp-enforcing-partner-v2-pr-192193-infra-39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CSP enforcing 전환 + partner-v2 흡수 리다이렉트 (PR #192·#193, Infra #39)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eslint-error-pr-188189190-infra-36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESLint 게이트 강화 — 사각지대 정리·배포 게이트·미사용 변수 error (PR #188·#189·#190, Infra #36)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cfs-4-pr-177-be-124" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CFS 4화면 死엑셀 업로드 제거 (PR #177, BE #124)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#50mb-pr-174-175-176" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 50MB 사전검증 (PR #174 · #175 · #176)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsestapproval-readonly-pr-173" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsEstApproval 첨부 표준 전환 — 조회 전용(readonly) (PR #173)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ftp-mngt_no-pr-172-be-121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파일 삭제 FTP 인자 키 정리 — MNGT_NO 폴백 제거 (PR #172, BE #121)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-pr-171-be-120" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 다건 삭제 + 파일 삭제 API 정리 (PR #171, BE #120)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crsfileuploadpopup-e-file-uploader-pr-170" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 표준화 마무리 — CrsFileUploadPopup 전환, e-file-uploader 폐지 (PR #170)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui-e-attach-file-grid-pr-169-be-119" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 UI 표준화 — e-attach-file-grid 일원화 + 이미지 뷰어 통합 (PR #169, BE #119)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lightgray-pr-168" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 클라우드 아이콘이 검게 나옴 — 테마 미등록 색상 lightGray (PR #168)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-167" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 팝업 — 목록이 있는데 클라우드 워터마크가 비쳐 보임 (PR #167)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keep-alive-pr-166" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        탭 우클릭 컨텍스트 메뉴 + 닫은 탭 keep-alive 캐시 파기 (PR #166)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pr-165" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        엑셀 내보내기 — 숫자문자열 지수표기·체크박스 빈 열 (PR #165, 전 화면 공통)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#220px-14-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        검색영역 날짜 칸 폭 고정(% → 220px) + 필수 표시·주석 정리 — 14화면 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fdsinvoice-pr-164" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FdsInvoice — 빈 영역 우클릭 크래시 방지 + 엑셀 다운로드 (PR #164)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmsazurelog-api-pr-162163-114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#undefined-pr-161" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메일 팝업 필수입력 경고가 "undefined 은 필수..." 로 뜨던 문제 (PR #161)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v2-pr-160" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메일 전송이 V2 에서 한 번도 동작하지 않던 결함 (PR #160)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="네비게이션" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    개요
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../changelog/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    변경 이력
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="2026-09">2026-09 변경 이력<a class="headerlink" href="#2026-09" title="Permanent link">&para;</a></h1>
+<h2 id="infra-49">새 배포 감지 — 상단 배너 + 견적 업로드 저장 차단 (Infra #49)<a class="headerlink" href="#infra-49" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>계기</strong>: 2026-09-30 <code>CrsEstUploadExl</code> 에서 1,695행이 <strong>나뉘지 않고 한 번에</strong> 세 번 저장돼 240초 벽에 모두 걸렸다. 분할 저장(PR #230)이 배포된 지 하루 뒤였다. 배포 전부터 열려 있던 화면이 메모리에 올라온 <strong>옛 저장 코드를 그대로 쓴 것</strong>으로 본다. 그 화면은 서버에 새로 요청할 일이 없어 router 의 자가치유(<code>healStaleChunk</code>, 옛 청크 404 때만 동작)에도 걸리지 않는다.</li>
+<li><strong>감지</strong>: 빌드마다 <code>dist/version.json</code>(<code>{ buildId }</code>)을 만들고 같은 값을 화면 코드에 <code>import.meta.env.VITE_BUILD_ID</code> 로 박는다(<code>vite.config.ts</code>). <code>stores/appVersion.ts</code> 의 <code>check()</code> 가 <code>version.json</code> 을 읽어 값이 다르면 <code>hasNewVersion</code> 을 세운다. <code>App.vue</code> 가 <strong>5분마다, 그리고 탭으로 돌아올 때</strong> 확인한다(셸 화면만, 로그인과 별도 창 팝업은 제외). dev 서버는 빌드 ID 가 비어 있어 확인하지 않는다.</li>
+<li><strong>배너</strong>: 헤더 바로 아래 화면 폭 전체 띠(높이 36px, 파랑) — <code>A new version is available. Please refresh the page.</code> + <code>[Refresh]</code>(<code>e-btn color="normal-line"</code>, <code>location.reload()</code>). <strong>닫기 버튼은 없다.</strong> 새로고침하면 새 빌드로 다시 떠 빌드 ID 가 같아지므로 저절로 사라진다. 배너가 떠 있는 동안 작업영역 높이를 36px 줄인다.<ul>
+<li>자동 새로고침은 하지 않는다 — 그리드에 올린 엑셀이나 입력 중인 내용, 열려 있는 다른 탭의 작업이 날아간다.</li>
+</ul>
+</li>
+<li><strong>저장 차단(<code>CrsEstUploadExl</code> 만)</strong>: 저장 직전에 한 번 더 확인하고, 새 버전이면 <code>$message.warning</code>(OK 로 닫는 메시지 창)으로 <code>A new version is available. Please refresh the page and save again.</code> 를 띄우고 저장하지 않는다. 5분 주기를 기다리지 않으려고 저장 시점에 확인한다. <code>hasNewVersion</code> 은 새로고침 전까지 유지되므로 <strong>OK 로 닫아도 저장할 때마다 다시 막힌다.</strong></li>
+<li>⚠️<strong>이 장치는 다음 배포부터 효과가 있다.</strong> 이 코드가 없는 옛 탭은 여전히 아무 안내도 받지 못한다. 이번 배포로 새로 뜬 화면부터 그다음 배포를 감지한다.</li>
+<li>검증: store 테스트 5종(다른 ID → 감지, 같은 ID → 그대로, dev → 확인 안 함, 404·네트워크 실패 무시, 한 번 감지하면 재요청 없음) 포함 16/16 통과. <code>vite build</code> 결과 <code>version.json</code> 의 ID 와 번들에 박힌 ID 일치. 배너는 App.vue 블록을 잘라 붙인 하네스를 빌드본(<code>vite preview</code>)에서 Playwright 로 실측 — 36px, 전체 폭, 아이콘 폰트 로드, Refresh 클릭 동작, 페이지 에러 0. 로컬 빌드본(<code>vite preview</code> 4050 + 백엔드 9050, <code>.100</code>)의 <code>dist/version.json</code> 을 다른 값으로 바꿔 <strong>버전 불일치를 재현</strong>하고, 로그인한 셸에서 배너와 저장 차단을 사용자가 직접 확인했다. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li><strong>재현법</strong>: <code>vite build</code> 후 <code>dist/version.json</code> 의 <code>buildId</code> 를 아무 값으로 바꾸고 <code>vite preview</code> → 로그인 → 다른 탭에 갔다가 돌아오면 배너가 뜬다(처음 화면을 열 때는 확인하지 않는다 — 방금 받은 화면은 최신이므로). dev 서버(<code>vite</code>)는 빌드 ID 가 비어 있어 재현되지 않는다. → <a href="../troubleshooting/">트러블슈팅 §34</a>.</li>
+</ul>
+<h2 id="nginx-apiv2ssolink-infra-47">nginx <code>/api/v2SsoLink</code> 임시 스텁 제거 (Infra #47)<a class="headerlink" href="#nginx-apiv2ssolink-infra-47" title="Permanent link">&para;</a></h2>
+<ul>
+<li>컷오버 후 브라우저 디스크에 캐시된 <strong>레거시 로그인 셸</strong>을 구제하던 임시 블록(PR #186)을 뺐다. 레거시 셸이 로그인 직후 부르는 이 경로에 <code>{"v2Url":"/?v2=1"}</code> + <code>Clear-Site-Data: "cache"</code> 를 돌려줘 로그인 루프를 풀어주던 것이다.</li>
+<li>제거 근거(운영 nginx 로그): <code>9/9~11 하루 9~23건 → 9/13~14 1~3건 → 9/16·18·20·23 각 1건 → 9/24~29 6일 연속 0건</code>. #47 의 판정 기준("연속 며칠 0")을 충족했다.</li>
+<li>⚠️그래도 캐시가 남은 사용자가 오면: 이 경로가 백엔드로 넘어가 <strong>500</strong>(<code>NoHandlerFoundException</code>)이 되고, 그 사용자는 로그인 화면 루프에 갇힌다. 5xx 알림에 <code>/api/v2SsoLink</code> 가 보이면 이것이다. 안내는 <strong>강력 새로고침(Ctrl+F5) 또는 캐시 삭제</strong>. 다시 늘면 이 블록을 되살리면 된다(<code>git show</code> 로 PR #186 참조).</li>
+</ul>
+<h2 id="cmsusermgt-user_div-admin-ced35cee33df3d">CmsUserMgt — USER_DIV 는 ADMIN 만, 메인 법인 없이 역할 추가 금지 (핫픽스 <code>ced35ce</code>·<code>e33df3d</code>)<a class="headerlink" href="#cmsusermgt-user_div-admin-ced35cee33df3d" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>USER_DIV</code> 줄은 ADMIN 역할에게만 보인다</strong> — 비밀번호 초기화(PR #229)와 같은 <code>isAdmin</code> 판정. 나머지 두 칸이 비어 있는 줄이라 줄째로 숨겼다. 저장 필수값이 아니라 ADMIN 이 아닌 사용자의 저장은 막히지 않는다.</li>
+<li><strong>메인 법인(<code>CORP_CD</code>)을 고르기 전에는 역할을 추가할 수 없다</strong> — <code>roleGridAddRow</code> 맨 앞에서 <code>MSG000030</code>(<code>{0}을 선택해주세요.</code>, <code>{0}</code>=CORP) 안내 후 중단. 그리드 + 버튼과 우클릭 "행 추가" 가 모두 이 함수를 부른다.<ul>
+<li>이유: 역할 행의 <code>CORP_CD</code> 는 <strong>추가하는 순간의 <code>main.CORP_CD</code> 로 고정</strong>되고 칸이 <code>editable:false</code> 라 나중에 못 고친다. 저장 검증은 <code>main.CORP_CD</code> 만 보고 이미 추가된 역할 행은 다시 보지 않는다. 그래서 법인보다 역할을 먼저 넣으면 <strong>권한을 주지 않는 <code>CORP_CD</code> NULL 행</strong>이 저장됐다(Infra #63 에서 정리한 NULL 행들의 재발 경로).</li>
+</ul>
+</li>
+</ul>
+<h2 id="crsestapproval-remark-8c4d6d5">CrsEstApproval — 견적 REMARK 저장 실패를 삼키지 않는다 (핫픽스 <code>8c4d6d5</code>)<a class="headerlink" href="#crsestapproval-remark-8c4d6d5" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>SP_SET_EST_RMK</code> 은 OUT 이 커서뿐이라 <code>resultCd</code> 가 없다. 프로시저가 실패해도 인터셉터가 못 잡고 <code>then</code> 으로 들어오는데, 거기엔 성공 분기만 있어 <strong>실패해도 아무 일도 안 일어난 것처럼 보였다.</strong></li>
+<li>이제 <code>ESTIMATE_NO</code> 가 안 맞으면 프로시저가 돌려준 <code>MSG</code>(권한 없음, No Data Found, SQL 예외)를 띄우고, 없으면 <code>MSG000387</code>(저장에 실패하였습니다)로 대체한다.</li>
+<li><code>P_RS[0]</code> 는 옵셔널 체이닝으로 읽는다 — 0행으로 끝나는 경우가 있어 그대로 읽으면 TypeError 가 난다.</li>
+</ul>
+<h2 id="crsestuploadexl">CrsEstUploadExl — 견적 엑셀 저장을 자동으로 나눠 보낸다<a class="headerlink" href="#crsestuploadexl" title="Permanent link">&para;</a></h2>
+<ul>
+<li>대량 업로드(2026-09-28 약 1,300행)가 <code>TransactionSystemException: JDBC rollback failed</code> 로 실패했다. 원인은 운영 경로의 <strong>약 240초 네트워크 유휴 벽</strong>이다. 프로시저가 도는 동안 JDBC 소켓엔 데이터가 오가지 않아 유휴로 보이고, 240초를 넘기면 잘린다(<code>ORA-17002</code>). 그 건은 <strong>데이터가 이미 커밋돼 있었다</strong>(마스터 631건, 고아 0) — 끊긴 건 결과를 돌려주는 연결뿐이다.</li>
+<li>★파일 <strong>용량이 아니라 서버 계산 시간</strong>이 문제라, 행이 많으면 작은 파일도 걸린다.</li>
+<li>이제 사용자는 파일을 통째로 올리고, <strong>화면이 <code>SAVE_CHUNK_ROWS</code>(300행) 단위로 나눠 순서대로 호출</strong>한다. 사용자에게 행 수 제한은 없다.<ul>
+<li><strong>컨테이너(<code>ESTIMATE_DATE</code>+<code>EQ_NO</code>)는 쪼개지 않는다</strong> — 프로시저가 같은 키로 묶어 중복체크와 REMARK 선택을 하므로 한 컨테이너는 한 호출에만 실려야 한다. 컨테이너 안 행 순서는 유지된다. 한 컨테이너가 300행을 넘으면 그 컨테이너만 단독 조각이 된다.</li>
+<li>결과(행별 <code>ERR_MSG</code>)는 각 호출의 <code>P_RS</code> 를 이어 붙여 한 번에 보여준다. 프로시저가 호출 시작 때 자기 <code>TMP_CRS_EST4EXL</code> 행을 지우고(<code>SP_SET_EST4EXL_NEW</code> 본문 <code>delete ... where comp_cd = p_comp_cd and inp_emp = p_user_id</code>) 끝에 그 tmp 에서 <code>P_RS</code> 를 열므로 조각끼리 겹치지 않는다(<code>ALL_SOURCE</code> 로 확인, 원본 <code>SP_SET_EST4EXL</code> 도 같은 구조).</li>
+<li>분할 호출 사이의 틈에도 전역 로딩 오버레이가 유지되도록 저장 전체를 <code>loadingStart()</code>/<code>loadingEnd()</code> 로 감쌌다(중복 제출 방지).</li>
+</ul>
+</li>
+<li>300 근거: 원본 최악 456ms/행 × 300 = 137초, 9/28 절단 건 역산(≥185ms/행) × 300 ≈ 55초. 둘 다 240초 한참 아래.</li>
+<li>⚠️<strong>대가 — 파일 전체 원자성은 없다.</strong> 중간 조각에서 실패하면 거기서 멈추고, 앞 조각은 커밋된 채 남는다. 그래서 실패 안내에 "N container(s) (M rows) have already been saved."를 덧붙인다(해외 수리업체가 쓰는 화면이라 영문). 컨테이너 단위 원자성은 그대로라 고아 견적은 생기지 않고, 다시 저장하면 이미 저장된 견적은 UPDATE 경로로 가서 중복되지 않는다. 그리드는 실패 시 원본 그대로 둔다.</li>
+<li><strong>300행 이하 업로드는 호출 1번이라 종전과 똑같이 동작한다.</strong></li>
+<li><strong>조각이 2개 이상이면 전역 오버레이에 진행 바를 띄운다</strong> — 흰 카드 안에 "Processing... 600 / 1,500 rows (3/5)" 문구와 바(다른 화면에서도 쓸 수 있게 범용 영문). 진한 파랑 = 저장 완료분, 연한 파랑 = 지금 저장 중인 조각(<code>buffer-value</code>), 나머지 = 남은 분량. 조각 하나가 끝날 때마다 갱신된다.<ul>
+<li>공용 부분: <code>stores/loading.ts</code> 에 선택형 <code>progress</code> 상태와 <code>setProgress</code>/<code>clearProgress</code> 추가, <code>App.vue</code> 오버레이가 <code>progress</code> 가 있으면 스피너 대신 진행 바를 그린다. <strong><code>progress</code> 를 채우지 않는 다른 화면은 종전과 똑같이 원형 스피너</strong>다.</li>
+</ul>
+</li>
+<li>검증<ul>
+<li>분할 로직 단위 실행 7케이스(120행→1조각, 300행→1조각, 1,300행→5조각, 300행 초과 단일 컨테이너 단독 조각, 파일에서 흩어진 컨테이너, 같은 EQ_NO 다른 날짜) — 행 누락 0, 컨테이너가 두 조각에 걸친 경우 0, 컨테이너 안 순서 유지.</li>
+<li>오버레이 실브라우저 캡처(Playwright) — 진행률 있음 → 카드+바 표시·스피너 없음, 진행률 없음 → 스피너만. 페이지 에러 0.</li>
+<li>스토어 테스트 <code>setProgress</code>/<code>clearProgress</code> 추가(11/11 통과). <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li><strong><code>.100</code> 실저장</strong>(SP 직접 호출, 세션 NLS 백엔드와 동일, 실패 시 롤백 후 중단). SHA03 의 실제 견적 60건·263행(첫 행만 REMARK, 같은 키 중복 3건), 조각은 이 화면의 <code>fnBuildSaveChunks</code> 를 그대로 잘라 와 상한 50행으로 6조각.<ul>
+<li>한 번에 저장 vs 6조각 저장: 결과 260행 = 260행, 조각별 결과에 <strong>다른 조각 컨테이너 0</strong>, DB 상세 19개 컬럼(공임·타리프·상세 REMARK 포함) <strong>완전 일치</strong>, 마스터 중복 0, 고아 0, REMARK 60/60, 저장 후 tmp 에는 마지막 조각만 남음.</li>
+<li>★<strong>앞 조각 재처리 없음</strong> — 6조각 저장분의 상세 <code>upd_emp</code>/<code>upd_date</code> 가 0행이다(재처리됐다면 MERGE 가 기존 행을 만나 찍는다). 조각별 소요도 80ms 안팎으로 평탄.</li>
+<li>중간 실패(3번째 조각에 상세 <code>QTY</code> NUMBER(4) 를 넘는 값 → 마스터 생성 뒤 MERGE 단계에서 실패): 1·2번째 조각은 커밋 유지, <strong>3번째 조각은 마스터까지 롤백</strong>(고아 0), 4번째부터 미전송. 이어서 전체를 다시 저장하면 앞서 저장된 94행은 UPDATE, 나머지 166행은 INSERT — 중복 0, REMARK 이중 기록 0.</li>
+</ul>
+</li>
+<li>⚠️ 테스트 중 <strong><code>.100</code> 패키지 스펙에서 <code>SP_SET_EST4EXL_NEW</code>·<code>SP_SET_EST_MST_NEW</code> 선언이 빠진 것</strong>을 발견해 복구했다(2026-09-23 운영 스펙 유실 때 <code>.3</code> 만 복구됐던 흔적). 그동안 <code>.100</code> 에 붙은 화면의 엑셀 저장은 응답 200 인데 호출 자체가 스킵됐다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="cmsusermgt-admin-pr-229">CmsUserMgt — 비밀번호 초기화·사용자 삭제를 ADMIN 전용으로 (PR #229)<a class="headerlink" href="#cmsusermgt-admin-pr-229" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>비밀번호 초기화 버튼은 ADMIN 역할에게만 보인다.</strong> 판정은 화면에 이미 있던 <code>isAdmin</code>(<code>$isAdmin()</code> = 세션 roleId 에 <code>ADMIN</code>)이고, 검색바 <code>CUST_CD</code> 버튼과 같은 방식이다. 칸(<code>th</code>/<code>td</code>)은 남겨서 아래 <code>USER_DIV</code> 행처럼 빈 칸으로 보인다. 세션 기반이라 역할이 바뀌면 재로그인해야 반영된다.</li>
+<li><strong>서버에서도 막는다</strong> — <code>PKG_CM_USER.SP_SET_INITPWD</code>·<code>SP_DEL_USER</code> 가 호출자를 받아 <code>ROLE_ID='ADMIN'</code> 을 확인한다(DB 변경은 사용자가 직접 반영). 이전 초기화 프로시저는 대상 <code>USER_ID</code> 하나만 받아서, 요청 형식만 알면 누구나 아무 계정이나 초기 비밀번호로 돌릴 수 있었다.</li>
+<li>시그니처 = <code>(p_user_id, p_target_user_id, p_rs)</code>. ★<strong><code>p_user_id</code>(호출자)는 화면이 보내지 않는다</strong> — 관문(<code>VmsCommonService.executeVmsCommonProcedure</code>)이 <code>PARAM.USER_ID</code> 를 세션값으로 <strong>덮어쓴다</strong>. 화면이 남의 아이디를 실어 보내도 소용이 없다. 화면은 대상만 <code>TARGET_USER_ID</code> 로 보낸다(종전 <code>USERID</code>).</li>
+<li>초기화 성공 판정을 <code>MSG</code> 유무에서 <strong><code>STATUS</code></strong> 로 바꿨다(<code>fnDelete</code> 와 같은 계약). 프로시저는 거절(<code>Only administrators…</code>)·예외(<code>sqlcode…</code>)도 <code>MSG</code> 에 담아 돌려주므로, <code>MSG</code> 로 판정하면 <strong>거절도 "완료되었습니다"로 떴다.</strong></li>
+<li>⚠️<strong>DB 와 화면을 같이 반영해야 한다.</strong> 한쪽만 바뀌면 대상이 NULL 로 들어가 아무것도 바뀌지 않는다(초기화는 <code>N</code> No Data Found, 삭제는 <code>Y</code> 로 보임).</li>
+<li>검증(<code>.100</code>, 호출마다 롤백): 두 프로시저 모두 ADMIN 아닌 호출자 → <code>N</code> · 실제 대상 → <code>Y</code>(초기화 적용 / user·corp·role 전부 삭제) · 초기화 없는 대상·NULL 대상 → <code>N</code>. ESLint 0.</li>
+</ul>
+<h2 id="fdsfeederagemgt-hkdamt-pr-228">FdsFeederageMgt — HKDAMT 가 비어 있던 문제 (PR #228)<a class="headerlink" href="#fdsfeederagemgt-hkdamt-pr-228" title="Permanent link">&para;</a></h2>
+<ul>
+<li>홍콩 유저 화면에서 <code>HKDAMT</code> 가 항상 비어 있었고, 통화별 합계와 HKD 환산 <code>TOTAL</code> 행도 전부 0 이었다.</li>
+<li>★<strong>서버는 <code>HKDAMT</code> 를 안 준다</strong> — <code>SP_GET_FRT</code> 는 <code>HKDRATE</code> 만 내려주고 <code>PKG_FDS</code> 어디에도 <code>hkdamt</code> 가 없다. 화면이 <code>FRTAMT × HKDRATE</code> 로 채우는 설계다.</li>
+<li>원인은 이식 누락이다. 레거시 2026-07-01 커밋("피더 수정")을 옮긴 <code>523134f</code> 가 <code>FdsInvoice</code> 는 <code>fnSearch</code> 부터 손대 매핑이 들어갔는데, <code>FdsFeederageMgt</code> 는 <strong>705줄 아래(컬럼 정의·합계 그리드·합산)만</strong> 손대 값을 만드는 <code>fnSearch</code>·<code>onCellValueChanged</code> 가 빠졌다. 커밋 메시지엔 두 화면 다 했다고 적혀 있었다.</li>
+<li>레거시대로 세 곳을 맞췄다.<ul>
+<li><code>fnSearch</code> — 조회 결과에 <code>HKDAMT = FRTAMT × HKDRATE</code> 매핑</li>
+<li><code>onCellValueChanged</code> — <code>FRTAMT</code> 변경 시 <code>HKDAMT</code> 재계산(<code>FRTRATE</code>/<code>FRTCNT</code> → <code>FRTAMT</code> → <code>HKDAMT</code> 연쇄)</li>
+<li><code>HKDRATE</code>·<code>HKDAMT</code> 읽기 전용 — V2 는 새로 추가한 행(<code>BATCH_FLAG === 'I'</code>)에서만 편집이 열려 있었다. 레거시엔 <code>editable</code> 자체가 없다.</li>
+</ul>
+</li>
+<li>검증(헤드리스 실행): <code>25 × 1.1510 = 28.775</code> · 합계 CNY <code>251.0331</code> / USD <code>15.686</code> / TOTAL <code>266.7191</code> · <code>FRTRATE 500→1000</code> ⇒ <code>FRTAMT 1000</code> ⇒ <code>HKDAMT 1151</code>. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+<li>⚠️손대지 않은 것 — 셀 편집 재계산은 <code>FRTRATE × FRTCNT</code> 인데 커미션 행은 서버가 <code>COMMRATE</code> 까지 곱해 내려준다(500 × 5% = 25). 커미션 행에서 Rate 를 고치면 AMT 가 500 으로 덮이고 HKDAMT 도 따라간다. 레거시와 같다.</li>
+</ul>
+<h2 id="cmsusermgt-pr-225">CmsUserMgt — 조회 결과가 없을 때 알리고 상세를 비운다 (PR #225)<a class="headerlink" href="#cmsusermgt-pr-225" title="Permanent link">&para;</a></h2>
+<ul>
+<li>조회 결과가 0 건이면 목록만 비고 <strong>오른쪽 상세에는 직전에 조회한 사용자의 정보가 그대로 남아 있었다.</strong> <code>fnSearchDetail</code> 이 선택된 행이 없으면 그대로 <code>return</code> 하기 때문이다.</li>
+<li>0 건이면 <code>MSG000016</code>(조회 된 데이터가 없습니다) 토스트를 띄우고 <code>this.main</code> 을 비운다. 그리드 넷은 <code>fnClearGrid()</code> 가 이미 비우고 있었다.</li>
+</ul>
+<h2 id="invoice-detail-pr-227">Invoice Detail 엑셀 다운로드 — 리포트 뷰어에서 그리드 팝업으로 (PR #227)<a class="headerlink" href="#invoice-detail-pr-227" title="Permanent link">&para;</a></h2>
+<ul>
+<li>PR #226 이 엑셀 버튼을 <strong>리포트 뷰어(<code>CmsHtmlReportPopup</code>)에 붙였는데 자리를 잘못 짚었다.</strong> "Invoice Detail 팝업"은 <code>CrsInvoice</code> 그리드에서 행을 눌러 뜨는 <strong><code>CrsInvDetailPopup</code></strong>(Invoice No./Invoice Date/Total 헤더 + ag-grid)이다. 리포트 뷰어에서 되돌리고 그쪽으로 옮긴다.</li>
+<li><code>CrsInvDetailPopup</code> 그리드 헤더 <code>#actions</code> 에 엑셀 버튼(<code>MdmCustomerMgt</code> 등과 같은 관례). <code>adapter.exportExcel</code> 로 <strong>보이는 열·정렬 상태 그대로</strong> 내려받고, 금액은 서식이 아닌 원본 숫자로 나가 엑셀에서 합계·정렬이 된다(<code>processCellCallback</code> 이 이미 그렇게 처리).</li>
+<li>0 건이면 내려받지 않고 <code>MSG000016</code> 안내. 파일명 = <code>[&lt;선사&gt;] Invoice Detail_&lt;INV_NO&gt;_&lt;yyyymmdd&gt;.xlsx</code> — 다른 화면들과 같은 관례(<code>[${useUiStore().activeCompany}] …</code>).</li>
+<li>리포트 뷰어 쪽은 <code>REPORTS</code> 의 <code>excel</code> 정의 · <code>excelDef</code> · <code>fnExcel</code> · <code>xlsx</code> import 를 전부 걷어내 <strong>PR #226 이전 상태로 되돌렸다</strong>(인쇄 수정 2 건은 그대로 유지).</li>
+<li>검증(헤드리스 실제 클릭): 27 행 주입 → <code>[SNKO] Invoice Detail_LCH052607_20260923.xlsx</code> 28 행(헤더 1 + 데이터 27) · <code>No</code> 열 포함 · 금액 셀 숫자형 · 0 건 클릭 시 다운로드 없음 + 알림 노출. <code>vue-tsc --noEmit</code> exit 0, ESLint 0.</li>
+</ul>
+<h2 id="pdf-pr-226">리포트 PDF 가 스타일 없이 찍히던 문제 + 행 번호 어긋남 + 엑셀 다운로드 (PR #226)<a class="headerlink" href="#pdf-pr-226" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>CmsHtmlReportPopup</code> 의 <code>PDF</code>/<code>인쇄</code> 결과가 운영에서만 무너졌다(표 보더·회색 헤더·초록 룰이 통째로 없고, 날짜가 두 줄로 쪼개지며, 여러 장이 한 장 위에 겹쳐 찍힘). <strong>화면 뷰어와 로컬 dev 인쇄는 멀쩡해서 그동안 안 보였다.</strong></li>
+<li>원인은 인쇄 iframe 에 스타일을 이식한 뒤 <strong>로드를 안 기다리고 <code>print()</code> 를 부른 것</strong>이다. ★<code>doc.close()</code> 직후 <code>readyState</code> 는 이미 <code>complete</code> 라 <code>readyState</code> 판정은 아무 일도 하지 않았다. dev 는 CSS 가 인라인 <code>&lt;style&gt;</code>(동기)이고 <strong>운영 빌드는 전부 <code>&lt;link&gt;</code>(비동기)</strong> 라, 운영에서만 스타일 0 개로 인쇄됐다.</li>
+<li>해결 = <code>&lt;link&gt;</code> 가 실제로 로드된 뒤 인쇄(<code>error</code> 도 카운트, 5 초 안전 타임아웃). 운영 빌드 실측으로 <code>print()</code> 시점 스타일시트가 <strong>3/10 → 10/10</strong>, 제목 <code>16px/left → 26px/center</code>, 셀 보더 <code>0px → 1px</code>, <code>white-space normal → nowrap</code> 으로 회복.</li>
+<li>같이 발견된 별개 결함 — 행 번호 <code>No.</code> 가 페이지 경계에서 <strong>겹치거나 건너뛴다</strong>(1 페이지가 <code>29</code> 로 끝나는데 2 페이지도 <code>29</code> 로 시작, 마지막이 <code>41</code> 인데 <code>Count : 42</code>). 시작 인덱스를 <code>pi * rowsPerPage</code>(고정값)로 계산했는데 자동 분할은 행 높이로 나눠 <strong>페이지마다 행 수가 다르다</strong> → 앞 페이지들의 실제 행 수를 누적하도록 변경. 화면 뷰어에도 있던 문제다.</li>
+<li>리포트 5 종이 이 셸을 공유하므로 위 두 건은 <code>InvoiceDetail</code>/<code>Invoice</code>/<code>Estimate</code>/<code>EstimateList</code>/<code>SurrenderNotice</code> 에 함께 적용된다.</li>
+<li>⚠️<strong>인쇄 관련 수정은 <code>vite build</code> + <code>vite preview</code> 로 검증할 것.</strong> 2026-08 의 인쇄 레이아웃 5 건(PR #153)을 로컬 dev 에서만 재고 고쳤던 탓에 정작 "CSS 가 안 붙는다"는 본체를 놓쳤다.</li>
+<li>~~<strong>엑셀 다운로드 추가</strong> — 리포트 뷰어 툴바에 <code>📊 엑셀</code> 버튼.~~ <strong>붙일 곳을 잘못 짚었다 — PR #227 에서 되돌리고 <code>CrsInvDetailPopup</code> 으로 옮겼다.</strong> 위 항목 참고.</li>
+<li>검증(운영 빌드): 화면 페이지 수 2 = PDF 물리 페이지 수 2 · 페이지별 넘침 <code>0px</code> · 본문 마지막 요소가 푸터 위 · 행 번호 <code>1~29</code> / <code>30~42</code> = <code>Count 42</code> · 엑셀은 실제 클릭으로 받아 파싱(49행 · 합계 6,300/73,731/80,031 · 금액셀 <code>t='n'</code> <code>z='#,##0.00'</code>) · <code>vue-tsc --noEmit</code> exit 0.</li>
+</ul>
+<h2 id="pr-220-be-174-infra-51">탭 간 세션 동기화 — 다른 계정 로그인 감지 (PR #220, BE #174, Infra #51)<a class="headerlink" href="#pr-220-be-174-infra-51" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>SINOKORSESSION</code> 은 탭이 아니라 <strong>브라우저 단위 쿠키</strong>다. 같은 브라우저에서 다른 계정으로 로그인하면 먼저 열려 있던 탭의 서버 세션까지 덮어써지는데, 그 탭의 Pinia 스토어(<code>activeCompany</code>/<code>activeCustCd</code>)는 옛 계정 값을 그대로 들고 있어 <strong>봉투가 남의 데이터에 닿는다</strong>. 운영에서 실제로 86건 발생(선사별로 나뉜 두 계정을 번갈아 쓰는 업무 관행).</li>
+<li><strong>① <code>X-Client-User</code></strong> — 요청 인터셉터가 <code>auth.session.userId</code> 를 매 요청에 싣는다. 백엔드가 세션과 대조해 다르면 <strong>409 + <code>X-Session-Mismatch</code></strong>, 응답 인터셉터가 그 헤더로 일반 업무오류 409 와 구분해 안내한다.</li>
+<li><strong>② <code>BroadcastChannel</code></strong>(<code>src/util/sessionIdentity.ts</code>) — <code>bootstrap</code> 의 <code>saveSession</code> 직후 이 탭의 계정을 알린다. 다른 계정을 받은 탭은 스스로 새로고침해 새 세션에 맞춘다. <strong>이게 정상 경로</strong>고 ①은 브로드캐스트가 닿지 못한 탭의 최종 안내다.</li>
+<li>★<strong>다운로드·PDF 뷰어는 별도 axios 인스턴스</strong>(<code>axios.create()</code>)라 요청 인터셉터를 안 탄다 — 첫 커밋에서 헤더가 빠졌고, 둘이 공유하는 <code>fileDownOptions</code> 에서 직접 붙여 해결했다. <strong>이 파일에 axios 호출을 새로 추가할 땐 인터셉터를 타는지 확인할 것.</strong></li>
+<li>★<strong>미결 Promise 경로가 셋이 됐다</strong> — 날짜 가드(요청) · <code>data.unknown</code>(응답) · 세션 신원 불일치(응답).</li>
+<li>★<strong>401 이 아니라 409</strong> — 로그인은 살아 있다(다른 계정으로). <code>/login</code> 에 튕기면 멀쩡한 새 탭의 세션까지 끊는다.</li>
+<li>헤더는 <strong>선택적</strong>이다(없으면 서버가 검사하지 않음). 필수화하면 배포할 때마다 열려 있던 모든 탭이 409 를 맞는다. 남는 구멍은 '캐시된 옛 번들' 하나이고 새로고침하면 닫힌다.</li>
+<li>검증: 실제 브라우저(Playwright, 한 컨텍스트 탭 2개)로 헤더 전송 · 자동 새로고침 수렴 · 409 안내 노출(반복 새로고침 없음) 확인.</li>
+</ul>
+<h2 id="pr-219-infra-54">로그인 전용 레이트 리밋 추가 (PR #219, Infra #54)<a class="headerlink" href="#pr-219-infra-54" title="Permanent link">&para;</a></h2>
+<ul>
+<li>기존 <code>/api/</code> 제한은 <strong>50r/s + burst 100</strong> 이라 로그인에 대해선 사실상 무제한이었다. 2026-06 계정 대입(Infra #54)은 <strong>1,089 IP 로 2,979 회 = IP 당 평균 2.7 회</strong>라 애초에 걸릴 수가 없었다.</li>
+<li><code>/api/login</code> 에만 <strong>30r/m + burst 20</strong> 을 추가한다. <code>apilimit</code> 대비 100 배 빡빡하고, 사무실 NAT 에서 20~30명이 아침에 몰려도 통과한다.</li>
+<li>★<strong>location 블록을 복제하지 않았다.</strong> <code>map $request_uri $login_limit_key</code> 로 <code>/api/login</code> 일 때만 키를 채우고, <strong>nginx 는 키가 빈 값이면 제한을 적용하지 않는다</strong>는 성질을 쓴다. <code>/api/</code> 하나로 유지되므로 프록시 지시어(타임아웃 300s·Host·XFF 등)가 이원화되지 않는다.</li>
+<li>⚠️<strong>이 설정이 6월 공격을 막지는 못한다.</strong> IP 를 돌리면 어떤 per-IP 제한도 우회된다. 막는 것은 <strong>단일 IP 무차별 대입</strong>이고(같은 기간 <code>E01</code> 636건 · <code>E02</code> 5,123건), 분산 공격의 답은 <strong>탐지</strong>다 → 실패 로그 IP 기록(BE #172) 후 급증 알림.</li>
+<li>검증(<code>nginx:alpine</code> 컨테이너, 실제 프록시 경로): <code>/api/login</code> 동일 IP 60회 → <strong>21 통과 / 39 차단</strong>(burst 20+1 과 일치) · <code>/api/session</code> 60회 → <strong>60 전부 통과</strong>(map 키 빈 값 확인) · <code>/api/login</code> <strong>IP 5개 × 5회 → 25 전부 통과</strong>(한계 실측). ★<code>return 200</code> 스텁으로는 검증할 수 없다 — <code>return</code> 은 rewrite 단계라 <code>limit_req</code>(preaccess)보다 먼저 실행된다.</li>
+</ul>
+<h2 id="cmsfileintegrity-60-pr-218-be-165">CmsFileIntegrity — 성능 개선 (한 달 조회 60초 타임아웃 해소) (PR #218, BE #165)<a class="headerlink" href="#cmsfileintegrity-60-pr-218-be-165" title="Permanent link">&para;</a></h2>
+<ul>
+<li>운영에서 한 달 스코프 조회가 <code>timeout of 60000ms exceeded</code> 로 실패하던 것 해소. 백엔드가 기본(MISSING)은 <code>listNames</code>(빠름)로 조회하고, 무거운 <strong>미등록 파일(ORPHAN) 점검은 옵션화</strong>(BE #165).</li>
+<li>검색바에 <strong><code>미등록 파일(고아)도 점검</code></strong> 체크박스 추가(<code>INCLUDE_ORPHAN</code>, 기본 off). 기본은 "실제 파일 없음"만 빠르게 보고, 체크 시에만 폴더 전체를 훑는다(느리니 범위 좁게).</li>
+<li>이 화면의 조회 axios 타임아웃을 <strong>180초</strong>로 상향(NAS 폴더를 훑는 진단이라 기본 60초로는 부족). 다른 화면엔 영향 없음.</li>
+</ul>
+<h2 id="y">역할 화면 사용여부 — 버튼 관리에 검색·컬럼 추가, 권한 관리 기본값을 'Y' 로<a class="headerlink" href="#y" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>CmsRoleButtonMgt</code>(역할별 버튼 관리)</strong> — 검색바에 <strong>사용여부 셀렉트박스</strong>(<code>S_USE_YN</code>, 전체 포함)를 두고, <strong>역할 정보 그리드에 <code>USE_YN</code> 컬럼</strong>을 넣었다. <code>fnReset</code> 은 이미 <code>'Y'</code> 였는데 <strong>컨트롤이 없어 보이지도 바꾸지도 못하는 값</strong>이었다. 짝 = BE PR #164 — 매퍼에 컬럼도 필터도 없었다.</li>
+<li>★<strong>그 그리드의 <code>USE_YN</code> 은 읽기 전용이다.</strong> 이 화면은 역할 레코드를 저장하지 않는다 — <code>fnSave</code> 는 <code>BTN_GRID</code>/<code>SUB_BTN_GRID</code> 만 보내고, 매퍼의 insert/update/delete 는 전부 <code>TB_CMS_ROLE_BUTTON</code> 대상이라 <code>TB_CMS_ROLE</code> 을 갱신할 경로가 없다. 편집 가능하게 두면 <strong>고쳐도 조용히 아무 일도 안 일어난다.</strong> <code>CmsRoleMenuMgt</code> 의 역할 그리드는 저장 경로가 있어 편집 가능하니, 같은 모양이라고 따라 만들지 말 것.</li>
+<li><strong><code>CmsRoleMenuMgt</code>(역할별 권한 관리)</strong> — <code>fnReset</code> 의 사용여부 기본값을 <code>''</code>(전체) → <strong><code>'Y'</code>(사용중)</strong> 로 되돌렸다. 폐기한 역할이 기본 화면에 안 보이는 것이 맞는 상태다.</li>
+<li>⚠️<strong>사용여부 셀렉트박스를 지우지 말 것.</strong> 비활성 역할을 되살리려면 그걸로 전체/<code>'N'</code> 을 골라 조회해야 한다. 컨트롤이 없어지면 그때는 정말 길이 막힌다. PR #206 이 기본값을 <code>''</code> 로 둔 근거였던 "되살릴 방법이 없어진다" 는 <strong>같은 PR 이 셀렉트박스를 추가했으므로 과장이었다</strong>(2026-09-21 정정, 작성자 본인 확인).</li>
+<li>복사 기능의 <code>원본 역할</code> 드롭다운이 <code>USE_YN='Y'</code> 만 담는 필터(PR #204)는 <strong>별개</strong>라 그대로다.</li>
+<li>검증: 수정한 두 파일 ESLint 0, 매퍼 수정본을 Oracle(<code>.100</code>)에서 실제 실행 — 전체 17건 / <code>'Y'</code> 16건 / <code>'N'</code> 1건으로 분할 정상.</li>
+</ul>
+<h2 id="upper-case-enter"><code>upper-case</code> 입력이 붙여넣기·빠른 Enter 에서 소문자를 흘리던 문제<a class="headerlink" href="#upper-case-enter" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>DxTextBoxProxy</code> 의 대문자 변환을 <strong><code>keyup</code> 핸들러의 DOM 조작에서 값 경로(<code>parseValue</code>)로</strong> 옮겼다. <code>:upper-case="true"</code> 사용처 <strong>98곳</strong> 전부에 적용된다.</li>
+<li>★<strong>증상이 고약하다.</strong> 값을 바꾸는 건 <code>onPressKeyUp</code> 하나뿐인데 화면은 <code>text-transform: uppercase</code> 라 <strong>항상 대문자로 보인다.</strong> 그래서 keyup 을 안 타는 입력은 소문자가 그대로 전송되는데도 사용자가 눈치챌 수 없다. 신고 경위도 "화면엔 <code>ERR</code> 인데 조회가 안 된다" 였고, 페이로드를 열어보니 <code>ERr</code> 이었다.</li>
+<li><strong>새는 경로 2개</strong>(실측): ①키 이벤트 없는 입력 — 우클릭 붙여넣기, IME 확정, 자동완성, 드래그&amp;드롭 ②마지막 글자의 keyup 보다 조회가 먼저 나가는 경우 — 빠른 타이핑 + Enter. <code>Ctrl+V</code> 는 <code>v</code> 의 keyup 이 보정해 정상이었다.</li>
+<li>★<strong>레거시부터 있던 결함이다(V2 회귀 아님).</strong> 레거시 <code>plugins/dev-extreme.js</code> 에 같은 내용의 <code>parseValue</code> 가 <strong>주석 처리</strong>돼 있다. 값 경로 변환을 끄고 keyup + CSS 로 우회한 것인데, 레거시 git 최초 커밋부터 주석이라 이유는 확인되지 않는다.</li>
+<li><strong>검증</strong>(Playwright 하네스): 새는 경로 2개 → <code>ERR</code> · <code>upper-case</code> 미지정 입력 원본 보존 · <code>split-length=4</code> 조합 <code>ABCD</code> · Enter 조회에 실리는 값 <code>ERR</code> · <strong>중간 삽입 시 커서 유지</strong>(<code>AXBC</code>/커서 2, <code>valueChangeEvent='keyup'</code> 모드 포함). 커서 튐은 레거시가 껐던 이유로 의심돼 별도로 쟀고, 재현되지 않았다.</li>
+<li><strong><code>ECodeBox</code> 는 손대지 않았다</strong> — 같은 구멍이 있으나 코드 조회가 대소문자를 흡수하므로 소문자 입력을 허용하는 동작으로 둔다(저장값이 소문자로 남는 것은 감수). 상세는 <a href="../troubleshooting/">트러블슈팅 §31</a>.</li>
+</ul>
+<h2 id="cmsfileintegrity-pr-216-be-162">CmsFileIntegrity — 파일 정합성 점검 화면 신설 (PR #216, BE #162)<a class="headerlink" href="#cmsfileintegrity-pr-216-be-162" title="Permanent link">&para;</a></h2>
+<ul>
+<li>DB(<code>TB_CMS_ATFILE</code>)와 NAS 실물의 불일치를 조회하는 <strong>관리자 전용 화면</strong> 신설(<code>/cms/comm/CmsFileIntegrity</code>, 1단계 읽기전용).</li>
+<li>검색: <strong>기간(REG_TM) + MNGT_NO(부분일치)</strong> + <strong><code>포탈시스템 포함</code> 체크박스</strong>(기본 off) → <code>POST /api/cms/comm/cmsFileIntegrity/check</code> → 결과 그리드에 <code>구분(MISSING🔴/MISSING_FALLBACK🔴/ORPHAN🟢/SCAN_ERROR⚠) · MNGT_NO · FILE_PATH · SAVE_NM · 원본명 · 크기 · 등록일 · COMP_CD · 비고</code>. 헤더에 스코프/스캔폴더/스캔실패 요약.</li>
+<li><strong>포탈시스템 포함</strong> 체크 시 포탈 폴백 노출 미러의 NAS 누락(<code>MISSING_FALLBACK</code>, 뷰어 550 냈던 부류)도 점검(BE #162). 기본 off — 포탈은 V2 통제 밖이라 필요할 때만.</li>
+<li><strong>삭제 기능 없음</strong>(읽기전용). 고아(ORPHAN) 판정에는 포탈시스템(SKR_DOC_MST) 미포함(BE #162).</li>
+<li>⚠️ 후속(DB): 메뉴 등록(ADMIN) 필요. 화면 라벨 일부(<code>FILE_INTEGRITY</code> 등)는 용어사전 미등록 시 키가 그대로 노출될 수 있음.</li>
+</ul>
+<h2 id="cmsemaillog-pr-214-be-158">CmsEmailLog — 상세 본문 전문 로드 (PR #214, BE #158)<a class="headerlink" href="#cmsemaillog-pr-214-be-158" title="Permanent link">&para;</a></h2>
+<ul>
+<li>이메일 로그 상세의 본문을 목록 데이터가 아니라 <strong>행 선택 시 전용 조회</strong>로 가져오도록 변경. 목록 SP(<code>SP_GET_EMAIL_LOG</code>)가 본문 CLOB 을 잘라 담다 멀티바이트 본문에서 ORA-06502(4000자 SUBSTR 이 4000바이트 초과)로 조회가 죽던 문제의 짝 조치 — 목록에서 본문을 빼고 상세만 전문을 받는다.</li>
+<li><code>onRowSelected</code> → <code>fnLoadEmailContent(EMAIL_NO)</code> 가 <code>POST /api/cms/log/cmsEmailLog/selectEmailContent</code> 호출 → <code>main.HTMLCONTENT</code> 를 전문으로 교체. 응답 지연 중 다른 행을 선택하면 폐기(레이스 가드), 실패 시 기존 값 유지.</li>
+<li>실측(.100): 본문 2916자 메일이 상세 에디터에 안 끊기고 전문 표시 확인.</li>
+</ul>
+<h2 id="system_div-pr-213-be-157-infra-31">사용자관리 역할 탭 — 관리 메뉴(SYSTEM_DIV) 컬럼 제거 (PR #213, BE #157, Infra #31)<a class="headerlink" href="#system_div-pr-213-be-157-infra-31" title="Permanent link">&para;</a></h2>
+<ul>
+<li>BE <strong>PR #156</strong> 이 법인 스코프를 <code>SUBSTR(ROLE_ID,1,3)</code> 파생으로 바꾸면서 <code>TB_CMS_USER_ROLE.SYSTEM_DIV</code> 는 <strong>V2 가 읽지 않는 값</strong>이 됐다. 그런데 이 그리드는 계속 값을 받아 저장하고 있어, <strong>채워도 아무 효과가 없는 칸을 관리자에게 보여주고 있었다</strong> — 오히려 "설정하면 뭔가 된다"는 오해를 준다. <code>codeData</code> 선언 · <code>source.SYSTEM_DIV</code> · roleGrid <code>'관리 메뉴'</code> 컬럼 정의 3곳 제거.</li>
+<li><code>AgSelectBoxEditor</code> 는 이 화면 다른 컬럼 4곳이 계속 쓰므로 <strong>import 존치</strong>(내 변경이 만든 고아가 아니다).</li>
+<li>★<strong>DB 컬럼 자체는 남긴다</strong> — 레거시가 아직 읽으므로 <strong>롤백 카드를 살려둔다</strong>. 백엔드 짝(BE #157)이 매퍼의 읽기·쓰기(<code>selectRole</code>·<code>insertRole</code>·<code>updateRole</code>)를 함께 걷어낸다. 두 PR 이 끝나면 V2 는 이 컬럼을 <strong>읽지도 쓰지도 않는다.</strong></li>
+<li>ℹ️배포 순서 무관 — 이 PR 이 먼저 나가도 백엔드가 빈 값을 null 로 바인딩할 뿐이고, 백엔드가 먼저 나가도 이 그리드가 보내는 값을 무시할 뿐이다.</li>
+</ul>
+<h2 id="cmsazurelog-409-pr-209-be-153154-infra-46">CmsAzureLog — 업무거절(409) 분리 표기 (PR #209, BE #153·#154, Infra #46)<a class="headerlink" href="#cmsazurelog-409-pr-209-be-153154-infra-46" title="Permanent link">&para;</a></h2>
+<ul>
+<li>에러율이 <strong>업무거절(HTTP 409 = 프로시저 'N' 등 의도된 반려)까지 포함</strong>해 과장되던 것을 분리. 백엔드가 <code>ERROR_RATE</code> 를 <strong>시스템 실패(409 제외)</strong> 기준으로 바꾸고 <code>BIZ_REJECT</code>(409 건수)를 별도로 내려준다(BE #154).</li>
+<li>요약 카드에 <strong>"업무거절"</strong> 카드 추가(<code>summary.BIZ_REJECT</code>), <strong>에러율 카드 설명</strong>을 "시스템 실패 비율 — 업무거절(409) 제외"로 정정. <code>EMPTY_TRAFFIC_SUMMARY</code> 에 <code>BIZ_REJECT: 0</code> 추가.</li>
+<li>배경: 프로시저 예외('E')가 이제 <strong>500/ERR_DIV '03'</strong>(BE #153)이라 409 는 순수 업무거절이 된다 — 그래서 "409=업무거절" 분리가 성립. 시스템 장애가 아니라 사용자 입력·검증 신호라, 급증하면 특정 검증을 다수가 밟는지 확인하는 용도.</li>
+</ul>
+<h2 id="504-nginx-infra-38">저장은 성공했는데 사용자는 504 — nginx 응답 대기 상한 추가 (Infra #38)<a class="headerlink" href="#504-nginx-infra-38" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>nginx.conf</code> 의 <code>location /api/</code> 에 <strong><code>proxy_read_timeout 300s</code> / <code>proxy_send_timeout 300s</code></strong> 를 넣었다. 지금까지 <strong>nginx 기본값 60초</strong>가 요청 경로의 실효 상한이었다.</li>
+<li>★<strong>증상이 고약하다 — 사용자는 실패로 보는데 데이터는 저장된다.</strong> 60초가 지나면 nginx 가 504 를 돌려주지만 그건 nginx↔브라우저 사이의 사정일 뿐이라, 백엔드는 모르고 끝까지 돌아 <strong>커밋까지 마친 뒤</strong> 응답을 쓰다 <code>ClientAbortException</code>(Broken pipe)으로 깨진다. <strong>중간 타임아웃은 작업을 취소하지 않는다 — 기다리기를 포기할 뿐이다.</strong> 사용자가 실패로 알고 재시도하면 <strong>중복 저장</strong>이다.</li>
+<li>★<strong>화면 axios 의 300초는 무의미했다</strong> — 그 앞단 60초에서 먼저 잘려 도달한 적이 없다. "프론트 타임아웃이 실효 상한" 이라는 판단은 틀렸다. 같은 값으로 맞춰 사슬을 정합시킨다.</li>
+<li><strong>실측(2026-09-18)</strong>: CRS 견적 887행 저장 74.6초 — 10:13:17 요청 / <strong>10:14:17 nginx 504</strong> / 10:14:32 백엔드 완주(<code>ResultCode 200</code>). 30일 누적 <strong>23건</strong> — <code>CrsEstUploadExl</code> 12 · <code>CrsEstimate</code> 9 · <code>EirImportIssue</code> 2. 9/15 에 9건이 몰린 건 구 프로시저(240초대) 시절이고, <code>SP_SET_EST4EXL_NEW</code> 전환 후로는 이 887행이 처음 60초를 넘겼다.</li>
+<li><strong>이 값으로 정한 이유</strong>: 백엔드↔온프렘 Oracle 에 <strong>약 240초 벽</strong>(<code>ORA-17002</code>, Infra #41)이 따로 있어 그게 먼저 온다. 240초를 넘는 저장은 DB 에서 실제로 실패하므로 <strong>화면의 실패와 실제가 일치</strong>한다. 즉 "서버는 성공인데 화면은 실패" 구간이 구조적으로 닫힌다.</li>
+<li>⚠️<strong>저장만 골라서 길게 줄 수 없다</strong> — 저장도 조회도 같은 URI(VMS 통합 엔드포인트 <code>/api/vendor/comm/executeVendorCommonProcedure</code>)라 <code>location</code> 분기가 불가능하다. <code>/api/</code> 전체가 300초까지 기다린다(트래픽이 분당 p95 22건이라 커넥션 점유는 무시 가능).</li>
+<li>⚠️<strong>남는 것</strong>: ①240초를 넘는 저장은 여전히 실패 — 근본은 프로시저 성능(Infra #38) ②백엔드 statement timeout 은 아직 없어 커넥션 점유 상한이 없다 ③ACA ingress 가 300초를 버티는지는 배포 후 실트래픽으로만 확인된다.</li>
+<li>상세는 <a href="../troubleshooting/">트러블슈팅 §30</a>.</li>
+</ul>
+<h2 id="pr-206-be-151-infra-31">역할별 권한 관리 — 사용여부 검색 조건 추가 (PR #206, BE #151, Infra #31)<a class="headerlink" href="#pr-206-be-151-infra-31" title="Permanent link">&para;</a></h2>
+<ul>
+<li>역할 명 오른쪽에 <strong>사용여부 셀렉트박스</strong>를 둔다. 구 role_id 15개를 <code>USE_YN='N'</code> 으로 내린 뒤(Infra #31 리허설) 그리드에서 활성/비활성을 구분해 볼 방법이 없었다. 검색용 소스 <code>S_USE_YN</code>(<code>prependCodeAll</code> = '전체' 포함)을 켜고, 백엔드 <code>CmsRoleMenuMgt.select</code> 에 <code>USE_YN</code> <code>&lt;if&gt;</code> 를 추가했다.</li>
+<li>★<strong><code>fnReset</code> 기본값을 <code>'Y'</code> → <code>''</code>(전체)로 바꿨다.</strong> 종전 <code>'Y'</code> 는 백엔드가 <code>USE_YN</code> 을 무시해 <strong>죽은 값</strong>이었는데 이번 짝 PR 로 살아난다. 그대로 뒀다면 화면을 열자마자 32개 중 17개만 보이고, <strong>방금 비활성화한 역할이 기본 화면에서 사라져 되살릴 방법이 없어진다</strong> — 이 화면은 역할을 '관리'하는 곳이다.</li>
+<li>그리드 편집용 <code>source.USE_YN</code> 은 그대로(전체 항목 없음). 검색용과 편집용 소스를 분리해 쓰는 <code>CmsUserMgt</code> 관용구와 같다.</li>
+</ul>
+<h2 id="pr-204-be-149-infra-31">권한 복사 '원본 역할' 목록에서 비활성 역할 제외 (PR #204, BE #149, Infra #31)<a class="headerlink" href="#pr-204-be-149-infra-31" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>역할별 권한 관리의 복사 기능</strong>에서 <code>원본 역할</code> 드롭다운이 역할 그리드 데이터(<code>roleList</code>)를 그대로 재사용해 <strong><code>USE_YN='N'</code> 인 역할까지 전부</strong> 노출하고 있었다. 비활성 역할은 권한이 회수된 상태라 복사 원본이 될 수 없다 — 고르면 <strong>죽은 권한 세트를 새 역할에 퍼뜨린다</strong>. <code>roleOptions</code> 에서 <code>USE_YN='Y'</code> 만 남긴다(<code>USE_YN</code> 은 이미 <code>CmsRoleMenuMgt.select</code> 응답에 있어 <strong>백엔드 변경 불필요</strong>).</li>
+<li>★<strong>그리드는 전량(비활성 포함) 유지한다</strong> — 여기서까지 숨기면 관리자가 비활성 역할을 <strong>되살릴 방법이 없어진다</strong>. 그리드에서 <code>USE_YN</code> 을 <code>'Y'</code> 로 바꾸면 드롭다운에도 다시 나타난다. <code>대상 역할</code> 은 그리드 선택으로 자동 지정되는 읽기전용이라 해당 없음.</li>
+<li>엣지: 그리드에서 <code>USE_YN</code> 을 내리고 저장해도 <strong>선택값이 매달리지 않는다</strong> — 저장 후 <code>fnSearch</code> 가 <code>main</code> 을 통째로 초기화한다.</li>
+<li>이 변경으로 역할 선택 팝업(<code>CmsCommonPopup.selectRole</code>, 이미 <code>USE_YN='Y'</code> 사용)과 <strong>두 화면의 기준이 같아진다.</strong></li>
+<li><strong>발견 경위</strong>: 구 role_id(<code>NNNN-NN</code>) 15개를 <code>USE_YN='N'</code> 으로 내리는 리허설(Infra #31, 2026-09-17) 직후 이 목록에 그대로 남아 있는 것이 확인됐다. 짝 = BE <strong>PR #149</strong> — 권한 해석 <strong>17곳</strong>에 <code>TB_CMS_ROLE.USE_YN='Y'</code> 조인을 넣어 <code>USE_YN</code> 을 <strong>실제로 동작하는 차단 스위치</strong>로 만든 변경. 그 전까지 <code>USE_YN</code> 이 막던 것은 역할 선택 팝업 노출 하나뿐이라 <strong>"새로 못 붙이지만 이미 붙은 건 산다"</strong> 상태였다.</li>
+</ul>
+<h2 id="pr-203-infra-38">견적 엑셀 저장 — 개선 프로시저 전체 확대 (PR #203, Infra #38)<a class="headerlink" href="#pr-203-infra-38" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>전 사용자가 <code>SP_SET_EST4EXL_NEW</code> 를 탄다.</strong> PR #201 의 계정 기반 A/B(<code>NEW_SP_TEST_USERS</code>)를 거쳐 2026-09-17 확대했다. 개선본은 ①루프를 <strong>상세 행 단위 → 컨테이너 단위</strong>로 바꿔 반복을 실측 평균 1/6.5 로 줄이고 ②<code>sp_set_est_mst_new</code>(내부 commit/rollback 제거)를 써 <strong>저장 전체를 한 트랜잭션</strong>으로 만든다.</li>
+<li>★<strong>본론은 ②다.</strong> 종전에는 마스터만 행마다 commit 되고 상세는 루프 뒤 MERGE 한 번이라, 4분 벽(<code>ORA-17002</code>)에 끊기면 <strong>헤더만 있고 내역 0건인 고아 견적</strong>이 남았다(2026-09-15 운영 149건). 이제 끊겨도 통째로 롤백된다. 함께 정상 저장에도 뜨던 <strong>허위 경고 <code>This Data is already confirmed !</code> 가 사라진다</strong>(원본은 컨테이너당 <code>sp_set_est_mst</code> 를 상세 건수만큼 불러, 2번째 호출부터 상세가 아직 없어 <code>v_rep_main</code> 서브쿼리가 NULL → 0건 갱신 → 그 메시지가 떴다).</li>
+<li><strong>운영 검증(2026-09-17, SHA03)</strong> — SNKO 137건 · HALK 7건 저장. 고아 <strong>0</strong> · cmnt 유실 <strong>0</strong>(137 중 133 기입, 나머지 4건은 파일에 REMARK 가 원래 없음) · <code>ORA-17002</code>/<code>00060</code>(deadlock)/<code>04063</code>/<code>20001</code> <strong>0건</strong>. HSLI 분기는 미실행이나 <code>order_no</code> 블록이 원본부터 비활성이라 변경 표면이 가장 작다.</li>
+<li>⚠️<strong>감수하는 것</strong> — 실패 시 부분 저장 없이 <strong>통째로 롤백</strong>된다(사용자는 전체 재업로드). 그리고 마스터 행 락을 <strong>실행 내내</strong> 쥔다(<code>.100</code> 실측 경쟁세션 대기 36.2초, 운영 240초짜리면 240초). 같은 견적을 동시에 만지면 그만큼 대기하므로 <code>ORA-00060</code> 을 지켜볼 것.</li>
+<li>★<strong>롤백 레버를 남겼다</strong> — <code>USE_NEW_SP_FOR_ALL = false</code> <strong>한 줄</strong>이면 전원이 즉시 원본 경로로 돌아간다. 원본 프로시저는 DB 에 그대로 있어 <strong>DB 작업이 필요 없다</strong>. <code>NEW_SP_TEST_USERS</code> 도 남겨, false 로 되돌린 뒤 계정 단위 A/B 를 다시 쓸 수 있다.</li>
+<li>
+<p>⚠️<strong>4분 벽 자체는 그대로다</strong> — 이건 호출 시간을 벽 안쪽으로 끌어내리는 완충이지 벽을 없애지 않는다. 파일이 더 커지면 다시 닿고, 그때는 부분 저장도 없이 전량 실패한다(Infra #41).</p>
+</li>
+<li>
+<p><strong>CRS 견적 엑셀 저장을 개선 프로시저로 전체 확대</strong>(PR #203) — <code>SP_SET_EST4EXL</code> → <code>SP_SET_EST4EXL_NEW</code>. 개선본은 ①루프를 상세 행 단위에서 <strong>컨테이너 단위</strong>로 바꿔 반복을 실측 평균 1/6.5 로 줄이고 ②<code>sp_set_est_mst_new</code>(내부 commit/rollback 제거)를 써 <strong>저장 전체를 한 트랜잭션</strong>으로 만든다. 후자가 본론이다 — 종전에는 마스터만 행마다 commit 되고 상세는 루프 뒤 MERGE 한 번이라, 4분 벽(<code>ORA-17002</code>)에 끊기면 <strong>헤더만 있고 내역 0건인 고아 견적</strong>이 남았다(2026-09-15 운영 149건 발생). 함께 정상 저장에도 뜨던 허위 경고 <code>This Data is already confirmed !</code> 가 사라진다. <strong>운영 검증(2026-09-17, SHA03 계정)</strong>: SNKO 137건 · HALK 7건 저장 — 고아 <strong>0</strong> · cmnt 유실 <strong>0</strong> · <code>ORA-17002</code>/<code>00060</code>(deadlock)/<code>04063</code>/<code>20001</code> <strong>0건</strong>. ⚠️감수하는 것 = 실패 시 부분 저장 없이 <strong>통째로 롤백</strong>되고(사용자는 전체 재업로드 필요), 마스터 행 락을 실행 내내 쥔다(<code>.100</code> 실측 경쟁세션 대기 36.2초 — 운영 240초짜리면 240초). ★<strong>롤백 레버를 남겼다</strong> — <code>USE_NEW_SP_FOR_ALL = false</code> 한 줄이면 전원이 즉시 원본 경로로 돌아간다(원본 프로시저는 DB 에 그대로 있어 DB 작업 불필요). <code>NEW_SP_TEST_USERS</code> 도 남겨 계정 단위 A/B 가 계속 가능하다. ⚠️4분 벽 자체는 그대로다 — 이건 호출 시간을 벽 안쪽으로 끌어내리는 완충이고, 파일이 더 커지면 다시 닿는다(Infra #41). Infra #38.</p>
+</li>
+</ul>
+<h2 id="ab-pr-201-infra-38">견적 엑셀 저장 — 개선 프로시저 A/B 스위치 (PR #201, Infra #38)<a class="headerlink" href="#ab-pr-201-infra-38" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>CrsEstUploadExl</code> 저장에 계정 기반 분기 추가.</strong> <code>NEW_SP_TEST_USERS</code> 에 적힌 계정만 <code>dataset.SAVE_NEW</code>(<code>SP_SET_EST4EXL_NEW</code>)를 타고 나머지는 기존 <code>SAVE</code> 그대로다. 원본 프로시저를 남겨 둔 채 특정 사용자만 개선본으로 태워보기 위한 스위치이며, <strong>문제가 생기면 배열을 비우는 것만으로 전원이 원래 경로로 복귀</strong>한다.</li>
+<li>★응답 파싱도 함께 바꿔야 한다 — 응답 키가 <strong>호출한 프로시저명</strong>이라(<code>result.data[PROCEDURE]</code>) 분기해서 고른 dataset 을 그대로 써야 한다. <code>dataset.SAVE[0].PROCEDURE</code> 로 고정해 두면 SAVE_NEW 로 호출한 응답을 못 읽는다.</li>
+<li>★선행조건이 <strong>셋</strong>이다 — ①패키지 <strong>바디</strong> 정의 ②패키지 <strong>스펙 선언</strong>(없으면 <code>ALL_ARGUMENTS</code> 에 안 잡혀 인자 메타 0건) ③<strong><code>CM_CD(CMPIC)</code> 행</strong>(<code>OPT04='SP_SET_EST4EXL_NEW'</code>). ③이 없으면 컴파일이 정상이어도 <code>In CURSOR에 Column 정의가 되어 있지 않습니다</code> 로 실패한다. 상세는 백엔드 문서 <code>code-walkthrough/vps.md</code>. 검증이 끝나면 상수·분기·<code>SAVE_NEW</code> 를 지우고 <code>SAVE</code> 를 개선본으로 교체한다.</li>
+</ul>
+<h2 id="devexpress-pr-200-infra-31">DevExpress 리포트 잔재 전량 제거 (PR #200, Infra #31)<a class="headerlink" href="#devexpress-pr-200-infra-31" title="Permanent link">&para;</a></h2>
+<p>레거시 박스의 DevExpress 리포트 서버(<code>:8095</code>)가 <strong>불필요로 확정</strong>돼 V2 잔재를 걷어냈다. 리포트 5종은 이미 <code>CmsHtmlReportPopup</code> 으로 이식돼 돌고 있었고, <code>:8095</code> 는 컷오버(2026-09-08)로 이미 도달 불가였다(9/8 17시 8회 시도 전부 504/499, 이후 0건).</p>
+<p>제거 = <code>CmsReportPopup</code> 페이지(205줄) · <code>nginx.conf</code> 의 <code>location /WebDocumentViewer/</code> · <code>vite.config.ts</code> dev 프록시 · dev 샘플 <code>layout1</code> 의 <code>fnPrint</code>(유일한 실호출).</p>
+<p>★<strong><code>client_max_body_size 50m</code> 은 존치</strong>했다. 주석은 "WebDocumentViewer Detail 리포트 본문(1.1~1.4MB) 때문"이라 DevExpress 정리 대상처럼 보이지만, <strong>지금은 파일 업로드의 실질 상한</strong>이다 — 같이 지우면 nginx 기본값 <code>1m</code> 으로 떨어져 첨부 업로드가 413 으로 막힌다. 디렉티브는 두고 주석만 실제 이유로 고쳤다.</p>
+<p>오도 주석 6곳 정정: <em>"되돌리려면 경로만 <code>CmsReportPopup</code> 으로"</em> 는 이제 대상 자체가 없다. ★PR #192 에서 <code>CrsEstimate</code>·<code>CrsEstApproval</code>(4곳)만 고치고 <strong><code>CrsInvoice</code>·<code>FdsOrdMgt</code>(2곳)를 놓쳤던 것</strong>도 함께 잡았다(조사 <code>을/를</code> 차이로 일괄 치환에서 빠진 1곳 포함).</p>
+<p>검증: <code>vue-tsc</code> 진단 0 · <code>vite build</code> 성공 · <strong>번들 문자열로 확인</strong>(<code>CmsHtmlReportPopup</code> 5파일 생존 / <code>CmsReportPopup</code> 0 / <code>WebDocumentViewer</code> 0) · <code>nginx -t</code> ok. ⚠️<code>npm run build</code> 는 WSL 에서 <code>vue-tsc</code> 를 못 찾고도 exit 0 을 내므로 <code>./node_modules/.bin/</code> 로 직접 실행해야 한다.</p>
+<h2 id="partner-v2sinokorcokr-pr-199-infra-43-3931"><code>partner-v2.sinokor.co.kr</code> 폐기 완료 (PR #199, Infra #43 / #39·#31)<a class="headerlink" href="#partner-v2sinokorcokr-pr-199-infra-43-3931" title="Permanent link">&para;</a></h2>
+<p>소프트런칭용 URL 을 최종 폐기하고 <code>nginx.conf</code> 의 301 리다이렉트 server 블록을 제거했다. 이제 도달 경로가 없어 死 설정이다.</p>
+<p><strong>폐기해도 안전했던 이유</strong>: partner-v2 는 <strong>업체에 안내된 적이 없고</strong> 레거시 SSO 자동전환(<code>V2SsoLinkController</code> → <code>partner-v2/?ssoToken=</code>)으로만 유입되던 주소인데, 컷오버(2026-09-08)로 그 경로가 소멸했다. 지금은 레거시 셸이 부르는 <code>/api/v2SsoLink</code> 를 V2 nginx 스텁이 받아 <strong>상대경로</strong> <code>/?v2=1</code> 을 돌려주므로 partner-v2 주소 자체가 더는 생성되지 않는다. 즉 북마크 모집단이 사실상 없다.</p>
+<p><strong>순서</strong>(이 순서가 중요하다): FE #192 로 partner 로 301 흡수 → 트래픽 0 확인(9/13 06시 이후 0) → hostname 언바인드 + DNS 삭제 → Infra #43 으로 bicep 동기화 → 관리형 인증서 삭제 → <strong>마지막에</strong> 이 PR 로 nginx 블록 제거. ★nginx 블록을 먼저 지우면 DNS 가 살아있는 동안 partner-v2 가 리다이렉트 대신 앱을 그대로 서빙하게 된다.</p>
+<p>⚠️<strong>남겨둘 함정</strong>: <code>asuid.partner-v2</code> 와 <code>asuid.partner</code> 는 TXT 값이 <strong>완전히 동일</strong>하다(앱 고정 <code>customDomainVerificationId</code>). DNS 화면에서 중복처럼 보이지만 partner 쪽은 운영 도메인 바인딩·인증서 갱신에 필요하다. 또 관리형 인증서는 앱이 아니라 <strong>환경(<code>vp-prod-cae</code>) 아래</strong>에 있고 이름이 둘 다 <code>mc-vp-prod-cae-partner…</code> 로 시작한다.</p>
+<h2 id="60-pr-197-infra-38">견적 엑셀 저장 타임아웃 — 60초 거짓 실패로 인한 이중 실행 차단 (PR #197, Infra #38)<a class="headerlink" href="#60-pr-197-infra-38" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>CrsEstUploadExl</code> 저장에 <code>{ timeout: 300000 }</code></strong>. 이 저장(<code>PKG_CRS_ESTIMATE.SP_SET_EST4EXL</code>)은 운영에서 <strong>220.9초</strong>까지 걸린 적이 있는데 axios 전역 타임아웃이 60초라 <strong>브라우저에서 성공할 수가 없었다</strong>. 60초에 끊기면 화면엔 실패로 뜨지만 <strong>서버는 저장을 계속 진행하고 결국 커밋</strong>한다 → 사용자가 실패로 알고 재저장 → 같은 저장이 겹쳐 돈다. 2026-09-14 11:03(158.3초)/11:04(221.1초)에 <strong>같은 세션에서 실제로 발생</strong>했고, 둘 다 <code>ResultCode 200</code> 이라 에러로그에도 안 남아 추적이 어려웠다. <code>EirImportIssue</code> 가 같은 실패모드를 같은 방법으로 해결해 둔 선례를 따랐다(26.08.06).</li>
+<li><strong>중복 제출 가드는 넣지 않았다.</strong> 처음엔 <code>isSaving</code> 플래그를 넣었다가 뺐다 — ①요청이 떠 있는 동안은 전역 로딩 오버레이가 클릭 자체를 막아 불필요하고 ②가드가 실제로 작동하는 구간은 인터셉터가 응답을 삼키는 <strong>미결 Promise</strong> 경로인데 거기선 해제 시점이 없어 버튼이 최대 305초 죽는다. 잠금은 어차피 60초에 같이 풀려 <strong>원래 막으려던 사례도 못 막았다</strong>.</li>
+<li>문서: <code>http-api.md</code> 에 타임아웃 절 추가(기본 60초·override 대상·거짓 실패 기전) + <strong>미결 Promise 경로가 요청·응답 양쪽에 하나씩 둘</strong>이라는 사실 보강(응답 인터셉터의 <code>data.unknown</code> 은 백엔드 catch-all 번역기 때문에 <code>SQLException</code>·풀 타임아웃·NPE 가 전부 도달한다).</li>
+<li>부수: <code>EAttachFileGrid</code> 의 키 구분자가 이스케이프가 아닌 <strong>진짜 NUL 바이트</strong>로 들어가 있어 <code>grep</code> 이 파일을 바이너리로 취급했다. 동작이 같은 유니코드 이스케이프 표기로 교체.</li>
+</ul>
+<h2 id="csp-enforcing-partner-v2-pr-192193-infra-39">CSP enforcing 전환 + partner-v2 흡수 리다이렉트 (PR #192·#193, Infra #39)<a class="headerlink" href="#csp-enforcing-partner-v2-pr-192193-infra-39" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>CSP <code>Report-Only</code> → enforcing</strong>(#193). Report-Only 는 <strong>검사만 하고 차단하지 않아 보안 효과가 0</strong> 이었다(2026-07-09 배포 후 관찰용). 함께 <code>frame-ancestors</code> 를 <code>'none'</code>→<code>'self'</code> 로 완화 — 앱이 자기 화면을 iframe 으로 띄우므로(PDF/리포트 뷰어) <code>'none'</code> 인 채 전환하면 그게 막힌다.
+  코드 전수 확인으로 <code>&lt;object&gt;</code>/<code>&lt;embed&gt;</code>/<code>&lt;video&gt;</code>/<code>&lt;audio&gt;</code>/Worker 0건·실제 앱의 외부 호스트 참조 0건을 확정했고, <strong>유일하게 코드로 판별 불가했던 PDF 뷰어</strong>(<code>util/http/index.ts</code> 가 <code>blob:</code> 으로 <code>window.open</code>; <code>blob:</code> 은 생성 문서의 CSP 를 상속하고 크롬 PDF 뷰어는 내부 <code>&lt;embed&gt;</code> 사용 → <code>object-src 'none'</code> 충돌 우려)는 <strong>실제 Windows Chrome 152/Edge 로 A/B 실측</strong>해 해소했다 — Edge 가 <code>&lt;embed&gt;</code> 를 실제 생성했는데도 위반 0, enforce/report-only 수치 완전 동일, 양성 대조군(<code>&lt;object&gt;</code>)은 정상 차단. ⚠️Playwright 번들 Chromium 은 PDF 뷰어가 없어 이 검증에 못 쓴다. 되돌리기는 헤더 이름에 <code>-Report-Only</code> 재부착 1줄.</li>
+<li><strong><code>partner-v2</code> → <code>partner</code> 301</strong>(#192). 컷오버 후 중복 이름이 된 소프트런칭 URL 로 북마크 유입이 계속돼(하루 5~13 클라이언트) 그대로 폐기하면 접속 불가가 된다. 흡수 후 트래픽 0 을 확인하면 호스트네임 폐기 가능(Infra #31 선행조건). ★전용 server 블록은 기본 서버(<code>server_name _</code>) <strong>뒤에</strong> 둬야 한다 — 첫 서버가 <code>default_server</code> 가 되므로 앞에 두면 Host 불일치 요청(ACA 헬스프로브)까지 301 된다. 세션 쿠키가 호스트 한정이라 <strong>1회 재로그인</strong> 필요.</li>
+<li><strong>리포트 되돌리기 경로 死 표기</strong>(#192). <code>CrsEstimate</code>·<code>CrsEstApproval</code> 의 <em>"되돌리려면 경로만 <code>CmsReportPopup</code> 으로"</em> 주석 4곳 정정 — 컷오버로 <code>partner.sinokor.co.kr:8095</code>(DevExpress 서버)가 도달 불가가 돼 <strong>되돌려도 동작하지 않는다</strong>. 장애 때 이 주석을 믿고 롤백하면 시간만 버린다.</li>
+</ul>
+<h2 id="eslint-error-pr-188189190-infra-36">ESLint 게이트 강화 — 사각지대 정리·배포 게이트·미사용 변수 error (PR #188·#189·#190, Infra #36)<a class="headerlink" href="#eslint-error-pr-188189190-infra-36" title="Permanent link">&para;</a></h2>
+<p>FE #184 로 도입한 ESLint 게이트(<code>no-undef</code>)의 사각지대를 정리하고 실효성을 높였다.</p>
+<ul>
+<li><strong>커버리지·규칙</strong>(#188): 死 <code>e2e/**</code> ignore 제거, <code>docs-tools/**</code> 편입, <code>public/</code> 주석 정정, <code>.vue</code> DOM 타입 오탐 예방(<code>parserOptions.lib</code>+<code>NodeJS</code>), <strong><code>vue/no-undef-components</code> 활성</strong>(템플릿 미등록 컴포넌트 차단). ★그냥 켜면 전역 자동등록군(<code>e-</code>/<code>dx-</code>/<code>v-</code>/<code>ag-</code>/<code>router-</code>/<code>splitpanes</code>… <strong>3800건</strong>)이 오탐 — 런타임 전역 해석이라 로컬 import 대상이 아니므로 <code>ignorePatterns</code> 로 제외해야 "잔여 0건"이 성립한다(그 뒤엔 로컬 import 누락만 잡힌다).</li>
+<li><strong>배포 게이트</strong>(#189): 브랜치 보호가 플랜상 불가(private+403, Infra #29)라 CI 는 머지를 못 막으므로, <strong>Dockerfile 빌드에 <code>RUN npm run lint</code>(build 앞)</strong> 를 넣어 실효 게이트로 만들었다 — undef/미사용 에러 시 이미지 빌드 실패→배포 중단. eslint 는 error 에서만 실패라 현재 0 errors 는 무해하고, 누가 undef 를 넣는 순간에만 발동한다.</li>
+<li><strong><code>no-unused-vars</code> error 승격</strong>(#190): 이관 잔재 <strong>183건(unused import 115 + 죽은 지역변수 68)</strong> 을 전량 선정리한 뒤 <code>warn→error</code>. 부작용 호출(<code>adapter.addItem(...)</code>)은 바인딩만 제거하고 호출은 보존, dev 가 의도적으로 남긴 미사용(<code>focusedCell</code>)은 <code>eslint-disable</code>. 검증 = eslint(error) 0 · vue-tsc 0 · vite build 성공(2140 modules). ⚠️정리 중 흔한 이름(<code>adapter</code>) line-match 스크립트가 과제거→<code>no-undef</code> 25건을 냈으나 게이트가 즉시 검출해 고유 문자열로 재작업.</li>
+</ul>
+<h2 id="cfs-4-pr-177-be-124">CFS 4화면 死엑셀 업로드 제거 (PR #177, BE #124)<a class="headerlink" href="#cfs-4-pr-177-be-124" title="Permanent link">&para;</a></h2>
+<p><code>CfsWorkHistory</code> · <code>CfsShuttleHistory</code> · <code>CfsRtnRepairHistory</code> · <code>CfsStuffExpn</code> 의 엑셀 업로드가 <strong>한 번도 도달할 수 없는 코드</strong>였다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>&lt;input type="file" ref="uploadFile" style="display:none"&gt;   ← 숨김. change 로만 clickFile 발화
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ↑ this.$refs.uploadFile.click() 을 하는 fnExcelUpload() 가 있는데
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ↑ 그 함수를 부르는 곳이 없다 (버튼·템플릿 참조 0)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      ※ CfsStuffExpn 은 fnExcelUpload 자체가 없다
+</code></pre></div>
+<p>운영 90일 nginx 로그로도 확인 — <code>/api/vendor/comm/uploadExcel</code> <strong>호출 0건</strong>(같은 기간 살아있는 <code>/api/vms/comm/uploadExcel</code> 은 125건).</p>
+<p>설령 도달했어도 동작하지 않는다. 세 곳이 어긋나 있었다.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>백엔드</th>
+<th>프론트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>@RequestBody DMap</code></td>
+<td>multipart 전송 → 바인딩 불가</td>
+</tr>
+<tr>
+<td>2</td>
+<td>빈 <code>DMap</code> 반환</td>
+<td><code>data.LIST</code> 를 읽어 그리드에 넣음</td>
+</tr>
+<tr>
+<td>3</td>
+<td>(살아있는 쪽은) <code>type</code> 소문자 <code>@RequestParam</code></td>
+<td><code>TYPE</code> 대문자</td>
+</tr>
+</tbody>
+</table>
+<p>엑셀 파서(<code>VmsExcelFacade</code>)에도 CFS 분기가 없다(Tes 4 · Mvs · Fds · Crs 뿐) — <strong>완성된 적 없는 기능</strong>이다.</p>
+<ul>
+<li>제거: 숨은 <code>&lt;input type=file&gt;</code> · <code>clickFile</code> · <code>fnExcelUpload</code> · 고아가 된 <code>FormBuilder</code> import · 빈 <code>#region FILE FUNCTION</code>(CfsStuffExpn)</li>
+<li><strong>존치</strong>: 매뉴얼/양식 업로드(<code>uploadFormFile</code> + <code>FileService</code>)는 살아 있는 기능이라 그대로 둔다</li>
+<li>백엔드 빈 스텁 <code>POST /api/vendor/comm/uploadExcel</code> 은 BE PR #124 에서 제거</li>
+<li>이식 NOTE 주석도 갱신(제거된 <code>FormBuilder</code>·"엑셀 multipart 업로드" 언급이 남아 오해를 부른다)</li>
+</ul>
+<h2 id="50mb-pr-174-175-176">업로드 50MB 사전검증 (PR #174 · #175 · #176)<a class="headerlink" href="#50mb-pr-174-175-176" title="Permanent link">&para;</a></h2>
+<p>업로드 상한(운영 nginx <code>client_max_body_size 50m</code>)을 <strong>보내기 전에</strong> 검증한다. Infra 이슈 #20 백로그.</p>
+<ul>
+<li>그동안 프론트에 크기 검증이 <strong>0건</strong>이었다. 초과하면 nginx 가 413 을 <strong>HTML</strong> 로 돌려주는데 프론트는 JSON 을 기대하므로, 사용자는 사유를 알 수 없는 에러만 봤다.</li>
+<li><strong>로컬은 nginx 를 거치지 않아</strong>(4050 vite 프록시 → 백엔드 직결) 사실상 1000MB 까지 열려 있다 → "로컬에선 되는데 운영에선 안 되는" 업로드가 생긴다. 이 검증이 그 차이를 막는다.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>검증</th>
+<th>동작</th>
+<th>메시지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>파일 1건 &gt; 50MB</td>
+<td>그 파일만 제외</td>
+<td><code>MSG000432</code> (파일명 + 용량 나열)</td>
+</tr>
+<tr>
+<td>한 요청 합계 &gt; 50MB</td>
+<td>통째로 차단</td>
+<td><code>MSG000433</code> (합계 용량)</td>
+</tr>
+</tbody>
+</table>
+<p>합계까지 보는 이유는 <code>FileService</code> 가 <strong>선택한 파일 전부를 하나의 multipart 요청</strong>으로 묶기 때문이다. 개별이 다 통과해도 합계가 넘으면 413 이다. 반대로 <code>staging</code> 모드는 1건씩 별도 요청이라 파일 1건 검증만 돈다.</p>
+<ul>
+<li>크기 표기는 <strong>올림</strong> — 반올림하면 상한을 1바이트 넘긴 파일이 <code>50.0 MB</code> 로 찍혀 "50MB인데 왜 안 되냐"가 된다.</li>
+<li>사전에 코드가 없으면 <code>$lang</code> 이 코드 문자열을 그대로 돌려주므로 <strong>영문 기본 문구로 폴백</strong>(<code>langOr</code>). 사전 등록과 배포 순서를 신경 쓰지 않아도 된다.</li>
+</ul>
+<p><strong>[후속] 컴포넌트를 안 거치는 업로드 16곳까지 확대</strong></p>
+<p><code>new FileService(...)</code> 직접 호출이 컴포넌트 밖에 16곳 있었다(TES 4 · EIR 3 · CFS 3 · FDS 2 · MVS 1 · CRS 1 · CMS 1). 대부분 <code>fnUploadManual</code> 류(<code>TYPE:'FORM'</code>)로 <strong>하필 매뉴얼 PDF</strong> 라 50MB 를 넘길 개연성이 가장 높은 경로였다.</p>
+<ul>
+<li>화면 16곳을 각각 고치지 않고 <strong><code>FileService.upload()</code> 진입점</strong>에서 검증하고 reject 한다. 호출부가 전부 <code>.catch(error =&gt; this.$message.error(error.message))</code> 형태라 문구가 그대로 뜬다.</li>
+<li>상한·문구·표기 규칙을 <strong><code>~/util/service/uploadSize</code></strong> 로 추출해 컴포넌트와 공유(중복 제거). util 에서의 다국어는 <code>~/i18n/lang</code> 의 <code>setLangResolver</code>(<code>ValidateUtil</code> 과 동일한 훅).</li>
+<li>둘의 차이는 초과분 처리뿐 — 컴포넌트는 <strong>초과분만 제외</strong>하고 계속, <code>FileService</code> 는 <code>FormData</code> 가 이미 만들어진 뒤라 <strong>통째 차단</strong>.</li>
+<li>경계 동작 단위테스트 5건 추가(<code>uploadSize.spec.ts</code>). 특히 상한 정확히 = 통과 / 1바이트 초과 = <code>50.1 MB</code> 표기.</li>
+</ul>
+<p><strong>[후속 2] 검증 지점을 <code>http.multipart</code> 로 내림 — 남은 18곳까지</strong></p>
+<p>PR #175 의 <code>FileService.upload()</code> 검증은 <strong><code>/api/file/uploadFile</code> 만</strong> 덮었다. <code>FileService</code> 는 그 엔드포인트 전용 편의 클래스이고, <code>$axios.multipart(...)</code> 를 직접 부르는 곳이 따로 <strong>18곳</strong> 있었다(엑셀 업로드 14 · 환율 1 · dev 샘플 1 · 메일 2).</p>
+<ul>
+<li>검증을 <strong><code>http.multipart</code></strong> 로 내렸다. <code>FileService</code> 도 결국 이 함수를 부르므로 <strong>모든 multipart 요청이 한 지점으로 덮인다.</strong> <code>FileService</code> 쪽 중복 검증은 제거.</li>
+<li>입력이 <code>File[]</code> 이 아니라 <code>FormData</code> 라 <code>validateUploadSize</code> → <strong><code>validateFormDataSize</code></strong> 로 교체. <code>FormData.forEach</code> 로 <code>File</code> 파트만 추려 1건 상한을 보고, 합계는 <strong>JSON 파트(Blob)까지 더한다</strong> — nginx 는 파트를 가리지 않고 본문 전체를 보기 때문.</li>
+<li>★요청 인터셉터가 아니라 <code>multipart</code> 헬퍼에서 reject 한다. 인터셉터에서 throw 하면 모든 요청이 죽는다(해당 파일에 경고 주석 존재).</li>
+<li>단위테스트 7건(2건 추가 — 비-FormData 통과 / JSON 파트 합산).</li>
+</ul>
+<h2 id="crsestapproval-readonly-pr-173"><code>CrsEstApproval</code> 첨부 표준 전환 — 조회 전용(<code>readonly</code>) (PR #173)<a class="headerlink" href="#crsestapproval-readonly-pr-173" title="Permanent link">&para;</a></h2>
+<p>첨부 표준화의 마지막 화면. 승인 화면은 첨부를 <strong>보기만</strong> 하므로(추가·삭제는 <code>CrsEstimate</code> 에서만) <code>readonly</code> 로 붙였다. Infra 이슈 #20 백로그 항목.</p>
+<p><strong>화면</strong> (<code>src/pages/crs/CrsEstApproval/index.vue</code>, -142줄)
+- 자체 첨부 그리드(<code>getFileGridOptions</code>/<code>selectFileList</code>/<code>fnFileDownload</code>/<code>fnImageViewer</code>) → <code>&lt;e-attach-file-grid readonly&gt;</code>
+- 컬럼 순서가 표준(<code>File Name / Download / Viewer</code>)으로 바뀐다. 기존은 <code>Download / File Name / Viewer</code>.
+- <strong>뷰어 판정이 블랙리스트 → 화이트리스트로 바뀐다.</strong> 기존엔 <code>ZIP, RAR, 7Z, MP4, XLSX, XLS, EML, DOCX, MSG</code> 면 전체 캐러셀, 아니면 단건 뷰어로 갈랐다. 이제 공통코드 <code>FILE_EXT</code> 밖이면 <code>MSG000400</code> 경고, <code>PDF</code> 는 <code>openPdfViewer</code>, 이미지·ZIP 은 클릭한 파일부터 여는 캐러셀 새 창(<code>CrsEstimate</code> 와 동일).
+- <strong>첨부 조회 시점 변경</strong>: 상세 행이 1건 이상일 때만 조회하던 것 → <code>mngt-no</code> 감시로 견적 선택 즉시 조회.
+- 🐞 <code>selectFileList()</code> 가 <code>this.search</code> 에 <code>MNGT_NO</code>/<code>DOC_TYPE</code>/<code>COMP_CD</code> 를 <strong>꽂아 넣고</strong> 있었다. 이 객체는 <code>dataset.SEARCH[0].PARAM</code> 으로 조회 프로시저에 그대로 넘어가므로, 첨부를 한 번 조회하면 그 뒤 견적 조회 파라미터에 엉뚱한 키 3개가 계속 딸려갔다. <code>fileListParam</code> computed 로 분리하며 해소.
+- 사문화 import(<code>FileService</code> — 초기 커밋부터 미사용)와 죽은 변수(<code>fnOpenImageCarousel</code> 의 <code>let disabledExt = []</code>, <code>CrsEstimate</code> 에도 같은 잔재) 정리.</p>
+<p><strong>표준 컴포넌트</strong> (<code>EAttachFileGrid</code>)
+- 업로드가 막힌 상태(<code>readonly</code> / <code>can-upload="false"</code>)에서는 <strong>드롭존 워터마크(구름)를 감춘다.</strong> 드롭을 권하는 그림인데 <code>onDrop</code> 이 막혀 아무 일도 안 일어나던 문제. 조회 전용 화면이 처음 생기며 드러났다.
+- 기존 화면 영향: <code>CrsEstimate</code> 만 — 견적서 미선택(<code>can-upload=false</code>) 상태에서 구름이 사라진다. 어차피 못 올리는 상태라 오히려 정확하고, 올릴 수 있게 되면 다시 나타나 상태 표시가 된다.</p>
+<h2 id="ftp-mngt_no-pr-172-be-121">파일 삭제 FTP 인자 키 정리 — <code>MNGT_NO</code> 폴백 제거 (PR #172, BE #121)<a class="headerlink" href="#ftp-mngt_no-pr-172-be-121" title="Permanent link">&para;</a></h2>
+<p><code>FtpServiceInq.delete(remoteFilePath, **fileName**)</code> 의 두 번째 인자를 구 API 가 <code>MNGT_NO</code> 키로 받고 있었다(이름만 MNGT_NO, 값은 <code>SAVE_NM</code>). 신규 <code>deleteFiles</code> 에서 <code>SAVE_NM</code> 으로 바로잡으면서 옛 키 폴백을 남겨뒀던 것을 제거한다.</p>
+<ul>
+<li><code>CmsUserDashBoardPopup</code> — 마지막으로 옛 키를 쓰던 호출자. <code>MNGT_NO: item.SAVE_NM</code> → <code>SAVE_NM: item.SAVE_NM</code></li>
+<li>백엔드 <code>deleteFiles</code> — <code>SAVE_NM</code> 이 비면 <code>MNGT_NO</code> 로 대체하던 폴백 삭제</li>
+<li>⚠️ <strong>배포 순서는 프론트 먼저.</strong> 백엔드가 먼저 나가면 옛 프론트가 보내는 <code>MNGT_NO</code> 를 못 읽어
+  <code>saveName</code> 이 빈 문자열이 되고, FTP 경로가 디렉터리로 잡혀 삭제에 실패한다. 그러면
+  <strong>DB 행은 지워지고 파일만 남는 고아</strong>가 생긴다(FTP 실패는 트랜잭션 롤백 대상이 아니다).
+  반대 순서(프론트 먼저)는 백엔드가 <code>SAVE_NM</code> 을 우선 읽으므로 안전하다.</li>
+</ul>
+<h2 id="api-pr-171-be-120">첨부 다건 삭제 + 파일 삭제 API 정리 (PR #171, BE #120)<a class="headerlink" href="#api-pr-171-be-120" title="Permanent link">&para;</a></h2>
+<p>삭제 쿼리 3종이 기준도 위험도도 제각각이라 정리하고, 없던 다건 삭제를 만들었다. Infra 이슈 #22.</p>
+<p><strong>정리 전 3종</strong></p>
+<table>
+<thead>
+<tr>
+<th>매퍼</th>
+<th>WHERE</th>
+<th>지우는 단위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deleteFileByFileSn</code></td>
+<td><code>FILE_SN</code></td>
+<td>1건</td>
+</tr>
+<tr>
+<td><code>deleteFileByName</code></td>
+<td><code>DISP_NM</code></td>
+<td><strong>이름이 같은 전부</strong> (MNGT_NO·COMP_CD 스코프 없음)</td>
+</tr>
+<tr>
+<td><code>deleteFileList</code></td>
+<td><code>MNGT_NO</code></td>
+<td>그룹 통째 (템플릿 교체 전용인데 이름이 "목록 삭제"로 읽힘)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>백엔드</strong>
+- <code>deleteFileByName</code> <strong>제거</strong> — <code>CrsEstimate</code> 전환(PR #169)으로 사용처 0. 엔드포인트·서비스·DAO·매퍼까지.
+- <code>deleteFileList</code> → <strong><code>deleteTemplateFile</code></strong> 개명. 실제 용도(매뉴얼/템플릿 교체)를 이름에 담고, "선택 삭제에 쓰면 그룹이 전멸한다"는 경고를 주석으로 박았다.
+- <code>deleteFileByFileSn</code> → <strong><code>deleteFilesByFileSn</code></strong>(<code>IN</code> 절)로 흡수. 단건 <code>deleteFile()</code> 은 1건짜리 리스트로 이 경로를 재사용해 매퍼가 하나 줄었다.
+- 🆕 <code>POST /api/file/deleteFiles</code> — DB 는 <code>@Transactional</code> 하나로 원자적, FTP 는 롤백 불가라 <strong>삭제 못 한 항목을 응답으로 반환</strong>한다("DB 는 지웠는데 파일이 남은 건"을 숨기지 않는다).
+- <code>FILE_SN_LIST</code> 가 비면 <code>WHERE 1=0</code> 으로 떨어뜨려 <strong>전량 삭제를 원천 차단</strong>(<code>deleteTemplateFile</code> 과 혼동해도 사고가 안 나게).
+- 오복붙된 SQL 주석(<code>deleteFileByFileSn</code> 인데 <code>/* ... deleteFileList */</code>) 정정.
+- FTP 두 번째 인자를 <code>SAVE_NM</code> 으로 정직하게 받는다. <code>FtpServiceInq.delete(remoteFilePath, **fileName**)</code> 인데 구 API 는 이 자리를 <code>MNGT_NO</code> 키로 받고 있었다(이름만 MNGT_NO). 옛 키로 보내는 호출자를 위해 <code>MNGT_NO</code> 폴백 유지.</p>
+<p><strong>프론트</strong>
+- <code>EAttachFileGrid</code> : 삭제가 <code>getSelectedRows()</code> 기반 + 신규 다건 API 호출. FTP 실패 시 경고.
+- <code>multi-select</code> prop 추가(기본 off) — 켜면 체크박스 컬럼 + 다중선택. <code>CmsFileUploadPopup</code>(TES·CFS·FDS 첨부 팝업 10곳)에 적용.
+- 체크박스 컬럼 정렬 보정 — <a href="../troubleshooting/">트러블슈팅 §29</a>.</p>
+<h2 id="crsfileuploadpopup-e-file-uploader-pr-170">첨부 표준화 마무리 — <code>CrsFileUploadPopup</code> 전환, <code>e-file-uploader</code> 폐지 (PR #170)<a class="headerlink" href="#crsfileuploadpopup-e-file-uploader-pr-170" title="Permanent link">&para;</a></h2>
+<p><code>e-file-uploader</code> 를 쓰던 마지막 화면을 표준으로 옮기고 컴포넌트를 제거했다. Infra 이슈 #21 완료.</p>
+<p><strong>표준 컴포넌트에 스테이징 모드 추가</strong> (<code>EAttachFileGrid</code>)
+- <code>staging</code> prop — 선택/드롭한 파일을 서버로 보내지 않고 <code>@files-added</code> 로 넘긴다. 모아뒀다 일괄 전송하는 화면용.
+- <code>#actions</code> 슬롯 패스스루 — 화면이 버튼(UPLOAD 등)을 얹을 수 있다.
+- 삭제용 확장점은 만들지 않았다. <code>:can-delete="false"</code> 로 기본 버튼을 끄고 화면이 자기 버튼을 넣으면 된다(이 화면은 "이미 업로드된 행은 Estimate 화면에서 지우세요" 판단이 화면 몫).
+- <code>rowCount</code> 를 data 에서 <strong>어댑터 기반 computed</strong> 로 변경. <code>AgGridAdapter.getRowCount()</code> 가 <code>modelUpdated</code> 마다 갱신되는 반응형이라, 화면이 직접 행을 넣는 스테이징에서도 총건수·워터마크가 자동으로 맞는다.</p>
+<p><strong><code>CrsFileUploadPopup</code> 전환</strong>
+- 자체 그리드 + <code>e-file-uploader</code> → <code>&lt;e-attach-file-grid staging&gt;</code>. 화면 코드 144줄 감소.
+- 이 화면의 그리드는 서버 첨부 목록이 아니라 <strong>매칭 결과 리포트</strong>(<code>ESTIMATE_NO</code>/<code>MSG</code>)라 <code>columns</code> 로 자체 구성하고, <code>auto-load</code>/<code>can-delete</code> 는 끈다.
+- <code>fnFileValidation</code>(확장자 검증 + dx-file-uploader value 되돌리기)은 표준의 <code>allowed-ext</code> 로 대체돼 삭제.
+- 업로드 확장자 정책을 <code>upload-viewable-only</code> 로 <strong><code>CrsEstimate</code> 와 통일</strong>(하드코딩 7종 → 공통코드 <code>FILE_EXT</code> 10종). 같은 견적서 첨부인데 화면마다 다를 이유가 없다.</p>
+<p><strong><code>EFileUploader</code> 삭제</strong>
+- 위 전환으로 <code>&lt;e-file-uploader&gt;</code> 사용처가 0 이 됐다. 컴포넌트와 함께 그 전용 테마색 <code>lightGray</code>(PR #168)도 제거.
+- <code>dx-file-uploader</code> DevExtreme 전역 등록은 유지 — 미사용 화면 <code>CmsDocumentPopup</code> 이 아직 raw 태그로 쓴다.</p>
+<h2 id="ui-e-attach-file-grid-pr-169-be-119">첨부 UI 표준화 — <code>e-attach-file-grid</code> 일원화 + 이미지 뷰어 통합 (PR #169, BE #119)<a class="headerlink" href="#ui-e-attach-file-grid-pr-169-be-119" title="Permanent link">&para;</a></h2>
+<p>첨부 UI 가 <code>e-file-uploader</code>(구방식) / <code>e-attach-file-grid</code>(표준) / 그리드 셀 인라인 에디터로 갈라져 있던 것을 표준 하나로 모았다. 상세 조사·판단 근거는 Infra 이슈 #21·#23.</p>
+<p><strong>데드코드 정리</strong>
+- <code>AgFileTextBoxEditor</code> + 내부 부품 <code>EFileTextBox</code> <strong>삭제</strong> — 선언 10곳 중 운영 화면에서 실제로 열리는 곳이 <strong>0</strong>이었다. 셀 에디터라 컬럼이 <code>editable:true</code> 여야 열리는데 전부 <code>editable:false</code> 였고, 유일하게 살아있던 <code>CmsDocumentPopup</code> 은 참조 0(미사용 화면)이었다. 첨부 그리드에 붙어 있던 건 레거시 <code>CmsFileUploadPopup</code> 을 1:1 이식하며 딸려온 잔재로, <strong>레거시 시절부터 열리지 않던 설정</strong>이다.
+- 미사용 화면 4곳(<code>CsmRequestMgt</code> <code>CmsUserDashBoardPopup</code> <code>CmsDocumentPopup</code> <code>TesInspExpnPopup</code>)은 화면은 존치하되 죽은 업로드 UI 만 들어냈다. 나중에 <code>e-file-uploader</code> 를 grep 했을 때 죽은 사용처가 섞이지 않게 하려는 것.
+- dev 샘플(<code>dev/layout/layout1</code>)을 표준 컴포넌트로 교체.</p>
+<p><strong>표준 컴포넌트 보강</strong> (<code>EAttachFileGrid</code>)
+- <code>MNGT_NO</code> 숨은 컬럼 추가(다중 그룹 조회 대비) / <code>FILE_PATH</code> 없는 행은 Download·Viewer 버튼 미렌더
+- 미선택 삭제 시 <code>MSG000009</code> 경고 / 삭제 후 같은 자리 재선택(연속 삭제)
+- 카드 헤더 총건수(<code>:total</code>) / 업로드 중 <code>$loadingBar</code>
+- <code>allowed-ext</code>(업로드 확장자 제한) · <code>upload-viewable-only</code>(뷰어 허용목록과 동일하게 묶기)</p>
+<p><strong><code>CrsEstimate</code> 교체</strong>
+- 자체 파일그리드 + 인라인 업로더 → <code>e-attach-file-grid</code>. 화면 코드 300줄 이상 감소.
+- ⚠️ <code>list-param</code> 에 <code>DOC_TYPE:'RP'</code> + <code>COMP_CD</code> 필수 — 백엔드가 이 둘로 레거시 <code>SKR_DOC_MST</code> UNION 쿼리로 분기한다(<a href="../troubleshooting/">트러블슈팅 §27</a>).
+- 삭제 API 를 <code>deleteFileByName</code>(<code>DISP_NM</code> 기준, <strong>MNGT_NO·COMP_CD 스코프 없음</strong>) → 표준 <code>deleteFile</code>(<code>FILE_SN</code> 기준)로 전환. 같은 이름 파일이 다른 견적서에 붙어 있으면 함께 지워지던 문제가 해소된다.
+- 삭제 순서도 <code>프로시저 → DB삭제</code> 에서 <code>DB삭제 성공 → 프로시저</code> 로 바뀌었다(삭제 실패인데 프로시저가 돌던 문제).</p>
+<p><strong>뷰어 통합 + 확장자 판정 일원화</strong>
+- 뷰어 가능 확장자의 정본을 <strong>공통코드 <code>TB_CMS_CD_DTL / MSTR_CD='FILE_EXT'</code></strong>(10종)로 통일. 기존엔 프론트 하드코딩 2곳 + 서버 1곳으로 갈라져 있었고, 양방향으로 틀렸다 — <code>ZIP</code> 은 사실 열리는데 막고 있었고, <code>DOC</code>·<code>PPT</code>·<code>HWP</code> 등은 목록에 없어 통과된 뒤 서버에서 500 이 났다.
+- 단건 뷰어 <code>CmsImageViewerPopup</code> <strong>삭제</strong> → 캐러셀 새 창으로 통일. <code>FILE_SN</code> 을 넘겨 클릭한 첨부부터 열린다. <code>CrsEstApproval</code> 도 같은 팝업을 쓰고 있어 함께 교체했다.
+- 캐러셀의 사전 차단(첨부 중 하나라도 뷰어 불가면 alert 후 창 닫기) 제거 — 서버가 렌더 못 하는 항목을 건너뛰도록 바뀌어 불필요해졌다.
+- 백엔드: <code>getBase64ImageList</code> 가 지원 못 하는 최상위 항목을 예외 대신 <strong>스킵</strong>, 각 이미지에 <code>FILE_SN</code> 동봉.</p>
+<h2 id="lightgray-pr-168">업로드 클라우드 아이콘이 검게 나옴 — 테마 미등록 색상 <code>lightGray</code> (PR #168)<a class="headerlink" href="#lightgray-pr-168" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — <code>CrsEstimate</code>·<code>CrsEstUploadExl</code>(및 <code>e-file-uploader</code> 를 쓰는 화면 전부)에서 드래그&amp;드롭 영역의 클라우드 아이콘이 다른 곳처럼 옅은 회색이 아니라 <strong>검게</strong> 보였다.</li>
+<li><strong>원인</strong> — <code>EFileUploader</code> 가 <code>&lt;v-icon color="lightGray"&gt;</code> 를 쓰는데 <strong><code>lightGray</code> 가 Vuetify 3 테마에 없다</strong>. 등록된 색은 <code>main-sub/grey/normal/transactional/optional/delete/app-bar</code> 뿐이라 <code>.text-lightGray</code> 클래스가 생성되지 않고, v-icon 이 색을 못 받아 기본(상속) 검정으로 렌더됐다. Vue2/Vuetify2 에서 넘어온 이름이 그대로 남은 케이스다([[v2-legacy-reflection-vue3-pitfalls]] 계열).</li>
+<li><strong>왜 <code>CmsFileUploadPopup</code> 은 멀쩡했나</strong> — 거기(<code>e-attach-file-grid</code>)는 v-icon 이 아니라 생 <code>&lt;i class="mdi"&gt;</code> 에 <strong>자체 scoped CSS(<code>color: #e8e8e8</code>)</strong> 를 주므로 테마와 무관하다.</li>
+<li><strong>수정</strong> — 테마에 <code>lightGray: '#e8e8e8'</code> 등록(값은 위 워터마크와 일치). <code>e-file-uploader</code> 소비 5화면이 한 번에 해결된다 — <code>CrsEstimate</code>·<code>CrsFileUploadPopup</code>(CrsEstUploadExl)·<code>TesInspExpnPopup</code>·<code>CsmRequestMgt</code>·<code>CmsUserDashBoardPopup</code>.</li>
+<li><strong>전수조사</strong> — Vuetify 컴포넌트(<code>v-*</code>)에 넘어가는 색상값 전부(정적 23곳·바인딩 2곳)를 빌드 CSS(<code>.text-*</code>/<code>.bg-*</code> 실존 여부)와 대조했다. <strong>실제로 깨진 곳은 <code>lightGray</code> 하나뿐</strong>. 그 외 <code>white</code>/<code>black</code>/<code>normal</code>/<code>grey</code> 는 클래스 존재, <code>#006ECD</code>/<code>rgb(...)</code> 는 리터럴 CSS 색이라 정상, <code>EBtn</code> 의 <code>:color="fontIconColorWrapper"</code> 는 바로 옆 줄 inline <code>style</code> + <code>!important</code> 로 덮어써 무해.<ul>
+<li>⚠️ 다만 <code>ECard/Accordion</code> 의 <code>&lt;v-btn color="grid-button"&gt;</code> 은 <strong>죽은 속성</strong>이다(<code>grid-button</code> 은 CSS 클래스명이지 색이 아님, Vuetify2 잔재). <code>variant="text"</code> 확장 아이콘이라 눈에 띄는 영향은 없어 이번엔 손대지 않았다.</li>
+</ul>
+</li>
+<li><strong>검증</strong>(실측) — CrsEstUploadExl 첨부 팝업에서 아이콘 계산값 확인: <code>class="… text-lightGray image-area"</code>, <code>color: rgb(232, 232, 232)</code>(=<code>#e8e8e8</code>), <code>font-size: 40px</code>.</li>
+</ul>
+<h2 id="pr-167">첨부 팝업 — 목록이 있는데 클라우드 워터마크가 비쳐 보임 (PR #167)<a class="headerlink" href="#pr-167" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — <code>CmsFileUploadPopup</code>(및 <code>e-attach-file-grid</code> 를 쓰는 모든 화면)에서 첨부가 여러 건일 때 그리드 뒤 클라우드 아이콘이 행 사이·뒤로 비쳐 보였다.</li>
+<li><strong>원인</strong> — 워터마크가 빈 영역에 보이도록 <code>.attach-file-ag</code> 의 ag-grid 배경(<code>.ag-root-wrapper</code>/<code>.ag-body-viewport</code> 등)을 <strong>투명 처리</strong>해 둔 구조라, 행이 채워져도 그대로 비친다.</li>
+<li><strong>수정</strong> — <code>hasRows</code> 상태를 두고 <code>v-if="!hasRows"</code> 로 목록이 있으면 워터마크를 감춘다. 행 변경은 전부 <code>loadList()</code> 를 거치므로(업로드·삭제 후에도 재조회) <strong>갱신 지점은 그 한 곳뿐</strong>이다.</li>
+<li><strong>검증</strong>(실측) — <code>selectFileList</code> 응답을 가로채 0건/6건으로 바꿔가며 확인: 0건 → 워터마크 1개·<code>hasRows=false</code>, 6건 → 워터마크 <strong>0개</strong>·<code>hasRows=true</code>.</li>
+<li>레거시는 해당 없음 — 첨부 UI 구조가 다르다(<code>UFileUploader</code> 의 아이콘 prop, 그리드 뒤 워터마크 아님).</li>
+</ul>
+<h2 id="keep-alive-pr-166">탭 우클릭 컨텍스트 메뉴 + 닫은 탭 keep-alive 캐시 파기 (PR #166)<a class="headerlink" href="#keep-alive-pr-166" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>탭 우클릭 메뉴 신설</strong> — 레거시(vue-router-tab)와 동일한 6항목(Refresh / Refresh All / Close / Close to the Left / Close to the Right / Close Others)·동일 비활성 규칙(Home 은 Close 불가, 좌/우/기타는 닫을 대상 존재 시 활성). 복수 닫기로 활성 탭이 닫히면 우클릭한 탭으로 이동(레거시 <code>closeMulti</code> 동등). 항목 앞 불릿 점은 <code>currentColor</code> 라 비활성이면 점도 회색.</li>
+<li><strong>닫은 탭 캐시 파기(FE-20 잔여분)</strong> — 탭을 닫았다 다시 열면 이전 검색값이 남아 있던 버그 수정. 화면 파일이 전부 <code>index.vue</code> 라 keep-alive <code>include</code> 가 이름으로 못 가르므로, 화면을 탭별 고유 이름(<code>경로::세대</code>) 래퍼로 감싸 include 를 열린 탭 목록에서 파생 — 닫으면 캐시 즉시 파기(메모리 회수), <strong>열려있는 동안의 탭 전환 상태 유지는 그대로</strong>. Refresh 는 <code>tabs</code> 스토어 <code>generations[id]+1</code> 로 캐시 파기+강제 재마운트.</li>
+<li><strong>★함정 2건</strong> — ① 활성 탭 닫기는 "이동 먼저, 제거 나중"(순서 반대면 닫힌 화면이 한 프레임 유령 재마운트→그리드 크래시→워크스페이스 백지) ② Refresh 재마운트는 최초 진입 때의 codeMap 을 보존·재사용(재진입 내비게이션은 codeData prefetch 생략). 상세: <a href="../troubleshooting/">트러블슈팅 §25</a>, <a href="../routing/">라우팅 › 멀티탭</a>.</li>
+<li><strong>검증</strong> — 목킹 백엔드 Playwright 하네스 14/14(닫기→재오픈 초기화·전환 유지·메뉴 규칙·Refresh/All·좌/우/기타 닫기) + 유령 재마운트 재현 스크립트(수정 전 visitLog 1→2, 수정 후 0) + vitest 71/71(tabs 스토어 2건 신설) + 4050 실환경 수동 확인.</li>
+</ul>
+<h2 id="pr-165">엑셀 내보내기 — 숫자문자열 지수표기·체크박스 빈 열 (PR #165, 전 화면 공통)<a class="headerlink" href="#pr-165" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>① 항차 등 긴 숫자문자열이 <code>5.15403E+11</code></strong> — ag-grid 는 값이 문자열이어도 <code>Number</code> 로 파싱되면 숫자 셀로 내보낸다(<code>isNumerical</code>). 앞자리 <code>0</code> 도 사라진다. → <code>AgUtils.setExcelStyle</code> 이 모든 컬럼에 <code>cellClassRules.stringType</code>(<code>dataType:'String'</code>)을 <strong>값이 문자열일 때만</strong> 걸도록 했다. ★<code>cellClass</code> 가 아닌 <code>cellClassRules</code> 인 이유 = 엑셀 내보내기가 이 규칙을 <strong>셀 값과 함께</strong> 평가하므로(<code>styleLinker</code> → <code>processAllCellClasses</code>) <strong>진짜 숫자(금액)는 숫자로 남아 합계가 유지</strong>된다. ★이미 <code>numberType*</code>/<code>dateType*</code> 등을 지정한 컬럼은 제외 — <code>excelStyles</code> 배열 순서상 <code>stringType</code> 이 뒤라 서식이 죽는다.</li>
+<li><strong>② 체크박스 열이 빈 칸으로 딸려나옴</strong> — <code>chk</code> 주입 열은 <code>field</code> 가 없는데 ag-grid 25 colDef 에 <code>suppressExcelExport</code> 류가 없다. → <code>AgGridAdapter.exportExcel</code> 이 <code>columnKeys</code> 미지정 시 <code>checkboxSelection</code>/<code>headerCheckboxSelection</code> 열을 빼고 내보낸다.</li>
+<li><strong>부수효과</strong> — 행번호(<code>No</code>) 열이 텍스트로 나간다(종전 숫자). 좌측정렬 외 영향 없음.</li>
+<li><strong>검증</strong>(실측) — FdsInvoice 그리드에 값을 주입해 내보낸 xlsx 를 열어 셀 타입 확인: <code>G2[s]=515402608020</code> · <code>G3[s]=0051540260</code>(<strong>앞자리 0 보존</strong>) · <code>O2[n]=1234.5</code> · <code>O3[n]=99</code>(금액은 숫자 유지), 헤더가 <code>A1=No, B1=Type…</code> 로 <strong>빈 열 없음</strong>. 상세: <a href="../troubleshooting/">트러블슈팅 §24</a>.</li>
+<li><strong>레거시 동일 반영</strong>(사용자 커밋) — <code>sinokor-frontend/util/ag-grid/grid/{AgUtils,AgGridAdapter}.ts</code>, 같은 ag-grid 25.3.0.</li>
+</ul>
+<h2 id="220px-14-pr-164">검색영역 날짜 칸 폭 고정(<code>%</code> → <code>220px</code>) + 필수 표시·주석 정리 — 14화면 (PR #164)<a class="headerlink" href="#220px-14-pr-164" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>무엇</strong> — 검색조건 <code>e-table</code> 에서 <strong>from~to 날짜 구간이 들어가는 칸</strong>의 <code>&lt;col width&gt;</code> 를 <code>12~15%</code> 에서 <strong><code>220px</code> 고정</strong>으로 바꿨다. 대상: CfsStuffExpn·CfsStuffInvoice·CrsAcepMgt·CrsCntrMove·CrsEstApproval·CrsEstimate·EirDemList·EirIssueStatus·EirResponseLog·FdsFeederageMgt·FdsInvoice·FdsMoveInspect·FdsOrdMgt·MvsDropOff·MvsRedeliveryStts.</li>
+<li><strong>왜</strong> — <code>.e-table</code> 은 <code>table-layout: fixed</code> 라 <strong>colgroup 이 절대적이고 내용이 칸을 넓히지 못한다</strong>. <code>%</code> 는 화면 폭·조건 개수에 따라 날짜박스 2개+물결이 들어갈 폭을 못 만들어 잘리거나 들쭉날쭉했다. 실제 필요한 폭(날짜 2칸 + 구분자)이 고정이므로 px 로 못박는 게 맞다. 같은 함정의 배경은 <a href="../troubleshooting/">트러블슈팅 §22</a>.</li>
+<li><strong>함께</strong> — colgroup 에 어느 칸이 무슨 필드인지 주석 부여(DATE/GRP_INV_NO/Container No./BL_NO/TYPE 등), 필수 조건에 <code>essential</code>(빨간 <code>*</code>) 누락분 보강(EirDemList DATE·In/Out, EirIssueStatus TYPE·DATE, EirResponseLog Date), CrsAcepMgt 오타 <code>esseatial</code> → <code>essential</code>. ★<code>essential</code> 은 <strong>표시 전용</strong>이라(ELabel 이 <code>&lt;span style="color:red"&gt;*&lt;/span&gt;</code> 만 렌더) 검증 동작에는 영향이 없다.</li>
+<li><strong>FdsInvoice 는 함께 재배치</strong> — <code>Order No.</code> 검색조건 신설(전송 파라미터 <code>ORD_NO</code> 추가), <code>GRP_INV_NO</code> 의 <code>colspan=3</code> 해제 후 <code>Not Created</code> 체크박스를 같은 행 우측으로, 전송 파라미터 오타 <code>FRDT</code> → <code>FMDT</code> 교정. <code>APPROACH_YN</code> 은 ORD_NO 가 있으면 <code>'N'</code> 으로 보낸다.</li>
+<li><strong>검증</strong> — <code>vue-tsc</code> + <code>vite build</code> 통과, 대표 2화면(EIR Issuance Status·Drop Off Container Status) 실측 렌더 확인(날짜 구간 정상 배치, pageerror 0).</li>
+</ul>
+<h2 id="fdsinvoice-pr-164">FdsInvoice — 빈 영역 우클릭 크래시 방지 + 엑셀 다운로드 (PR #164)<a class="headerlink" href="#fdsinvoice-pr-164" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>행 없는 우클릭</strong> — 목록 아래 여백을 우클릭하고 <code>ORDER MANAGEMENT</code> 를 고르면 <code>param.node</code> 가 <code>null</code> 이라 <code>param.node.data.ORD_NO</code> 에서 크래시했다(메뉴만 닫히고 아무 반응 없음 — 사용자에겐 "먹통"으로 보인다). 액션 진입부에서 <code>param.node</code>/<code>param.node.data</code> 를 확인해 <strong>MSG000009</strong>("선택된 행이 없습니다.")를 띄운다. ★메뉴 항목 자체를 숨기는 방식(FdsOrdMgt) 대신 <strong>띄우고 안내하는 쪽</strong>을 택했다 — 왜 안 되는지 알려주기 위함.</li>
+<li><strong>엑셀 다운로드 신설</strong> — 우클릭 메뉴(<code>DOWN_EXCEL</code>, 구분선 뒤)와 <code>Attach File</code> 버튼 우측 아이콘 버튼 두 경로. 파일명은 FdsOrdMgt 관례와 동일하게 <code>[선사]INVOICE LIST_yyyyMMdd.xlsx</code>. ★액션 슬롯의 <code>.mb-1</code> 래퍼가 좁아 버튼이 <strong>아래로 줄바꿈</strong>된다 → <code>d-flex align-center</code> 필요하고, flex 는 간격이 0 이라 엑셀 버튼에 <code>ml-2</code>(8px)를 준다.</li>
+<li><strong>검증</strong>(실측) — 빈 영역 우클릭 → "선택된 행이 없습니다." 확인. 두 경로 모두 <code>[SNKO]INVOICE LIST_20260902.xlsx</code> 다운로드, 파일 열어 컬럼 20개(No/Type/Order Date/Order No./포트/Vessel/…) 확인. 버튼 두 개가 같은 줄(y 동일)에 배치되는 것까지 좌표로 확인.</li>
+</ul>
+<h2 id="cmsazurelog-api-pr-162163-114">CmsAzureLog '엔드포인트' 탭 — 지정한 API 가 실제로 나가는지 확인 (PR #162·#163, 백엔드 #114)<a class="headerlink" href="#cmsazurelog-api-pr-162163-114" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>왜</strong> — 메일 발송 복구(PR #160) 이후 "V2 에서 나간 메일"을 확인할 방법이 없었다. <code>TB_CMS_EMAIL</code> 에는 <strong>출처 컬럼이 없고</strong> V2·레거시가 같은 서비스에서 같은 프로시저(<code>PKG_CM_EMAIL.SP_SET_EMAIL</code>)를 호출하므로 메일 로그 화면으로는 두 포털을 영원히 못 가린다. 반면 V2 백엔드의 <code>sendMail</code> <strong>200 응답 1건 = V2 발송 1건</strong>으로 1:1 대응한다(행은 Graph 발송 성공 뒤에만 쓰이므로).</li>
+<li><strong>무엇</strong> — URL 조각(예: <code>sendMail</code>)을 넣으면 상단 공통 기간 안에서 ① 상태코드별 건수·평균/p95 소요·최근시각 ② 최근 50건의 시각·상태·<strong>화면</strong>·클라이언트 IP 를 보여준다. 기존 '실패 요청 TOP' 은 <code>Success == false</code> 만 세므로 <strong>성공 건수를 볼 수 없다</strong> — 이 탭이 그 빈자리를 채운다.</li>
+<li><strong>★두 소스를 조인하지 않고 나눠 쓴다</strong> — 집계는 App Insights <code>AppRequests</code>(구조화 필드), 최근 목록은 nginx 액세스로그다. <code>AppRequests</code> 에는 <strong>Referer 필드가 아예 없고 <code>ClientIP</code> 가 <code>0.0.0.0</code></strong>(프록시 뒤)이라 "어느 화면에서 눌렀나 / 누가 눌렀나"를 알 수 없다(실측). 반대로 nginx 로그엔 소요시간이 없다. 그래서 소요는 집계 그리드에 평균/p95 로만 싣는다. 두 그리드의 건수는 어긋날 수 있다(집계=기간 전체, 목록=최근 50건 컷).</li>
+<li><strong>그리드는 조회 전에도 그려둔다</strong>(후속) — 컬럼이 고정이므로 빈 상태 안내문 대신 <strong>헤더를 먼저 노출</strong>한다. 같은 이유로 '의존성 · 이벤트' 탭의 <strong>실패 상세</strong> 그리드(행 선택 전 안내문)도 상시 렌더로 바꿨다 — 이 탭의 나머지 4개 그리드는 원래 상시 렌더라 이제 5개가 일관된다. 부수효과로 그리드가 상시 마운트라 <code>mounted()</code> 어댑터가 그대로 유효해져, 초기 구현의 "api 준비까지 폴링 후 어댑터 재생성" 우회가 <strong>에러→성공 전환 때만</strong> 필요해졌다. ★그 폴링은 <strong>유한해야 한다</strong> — 부분 실패(<code>SUMMARY_ERROR</code> 만 세팅)면 그 그리드는 계속 없는 상태라, 두 그리드를 함께 기다리던 초기 구현의 <code>setTimeout</code> 은 영영 돈다(초기 구현 결함, 함께 수정). 재시도 상한 20회·그리드별 독립 처리로 바꿨다.</li>
+<li><strong>함정</strong> — 기간을 바꿔 재조회하면 이 탭도 같은 기간으로 자동 재조회한다(안 하면 좌측만 새 기간이라 오독).</li>
+<li><strong>조건은 탭 안이 아니라 상단 검색영역에 둔다</strong>(후속) — 처음엔 탭 안에 자체 검색바(입력 + 조회 버튼)를 뒀는데, 화면에 조회 트리거가 둘이 되어 어느 쪽이 무엇을 새로 고치는지 알기 어려웠다. 'URL 포함' 입력을 <strong>기간과 같은 줄</strong>에 <code>&lt;th&gt;</code>/<code>&lt;td&gt;</code> 쌍으로 붙이고(다른 화면의 <code>col 라벨/입력</code> 쌍 반복 관례 동일) <code>activeTab === 'endpoint'</code> 일 때만 노출한다 — 별도 행을 쓰면 검색영역이 두 줄이 되어 그리드 높이를 깎는데, 기간 우측은 비어 있다. ★<strong><code>.e-table</code> 은 <code>table-layout: fixed</code></strong>(global.scss)라 <strong>colgroup 이 절대적이고 내용이 칸을 넓히지 못한다</strong> — 기간 칸을 <code>*</code>/auto 로 두면 뒤 칸이 남은 폭을 다 가져가 <strong>0px 로 붕괴</strong>한다(실측: td 0px·셀렉트 30px). 그래서 기간 칸 폭을 상태별로 명시한다(탭 아님 <code>*</code> / 프리셋 210px / 직접지정 480px). ★같은 이유로 종전 <code>.w200</code> 래퍼는 <strong>정의가 없는 클래스</strong>였는데 칸이 넓을 땐 위젯이 셀을 100% 채워 우연히 멀쩡해 보였다 → <code>.obs-range__win</code>(200px) 신설. <code>width</code> prop 은 <code>dx-text-box</code> 엔 먹지만 <code>dx-select-box</code> 프록시엔 전달되지 않는다. 탭 안 버튼은 제거하고 <strong>상단 SEARCH 하나가 대시보드와 엔드포인트를 함께</strong> 조회한다(조각이 비어 있으면 조용히 건너뛴다 — 다른 탭에서 SEARCH 할 때 경고가 뜨면 안 된다). ★활성 탭은 <code>e-card-tab</code> 의 <code>@change</code>(탭 이름)로 받는데 <strong>클릭할 때만 emit 된다</strong> — 초기값을 <code>'overview'</code> 로 직접 넣어야 한다. ★<code>dx-text-box</code> 는 폭 유틸(<code>w200</code>) 래퍼로는 안 잡혀 <code>td</code> 전체로 늘어난다 → 컴포넌트 <code>width</code> 옵션으로 지정.</li>
+<li><strong>검증</strong>(실측) — 로컬에서 운영 워크스페이스를 향해 조회: <code>sendMail</code> → 200 4건(평균 550ms·p95 753ms), 목록에 화면(<code>/tes/TesLashingExpn</code>)·실 IP 정상 표시. 로컬은 <code>azure.monitor.*</code> 4개가 비어 있어 기본적으로 "설정 없음" 이 뜬다 — <code>AZURE_MONITOR_*</code> env 를 넣으면 <code>DefaultAzureCredential</code> 이 az CLI 로그인으로 떨어져 로컬에서도 조회된다.</li>
+</ul>
+<h2 id="undefined-pr-161">메일 팝업 필수입력 경고가 "undefined 은 필수..." 로 뜨던 문제 (PR #161)<a class="headerlink" href="#undefined-pr-161" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>CmsEmailPopup</code> 검증 3곳(Subject/From/To)이 <strong>MSG000402</strong> 를 쓰는데 이 문구의 자리표시자는 <code>{1}</code> 이다. <code>StringUtil.format</code> 은 0-based 라 <code>{0}</code> 만 치환 — <code>{1}</code> 이 undefined 로 남아 "undefined 은 필수 입력 항목입니다." 가 출력됐다.</li>
+<li>내용이 같은 <strong>MSG000012</strong>(<code>{0} 은/는 필수 입력 항목입니다</code>)로 호출부를 교체(문구는 손대지 않음). 이 커밋으로 MSG000402 사용처는 0건 — 용어사전에서 제거 예정.</li>
+</ul>
+<h2 id="v2-pr-160">메일 전송이 V2 에서 한 번도 동작하지 않던 결함 (PR #160)<a class="headerlink" href="#v2-pr-160" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong> — 메일 전송 시 "네트워크 문제로 저장/업로드가 중단되었습니다. 다시 시도해 주세요. [20260901|40]". 서버는 <code>MultipartException</code> → <code>InvalidContentTypeException: ... content type header is application/json; charset=UTF-8</code>. 꼬리의 <code>[20260901|40]</code> 은 <code>TB_CMS_ERROR_LOG</code> 의 <code>ERR_DT|ERR_SN</code> = 그날 40번째 에러다.</li>
+<li><strong>원인은 헤더가 아니라 본문 파괴</strong> — 백엔드 <code>sendMail</code> 은 <code>@RequestPart("MAIN")</code> 로 multipart 필수인데, axios 인스턴스 기본 헤더가 <code>application/json</code> 이라 <strong>axios 1.x 가 FormData 를 JSON 으로 치환한다</strong>(<code>defaults/index.js</code>: <code>isFormData &amp;&amp; hasJSONContentType → JSON.stringify(formDataToJSON(data))</code>). Blob 파트가 <code>{}</code> 로 붕괴해 와이어에 <code>{"MAIN":{}}</code> 가 나간다 — 운영 에러로그의 PAYLOAD 와 정확히 일치. 즉 서버가 받아줬어도 <strong>메일 내용이 이미 없다</strong>.</li>
+<li><strong>★V2 에서 성공한 적이 없다</strong> — 기본 헤더도, <code>$axios.post(url, formData)</code> 호출부도 <code>git log -S</code> 결과가 <strong>최초 커밋 1건</strong>뿐이다. 레거시는 코드가 같았지만 <strong>axios 0.21.4</strong> 라 FormData 를 건드리지 않아 우연히 동작했다. 0.x→1.x 메이저 업그레이드로 인한 마이그레이션 회귀다. 화면에 성공으로 보일 여지도 없었다 — <code>unknown=true</code> 응답이 영구 pending Promise 를 반환해 <code>MSG000399</code>("E-mail sending is completed.") 토스트가 한 번도 뜬 적이 없다.</li>
+<li><strong>수정</strong> — ① <code>util/http/index.ts</code> request 인터셉터에 <strong>FormData 가드</strong>(<code>cfg.headers.setContentType(undefined)</code>) 추가 — 인터셉터는 <code>transformRequest</code> 보다 먼저 실행되므로 여기서 벗겨야 본문이 산다. ② <code>CmsEmailPopup:278</code>·<code>FdsOrdMgt:1228</code> 을 <code>$axios.multipart</code> 로 — 나머지 multipart 호출 17곳은 이미 이 헬퍼를 쓴다(규약 일원화). ③ 회귀 테스트 신설 — 가드 없으면 <code>expected '{"MAIN":{}}' to be an instance of FormData</code> 로 <strong>정확히 이 장애를 재현하며 실패</strong>한다(red/green 확인).</li>
+<li><strong>검증</strong>(실측) — 브라우저에서 요청을 가로채 확인: 수정 전 <code>application/json; charset=UTF-8</code> + body <code>{"MAIN":{}}</code> → 수정 후 <code>multipart/form-data; boundary=----WebKitFormBoundary…</code> + <code>MAIN</code> 파트(<code>Content-Type: application/json</code>) 정상. 기존 <code>.multipart</code> 경로와 일반 JSON 경로는 무변화(3경로 대조). 메일이 실제 발송되지 않도록 요청은 중단시켰다.</li>
+<li><strong>동일 계열 전수조사</strong> — 백엔드 multipart 엔드포인트 5개 중 불일치는 <code>sendMail</code> <strong>1건뿐</strong>(나머지 <code>uploadFile</code>·<code>vms/uploadExcel</code>·<code>excelExrateUpload</code> 는 정상, <code>extractGpt</code> 는 死코드). <strong>역방향 불일치 1건</strong> 발견 — <code>/api/vendor/comm/uploadExcel</code> 은 <code>@RequestBody</code>(JSON)인데 CFS 4화면이 FormData 를 보낸다(415). 다만 그 엔드포인트는 빈 <code>DMap</code> 만 돌려주는 <strong>스텁이고 레거시부터 死</strong> 라 이번 범위 밖.</li>
+<li>문구 오안내는 백엔드에서 별도 수정 → 백엔드 changelog / <a href="../troubleshooting/">트러블슈팅 §21</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  맨위로
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © Sinokor Merchant Marine — 내부 기술 문서
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
