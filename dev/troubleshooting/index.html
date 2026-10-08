@@ -2810,7 +2810,7 @@
 <h3 id="65">6.5 데이터 재로드 후에도 이전 셀 범위 선택이 남음<a class="headerlink" href="#65" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>증상</strong>: 그리드에서 셀 범위를 잡아 복사(Ctrl+C)한 뒤 다른 역할/조건으로 재조회하면, 새 데이터 위에 <strong>이전 범위 하이라이트가 그대로</strong> 남는다(예: 버튼별 권한관리 <code>CmsRoleButtonMgt</code>; 특정 화면이 아닌 전 그리드 공통).</li>
-<li><strong>원인</strong>: 모든 그리드 데이터 교체가 통과하는 <code>AgGridAdapter.setItems()</code> 의 <code>setRowData()</code> 는 ag-grid 25.3 에서 <strong>행 선택은 초기화하나 셀 범위 선택은 초기화하지 않는다</strong>. 소스 전체에 <code>clearRangeSelection()</code> 호출이 없었다.</li>
+<li><strong>원인</strong>: 모든 그리드 데이터 교체가 통과하는 <code>AgGridAdapter.setItems()</code>(본문은 <code>adapter/rowData.ts</code>) 의 <code>setRowData()</code> 는 ag-grid 25.3 에서 <strong>행 선택은 초기화하나 셀 범위 선택은 초기화하지 않는다</strong>. 소스 전체에 <code>clearRangeSelection()</code> 호출이 없었다.</li>
 <li><strong>해결</strong>: <code>setItems()</code> 의 <code>setRowData</code> 직후 <code>this._api?.clearRangeSelection()</code> 1줄 추가 → 112개 화면 전 그리드 공통 해소. 프로그램적 range 조작(<code>addRangeSelection</code> 등) 화면 0건이라 충돌 없음. 행 추가/삭제(<code>applyTransaction</code>) 경로·focus 는 별도 관리라 미변경. — PR #81.</li>
 </ul>
 <h2 id="7-spa-stale">7. 배포 후 화면 "먹통" (SPA stale 청크)<a class="headerlink" href="#7-spa-stale" title="Permanent link">&para;</a></h2>
@@ -3049,7 +3049,7 @@
 </li>
 <li><strong>증상 ②</strong>: 선택 체크박스 열이 엑셀에 <strong>머리글도 값도 없는 빈 칸</strong>으로 따라 나온다.</li>
 <li><strong>원인 ②</strong>: <code>chk</code>/<code>disableHeaderChk</code> 로 주입되는 선택 열은 <code>field</code> 가 없다. ag-grid 25 의 colDef 에는 <code>suppressExcelExport</code> 류 옵션이 <strong>없어</strong> 표시 중인 열은 그대로 내보내진다.</li>
-<li><strong>해결 ②</strong>: <code>AgGridAdapter.exportExcel</code> 이 호출부가 <code>columnKeys</code> 를 주지 않았을 때 <code>getAllDisplayedColumns()</code> 에서 <code>checkboxSelection</code>/<code>headerCheckboxSelection</code> 열을 빼고 넘긴다.</li>
+<li><strong>해결 ②</strong>: <code>AgGridAdapter.exportExcel</code>(본문은 <code>adapter/excel.ts</code>) 이 호출부가 <code>columnKeys</code> 를 주지 않았을 때 <code>getAllDisplayedColumns()</code> 에서 <code>checkboxSelection</code>/<code>headerCheckboxSelection</code> 열을 빼고 넘긴다.</li>
 <li><strong>부수효과</strong>: 행번호(<code>No</code>) 열도 값이 문자열이라 <strong>텍스트로 나간다</strong>(종전 숫자). 표시상 좌측정렬이 되는 것 외 영향은 없다.</li>
 <li><strong>레거시 동일 반영 필요</strong> — 레거시도 같은 ag-grid 25.3.0 · 같은 코드다(<code>sinokor-frontend/util/ag-grid/grid/</code>).</li>
 </ul>

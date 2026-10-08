@@ -923,6 +923,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aggridadapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgGridAdapter 구조와 알려진 동작
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1454,6 +1465,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aggridadapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgGridAdapter 구조와 알려진 동작
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1665,6 +1687,50 @@
 <p><strong>① <code>setItems</code> 는 <code>if</code> 밖에서</strong> — <code>if ( rows.length &gt; 0 )</code> 안에 두면 0건 응답에서 호출 자체가 안 돼 <strong>직전 조회 결과가 화면에 그대로 남습니다</strong>. "데이터가 없습니다" 알림은 떴는데 이전 행이 보이는 상태가 됩니다. 앞에서 <code>clear()</code> 를 부르는 형태도 동일하게 유효합니다. 상세 그리드(마스터 행 클릭 → 상세 조회)에서 특히 잘 드러납니다 — 다른 행을 눌렀는데 이전 행의 상세가 남습니다.</p>
 <p><strong>② 0건 알림은 <code>$notify.warn</code></strong> — 성공(<code>$notify</code>, 초록)과 같은 모양이면 사용자가 성공/빈결과를 구분하지 못합니다. 모달(<code>$message</code>)은 확인 클릭을 강요하므로 <strong>조회 0건에는 쓰지 않습니다</strong>. 모달은 "선택된 행이 없습니다"(<code>MSG000009</code>)처럼 <strong>사용자 조작을 되돌려야 하는</strong> 경우에만 씁니다.</p>
 <p>메시지 코드는 조회 성공 <code>MSG000004</code>, 조회 0건 <code>MSG000016</code>(화면에 따라 <code>MSG000390</code>/<code>MSG000393</code>), 선택 행 없음 <code>MSG000009</code>. — PR #143, #148.</p>
+<h2 id="aggridadapter">AgGridAdapter 구조와 알려진 동작<a class="headerlink" href="#aggridadapter" title="Permanent link">&para;</a></h2>
+<p>화면은 <code>AgGridAdapter</code> 하나만 쓴다(<code>import { AgGridAdapter } from '~/util'</code>). 본문은 책임별 하위 모듈에 있고 어댑터가 위임한다(Infra #73 2차).</p>
+<table>
+<thead>
+<tr>
+<th>파일 (<code>src/util/ag-grid/grid/</code>)</th>
+<th>담당</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AgGridAdapter.ts</code></td>
+<td>공개 API(파사드), 선택, 포커스, 컬럼 조작, 푸터</td>
+</tr>
+<tr>
+<td><code>adapter/rowData.ts</code></td>
+<td><code>setItems</code>, 행 추가, 삽입, 삭제, 변경분(CUD) 수집, <code>loadData</code></td>
+</tr>
+<tr>
+<td><code>adapter/validation.ts</code></td>
+<td><code>validateColumns</code>, 시간 검사, 체크된 행 검사</td>
+</tr>
+<tr>
+<td><code>adapter/gridOptions.ts</code></td>
+<td><code>createGridOptions</code>(기본 옵션 병합)</td>
+</tr>
+<tr>
+<td><code>adapter/CacheState.ts</code></td>
+<td>변경분(I, U, D) 캐시</td>
+</tr>
+<tr>
+<td><code>adapter/excel.ts</code></td>
+<td>엑셀 내보내기</td>
+</tr>
+</tbody>
+</table>
+<p>현재 동작은 <code>__tests__/AgGridAdapter.spec.ts</code>(jsdom 에서 실물 ag-grid 25.3) 로 고정돼 있다. 아래는 <strong>의도와 다를 수 있지만 지금 이렇게 동작하는 것</strong>이다 — 고치면 테스트가 깨지고, 고칠지는 업무 판단이다.</p>
+<ul>
+<li><code>validateColumns</code> 기본 분기는 숫자 <code>0</code> 을 미입력으로 본다(필요한 컬럼만 <code>isZeroValue</code>).</li>
+<li>행 추가 직후 <code>getSelectedNode()</code> 는 <code>null</code> 이다.</li>
+<li><code>getItems()</code> 는 조회해 온 행이 아니라 <strong>변경분 캐시</strong>만 돌려준다. 전체 행은 <code>getRows()</code> 나 <code>forEachNode</code>.</li>
+<li>셀 편집 비교가 <code>|| ''</code> 라 <code>0 → ''</code>, <code>'' → null</code> 같은 변경은 CUD 로 잡히지 않는다.</li>
+<li>푸터가 없는 그리드에서 <code>getFooterData(s)</code> 를 부르면 TypeError.</li>
+</ul>
 <h2 id="_4">새 화면 추가 체크리스트<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ol>
 <li><code>src/pages/&lt;module&gt;/&lt;Screen&gt;/index.vue</code> 생성(+ 필요 시 <code>dataset.js</code>).</li>

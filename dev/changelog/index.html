@@ -1277,6 +1277,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#aggridadapter-infra-73-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgGridAdapter 책임별 분리 (Infra #73 2차)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fdsordmgt-infra-73-2" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2578,6 +2589,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#aggridadapter-infra-73-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgGridAdapter 책임별 분리 (Infra #73 2차)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fdsordmgt-infra-73-2" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3836,6 +3858,44 @@
 <h1 id="_1">변경 이력<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>프론트엔드의 주요 변경을 기록한다. 상세 커밋은 git 로그를, 문제 해결 맥락은 <a href="../troubleshooting/">트러블슈팅</a>을 참고. 새 항목은 최신이 위로 오도록 해당 월 섹션에 추가한다.</p>
 <h2 id="2026-10">2026-10<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h2>
+<h3 id="aggridadapter-infra-73-2">AgGridAdapter 책임별 분리 (Infra #73 2차)<a class="headerlink" href="#aggridadapter-infra-73-2" title="Permanent link">&para;</a></h3>
+<p>전 화면 공용 그리드 어댑터 <code>util/ag-grid/grid/AgGridAdapter.ts</code>(1,143줄)를 같은 폴더 <code>adapter/</code> 하위 모듈로 나눴다. 동작 변경은 없다.</p>
+<table>
+<thead>
+<tr>
+<th>모듈</th>
+<th>옮긴 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>adapter/rowData.ts</code></td>
+<td><code>setItems</code>, <code>addItems</code>, <code>insertItems</code>, <code>updateItems</code>, <code>removeItems</code>, <code>getCudData</code>, <code>isCudChanged</code>, <code>loadDataByType</code></td>
+</tr>
+<tr>
+<td><code>adapter/validation.ts</code></td>
+<td><code>validateColumns</code>, <code>validateTimeColumns</code>, <code>validateCheckedColumnsCache</code>, <code>removeRowColumns</code></td>
+</tr>
+<tr>
+<td><code>adapter/excel.ts</code></td>
+<td><code>exportExcel</code>, <code>getColumnDefsByExcel</code>, <code>getMatchValueByColDef</code></td>
+</tr>
+<tr>
+<td><code>adapter/gridOptions.ts</code></td>
+<td><code>createGridOptions</code></td>
+</tr>
+<tr>
+<td><code>adapter/CacheState.ts</code></td>
+<td>변경분(CUD) 캐시 클래스</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>AgGridAdapter</code> 는 파사드로 남는다. import 경로, 클래스명, 메서드 시그니처가 그대로라 화면은 고칠 것이 없다. 옮긴 메서드는 <code>모듈.함수.call( this, ... )</code> 로 위임하고 함수 본문은 글자 그대로다.</li>
+<li>하위 모듈이 <code>this</code> 로 읽는 필드 4개(<code>_options</code>, <code>_api</code>, <code>_columnApi</code>, <code>_cache</code>)는 <code>private</code> 를 뗐다(선언만 바뀜).</li>
+<li>분리 전에 특성 테스트 <code>grid/__tests__/AgGridAdapter.spec.ts</code>(40건)로 현재 동작을 고정했고, 분리 후 무수정 통과했다. jsdom 에 실물 ag-grid 를 띄워 공개 API 로만 검증한다(Vue 프레임워크 컴포넌트 키만 벗김, 셀 편집 이벤트는 비동기라 <code>setTimeout</code> 한 번 기다림).</li>
+<li>함정도 현재 동작 그대로 고정했다: 숫자 0 을 미입력 취급(<code>validateColumns</code> 기본), 행 추가 후 <code>getSelectedNode()</code> null, <code>getItems()</code> 는 조회 행 미포함, 셀 편집 <code>|| ''</code> 비교라 <code>0 → ''</code> 가 변경으로 안 잡힘, 푸터 없는 그리드의 <code>getFooterData()</code> TypeError, <code>updateItem()</code> TypeError(호출처 0), <code>openToolPanel()</code> 이 닫기를 부름.</li>
+</ul>
 <h3 id="fdsordmgt-infra-73-2">FdsOrdMgt 그리드 정의와 저장 데이터 가공 분리 (Infra #73 2차)<a class="headerlink" href="#fdsordmgt-infra-73-2" title="Permanent link">&para;</a></h3>
 <p>3,127줄이던 <code>fds/FdsOrdMgt/index.vue</code> 를 같은 폴더의 모듈 2개로 나눴다. 동작 변경은 없다(옮기기와 추출만).</p>
 <table>
