@@ -1881,6 +1881,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#35-0-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        35. 셀 값을 0 으로 바꾸거나 0 을 지운 수정이 저장되지 않는다
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-setfocusedcellbyrowindex-is-not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        36. 잘못된 값 입력 뒤 포커스를 옮기다 setFocusedCellByRowIndex is not a function
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2816,6 +2838,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#35-0-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        35. 셀 값을 0 으로 바꾸거나 0 을 지운 수정이 저장되지 않는다
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-setfocusedcellbyrowindex-is-not-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        36. 잘못된 값 입력 뒤 포커스를 옮기다 setFocusedCellByRowIndex is not a function
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3488,6 +3532,23 @@
 <li>⚠️<strong>이 장치는 그것이 들어간 빌드를 받은 탭부터 동작한다.</strong> 그 이전부터 열려 있던 탭은 여전히 안내를 받지 못한다.</li>
 <li><strong>재현</strong>: dev 서버는 빌드 ID 가 비어 있어 안 된다. <code>vite build</code> → <code>dist/version.json</code> 의 <code>buildId</code> 를 다른 값으로 바꿈 → <code>vite preview</code> → 로그인 → 다른 탭에 갔다가 돌아오기.</li>
 <li><strong>근거</strong>: <code>src/stores/appVersion.ts</code>, <code>src/App.vue</code>(배너, 확인 주기), <code>vite.config.ts</code>(<code>emit-version-json</code>, <code>VITE_BUILD_ID</code>), <code>src/pages/crs/CrsEstUploadExl/index.vue</code> <code>fnSave</code>.</li>
+</ul>
+<h2 id="35-0-0">35. 셀 값을 <code>0</code> 으로 바꾸거나 <code>0</code> 을 지운 수정이 저장되지 않는다<a class="headerlink" href="#35-0-0" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 수량, 금액, 요율 칸을 <code>0</code> 으로 바꾸거나 <code>0</code> 을 지우고 저장하면 화면에서는 저장된 것처럼 보이는데 DB 에는 반영되지 않는다.</li>
+<li><strong>원인</strong>: 어댑터가 셀 편집 전후 값을 <code>(old || '') !== (new || '')</code> 로 비교했다. <code>0 || ''</code> 이 <code>''</code> 라서 <code>0 → ''</code>, <code>'' → 0</code> 이 "변경 없음"으로 판정돼 변경분(CUD) 캐시에 안 들어갔다(<code>getItems()</code> 로 저장하는 화면 전부).</li>
+<li><strong>해결</strong>(Infra #82, FE #256): <code>null</code>, <code>undefined</code>, <code>''</code> 는 같은 빈 값으로 보고 숫자 <code>0</code> 만 따로 구분하는 비교(<code>AgGridAdapter.ts</code> <code>isSameCellValue</code>). <code>'' → null</code> 같은 눈에 안 보이는 차이는 여전히 변경으로 보지 않는다.</li>
+<li><strong>같이 고친 것</strong>: 숫자 편집기 <code>AgNumberBoxEditor</code> 는 값이 없는(<code>undefined</code>) 칸을 열었다 닫기만 해도 <code>0</code> 을 커밋해, 새 비교에선 손대지 않은 행이 저장 대상이 됐다. 실제 입력이 없으면 원래 값을 돌려주게 했다.</li>
+<li><strong>남는 동작(의도)</strong>: 숫자 편집기로 값을 지우면 <code>0</code> 이 들어간다 — 숫자 칸을 NULL 로 되돌리는 방법은 없다(사용자 결정 2026-10-08).</li>
+<li><strong>근거</strong>: <code>src/util/ag-grid/grid/AgGridAdapter.ts</code>, <code>src/components/manual/ag-grid/vue/AgNumberBoxEditor.vue</code>, 테스트 <code>__tests__/AgGridAdapter.spec.ts</code>, <code>AgNumberBoxEditor.spec.ts</code>.</li>
+</ul>
+<h2 id="36-setfocusedcellbyrowindex-is-not-a-function">36. 잘못된 값 입력 뒤 포커스를 옮기다 <code>setFocusedCellByRowIndex is not a function</code><a class="headerlink" href="#36-setfocusedcellbyrowindex-is-not-a-function" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 그리드 시간 칸에 잘못된 값을 넣으면 경고는 뜨는데 그 뒤 콘솔에 TypeError 가 나고, 칸으로 포커스가 돌아가지 않는다.</li>
+<li><strong>원인</strong>: <code>adapter.getSelectedNode()</code> 가 돌려주는 것은 ag-grid <strong>RowNode</strong> 다. <code>setFocusedCellByRowIndex</code> 는 RowNode 가 아니라 <strong>어댑터</strong> 메서드인데 <code>node.setFocusedCellByRowIndex(...)</code> 로 불렀다. 레거시에서 그대로 옮겨 온 패턴이라 여러 화면에 복사돼 있었다.</li>
+<li><strong>해결</strong>(Infra #82, FE #255, #258): <code>adapter.setFocusedCellByRowIndex( node.rowIndex, colId, isStartEditing )</code> 로. 고친 곳: FdsOrdMgt(3곳), FdsOrderMgtByCntrPopup(2곳), MvsCntrMove, FdsCntrMoveUpload.</li>
+<li><strong>새로 쓸 때</strong>: RowNode(<code>getSelectedNode()</code>, <code>forEachNode</code> 콜백 인자)에는 <code>data</code>, <code>rowIndex</code>, <code>setDataValue</code> 같은 ag-grid 메서드만 있다. 포커스, 편집 시작, 셀 값 쓰기는 어댑터(<code>setFocusedCellByRowIndex</code>, <code>setCellValue</code>)로 한다.</li>
+<li><strong>같은 화면들의 시간 검사 <code>fnTimeValidation</code></strong> 은 <code>parseInt</code> 결과가 <code>NaN</code> 이면 범위 검사를 통과해 <code>'12'</code>, <code>'abcd'</code> 도 받아들였다 → <code>/^\d{4}$/</code> 가 아니면 거절하도록 같이 고쳤다.</li>
 </ul>
 
 

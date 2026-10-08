@@ -1042,7 +1042,7 @@
 </ul>
 <h2 id="_3">검색 조건<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>날짜</strong>: 달력 아이콘으로 기간을 선택합니다.</li>
+<li><strong>날짜</strong>: 달력 아이콘으로 기간을 선택합니다. 시작일(From)이 종료일(To)보다 늦으면 경고가 뜨고 조회하지 않습니다.</li>
 <li><strong>코드 선택</strong>: 드롭다운에서 항목을 고릅니다(선사/항만/통화 등 공통코드).</li>
 <li>여러 조건은 <strong>AND</strong>(모두 만족)로 적용됩니다.</li>
 </ul>
@@ -1053,7 +1053,8 @@
 <li><strong>필터</strong>: 열 머리글의 필터로 표 안에서 추가로 걸러보기.</li>
 <li><strong>열 너비/순서</strong>: 머리글 경계 드래그로 너비 조절, 머리글 드래그로 순서 변경.</li>
 <li><strong>셀 편집</strong>: 편집 가능한 셀을 클릭/더블클릭해 값을 입력(드롭다운·날짜·숫자 등 셀 유형별 입력기).</li>
-<li><strong>시간 입력</strong>: 시간 셀은 콜론 없이 4자리 숫자로 입력합니다(예: <code>0930</code> 입력 → <code>09:30</code> 표시). 화면 표시만 HH:MM 형식입니다.</li>
+<li><strong>시간 입력</strong>: 시간 셀은 콜론 없이 4자리 숫자로 입력합니다(예: <code>0930</code> 입력 → <code>09:30</code> 표시). 화면 표시만 HH:MM 형식입니다. 4자리 숫자가 아니거나 없는 시각(예: <code>2400</code>)을 넣으면 경고가 뜨고 그 칸이 비워진 뒤 다시 그 칸으로 돌아갑니다.</li>
+<li><strong>숫자 입력</strong>: 숫자 칸의 값을 지우면 빈 칸이 아니라 <code>0</code> 으로 저장됩니다. 숫자를 <code>0</code> 으로 바꾼 수정도 그대로 저장됩니다.</li>
 <li><strong>행 추가/삭제</strong>: 화면 상단/표 위의 추가·삭제 버튼 사용. 편집·추가·삭제한 행은 표시가 바뀌며 <strong>[저장]</strong> 시 반영됩니다.</li>
 </ul>
 <div class="admonition warning">

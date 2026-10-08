@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-260-infra-82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        그리드 입력 동작 문서 보강 (PR #260, Infra #82)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fdsordmgt-pr-255-infra-82" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1566,6 +1577,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-260-infra-82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        그리드 입력 동작 문서 보강 (PR #260, Infra #82)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fdsordmgt-pr-255-infra-82" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1651,6 +1673,13 @@
 <li>From/To 가 비었을 때의 동작(필수 입력 경고)은 그대로다.</li>
 <li>보류: CfsStuffInvoice 는 조회에서 검증 호출 자체가 레거시부터 주석 처리돼 있다. 살리면 날짜 필수 검사까지 새로 걸리므로 손대지 않았다.</li>
 <li>변경 없음: FdsInvoice 는 이미 경고를 띄우고 조회를 막고 있었다.</li>
+</ul>
+<h2 id="pr-260-infra-82">그리드 입력 동작 문서 보강 (PR #260, Infra #82)<a class="headerlink" href="#pr-260-infra-82" title="Permanent link">&para;</a></h2>
+<p>Infra #82 수정(FE #255, #256, #258, #259)으로 바뀌거나 확인된 입력 동작을 문서에 반영했다.</p>
+<ul>
+<li>사용자 매뉴얼 <code>공통 화면 사용법</code>: 조회 기간 From &gt; To 경고, 시간 칸 오입력 시 경고 후 칸 비움, 숫자 칸을 지우면 <code>0</code></li>
+<li>트러블슈팅 35: <code>0</code> 으로 바꾸거나 지운 수정이 저장되지 않던 원인(<code>|| ''</code> 비교)과 숫자 편집기 보정</li>
+<li>트러블슈팅 36: RowNode 에 어댑터 메서드를 부르던 <code>setFocusedCellByRowIndex</code> TypeError 패턴과 시간 검사 NaN 통과</li>
 </ul>
 <h2 id="fdsordmgt-pr-255-infra-82">FdsOrdMgt 시간 입력 에러와 검증 버그 수정 (PR #255, Infra #82)<a class="headerlink" href="#fdsordmgt-pr-255-infra-82" title="Permanent link">&para;</a></h2>
 <h1 id="73-fdsfdsordmgt">73 분해 중 발견해 그대로 옮겨 두었던 <code>fds/FdsOrdMgt</code> 의 기존 버그를 고쳤다.<a class="headerlink" href="#73-fdsfdsordmgt" title="Permanent link">&para;</a></h1>
