@@ -1715,6 +1715,13 @@
 <li>기존 106개 항목은 내용을 바꾸지 않고 옮겼다(<code>YYYYMM00-NN-…</code>, 원래 순서 보존). 제목 단계만 <code>###</code> → <code>##</code>.</li>
 <li>백엔드 레포도 같은 훅, 같은 형식으로 바꿨다.</li>
 </ul>
+<h2 id="cfsstuffinvoice-pr-261-infra-82">CfsStuffInvoice 조회 기간 검사 살림 (PR #261, Infra #82)<a class="headerlink" href="#cfsstuffinvoice-pr-261-infra-82" title="Permanent link">&para;</a></h2>
+<p><code>fnSearch</code> 의 조회 기간 검사 호출이 레거시 때부터 주석으로 꺼져 있었다. 사용자 결정(2026-10-08)으로 살렸다.</p>
+<ul>
+<li>조회 기간 From, To 가 비어 있으면 필수 입력 오류로 조회하지 않는다(새로 걸리는 검사).</li>
+<li>From 이 To 보다 늦으면 경고(<code>MSG000047</code>) 후 조회하지 않는다. 메시지를 만들기만 하고 띄우지 않던 것도 같이 고쳤다(FE #259 의 다른 6화면과 같은 방식).</li>
+<li>저장, 삭제 뒤 다시 조회할 때도 같은 검사를 거친다. 화면은 초기화 때 이번 달 1일부터 말일까지로 채우므로 평소 사용에는 영향이 없다.</li>
+</ul>
 <h2 id="aggridadapter-pr-256-infra-82">AgGridAdapter 잠재 버그 수정과 죽은 코드 정리 (PR #256, Infra #82)<a class="headerlink" href="#aggridadapter-pr-256-infra-82" title="Permanent link">&para;</a></h2>
 <h1 id="73-2-0-additem-0">73 2차 분리 때 특성 테스트에 "현재 동작" 으로 고정해 둔 함정 중, 화면이 그 경로를 타지 않는 것만 고쳤다(호출처 0, <code>addItem</code> 은 두 번째 인자를 쓰는 화면이 사실상 0). 화면 동작은 바뀌지 않는다(아래 셀 편집 변경 감지 항목만 예외). 특성 테스트 기대값은 고친 동작으로 바꿨다.<a class="headerlink" href="#73-2-0-additem-0" title="Permanent link">&para;</a></h1>
 <table>
