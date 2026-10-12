@@ -933,6 +933,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#e-search-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        검색 영역 입력값 양끝 공백 제거 (&lt;e-search-area&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#e-attach-file-grid" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1678,6 +1689,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#e-search-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        검색 영역 입력값 양끝 공백 제거 (&lt;e-search-area&gt;)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#e-attach-file-grid" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1901,8 +1923,28 @@
 <td><code>&lt;e-grid-btn&gt;</code> / <code>&lt;e-list-btn&gt;</code></td>
 <td>그리드/목록 액션 버튼군</td>
 </tr>
+<tr>
+<td><code>&lt;e-search-area&gt;</code></td>
+<td>검색 영역 표시(요소 없이 슬롯만 그림). 안쪽 텍스트박스 입력값의 양끝 공백을 제거. 아래 참고</td>
+</tr>
 </tbody>
 </table>
+<h3 id="e-search-area">검색 영역 입력값 양끝 공백 제거 (<code>&lt;e-search-area&gt;</code>)<a class="headerlink" href="#e-search-area" title="Permanent link">&para;</a></h3>
+<p>검색 영역의 <code>&lt;dx-text-box&gt;</code>, <code>&lt;e-code-box&gt;</code> 는 입력값의 <strong>양끝 공백을 제거</strong>해 v-model 에 싣는다. 가운데 공백은 그대로, 문자열이 아닌 값(숫자, null)도 그대로다.</p>
+<ul>
+<li>검색 영역 표시: <code>EContentLayout</code>, <code>EDialogLayout</code> 이 <code>#search</code> 슬롯을 <code>&lt;e-search-area&gt;</code> 로 감싸 <code>provide(SEARCH_AREA_KEY, true)</code> 한다. 슬롯 내용 컴포넌트의 부모 인스턴스는 슬롯을 그리는 쪽이라 <code>#search</code> 안에만 전달된다. 화면에서 따로 할 일은 없다.</li>
+<li>받는 쪽: <code>DxTextBoxProxy</code> 는 <code>parseValue</code>(값 경로, <code>upper-case</code> 와 같은 자리)에서, <code>ECodeBox</code> 는 값 변경과 Enter/F2 코드 조회어, 팝업 조회어에서 자른다. Enter 로 바로 조회해도 <code>on-enter-key</code> 핸들러가 보는 v-model 은 이미 잘린 값이다.</li>
+<li>검색 영역 밖(<code>#content</code> 의 입력 폼, 그리드 셀 에디터, <code>$dialog</code> 로 띄운 팝업의 입력 폼)은 기본값 <code>false</code> 라 <strong>동작 변경이 없다</strong>.</li>
+<li><code>#search</code> 슬롯을 쓰지 않는 검색창은 직접 감싼다(예: <code>MdmNotice</code>).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">e-search-area</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="p">&lt;</span><span class="nt">dx-text-box</span> <span class="na">v-model</span><span class="o">=</span><span class="s">"</span><span class="nx">search</span><span class="p">.</span><span class="nx">SEARCH_KEYWORD</span><span class="s">"</span> <span class="p">:</span><span class="na">on-enter-key</span><span class="o">=</span><span class="s">"</span><span class="nx">fnSearch</span><span class="s">"</span><span class="p">/&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">&lt;/</span><span class="nt">e-search-area</span><span class="p">&gt;</span>
+</code></pre></div>
+<ul>
+<li>주의: <code>:on-value-changed</code> 콜백의 <code>e.value</code> 는 위젯 원본값이라 잘리지 않는다. 조회 파라미터는 v-model 값을 쓸 것.</li>
+<li>테스트: <code>src/components/auto/app/ESearchArea/__tests__/searchAreaTrim.spec.ts</code></li>
+</ul>
 <h3 id="e-attach-file-grid"><code>&lt;e-attach-file-grid&gt;</code> — 첨부 표준<a class="headerlink" href="#e-attach-file-grid" title="Permanent link">&para;</a></h3>
 <p>첨부 UI 는 이 컴포넌트로 일원화한다. 변형은 전부 props/이벤트로 처리하고, 화면에서 그리드를 다시 짜지 않는다.</p>
 <table>
@@ -2019,30 +2061,30 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <h4 id="readonly">조회 전용 (<code>readonly</code>)<a class="headerlink" href="#readonly" title="Permanent link">&para;</a></h4>
 <p>첨부를 <strong>보기만</strong> 하는 화면(예: <code>CrsEstApproval</code> — 첨부 추가/삭제는 <code>CrsEstimate</code> 에서만 한다)은 <code>readonly</code> 로 쓴다.
 업로드 버튼·삭제 버튼·<code>&lt;input type=file&gt;</code> 이 사라지고 <code>onDrop</code> 도 막히며, 다운로드·뷰어 컬럼만 남는다.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="na">readonly</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="na">:mngt-no</span><span class="o">=</span><span class="s">"main.ESTIMATE_NO || ''"</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="na">:list-param</span><span class="o">=</span><span class="s">"fileListParam"</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">/&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="na">readonly</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="na">:mngt-no</span><span class="o">=</span><span class="s">"main.ESTIMATE_NO || ''"</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="na">:list-param</span><span class="o">=</span><span class="s">"fileListParam"</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">/&gt;</span>
 </code></pre></div>
 <p>업로드가 막힌 상태(<code>readonly</code> 또는 <code>can-upload="false"</code>)에서는 <strong>드롭존 워터마크(구름 아이콘)도 감춘다.</strong>
 드롭을 권하는 그림인데 실제로는 아무 일도 일어나지 않아 사용자를 헷갈리게 하기 때문이다.
 <code>CrsEstimate</code> 처럼 조건부로 막는 화면에서는 올릴 수 있게 된 순간 구름이 나타나 상태 표시 역할도 한다.</p>
 <h4 id="_4">스테이징 모드<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
 <p>첨부 목록이 아니라 <strong>올리기 전 파일 목록</strong>을 다루는 화면(예: <code>CrsFileUploadPopup</code> 의 견적서 일괄 매칭 업로드)은 <code>staging</code> 으로 쓴다. 서버 조회·업로드·삭제를 끄고 <strong>드롭존·워터마크·확장자 검증·총건수만</strong> 재사용한다.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="na">ref</span><span class="o">=</span><span class="s">"attachGrid"</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="na">staging</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="na">:auto-load</span><span class="o">=</span><span class="s">"false"</span>     <span class="err">&lt;!</span><span class="na">--</span> <span class="na">서버</span> <span class="na">조회</span> <span class="na">안</span> <span class="na">함</span> <span class="na">--</span><span class="p">&gt;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    :can-delete="false"    <span class="cm">&lt;!-- 삭제 판단은 화면 몫 --&gt;</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    :columns="fileColumns"
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    upload-viewable-only
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    @files-added="fnAttachFiles"
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>&gt;
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">&lt;</span><span class="nt">template</span> <span class="err">#</span><span class="na">actions</span><span class="p">&gt;</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="p">&lt;</span><span class="nt">e-grid-btn</span> <span class="na">button-type</span><span class="o">=</span><span class="s">"delete"</span> <span class="err">@</span><span class="na">click</span><span class="err">.</span><span class="na">stop</span><span class="o">=</span><span class="s">"fnDeleteRow"</span><span class="p">/&gt;</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">&lt;/</span><span class="nt">e-attach-file-grid</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="na">ref</span><span class="o">=</span><span class="s">"attachGrid"</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="na">staging</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="na">:auto-load</span><span class="o">=</span><span class="s">"false"</span>     <span class="err">&lt;!</span><span class="na">--</span> <span class="na">서버</span> <span class="na">조회</span> <span class="na">안</span> <span class="na">함</span> <span class="na">--</span><span class="p">&gt;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    :can-delete="false"    <span class="cm">&lt;!-- 삭제 판단은 화면 몫 --&gt;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    :columns="fileColumns"
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    upload-viewable-only
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    @files-added="fnAttachFiles"
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>&gt;
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="p">&lt;</span><span class="nt">template</span> <span class="err">#</span><span class="na">actions</span><span class="p">&gt;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="p">&lt;</span><span class="nt">e-grid-btn</span> <span class="na">button-type</span><span class="o">=</span><span class="s">"delete"</span> <span class="err">@</span><span class="na">click</span><span class="err">.</span><span class="na">stop</span><span class="o">=</span><span class="s">"fnDeleteRow"</span><span class="p">/&gt;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">&lt;/</span><span class="nt">e-attach-file-grid</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>행 조작은 <code>this.$refs.attachGrid.getAdapter()</code> 로 직접 한다. 총건수(<code>:total</code>)와 워터마크는 어댑터의 <code>getRowCount()</code> 를 읽는 반응형이라 화면이 행을 직접 넣어도 맞는다.</p>
 <p><strong>뷰어 판정의 정본은 공통코드 <code>TB_CMS_CD_DTL / MSTR_CD='FILE_EXT'</code>(화이트리스트)</strong> 다. 컴포넌트가 <code>/api/code/selectCommonCode</code> 로 모듈 단위 1회만 조회해 공유한다. 허용목록 밖이면 <code>MSG000400</code> 경고, <code>PDF</code> 는 <code>openPdfViewer</code>, 나머지(이미지·ZIP)는 캐러셀 새 창(<code>CmsImageCarouselPopup</code>)으로 연다. 확장자를 늘리려면 <strong>코드가 아니라 공통코드</strong>를 고친다.</p>
