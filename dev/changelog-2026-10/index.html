@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-265-infra-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 공통 팝업 타입과 팝업 화면 정리 (PR #265, Infra #80)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-263" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1577,6 +1588,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-265-infra-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 공통 팝업 타입과 팝업 화면 정리 (PR #265, Infra #80)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-263" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1686,6 +1708,20 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="pr-265-infra-80">쓰지 않는 공통 팝업 타입과 팝업 화면 정리 (PR #265, Infra #80)<a class="headerlink" href="#pr-265-infra-80" title="Permanent link">&para;</a></h2>
+<p>Infra #80 A(공통 팝업 <code>cmsCommonPopup/select*</code> 운영 호출 0) 결정에 따라 백엔드(BE #211)와 함께 걷어냈다.</p>
+<ul>
+<li><code>codeBoxType.ts</code> 에서 팝업 타입 12개 삭제</li>
+<li>어느 화면도 쓰지 않던 것: <code>CY/CFS</code>, <code>CustomerAbb</code>, <code>Place</code>, <code>CurrencyNation</code>, <code>AmsCust</code>, <code>CustomerPic</code></li>
+<li>엔드포인트 삭제(사용자 결정)로 함께 지운 것: <code>Customer</code>, <code>MultiCustomer</code>, <code>CustomerIATA</code>, <code>Org</code>, <code>CntrTypeTariff</code>, <code>CntrTypeGroupTariff</code></li>
+<li>CmsPopupMgt(팝업 테스터) 목록에서도 자동으로 빠진다.</li>
+<li>팝업 화면 6개 삭제</li>
+<li><code>CmsCustomerAbbPopup</code>, <code>CmsCustomerPopup</code>, <code>CmsMultiCustomerPopup</code>, <code>CmsOrgnPopup</code>: 위 타입만 열던 팝업</li>
+<li><code>CmsExratePopup</code>, <code>CmsChkLastNoPopup</code>: 여는 곳이 없던 팝업(<code>selectExrate</code>, <code>selectLastNo</code> 와 함께 삭제)</li>
+<li>CmsPopupMgt: 선사 선택 대상(<code>COMP_CD_TYPES</code>)에서 <code>CurrencyNation</code> 제거</li>
+<li><code>pages/dev</code> 샘플: <code>Common</code>, <code>CurrencyNation</code>, <code>MultiCustomer</code> 코드박스, 멀티 팝업 호출 버튼, <code>cmsChkLastNoPopup</code> 호출 제거. <code>Customer</code>, <code>Org</code> 를 쓰는 샘플은 그대로 둔다(타입이 없으면 Default 로 동작).</li>
+<li>메뉴가 꺼졌거나 없는 MdmTariffMgt, MdmCustomerMgt 등은 Infra #80 B 판단 전이라 손대지 않았다. 이 화면의 <code>Customer</code>, <code>Org</code>, <code>Carrier</code> 코드박스는 지운 엔드포인트를 부르게 된다.</li>
+</ul>
 <h2 id="pr-263">검색 영역 텍스트박스 입력값의 양끝 공백 제거 (PR #263)<a class="headerlink" href="#pr-263" title="Permanent link">&para;</a></h2>
 <p>검색 영역에서 앞뒤에 공백이 섞인 값(복사, 붙여넣기 등)이 그대로 조회 파라미터로 넘어가 결과가 0건이 되던 문제를 컴포넌트 레벨에서 막는다. 화면 파일은 고치지 않는다(MdmNotice 1곳 제외).</p>
 <ul>

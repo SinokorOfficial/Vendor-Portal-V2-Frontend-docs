@@ -3407,7 +3407,7 @@
 <a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="nt">margin-right</span><span class="nd">:</span><span class="w"> </span><span class="nt">0</span><span class="w"> </span><span class="o">!</span><span class="nt">important</span><span class="o">;</span>
 <a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">}</span>
 </code></pre></div></li>
-<li>⚠️ <strong>전역 규칙을 고치면 <code>chk: true</code> 를 쓰는 다른 화면(<code>EirExportIssue</code>, <code>CmsMultiCustomerPopup</code> 등)도 같이 움직인다.</strong> <code>EAttachFileGrid</code> 는 자기 그리드(<code>.attach-file-ag</code>)로 스코프를 걸어 적용했다. 원인이 전역 CSS 라 다른 화면도 같은 증상일 가능성이 높지만, 범위를 넓히는 건 별건으로 둔다.</li>
+<li>⚠️ <strong>전역 규칙을 고치면 <code>chk: true</code> 를 쓰는 다른 화면(<code>EirExportIssue</code> 등)도 같이 움직인다.</strong> <code>EAttachFileGrid</code> 는 자기 그리드(<code>.attach-file-ag</code>)로 스코프를 걸어 적용했다. 원인이 전역 CSS 라 다른 화면도 같은 증상일 가능성이 높지만, 범위를 넓히는 건 별건으로 둔다.</li>
 <li><strong>진단 팁</strong> — 눈으로 재지 말고 <code>getBoundingClientRect()</code> 로 셀 중심과 체크박스 중심을 찍어 비교하면 원인(정렬 vs 마진)이 바로 갈린다.</li>
 </ul>
 <h2 id="30-504-nginx-proxy_read_timeout">30. "저장은 됐는데 화면은 실패(504)" — nginx <code>proxy_read_timeout</code><a class="headerlink" href="#30-504-nginx-proxy_read_timeout" title="Permanent link">&para;</a></h2>
