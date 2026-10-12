@@ -1707,6 +1707,17 @@
 </ul>
 </li>
 </ul>
+<h2 id="from-to-pr-262">검색 기간 From &gt; To 자동 맞춤을 모든 화면에 통일 (PR #262)<a class="headerlink" href="#from-to-pr-262" title="Permanent link">&para;</a></h2>
+<p>검색 영역의 기간(From/To) 날짜 박스에서 From 이 To 보다 늦어지도록 고르면, 두 날짜를 방금 고른 값으로 함께 맞춘다(안내 문구 없음). 이미 이렇게 동작하던 FdsOrdMgt, FdsOrdCreate, FdsInvoice, FdsFeederageMgt, CfsStuffExpn 의 동작에 나머지 화면을 맞췄다.</p>
+<ul>
+<li>공통 유틸 <code>DateUtil.toYmd</code> / <code>DateUtil.isFromAfterTo</code> 추가(단위 테스트 포함). 검색 기간 초기값은 화면에 따라 <code>LocalDate</code>/<code>Date</code> 객체이고 <code>e-date-box</code> 가 바꾼 뒤엔 <code>'YYYYMMDD'</code> 문자열이라, 그대로 <code>&gt;</code> 비교하면 틀린다(<code>LocalDate</code> 는 <code>'YYYY-MM-DD'</code> 라 문자 비교가 어긋나고, <code>Date</code> 는 숫자로 바뀌어 한쪽 방향으로 항상 참/거짓). 둘 다 <code>'YYYYMMDD'</code> 로 맞춰 비교하고, 한쪽이 비었거나 8자리가 안 되면 맞추지 않는다.</li>
+<li>필드명이 틀려 돌지 않던 화면: FdsMoveInspect(<code>FRDT</code> → <code>FMDT</code>), CrsCntrMove(<code>FRDT</code>/<code>TODT</code> → <code>FM_DT</code>/<code>TO_DT</code>).</li>
+<li>핸들러가 날짜 박스에 연결되지 않았고 <code>e.event</code> 가드로 달력 선택 때도 돌지 않던 화면: CfsStuffInvoice, TesLashingExpn, TesLineHandleExpn, TesTugExpn. 두 박스에 <code>@change</code> 로 연결하고 가드를 없앴다.</li>
+<li>맞춤이 없던 화면에 추가: CmsJwtMgt, CmsFileIntegrity, CmsApiLog, CmsEmailLog, CmsErrorLogList, CmsLogInquiry, CmsLoginLog, CmsVisitLog, CmsAzureLog(직접 지정), CrsAcepMgt, CrsEstApproval, CrsEstimate, CsmRequestList, EirDemList, EirIssueStatus, EirResponseLog, MvsDropOff, MvsRedeliveryStts, TesInspExpn.</li>
+<li>조회 시점의 From &gt; To 경고(<code>fnSearchValidation</code> 의 MSG000047, CmsAzureLog 의 조회 경고)는 그대로 두었다.</li>
+<li>제외: CrsFileUploadPopup(두 박스 모두 읽기 전용), MdmTariffMgt(시작일 하나뿐), 검색 기간이 아닌 입력 폼의 시작/종료일.</li>
+<li>기준(A) 화면 중 FdsInvoice, FdsFeederageMgt 는 기간 초기값이 <code>Date</code> 객체라 <code>&gt;</code> 비교가 틀려 실제로는 맞춤이 엉뚱하게 동작했다(진입 직후 To 를 먼저 바꾸면 정상 범위인데도 합쳐지고, From 을 먼저 바꾸면 맞추지 않음). 같은 <code>DateUtil.isFromAfterTo</code> 비교로 바꿨다.</li>
+</ul>
 <h2 id="pr-pr-254-be-208">변경 이력을 PR 마다 파일 하나로 (PR #254, BE #208)<a class="headerlink" href="#pr-pr-254-be-208" title="Permanent link">&para;</a></h2>
 <p>PR 여러 개가 <code>changelog.md</code> 의 같은 자리(그 달 섹션 맨 위)에 항목을 끼워 넣어, 하나를 머지하면 나머지가 매번 충돌했다. 파일도 900줄 가까이 길어졌다.</p>
 <ul>
