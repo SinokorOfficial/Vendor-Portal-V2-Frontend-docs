@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-272-infra-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        언어 관리를 데이터사전 팝업으로, 운임 코드 관리, 변경 이력 팝업 삭제 (PR #272, Infra #80)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#crs-pr-271" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1815,6 +1826,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-272-infra-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        언어 관리를 데이터사전 팝업으로, 운임 코드 관리, 변경 이력 팝업 삭제 (PR #272, Infra #80)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#crs-pr-271" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2160,6 +2182,19 @@
 <li>사용자 매뉴얼: <code>modules/csm.md</code> 삭제, <code>mdm.md</code>, <code>cms.md</code> 화면 표에서 삭제 화면 제거</li>
 <li>트러블슈팅 18절의 <code>CsmRequestMgt</code> 예시 제거</li>
 <li>남긴 것: <code>UserDashBoard</code>, <code>MdmNoticePopup</code>, <code>MdmCorpMgt</code>, <code>CmsUserMgt</code>, <code>CmsDocumentPopup</code> 은 그대로 둔다.</li>
+</ul>
+<h2 id="pr-272-infra-80">언어 관리를 데이터사전 팝업으로, 운임 코드 관리, 변경 이력 팝업 삭제 (PR #272, Infra #80)<a class="headerlink" href="#pr-272-infra-80" title="Permanent link">&para;</a></h2>
+<p>Infra #80 B(메뉴는 켜져 있지만 운영 호출 0) 결정에 따른 정리다. 백엔드는 BE PR 별도.</p>
+<ul>
+<li>언어 관리: 화면 <code>CmsLangMgt</code> 를 팝업 <code>CmsLangPopup</code> 으로 옮기고, <code>CmsDataDicMgt</code> 의 <strong>언어 관리</strong> 버튼에서 연다. API(<code>/api/cms/comm/cmsLangMgt</code>)는 그대로다.</li>
+<li>팝업을 닫으면 데이터사전의 언어 선택 목록(검색, 그리드)을 다시 읽는다. <code>#LANGUAGE</code> 코드는 키 이름으로 전역 캐시되므로 <code>/api/code/selectLanguageCode</code> 를 직접 부른다.</li>
+<li>옛 화면의 저장은 <code>self.langGridAdapter</code>(브라우저에서 <code>self</code> 는 <code>window</code>)를 참조해 오류로 끝나 서버까지 가지 않았다. 팝업에서 <code>this</code> 로 고쳤다.</li>
+<li><code>LANG_CD</code> 는 새 행에서만 입력하고, 필수, 5바이트 이하, 중복 금지를 저장 전에 검사한다(<code>TB_CMS_LANG</code> 에 PK 가 없다). 영문명(<code>LANG_ENG_NM</code>)은 언어 선택 목록에 표시되는 이름이라 필수로 했다.</li>
+<li>데이터사전 화면 상단 RESET 왼쪽에 <strong>언어 관리</strong> 버튼을 둔다.</li>
+<li>메뉴 행이 없는 팝업이라 조회, 저장 버튼은 팝업 상단에 직접 두고, 닫기는 다른 팝업처럼 우측 아래에 둔다.</li>
+<li>삭제: <code>MdmFreightMgt</code>(운임 코드 관리), <code>CmsHistoryPopup</code>(여는 화면이 없던 변경 이력 팝업)</li>
+<li><code>CmsUserMgt</code>: 사용자 삭제는 이미 프로시저로 처리하고 있어 동작 변경은 없다. 옛 <code>cmsUserMgt/delete</code> 호출 주석만 정리했다(엔드포인트는 백엔드에서 삭제).</li>
+<li>사용자 매뉴얼: <code>cms.md</code>(다국어 → 데이터사전의 언어 관리 버튼), <code>mdm.md</code>(운임 행 삭제)</li>
 </ul>
 <h2 id="crs-pr-271">CRS 견적 코드 칸 붙여넣기 자리수 차단 (PR #271)<a class="headerlink" href="#crs-pr-271" title="Permanent link">&para;</a></h2>
 <p>2026-10-13 <code>CrsEstimate</code> 저장이 <code>Please contact IT Team. (ORA-06502)</code> 로 실패했다. 페이로드의 REP 가 <code>WWWW</code>(정상 코드 <code>WW</code>)였다.</p>
