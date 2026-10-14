@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-270-infra-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메뉴 꺼짐, 메뉴 없음 화면 삭제 (PR #270, Infra #80)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-269" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1743,6 +1754,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-270-infra-80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메뉴 꺼짐, 메뉴 없음 화면 삭제 (PR #270, Infra #80)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-269" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2018,6 +2040,27 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="pr-270-infra-80">메뉴 꺼짐, 메뉴 없음 화면 삭제 (PR #270, Infra #80)<a class="headerlink" href="#pr-270-infra-80" title="Permanent link">&para;</a></h2>
+<p>Infra #80 B 결정(메뉴가 꺼졌거나 메뉴 등록이 없는 화면은 삭제)에 따라 화면 20개와 죽은 코드를 걷어냈다. 백엔드 엔드포인트 정리는 BE PR 별도.</p>
+<ul>
+<li>화면 삭제</li>
+<li>CMS: <code>CmsJwtMgt</code>, <code>CmsSvcRoleMgt</code>, <code>CmsMyPage</code></li>
+<li>MDM 코드: <code>MdmContainerMgt</code>, <code>MdmCountryMgt</code>, <code>MdmCurrencyMgt</code>, <code>MdmCustomsMgt</code>, <code>MdmExrateMgt</code>, <code>MdmFrequentlyUsedPhraseMgt</code>, <code>MdmPackageUnitMgt</code>, <code>MdmPortMgt</code>, <code>MdmWarehouseMgt</code>, <code>MdmHscodeMgt</code>, <code>MdmTariffMgt</code></li>
+<li>MDM 고객/조직: <code>MdmCustomerMgt</code>, <code>MdmCustomerSearch</code>, <code>MdmOrganizationMgt</code></li>
+<li><code>MdmCustomerCdPopup</code>: <code>MdmCustomerMgt</code> 만 열던 팝업</li>
+<li>CSM: <code>CsmRequestList</code>, <code>CsmRequestMgt</code> (CSM 모듈 전체)</li>
+<li>죽은 코드 삭제</li>
+<li><code>EGridLayoutAddon</code> 컴포넌트: 실화면 사용처 0(<code>pages/dev</code> 그리드 샘플에서만 사용, 샘플의 사용 한 줄도 제거)</li>
+<li><code>http.findMyId</code>: 호출처 0</li>
+<li><code>CodeService</code> 의 <code>#ROLE_ID</code> 코드 요청: 사용처 0</li>
+<li>삭제로 생긴 고아 정리</li>
+<li><code>dev-extreme.ts</code>: <code>dx-drop-down-box</code> 전역 등록과 <code>DropDownBox</code> 기본옵션 제거(<code>EGridLayoutAddon</code> 만 쓰던 것)</li>
+<li><code>EHtmlEditor</code>, <code>ENumberTextArea</code>, <code>dev-extreme.ts</code> 주석의 소비 화면 목록에서 삭제 화면 제거</li>
+<li>문서</li>
+<li>사용자 매뉴얼: <code>modules/csm.md</code> 삭제, <code>mdm.md</code>, <code>cms.md</code> 화면 표에서 삭제 화면 제거</li>
+<li>트러블슈팅 18절의 <code>CsmRequestMgt</code> 예시 제거</li>
+<li>남긴 것: <code>UserDashBoard</code>, <code>MdmNoticePopup</code>, <code>MdmCorpMgt</code>, <code>CmsUserMgt</code>, <code>CmsDocumentPopup</code> 은 그대로 둔다.</li>
+</ul>
 <h2 id="pr-269">로그인 화면에서 옛 번들이면 바로 새로고침 (PR #269)<a class="headerlink" href="#pr-269" title="Permanent link">&para;</a></h2>
 <p>2026-10-13 09:34, 협력사 계정이 <strong>이미 삭제된 엔드포인트</strong>를 호출해 500(<code>NoHandlerFoundException</code>)이 났다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>POST /api/vendor/comm/selectVendorCommonProcedure
