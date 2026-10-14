@@ -934,10 +934,27 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="AgGridAdapter 구조와 알려진 동작">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        입력 칸 자리수 — 붙여넣기까지 막기
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         검색 영역 규약
@@ -960,7 +977,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         검색 텍스트박스 — 앞뒤 공백 제거
@@ -976,7 +993,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         새 화면 추가 체크리스트
@@ -1712,10 +1729,27 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="AgGridAdapter 구조와 알려진 동작">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        입력 칸 자리수 — 붙여넣기까지 막기
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         검색 영역 규약
@@ -1738,7 +1772,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         검색 텍스트박스 — 앞뒤 공백 제거
@@ -1754,7 +1788,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         새 화면 추가 체크리스트
@@ -2011,7 +2045,9 @@
 </ul>
 </li>
 </ul>
-<h2 id="_4">검색 영역 규약<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_4">입력 칸 자리수 — 붙여넣기까지 막기<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>편집 가능한 문자 칸에 규격(자리수)이 있으면 에디터 <code>maxLength</code> 와 함께 <strong>컬럼 <code>valueSetter: ValueSetter.maxLength(n)</code></strong> 을 단다. 셀을 선택한 상태의 Ctrl+V 는 에디터를 거치지 않아 <code>maxLength</code> 와 코드박스 검사를 모두 건너뛰고, 넘친 값은 저장 프로시저에서 원인을 알 수 없는 <code>ORA-06502</code> 로 터진다. 자리수 기준과 적용 현황은 <a href="../troubleshooting/">트러블슈팅 39</a>.</p>
+<h2 id="_5">검색 영역 규약<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <h3 id="fromto">기간(From/To) 날짜 쌍 — 자동 맞춤<a class="headerlink" href="#fromto" title="Permanent link">&para;</a></h3>
 <p>두 날짜 중 하나를 바꿔 From &gt; To 가 되면 <strong>둘 다 방금 고른 날짜로 조용히 맞춘다</strong>(안내 문구 없음). 모든 화면이 이 동작으로 통일돼 있다(FE #262).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">e-date-box</span> <span class="na">v-model</span><span class="o">=</span><span class="s">"</span><span class="nx">search</span><span class="p">.</span><span class="nx">FM_DT</span><span class="s">"</span> <span class="p">:</span><span class="na">on-enter-key</span><span class="o">=</span><span class="s">"</span><span class="nx">fnSearch</span><span class="s">"</span> <span class="p">@</span><span class="na">change</span><span class="o">=</span><span class="s">"</span><span class="nx">fnDateValidation</span><span class="s">"</span><span class="p">/&gt;</span>
@@ -2030,20 +2066,21 @@
 <li>두 박스 <strong>모두</strong>에 연결한다. 필드명을 다른 화면에서 복사해 올 때 이 화면의 v-model 이름(<code>FMDT</code>/<code>FRDT</code>/<code>FM_DT</code>/<code>FROM_DT</code> 등)과 맞는지 확인한다.</li>
 <li>조회 시점의 From &gt; To 경고(<code>MSG000047</code>)는 두어도 되지만, 자동 맞춤 때문에 화면에선 거의 도달하지 않는다.</li>
 </ul>
-<h3 id="_5">검색 텍스트박스 — 앞뒤 공백 제거<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_6">검색 텍스트박스 — 앞뒤 공백 제거<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p><code>&lt;e-content-layout&gt;</code>/<code>&lt;e-dialog-layout&gt;</code> 의 <code>#search</code> 슬롯 안에 있는 <code>dx-text-box</code>, <code>e-code-box</code> 는 <strong>v-model 로 넘기는 값의 앞뒤 공백을 자동으로 지운다</strong>(가운데 공백은 유지, FE #263). 화면에서 할 일은 없다. 원리는 <a href="../components/">컴포넌트 문서</a>의 <code>&lt;e-search-area&gt;</code> 절.</p>
 <ul>
 <li>조회 입력칸을 <code>#search</code> 밖(예: <code>#content</code>)에 두는 화면은 <code>&lt;e-search-area&gt;</code> 로 직접 감싼다(예: <code>MdmNotice</code>).</li>
 <li>조회 파라미터는 <strong>v-model 값</strong>을 쓴다. <code>:on-value-changed</code> 콜백의 <code>e.value</code> 는 위젯 원본이라 잘리지 않는다.</li>
 <li>검색 영역 밖(저장용 입력 폼)은 공백을 그대로 둔다.</li>
 </ul>
-<h2 id="_6">새 화면 추가 체크리스트<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">새 화면 추가 체크리스트<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <ol>
 <li><code>src/pages/&lt;module&gt;/&lt;Screen&gt;/index.vue</code> 생성(+ 필요 시 <code>dataset.js</code>).</li>
 <li><code>mixins: [ pageMixin ]</code> 적용, 필요한 공통코드는 <code>codeData()</code> 에 선언.</li>
 <li>그리드는 <code>fnGetXxxGridOptions()</code> 로 컬럼 정의 후 <code>AgGridAdapter.of(...)</code>.
    검색 기간 날짜 쌍이 있으면 위 <strong>검색 영역 규약</strong>대로 두 박스에 <code>@change</code> 를 연결한다.
-   조회 결과 반영은 위 <strong>조회 결과 처리(0건 규약)</strong> 절을 따릅니다(<code>setItems</code> 는 조건 밖, 0건은 <code>$notify.warn</code>).</li>
+   조회 결과 반영은 위 <strong>조회 결과 처리(0건 규약)</strong> 절을 따릅니다(<code>setItems</code> 는 조건 밖, 0건은 <code>$notify.warn</code>).
+   자리수가 있는 입력 칸은 위 <strong>입력 칸 자리수</strong> 절대로 <code>ValueSetter.maxLength</code> 를 단다.</li>
 <li>메뉴 노출은 백엔드 <code>menuMap</code>(MENU_PATH=<code>/module/Screen</code>, MENU_NM) 등록 필요 — 프론트만 추가하면 메뉴/제목이 안 잡힙니다.</li>
 <li>push → 배포 시 <a href="../reference/screens/">화면 인벤토리</a>에 자동 반영.</li>
 </ol>

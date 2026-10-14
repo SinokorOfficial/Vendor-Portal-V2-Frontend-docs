@@ -1925,6 +1925,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#39-ora-06502" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        39. 화면에서는 못 넣는 값으로 저장이 ORA-06502 로 실패한다 (그리드 붙여넣기)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2904,6 +2915,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#39-ora-06502" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        39. 화면에서는 못 넣는 값으로 저장이 ORA-06502 로 실패한다 (그리드 붙여넣기)
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3634,6 +3656,65 @@
 <li>탭은 keep-alive 라 이전 화면이 숨은 채 DOM 에 남는다 → 선택자에 <code>:visible</code> 을 붙인다. 같은 화면을 다시 열면 이전 값이 남아 있으니, 초기값이 필요한 확인은 그 화면을 처음 열었을 때 먼저 한다.</li>
 <li>브라우저 하나, 로그인 한 번으로 화면을 이어서 열면 화면당 10초 안팎이다(화면마다 브라우저를 새로 띄우면 1~2분).</li>
 <li>권한 없는 화면은 테스트 계정에 <code>.100</code> 에서 역할을 잠시 붙였다가 반드시 원복한다.</li>
+</ul>
+<h2 id="39-ora-06502">39. 화면에서는 못 넣는 값으로 저장이 <code>ORA-06502</code> 로 실패한다 (그리드 붙여넣기)<a class="headerlink" href="#39-ora-06502" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>증상</strong>: 저장 시 <code>Please contact IT Team. (ORA-06502: PL/SQL: 수치 또는 값 오류)</code>. 사용자는 무엇이 잘못됐는지 알 수 없다. 에러 로그 PAYLOAD 를 보면 칸 규격을 넘는 값이 들어 있다 — 2026-10-13 <code>CrsEstimate</code> REP 칸에 <code>WWWW</code>(정상 코드 <code>WW</code>, 2자).</li>
+<li><strong>유입 경로</strong>: 셀을 <strong>선택만 한 상태에서 Ctrl+V</strong> 하면 ag-grid(enterprise 클립보드)가 셀 에디터를 거치지 않고 셀 값에 바로 쓴다. 그래서 에디터 쪽 방어가 전부 무력하다.<ul>
+<li>에디터 <code>maxLength</code> — 타이핑만 막는다</li>
+<li>코드박스 조회, 그리고 마스터에 없는 값을 비우는 <code>codeBoxGuard</code>(2026-09-08 <code>PIP</code> 사고 조치) — 에디터가 열려야 동작한다</li>
+</ul>
+</li>
+<li><strong>왜 메시지가 뭉개지나</strong>: 저장 프로시저는 입력 커서를 <code>TMP_*%rowtype</code> 으로 fetch 한 <strong>다음에</strong> 값을 검사한다. 칸보다 긴 값은 fetch 에서 먼저 터져 공통 예외(<code>pkg_cm.sp_get_err</code>)로 빠진다. 자리수 안의 틀린 코드는 프로시저 검사까지 가서 <code>ZZ - Repair Code Error</code> 처럼 정확한 문구가 나간다 — <strong>문제는 자리수 초과뿐이다.</strong></li>
+<li><strong>해결</strong>: 컬럼에 <code>valueSetter: ValueSetter.maxLength(n)</code>. 셀 값을 쓰는 모든 경로(에디터, 붙여넣기, <code>setDataValue</code>)가 이 세터를 지나므로 붙여넣기까지 막힌다. 넘치면 <code>MSG000435</code>(<code>{0}자를 초과하여 입력할 수 없습니다.</code>) 경고 후 기존 값을 유지한다.
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="nx">field</span><span class="o">:</span><span class="w"> </span><span class="s1">'REPAIR_CODE'</span><span class="p">,</span><span class="w"> </span><span class="nx">headerName</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">$lang</span><span class="p">(</span><span class="w"> </span><span class="s1">'REP'</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">70</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nx">valueSetter</span><span class="o">:</span><span class="w"> </span><span class="nx">ValueSetter</span><span class="p">.</span><span class="nx">maxLength</span><span class="p">(</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="p">),</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nx">cellEditorFramework</span><span class="o">:</span><span class="w"> </span><span class="nx">AgCodeBoxEditor</span><span class="p">,</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">}</span>
+</code></pre></div></li>
+<li>
+<p><strong>적용 현황</strong></p>
+<table>
+<thead>
+<tr>
+<th>화면</th>
+<th>컬럼(자리수)</th>
+<th>PR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FdsVslPopup</code></td>
+<td>VSL_CD 4</td>
+<td>#207</td>
+</tr>
+<tr>
+<td><code>CrsEstimate</code> 상세</td>
+<td>CMP 3, DMG 2, LOC 4, REP 2</td>
+<td>#271</td>
+</tr>
+<tr>
+<td><code>CrsEstUploadExl</code></td>
+<td>Container No. 11, CMP 3, DMG 2, LOC 4, REP 2</td>
+<td>#271</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>다른 화면에 넓힐 때</strong></p>
+<ul>
+<li><strong>대상</strong>: 편집 가능한 문자 칸 중 규격이 짧은 것 — 코드박스 칸(<code>AgCodeBoxEditor</code>, 2026-10 기준 23화면 77곳)과 에디터에 <code>maxLength</code> 를 준 칸이 1순위다.</li>
+<li><strong>자리수는 저장 프로시저가 fetch 하는 임시 테이블 기준</strong>으로 정한다. 업무 테이블이나 코드 마스터보다 짧을 수 있다. <code>.100</code> 에서 <code>ALL_TAB_COLUMNS</code> 로 확인한다(예: <code>TMP_CRS_EST.REPAIR_CODE VARCHAR2(2)</code>).</li>
+<li>에디터에 <code>maxLength</code> 가 이미 있으면 같은 값으로 맞춘다(둘이 다르면 타이핑과 붙여넣기의 한도가 달라진다).</li>
+<li><strong>문자 수 기준</strong>이다. 한글, 태국 문자처럼 멀티바이트가 들어올 수 있는 칸은 바이트 한도와 다르므로 저장 전 검사(<code>ValidateUtil</code>)를 따로 둔다.</li>
+<li><strong>엑셀 업로드로 읽어 들인 행은 세터를 타지 않는다</strong>(<code>setItems</code>). 업로드 화면은 저장 전 검사가 별도로 필요하다 — <code>CrsEstUploadExl</code> 은 <code>ValidateUtil.isAlnum(값, n)</code> 이 같은 자리수로 막는다.</li>
+</ul>
+</li>
+<li><strong>조사 팁</strong>: "화면에서는 입력이 안 되는 값으로 ORA-06502" 가 오면 붙여넣기를 1순위로 본다. 에러 로그 PAYLOAD 의 입력 커서 값과 임시 테이블 컬럼 길이를 대조하면 칸이 특정된다.</li>
+<li><strong>근거</strong>: <code>src/util/ag-grid/value/ValueSetter.ts</code>(<code>maxLength</code>), <code>src/util/ag-grid/grid/codeBoxGuard.ts</code>.</li>
 </ul>
 
 
