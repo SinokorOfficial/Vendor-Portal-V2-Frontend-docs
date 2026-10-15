@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#sendsipg-pr-275-infra-88" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 /sendSIPG 외부 중계 경로 제거 (PR #275, Infra #88)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-270-infra-80" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1815,6 +1826,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#sendsipg-pr-275-infra-88" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 /sendSIPG 외부 중계 경로 제거 (PR #275, Infra #88)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-270-infra-80" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2162,6 +2184,24 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="sendsipg-pr-275-infra-88">쓰지 않는 /sendSIPG 외부 중계 경로 제거 (PR #275, Infra #88)<a class="headerlink" href="#sendsipg-pr-275-infra-88" title="Permanent link">&para;</a></h2>
+<p><code>nginx.conf</code> 의 <code>location /sendSIPG</code> 는 공개 도메인으로 들어온 요청을 인증 없이 외부 SIPG ESB(<code>https://esb.sipg.com.cn/ParaEsb</code>)로 그대로 넘기고 있었다. 쓰는 곳이 없어 걷어냈다(Infra #88 의 6번).</p>
+<ul>
+<li>근거<ul>
+<li>프론트 소스에서 이 경로를 부르는 곳 0건(git 이력 전체). 이력 전체에서 이 경로는 <code>vite.config.ts</code>, <code>nginx.conf</code>, 문서에만 있었다.</li>
+<li>운영 nginx 접근 로그 최근 30일 0건.</li>
+<li>백엔드 EIR 연동은 브라우저를 거치지 않고 서버가 다른 호스트를 직접 부른다. 화면(<code>EirImportIssue</code>, <code>EirExportIssue</code>, <code>EirResponseLog</code>)의 SIPG 관련 호출은 전부 <code>/api</code> 백엔드 API 다.</li>
+</ul>
+</li>
+<li>제거<ul>
+<li><code>nginx.conf</code>: <code>location /sendSIPG</code> 블록, CSP <code>connect-src</code> 근거 주석의 <code>/sendSIPG</code> 언급</li>
+<li><code>vite.config.ts</code>: dev 프록시 <code>/sendSIPG</code></li>
+<li>문서: <code>README.md</code> dev 프록시 표와 배포 절의 nginx 설명, <code>http-api.md</code> 의 "그 외 프록시"</li>
+</ul>
+</li>
+<li>제거 뒤 <code>/sendSIPG…</code> 요청은 <code>location /</code> 의 SPA 폴백을 타서 <code>index.html</code> 을 받는다. 외부로 나가는 요청은 없다.</li>
+<li>검증: <code>eslint .</code> 종료 코드 0, <code>vue-tsc --noEmit</code> 0, <code>vite build</code> 0, 빌드 산출물에 <code>sendSIPG</code>/<code>ParaEsb</code>/<code>esb.sipg</code> 문자열 0건, envsubst 치환본으로 <code>nginx:alpine</code> 에서 <code>nginx -t</code> 통과.</li>
+</ul>
 <h2 id="pr-270-infra-80">메뉴 꺼짐, 메뉴 없음 화면 삭제 (PR #270, Infra #80)<a class="headerlink" href="#pr-270-infra-80" title="Permanent link">&para;</a></h2>
 <p>Infra #80 B 결정(메뉴가 꺼졌거나 메뉴 등록이 없는 화면은 삭제)에 따라 화면 20개와 죽은 코드를 걷어냈다. 백엔드 엔드포인트 정리는 BE PR 별도.</p>
 <ul>
