@@ -1491,6 +1491,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci-pr-280-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        단위 테스트를 CI 와 배포 빌드에서 실행 (PR #280, Infra #89)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sendsipg-pr-275-infra-88" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2115,6 +2126,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ci-pr-280-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        단위 테스트를 CI 와 배포 빌드에서 실행 (PR #280, Infra #89)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#sendsipg-pr-275-infra-88" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2557,6 +2579,15 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">data</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">headerName</span><span class="p">,</span><span class="w"> </span><span class="n">cellValue</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">formatter</span><span class="p">.</span><span class="na">formatCellValue</span><span class="p">(</span><span class="n">cursor</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">);</span>
 </code></pre></div>
 <p><code>isEmpty</code> 는 문자열에 대해서는 정확히 동작한다(<code>"0"</code> → <code>false</code>, <code>""</code> → <code>true</code>). 반면 <strong>그리드 행</strong>은 <code>AgNumberBoxEditor</code> 로 편집하면 값이 숫자가 될 수 있어, <code>fnSaveValidation</code> 쪽은 지금처럼 <code>?.toString()</code> 이 <strong>반드시 필요</strong>하다. 두 함수가 서로 다른 것은 실수가 아니라 입력이 다르기 때문이다.</p>
+<h2 id="ci-pr-280-infra-89">단위 테스트를 CI 와 배포 빌드에서 실행 (PR #280, Infra #89)<a class="headerlink" href="#ci-pr-280-infra-89" title="Permanent link">&para;</a></h2>
+<p>프론트 단위 테스트(vitest, <code>src/**/__tests__</code> 16파일 161건)가 어느 파이프라인에서도 돌지 않고 있었다. CI 는 lint 와 build 만, Dockerfile 도 lint 와 build 만 했다.</p>
+<ul>
+<li><code>ci.yml</code>: lint 다음에 <code>npm test</code> 단계를 넣었다. Trivy 결과는 표를 파일로 받아 실행 화면의 <strong>Summary(요약)</strong> 에도 남긴다(로그를 열지 않아도 보이게). 없는 <code>dev</code> 브랜치를 PR 대상에서 뺐다.</li>
+<li><code>Dockerfile</code>: 빌드 스테이지에 <code>RUN npm test</code> 를 넣었다. CI 는 브랜치 보호가 없어 머지를 막지 못하므로, 테스트가 실패하면 이미지 빌드가 깨져 배포가 중단되게 했다(lint 와 같은 방식).</li>
+<li><code>deploy.yml</code>: 낡은 "minReplicas=0" 주석을 실제(상시 2대)에 맞게 고쳤다.</li>
+<li><code>vitest.setup.ts</code>(신규): CI 에서 테스트는 다 통과하는데 <code>window.getComputedStyle is not a function</code>(Unhandled Error)로 실패했다. jsdom 에 테마 CSS 가 없어 DevExtreme 이 테마 로드를 10ms 간격 타이머로 최대 15초 기다리고, 테스트 파일이 먼저 끝나 jsdom 이 정리된 뒤 그 타이머가 돈 것이다. jsdom 테스트에서만 대기 시간을 0 으로 둔다(위젯이 쓰는 cjs 인스턴스를 require 로 잡음). 확인: 위젯을 띄운 뒤 200ms 동안 테마 확인 호출이 20회 → 0회.</li>
+<li>취약점 메일 알림은 Dependabot alerts 가 맡는다(2026-10-19 프론트, 백엔드 레포에서 켬).</li>
+</ul>
 <h2 id="sendsipg-pr-275-infra-88">쓰지 않는 /sendSIPG 외부 중계 경로 제거 (PR #275, Infra #88)<a class="headerlink" href="#sendsipg-pr-275-infra-88" title="Permanent link">&para;</a></h2>
 <p><code>nginx.conf</code> 의 <code>location /sendSIPG</code> 는 공개 도메인으로 들어온 요청을 인증 없이 외부 SIPG ESB(<code>https://esb.sipg.com.cn/ParaEsb</code>)로 그대로 넘기고 있었다. 쓰는 곳이 없어 걷어냈다(Infra #88 의 6번).</p>
 <ul>
