@@ -1775,12 +1775,10 @@
 <td><code>http.multipart(url, form, cfg?)</code></td>
 <td>multipart 업로드용 <code>$post</code> 래퍼. <strong>파일 업로드는 반드시 이 헬퍼</strong>를 쓴다</td>
 </tr>
-<tr>
-<td><code>http.fileDown({ FILE_SN })</code></td>
-<td><code>/api/file/downloadFileNas</code>. <code>FILE_SN</code> 이 비면 <strong>중앙에서 차단</strong>하고 <code>MSG000397</code> 로 거절한다</td>
-</tr>
 </tbody>
 </table>
+<p><code>multipart</code> 는 보내기 전에 <strong>크기(50MB)와 개수(200장)</strong> 를 검사해 넘으면 요청을 만들지 않고 reject 한다. 상한과 문구는 <code>~/util/service/uploadSize</code> 한 곳에 있고, 파일이 실리는 요청은 예외 없이 이 함수를 지나므로 <code>FileService</code> 경유든 화면 직접 호출이든 전부 덮인다 — 자세한 내용은 <a href="../components/">공통 컴포넌트</a> 의 <em>업로드 사전검증</em> 절.
+| <code>http.fileDown({ FILE_SN })</code> | <code>/api/file/downloadFileNas</code>. <code>FILE_SN</code> 이 비면 <strong>중앙에서 차단</strong>하고 <code>MSG000397</code> 로 거절한다 |</p>
 <p>업로드할 <strong>파일을 고르는 것</strong>은 <code>FileService.select()</code> 를 쓴다 — 화면 템플릿에 <code>&lt;input type="file"&gt;</code> 을 두지 않는다. 이유와 주의는 <a href="../components/">공통 컴포넌트</a> 의 <em>화면이 직접 파일을 고를 때</em> 절에 있다.</p>
 <p><code>$post</code> 는 <code>auth</code>/<code>ui</code> 스토어에서 사용자/회사/고객 컨텍스트를 읽어 <strong>요청 본문 파라미터</strong>로 넣어줍니다(헤더 아님). 일반 조회/저장은 대부분 <code>$post</code> 를 씁니다.</p>
 <h2 id="_2">요청 처리 (인터셉터)<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>

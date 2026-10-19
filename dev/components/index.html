@@ -967,10 +967,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#50mb" class="md-nav__link">
+  <a href="#50mb-200" class="md-nav__link">
     <span class="md-ellipsis">
       
-        업로드 크기 사전검증 (50MB)
+        업로드 사전검증 — 크기(50MB)와 개수(200장)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 뒤 — 일부만 실패했을 때
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        루프로 올리는 화면은 동시 수를 묶는다
       
     </span>
   </a>
@@ -989,7 +1011,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         스테이징 모드
@@ -1028,7 +1050,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         권한 구분은 메서드로 한다
@@ -1762,10 +1784,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#50mb" class="md-nav__link">
+  <a href="#50mb-200" class="md-nav__link">
     <span class="md-ellipsis">
       
-        업로드 크기 사전검증 (50MB)
+        업로드 사전검증 — 크기(50MB)와 개수(200장)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        업로드 뒤 — 일부만 실패했을 때
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        루프로 올리는 화면은 동시 수를 묶는다
       
     </span>
   </a>
@@ -1784,7 +1828,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       
         스테이징 모드
@@ -1823,7 +1867,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       
         권한 구분은 메서드로 한다
@@ -2103,9 +2147,33 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 삭제하지 못한 항목을 응답으로 돌려준다(컴포넌트가 경고로 알린다).</p>
 <p>기본값이 <code>false</code> 인 이유는 켜는 순간 그 화면의 행 선택 방식이 바뀌기 때문이다. 첨부가 여러 건 붙는
 화면(<code>CmsFileUploadPopup</code>)만 켜져 있다.</p>
-<h4 id="50mb">업로드 크기 사전검증 (50MB)<a class="headerlink" href="#50mb" title="Permanent link">&para;</a></h4>
-<p>업로드 상한의 <strong>정본은 운영 nginx 의 <code>client_max_body_size 50m</code></strong>(<code>frontend/nginx.conf</code>)다. 백엔드 <code>spring.servlet.multipart</code> 는 1000MB 지만 nginx 가 앞이라 실효값이 아니다.</p>
-<p>컴포넌트가 보내기 전에 두 단계로 거른다.</p>
+<h4 id="50mb-200">업로드 사전검증 — 크기(50MB)와 개수(200장)<a class="headerlink" href="#50mb-200" title="Permanent link">&para;</a></h4>
+<p>상한이 둘이고 <strong>출처가 다르다.</strong></p>
+<table>
+<thead>
+<tr>
+<th>상한</th>
+<th>정본</th>
+<th>넘기면</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>크기 50MB</strong></td>
+<td>운영 nginx <code>client_max_body_size 50m</code>(<code>frontend/nginx.conf</code>)</td>
+<td>nginx 가 <strong>413 을 HTML 로</strong> 끊는다</td>
+</tr>
+<tr>
+<td><strong>개수 200장</strong></td>
+<td>Tomcat <code>server.tomcat.max-part-count</code>(백엔드 210)</td>
+<td>Spring 이 <strong>"용량 초과" 로 둔갑시킨다</strong> ↓</td>
+</tr>
+</tbody>
+</table>
+<p>백엔드 <code>spring.servlet.multipart</code> 는 1000MB 지만 nginx 가 앞이라 실효값이 아니다.</p>
+<p>★<strong>개수 초과가 "Maximum upload size exceeded" 로 뜬다.</strong> Tomcat 의 <code>FileCountLimitExceededException</code> 을 Spring 이 메시지의 <code>count</code>·<code>limit</code>·<code>exceed</code> 를 보고 <code>MaxUploadSizeExceededException</code> 으로 바꾸기 때문이다. 2026-10-16 에 <code>FdsInvoice</code> 가 <strong>7MB</strong> 로 7건 막혔는데 용량 문제가 아니었다(같은 기간 단일 파일 49.7MB 는 정상). 사용자가 압축하거나 화질을 낮춰도 안 풀리므로 <strong>프론트에서 먼저 막아 사유를 제대로 알린다.</strong></p>
+<p>프론트 상한(200)은 서버(210)보다 <strong>항상 낮아야 한다</strong> — 본문은 <code>파일 N개 + param 1개</code> 이고, 서버가 먼저 걸리면 사유를 알 수 없는 에러가 된다.</p>
+<p>컴포넌트가 보내기 전에 거르는 것:</p>
 <table>
 <thead>
 <tr>
@@ -2125,12 +2193,37 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <td>통째로 차단</td>
 <td><code>MSG000433</code> (합계 용량)</td>
 </tr>
+<tr>
+<td>한 요청 <strong>개수 &gt; 200</strong></td>
+<td>통째로 차단</td>
+<td><code>MSG000447</code> (상한 + 선택 장수)</td>
+</tr>
 </tbody>
 </table>
 <p>합계까지 보는 이유는 <code>FileService</code> 가 <strong>선택한 파일 전부를 하나의 multipart 요청</strong>으로 묶기 때문이다(<code>appendFile('files', file)</code> × N → <code>multipart()</code> 1회). 개별이 다 통과해도 합계가 넘으면 그대로 413 이다.</p>
 <p><code>staging</code> 모드에서는 <strong>파일 1건 검증만</strong> 돈다. 스테이징 화면(<code>CrsFileUploadPopup</code>)은 모아둔 파일을 1건씩 별도 요청으로 보내므로 합계가 상한에 걸리지 않는다.</p>
-<p><strong>컴포넌트를 안 거치는 업로드도 막힌다.</strong> 상한·문구는 <code>~/util/service/uploadSize</code> 한 곳에 있고, 최종 검증은 <strong><code>http.multipart</code></strong> 가 한다. 파일이 실리는 요청은 예외 없이 그 함수를 지나므로 — <code>FileService</code> 경유(첨부·매뉴얼)든 화면이 <code>$axios.multipart</code> 를 직접 부르는 경로(엑셀 업로드·환율·메일)든 — 한 곳으로 전부 덮인다. 호출부가 전부 <code>.catch(error =&gt; this.$message.error(error.message))</code> 라 문구가 그대로 뜬다.</p>
+<p><strong>컴포넌트를 안 거치는 업로드도 막힌다.</strong> 상한·문구는 <code>~/util/service/uploadSize</code> 한 곳에 있고(개수 검사는 <strong>크기보다 먼저</strong> 본다 — 장수가 많으면 합계도 같이 넘기 쉬운데 사용자가 손쓸 수 있는 건 개수 쪽이다), 최종 검증은 <strong><code>http.multipart</code></strong> 가 한다. 파일이 실리는 요청은 예외 없이 그 함수를 지나므로 — <code>FileService</code> 경유(첨부·매뉴얼)든 화면이 <code>$axios.multipart</code> 를 직접 부르는 경로(엑셀 업로드·환율·메일)든 — 한 곳으로 전부 덮인다. 호출부가 전부 <code>.catch(error =&gt; this.$message.error(error.message))</code> 라 문구가 그대로 뜬다.</p>
 <p>둘의 차이는 <strong>초과분 처리</strong>뿐이다. 컴포넌트는 파일을 고르는 시점이라 <strong>초과분만 빼고 나머지는 올리고</strong>, <code>http.multipart</code> 는 <code>FormData</code> 가 이미 만들어진 뒤라 <strong>통째로 막는다</strong>. 합계는 JSON 파트(<code>appendJson</code> 의 Blob)까지 더한다 — nginx 는 파트를 가리지 않고 본문 전체를 보기 때문이다.</p>
+<h4 id="_4">업로드 뒤 — 일부만 실패했을 때<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p>백엔드는 <strong>성공한 파일만</strong> 돌려준다(BE #225). 종전엔 한 장이라도 전송에 실패하면 전부 롤백됐는데, 그러면 이미 NAS 에 올라간 파일이 <strong>고아</strong>로 남았다. 지금은 파일마다 전송 후 짧은 트랜잭션으로 커밋하므로 성공분이 그대로 남는다.</p>
+<p>⇒ 화면은 <strong>보낸 목록과 응답을 대조해</strong> 빠진 파일만 알려야 한다. 안 그러면 그리드에 행이 덜 붙은 채 성공처럼 보인다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">missing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">notUploadedNames</span><span class="p">(</span><span class="w"> </span><span class="nx">files</span><span class="p">,</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nx">missing</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">$message</span><span class="p">.</span><span class="nx">warning</span><span class="p">(</span><span class="w"> </span><span class="nx">notUploadedMessage</span><span class="p">(</span><span class="w"> </span><span class="nx">missing</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">   </span><span class="c1">// MSG000448</span>
+</code></pre></div>
+<p>★<code>notUploadedNames</code> 는 <strong>개수로 상계</strong>한다(Set 이 아니라). 같은 이름의 파일을 여러 장 고를 수 있다.</p>
+<p>전부 실패하면 서버가 예외를 던지므로 <code>.catch</code> 로 간다 — <strong>한 장만 보내는 화면은 종전과 동작이 같다.</strong></p>
+<p>적용: <code>e-attach-file-grid</code>, <code>CmsDocumentPopup</code>(다건을 한 요청에 싣는 두 곳).</p>
+<h4 id="_5">루프로 올리는 화면은 동시 수를 묶는다<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<p><code>CrsFileUploadPopup</code>(수리사진 자동매칭)은 <strong>파일 한 장당 별도 요청</strong>이다. 종전엔 <code>forEach</code> 안에서 <code>await</code> 없이 쏴 파일 수만큼 요청이 한꺼번에 나갔다 — 업로드 1건은 FTP 연결 <strong>2개</strong>(제어 + passive 데이터)를 새로 열므로 50장이면 순간 100개다.</p>
+<p>2026-10-19 운영 실측: 30초에 81건이 몰려 전송이 0.6초 → 1.3 → 3.8초로 밀리다 한 장이 <strong>16.6초</strong>에 실패했다(설정 타임아웃 어느 것과도 안 맞는다 — NAS 가 끊은 것). 버스트가 끝나자 <strong>381ms</strong> 로 복귀했다.</p>
+<p>워커 4개가 큐를 나눠 쓴다(<code>UPLOAD_CONCURRENCY</code>). 장당 0.4초대를 유지하므로 <strong>전체 소요는 오히려 짧아진다.</strong></p>
+<div class="admonition warning">
+<p class="admonition-title">포탈 미러(<code>SP_SET_FILE4PORTAL</code>)는 파일 단위가 아니다</p>
+<p><code>skr_doc_mst</code> 에서 그 <code>mngt_no</code> 행을 DELETE 하고(<strong>여기서 커밋</strong>) <code>tb_cms_atfile</code> 의 'RP' 첨부를 <strong>전량 다시 INSERT</strong> 한다. <code>p_file_nm</code> 은 로그에만 쓰인다.</p>
+<p>파일마다 부르면 ①같은 전량 재적재를 N 번 반복하고 ②DELETE 와 INSERT 사이 커밋 때문에 동시 호출이 겹치면 한쪽이 비운 사이 다른 쪽이 INSERT 해 <strong>미러가 어긋나며</strong> ③업로드 도중에 부르면 <strong>그 시점까지 올라간 파일만</strong> 실린다. 종전엔 셋 다 하고 있었다.</p>
+<p>⇒ <strong>업로드를 전부 끝낸 뒤, 성공분의 <code>ESTIMATE_NO</code> 를 distinct 해 견적당 한 번</strong>만 부른다.</p>
+<p>ℹ️견적이 여러 개여도 <strong>전부 올라간 뒤에</strong> 견적 수만큼 호출한다(견적별로 끝나는 대로 부르지 않는다). 견적별 즉시 호출은 잔여 장수를 정확히 세야 하고, 틀리면 ③이 그대로 재현된다. 대신 <strong>업로드 도중에 창을 닫으면 어느 견적도 미러되지 않는다</strong>(파일은 DB 에 있다). 2026-10-19 기준 <strong>현행 유지하고 관찰 중</strong> — 큰 배치에서 민원이 생기면 견적별 즉시로 바꾼다.</p>
+</div>
 <blockquote>
 <p>★<strong>로컬은 nginx 를 거치지 않는다</strong>(4050 vite 프록시 → 백엔드 직결). 이 사전검증이 없으면 로컬에서만 되는 업로드가 생기고, 운영에서는 nginx 가 413 을 <strong>HTML</strong> 로 돌려줘 화면에 정상 문구조차 못 띄운다.</p>
 </blockquote>
@@ -2139,43 +2232,43 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <h4 id="readonly">조회 전용 (<code>readonly</code>)<a class="headerlink" href="#readonly" title="Permanent link">&para;</a></h4>
 <p>첨부를 <strong>보기만</strong> 하는 화면(예: <code>CrsEstApproval</code> — 첨부 추가/삭제는 <code>CrsEstimate</code> 에서만 한다)은 <code>readonly</code> 로 쓴다.
 업로드 버튼·삭제 버튼·<code>&lt;input type=file&gt;</code> 이 사라지고 <code>onDrop</code> 도 막히며, 다운로드·뷰어 컬럼만 남는다.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="na">readonly</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="na">:mngt-no</span><span class="o">=</span><span class="s">"main.ESTIMATE_NO || ''"</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="na">:list-param</span><span class="o">=</span><span class="s">"fileListParam"</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">/&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="na">readonly</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="na">:mngt-no</span><span class="o">=</span><span class="s">"main.ESTIMATE_NO || ''"</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="na">:list-param</span><span class="o">=</span><span class="s">"fileListParam"</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">/&gt;</span>
 </code></pre></div>
 <p>업로드가 막힌 상태(<code>readonly</code> 또는 <code>can-upload="false"</code>)에서는 <strong>드롭존 워터마크(구름 아이콘)도 감춘다.</strong>
 드롭을 권하는 그림인데 실제로는 아무 일도 일어나지 않아 사용자를 헷갈리게 하기 때문이다.
 <code>CrsEstimate</code> 처럼 조건부로 막는 화면에서는 올릴 수 있게 된 순간 구름이 나타나 상태 표시 역할도 한다.</p>
-<h4 id="_4">스테이징 모드<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h4 id="_6">스테이징 모드<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
 <p>첨부 목록이 아니라 <strong>올리기 전 파일 목록</strong>을 다루는 화면(예: <code>CrsFileUploadPopup</code> 의 견적서 일괄 매칭 업로드)은 <code>staging</code> 으로 쓴다. 서버 조회·업로드·삭제를 끄고 <strong>드롭존·워터마크·확장자 검증·총건수만</strong> 재사용한다.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="na">ref</span><span class="o">=</span><span class="s">"attachGrid"</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="na">staging</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="na">:auto-load</span><span class="o">=</span><span class="s">"false"</span>     <span class="err">&lt;!</span><span class="na">--</span> <span class="na">서버</span> <span class="na">조회</span> <span class="na">안</span> <span class="na">함</span> <span class="na">--</span><span class="p">&gt;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    :can-delete="false"    <span class="cm">&lt;!-- 삭제 판단은 화면 몫 --&gt;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    :columns="fileColumns"
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    upload-viewable-only
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    @files-added="fnAttachFiles"
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>&gt;
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="p">&lt;</span><span class="nt">template</span> <span class="err">#</span><span class="na">actions</span><span class="p">&gt;</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="p">&lt;</span><span class="nt">e-grid-btn</span> <span class="na">button-type</span><span class="o">=</span><span class="s">"delete"</span> <span class="err">@</span><span class="na">click</span><span class="err">.</span><span class="na">stop</span><span class="o">=</span><span class="s">"fnDeleteRow"</span><span class="p">/&gt;</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">&lt;/</span><span class="nt">e-attach-file-grid</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="na">ref</span><span class="o">=</span><span class="s">"attachGrid"</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="na">staging</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="na">:auto-load</span><span class="o">=</span><span class="s">"false"</span>     <span class="err">&lt;!</span><span class="na">--</span> <span class="na">서버</span> <span class="na">조회</span> <span class="na">안</span> <span class="na">함</span> <span class="na">--</span><span class="p">&gt;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    :can-delete="false"    <span class="cm">&lt;!-- 삭제 판단은 화면 몫 --&gt;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    :columns="fileColumns"
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    upload-viewable-only
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    @files-added="fnAttachFiles"
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>&gt;
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="p">&lt;</span><span class="nt">template</span> <span class="err">#</span><span class="na">actions</span><span class="p">&gt;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="p">&lt;</span><span class="nt">e-grid-btn</span> <span class="na">button-type</span><span class="o">=</span><span class="s">"delete"</span> <span class="err">@</span><span class="na">click</span><span class="err">.</span><span class="na">stop</span><span class="o">=</span><span class="s">"fnDeleteRow"</span><span class="p">/&gt;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">&lt;/</span><span class="nt">e-attach-file-grid</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>행 조작은 <code>this.$refs.attachGrid.getAdapter()</code> 로 직접 한다. 총건수(<code>:total</code>)와 워터마크는 어댑터의 <code>getRowCount()</code> 를 읽는 반응형이라 화면이 행을 직접 넣어도 맞는다.</p>
 <p><strong>뷰어 판정의 정본은 공통코드 <code>TB_CMS_CD_DTL / MSTR_CD='FILE_EXT'</code>(화이트리스트)</strong> 다. 컴포넌트가 <code>/api/code/selectCommonCode</code> 로 모듈 단위 1회만 조회해 공유한다. 허용목록 밖이면 <code>MSG000400</code> 경고, <code>PDF</code> 는 <code>openPdfViewer</code>, 나머지(이미지·ZIP)는 캐러셀 새 창(<code>CmsImageCarouselPopup</code>)으로 연다. 확장자를 늘리려면 <strong>코드가 아니라 공통코드</strong>를 고친다.</p>
 <h3 id="fileserviceselect">화면이 직접 파일을 고를 때 — <code>FileService.select()</code><a class="headerlink" href="#fileserviceselect" title="Permanent link">&para;</a></h3>
 <p>첨부가 아니라 <strong>엑셀 업로드·템플릿 교체처럼 한 건짜리 업로드</strong>는 공통 컴포넌트를 쓰지 않는다. 이때 <strong>화면 템플릿에 <code>&lt;input type="file"&gt;</code> 을 두지 않는다.</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">FileService</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'~/util'</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">async</span><span class="w"> </span><span class="nx">fnExcelUpload</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">FileService</span><span class="p">.</span><span class="nx">select</span><span class="p">()</span><span class="w">          </span><span class="c1">// 고르지 않고 닫으면 null</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="nx">file</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">FormBuilder</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="w"> </span><span class="s1">'file'</span><span class="p">,</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="w"> </span><span class="s1">'type'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ESTIMATE'</span><span class="w"> </span><span class="p">).</span><span class="nx">build</span><span class="p">()</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">multipart</span><span class="p">(</span><span class="w"> </span><span class="s1">'/api/vms/comm/uploadExcel'</span><span class="p">,</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="p">)...</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">FileService</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'~/util'</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">async</span><span class="w"> </span><span class="nx">fnExcelUpload</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">FileService</span><span class="p">.</span><span class="nx">select</span><span class="p">()</span><span class="w">          </span><span class="c1">// 고르지 않고 닫으면 null</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="nx">file</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">FormBuilder</span><span class="p">().</span><span class="nx">append</span><span class="p">(</span><span class="w"> </span><span class="s1">'file'</span><span class="p">,</span><span class="w"> </span><span class="nx">file</span><span class="w"> </span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="w"> </span><span class="s1">'type'</span><span class="p">,</span><span class="w"> </span><span class="s1">'ESTIMATE'</span><span class="w"> </span><span class="p">).</span><span class="nx">build</span><span class="p">()</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">multipart</span><span class="p">(</span><span class="w"> </span><span class="s1">'/api/vms/comm/uploadExcel'</span><span class="p">,</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="p">)...</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
 </code></pre></div>
 <p><code>select()</code> 는 <strong>DOM 에 붙이지 않은</strong> <code>&lt;input&gt;</code> 을 그 자리에서 만들어 <code>.click()</code> 하고, 선택이 끝나면 버린다. 확장자를 제한하려면 인자로 넘긴다 — <code>FileService.select( 'application/vnd.ms-excel,...' )</code>.</p>
 <h4 id="input">왜 숨은 input 을 두지 않나<a class="headerlink" href="#input" title="Permanent link">&para;</a></h4>
@@ -2186,7 +2279,7 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 </ol>
 <p>실제로 <code>CrsEstUploadExl</code> 에서 협력사 계정이 업무 엑셀을 올리려다 <strong>관리자 전용 템플릿 업로드로 빠지는 일이 12회</strong> 났다(2026-09~10). 그 화면은 관리자 전용 input 이 업무용보다 앞에 있었다.</p>
 <p><code>select()</code> 로 바꾸면 핸들러가 DOM 리스너가 아니라 <strong>클로저</strong>라 밖에서 부를 수 없고, 집을 요소도 없다. 2026-10 기준 <code>src/pages</code> 에 숨은 file input 은 <strong>0개</strong>다(<code>&lt;e-attach-file-grid&gt;</code> 의 것만 남아 있고 그건 드롭존에 실제 요소가 필요하다).</p>
-<h4 id="_5">권한 구분은 메서드로 한다<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<h4 id="_7">권한 구분은 메서드로 한다<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
 <p>업무용과 관리자 전용을 <strong>DOM 요소가 아니라 호출 경로</strong>로 가른다.</p>
 <table>
 <thead>
