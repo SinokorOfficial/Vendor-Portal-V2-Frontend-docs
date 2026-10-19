@@ -1441,6 +1441,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#tes-pr-284-infra-87" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TES 저장 전 검사에 선사 전달, 일정 그리드 확정 행 삭제 차단과 행 추가 시 삭제 기록 유지 (PR #284, Infra #87)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TES 저장 전 검사에 선사 전달, 일정 그리드 확정 행 삭제 차단과 행 추가 시 삭제 기록 유지 (PR #284, Infra #87)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-halk-snko-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ① 저장 전 검사가 HALK 사용자도 SNKO 마스터로 돌았다 (1-2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-1-9-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ② 선사 확정 행도 일정 그리드에서 지워졌다 (1-9 ①)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-1-9-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ③ 행 추가가 앞서 지운 행의 삭제 기록을 지웠다 (1-9 ②)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-282-infra-87" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2126,6 +2176,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#tes-pr-284-infra-87" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TES 저장 전 검사에 선사 전달, 일정 그리드 확정 행 삭제 차단과 행 추가 시 삭제 기록 유지 (PR #284, Infra #87)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TES 저장 전 검사에 선사 전달, 일정 그리드 확정 행 삭제 차단과 행 추가 시 삭제 기록 유지 (PR #284, Infra #87)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-halk-snko-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ① 저장 전 검사가 HALK 사용자도 SNKO 마스터로 돌았다 (1-2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-1-9-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ② 선사 확정 행도 일정 그리드에서 지워졌다 (1-9 ①)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-1-9-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ③ 행 추가가 앞서 지운 행의 삭제 기록을 지웠다 (1-9 ②)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-282-infra-87" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2644,6 +2744,30 @@
 </ul>
 <h3 id="_5">이 변경이 덮지 않는 것<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>전송 실패 자체는 그대로 남는다. 기존 재시도(BE #184)는 <strong>접속 단계</strong>(<code>failed to create FTPClient</code>) 만 덮고, 전송 단계 실패는 재시도 대상이 아니다. 경합이 줄면 실패 빈도가 떨어질 뿐이다.</p>
+<h2 id="tes-pr-284-infra-87">TES 저장 전 검사에 선사 전달, 일정 그리드 확정 행 삭제 차단과 행 추가 시 삭제 기록 유지 (PR #284, Infra #87)<a class="headerlink" href="#tes-pr-284-infra-87" title="Permanent link">&para;</a></h2>
+<p>TES 비용 4화면(<code>TesInspExpn</code>, <code>TesTugExpn</code>, <code>TesLashingExpn</code>, <code>TesLineHandleExpn</code>)의 기존 버그 3건이다. 이관 때부터 있던 것이다.</p>
+<h3 id="1-halk-snko-1-2">① 저장 전 검사가 HALK 사용자도 SNKO 마스터로 돌았다 (1-2)<a class="headerlink" href="#1-halk-snko-1-2" title="Permanent link">&para;</a></h3>
+<p><code>uploadExcelChk</code> 를 <code>$axios.post</code>(봉투 없음)로 불러 <code>COMP_CD</code> 가 안 갔다. 백엔드 <code>compTable("")</code> 은 기본값 <code>LINER</code> 로 떨어져, HALK 전용 선박, 항구, 부두는 거절되고 SNKO 값은 통과했다.</p>
+<p><code>TesLineHandleExpn</code> 처럼 <code>$axios.$post</code> 로 바꿨다(3화면).</p>
+<ul>
+<li><code>$post</code> 는 본문에 <code>USER_ID</code>, <code>CORP_CD</code>, <code>COMP_CD</code>, <code>CUST_CD</code> 를 넣고 같은 <code>http.post</code> 를 부른다. 로딩, 알림, 에러 처리, 응답 모양(<code>res.data</code>)은 같다.</li>
+<li>백엔드(<code>VmsExcelChkFacade</code>)는 <code>TYPE</code>, <code>CHK_PASTED_LIST</code> 와 <code>COMP_CD</code>(스키마 선택)만 읽는다. 마스터 조회 SQL 의 조건 키(<code>SEARCH_KEYWORD</code>, <code>CODE</code>, <code>PORT</code>, <code>ADMIN_YN</code> 등)는 <code>$post</code> 가 넣지 않으므로 바뀌는 것은 스키마뿐이다.</li>
+</ul>
+<h3 id="2-1-9-1">② 선사 확정 행도 일정 그리드에서 지워졌다 (1-9 ①)<a class="headerlink" href="#2-1-9-1" title="Permanent link">&para;</a></h3>
+<p>삭제 함수가 <code>getSelectedRows()</code>(배열)에서 <code>item.LINEFIX</code> 를 읽어 늘 <code>undefined</code> 였다. 그래서 확정 검사가 한 번도 막지 못했다.</p>
+<p>선택 행 중 하나라도 <code>LINEFIX</code> 가 있으면 막는다(문구 <code>Unable to delete.</code> 그대로).</p>
+<p>일정 그리드 4개 끝에 숨은 컬럼 <code>{ field: 'LINEFIX', hide: true }</code> 를 넣었다. <code>getSelectedRows()</code> 는 행 데이터 객체를 통째로 돌려주므로(컬럼 정의로 거르지 않는다) 검사 자체에는 이 컬럼이 필요 없다.</p>
+<h3 id="3-1-9-2">③ 행 추가가 앞서 지운 행의 삭제 기록을 지웠다 (1-9 ②)<a class="headerlink" href="#3-1-9-2" title="Permanent link">&para;</a></h3>
+<p>행 추가가 선택 행 아래에 사본을 끼우려고 <code>clear()</code> 후 <code>setItems(getRows)</code> 로 다시 깔았다. <code>setItems</code> 는 변경분 캐시를 비우므로 "삭제 → 행 추가 → 저장" 이면 삭제(D)가 저장에 안 갔다. 저장이 <code>getRows()</code>(그리드 행)와 <code>getItems()</code>(캐시)를 합쳐 보내는데, 지운 행은 캐시에만 있기 때문이다.</p>
+<p>어댑터에 이미 있는 <code>insertItem(item, index)</code>(<code>applyTransaction({ add, addIndex })</code>)로 같은 자리에 끼운다. 캐시를 건드리지 않아 D 기록과 다른 행의 수정 기록이 남는다.</p>
+<ul>
+<li>끼우는 위치는 종전과 같다(<code>addIndex</code> 와 종전 <code>splice</code> 둘 다 모델 순서 기준).</li>
+<li>새 행의 <code>BATCH_FLAG</code> 는 <code>insertItem</code> 이 <code>I</code> 로 단다. 저장 때 4화면 모두 D 가 아닌 행을 <code>U</code> 로 바꿔 보내므로 서버에 가는 값은 같다.</li>
+<li>덕분에 "행 추가 → 그 행 삭제" 는 이제 아무것도 보내지 않는다. 종전에는 서버에 없는 행의 D 를 보냈다.</li>
+<li><code>setItems</code> 가 하던 선택 해제는 <code>deselectAll()</code> 로 유지한다. 안 하면 원본 행이 선택된 채로 남아, 이어서 누른 삭제가 원본과 새 행을 함께 지운다.</li>
+<li>새 행은 <code>LINEFIX</code> 를 비운다. 선택 행을 통째로 복사해 선사 확정 행에서 추가한 새 행이 확정 표시를 물려받아 편집과 삭제가 막혔기 때문이다. 확정 행에서도 행 추가는 된다(사용자 결정). <code>LINEFIX</code> 는 조회 때 그룹 인보이스의 확정 여부를 붙여 내려주는 값이라 저장 프로시저는 입력값을 읽지 않는다.</li>
+</ul>
+<p><code>AgGridAdapter.spec.ts</code> 에 이 흐름(삭제 → 끼우기 → 캐시 확인) 테스트 1개를 더했다. 어댑터 코드는 바꾸지 않았다.</p>
 <h2 id="pr-282-infra-87">단축키는 지금 보이는 탭에서만 발화 (PR #282, Infra #87)<a class="headerlink" href="#pr-282-infra-87" title="Permanent link">&para;</a></h2>
 <p>탭을 여러 개 열어 둔 채 <strong>Alt+Q 를 한 번 누르면 열린 탭 전부의 저장이 발화</strong>했다. 다른 단축키(Alt+F1 조회, Alt+1 출력, Alt+2 복사, Alt+W 신규)도 같다.</p>
 <h3 id="_6">원인<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
