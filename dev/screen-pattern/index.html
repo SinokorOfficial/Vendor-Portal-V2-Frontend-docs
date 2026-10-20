@@ -1978,10 +1978,8 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nx">PARAM</span><span class="o">:</span><span class="w"> </span><span class="p">{},</span><span class="w">          </span><span class="c1">// fnSearch 에서 채움</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nx">CURSOR</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">P_RS</span><span class="o">:</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// 출력 커서 → 결과 행</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">],</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="nx">SET_LOG</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="cm">/* 로그 적재 프로시저 */</span><span class="w"> </span><span class="p">],</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nx">DEL_LOG</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">]</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="package-procedure-infra-92"><code>PACKAGE</code> / <code>PROCEDURE</code> 는 문자열 리터럴로 (Infra #92)<a class="headerlink" href="#package-procedure-infra-92" title="Permanent link">&para;</a></h3>
 <p>빌드가 화면 코드의 <code>PACKAGE</code> / <code>PROCEDURE</code> 쌍을 모아 <strong>공통 프로시저 관문 허용 목록</strong>(<code>dist/proc-allowlist.json</code>)을 만든다. 백엔드는 이 목록에 있는 프로시저만 관문으로 실행한다. 사람이 등록하지 않는다 — dataset 에 적고 배포하면 허용된다.</p>
