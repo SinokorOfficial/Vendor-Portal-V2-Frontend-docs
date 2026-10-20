@@ -2212,7 +2212,7 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 </code></pre></div>
 <p>★<code>notUploadedNames</code> 는 <strong>개수로 상계</strong>한다(Set 이 아니라). 같은 이름의 파일을 여러 장 고를 수 있다.</p>
 <p>전부 실패하면 서버가 예외를 던지므로 <code>.catch</code> 로 간다 — <strong>한 장만 보내는 화면은 종전과 동작이 같다.</strong></p>
-<p>적용: <code>e-attach-file-grid</code>, <code>CmsDocumentPopup</code>(다건을 한 요청에 싣는 두 곳).</p>
+<p>적용: <code>e-attach-file-grid</code>(다건을 한 요청에 싣는 곳. 함께 쓰던 <code>CmsDocumentPopup</code> 은 2026-10-20 삭제).</p>
 <h4 id="_5">루프로 올리는 화면은 동시 수를 묶는다<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
 <p><code>CrsFileUploadPopup</code>(수리사진 자동매칭)은 <strong>파일 한 장당 별도 요청</strong>이다. 종전엔 <code>forEach</code> 안에서 <code>await</code> 없이 쏴 파일 수만큼 요청이 한꺼번에 나갔다 — 업로드 1건은 FTP 연결 <strong>2개</strong>(제어 + passive 데이터)를 새로 열므로 50장이면 순간 100개다.</p>
 <p>2026-10-19 운영 실측: 30초에 81건이 몰려 전송이 0.6초 → 1.3 → 3.8초로 밀리다 한 장이 <strong>16.6초</strong>에 실패했다(설정 타임아웃 어느 것과도 안 맞는다 — NAS 가 끊은 것). 버스트가 끝나자 <strong>381ms</strong> 로 복귀했다.</p>

@@ -1441,6 +1441,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cmsdocumentpopup-dev-pr-293-infra-85-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        옛 문서 첨부 팝업 CmsDocumentPopup 삭제, dev 견본은 표준 첨부 팝업으로 (PR #293, Infra #85 E)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-286-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2465,6 +2476,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cmsdocumentpopup-dev-pr-293-infra-85-e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        옛 문서 첨부 팝업 CmsDocumentPopup 삭제, dev 견본은 표준 첨부 팝업으로 (PR #293, Infra #85 E)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-286-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3358,6 +3380,14 @@
 <li>dataset <code>GET_MAILFORM</code>, 쓰는 곳이 없어진 <code>FormBuilder</code> import</li>
 </ul>
 <p>이메일 버튼(<code>fnOpenEmailPopup</code> → <code>CmsEmailPopup</code>)은 별개 경로라 그대로다.</p>
+<h2 id="cmsdocumentpopup-dev-pr-293-infra-85-e">옛 문서 첨부 팝업 <code>CmsDocumentPopup</code> 삭제, dev 견본은 표준 첨부 팝업으로 (PR #293, Infra #85 E)<a class="headerlink" href="#cmsdocumentpopup-dev-pr-293-infra-85-e" title="Permanent link">&para;</a></h2>
+<p><code>CmsDocumentPopup</code> 은 표준 첨부(<code>TB_CMS_ATFILE</code>)와 다른 옛 문서 첨부 테이블 <code>TB_CMS_DOC_FILE</code> 에 문서 종류(<code>#DOC_TP</code>)와 함께 저장하는 팝업이었다. FE #270 이 마지막 운영 opener 를 지운 뒤 개발자 견본(<code>dev/template/control</code>)만 열었다. 운영 90일 <code>save</code> 0건, <code>TB_CMS_DOC_FILE</code> 마지막 등록은 2024-04-29(<code>.100</code>). 사용자 결정(2026-10-20)으로 지웠다.</p>
+<ul>
+<li>팝업과 CodeService 의 <code>#DOC_TP</code>(이 팝업만 썼다)를 지웠다. 백엔드 엔드포인트 3개(<code>select</code>, <code>save</code>, <code>selectDocumentType</code>)와 매퍼는 BE #236 에서 지운다.</li>
+<li>dev 견본의 "파일첨부" 버튼은 업무 화면 7곳과 같은 표준 팝업 <code>CmsFileUploadPopup</code> 을 연다. 운영에도 있는 관리자 메뉴라 올리면 <strong>실제로 저장된다</strong>(업로드 소유 검사는 첨부도 견적도 그룹 인보이스도 없는 새 번호를 허용한다). 시험 데이터라는 게 드러나고 여러 번 올려도 겹치지 않게 관리번호를 <code>DEV-SAMPLE_&lt;열 때 시각 yyyyMMddHHmm&gt;</code> 으로 만든다.</li>
+<li>개발 문서 <code>components.md</code> 의 적용 위치 한 줄과 자동 생성 문서를 정리했다(화면 104 → 103).</li>
+</ul>
+<p><code>TB_CMS_DOC_FILE</code> 테이블과 기존 행은 DB 쪽이라 그대로 둔다.</p>
 <h2 id="pr-286-infra-92">공통 프로시저 관문 허용 목록을 빌드가 만든다 (PR #286, Infra #92)<a class="headerlink" href="#pr-286-infra-92" title="Permanent link">&para;</a></h2>
 <p>공통 프로시저 관문(<code>/api/vendor/comm/executeVendorCommonProcedure</code>)은 프로시저 이름을 받아 그대로 실행한다. 그래서 화면이 쓰지 않는 프로시저(사본, 테스트 패키지 포함)도 부를 수 있었다. 화면이 실제로 쓰는 것만 실행하게 하려면 허용 목록이 필요한데, <strong>패키지나 프로시저를 추가할 때마다 등록하는 일은 두지 않기로</strong> 했다(사용자 결정 2026-10-20). 목록은 빌드가 만든다.</p>
 <h3 id="pr">이 PR (프론트)<a class="headerlink" href="#pr" title="Permanent link">&para;</a></h3>
