@@ -1352,6 +1352,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#8-swiper-pr-287-infra-85-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        여는 코드가 없는 화면 8개 삭제, swiper 의존성 제거 (PR #287, Infra #85 A)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="여는 코드가 없는 화면 8개 삭제, swiper 의존성 제거 (PR #287, Infra #85 A)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#swiper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        swiper 제거
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DB 정리(사용자)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-286-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2237,6 +2276,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#8-swiper-pr-287-infra-85-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        여는 코드가 없는 화면 8개 삭제, swiper 의존성 제거 (PR #287, Infra #85 A)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="여는 코드가 없는 화면 8개 삭제, swiper 의존성 제거 (PR #287, Infra #85 A)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#swiper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        swiper 제거
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DB 정리(사용자)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-286-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3006,6 +3084,56 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="8-swiper-pr-287-infra-85-a">여는 코드가 없는 화면 8개 삭제, swiper 의존성 제거 (PR #287, Infra #85 A)<a class="headerlink" href="#8-swiper-pr-287-infra-85-a" title="Permanent link">&para;</a></h2>
+<p>2차 조사(Infra #85 A)에서 <strong>여는 코드가 0</strong>인 화면, 팝업 9개를 찾았다. 그중 <code>crs/CrsExpnChart</code> 는 필요해서 만들다 보류된 화면이라 남기고(사용자 결정), 나머지 8개를 지웠다.</p>
+<table>
+<thead>
+<tr>
+<th>화면</th>
+<th>상황</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tes/popup/TesInspExpnExcelUploadPopup</code></td>
+<td>V2 최초 커밋부터 여는 코드 0, 팝업 메뉴 행 0</td>
+</tr>
+<tr>
+<td><code>tes/popup/TesLashExpnExcelUploadPopup</code></td>
+<td>같음</td>
+</tr>
+<tr>
+<td><code>tes/popup/TesTugExpnExcelUploadPopup</code></td>
+<td>같음</td>
+</tr>
+<tr>
+<td><code>tes/popup/SetGroupInvoice</code></td>
+<td>같음</td>
+</tr>
+<tr>
+<td><code>tes/popup/TesInspExpnPopup</code></td>
+<td>같음. 열면 바로 TypeError(정의 없는 <code>getGridOptions</code>)</td>
+</tr>
+<tr>
+<td><code>cms/popup/CmsUsedPharsePopup</code></td>
+<td>부르는 <code>/api/fms/print/anDo/*</code> 가 백엔드에 없다</td>
+</tr>
+<tr>
+<td><code>cms/popup/CmsManualPopup</code></td>
+<td><code>/manual</code> 로 대체됐다</td>
+</tr>
+<tr>
+<td><code>cms/popup/CmsImageViewerOpenPopup</code></td>
+<td><code>CmsImageCarouselPopup</code> 으로 대체됐다</td>
+</tr>
+</tbody>
+</table>
+<p>남은 언급은 주석과 문서뿐이었다(직접 확인).</p>
+<h3 id="swiper">swiper 제거<a class="headerlink" href="#swiper" title="Permanent link">&para;</a></h3>
+<p><code>CmsImageViewerOpenPopup</code> 은 공용 컴포넌트 <code>ImageSlider</code> 의 유일한 사용처였고, <code>ImageSlider</code> 는 <code>swiper</code> 의 유일한 사용처였다. 셋을 함께 지웠다. <code>package-lock.json</code> 은 <code>node_modules</code> 를 건드리지 않고(<code>--package-lock-only</code>) 갱신했고, 빌드 결과에 swiper 가 남지 않은 것을 확인했다. 의존성 취약점 알림(#89)도 이것으로 빠진다.</p>
+<h3 id="db">DB 정리(사용자)<a class="headerlink" href="#db" title="Permanent link">&para;</a></h3>
+<p><code>.100</code> 기준으로 화면, 메뉴 등록이 있는 것은 <code>CmsUsedPharsePopup</code> 하나다(<code>TB_CMS_SCR</code> 1행, 메뉴 <code>POP_010010</code> 과 역할-메뉴 16, 역할-버튼 4). 나머지 7개는 등록이 없다. <code>.3</code> 정리는 사용자가 한다.</p>
+<p>자동 생성 문서(<code>docs-dev/reference</code>)를 다시 만들었다. 화면 115 → 107, 팝업 33 → 25.</p>
 <h2 id="pr-286-infra-92">공통 프로시저 관문 허용 목록을 빌드가 만든다 (PR #286, Infra #92)<a class="headerlink" href="#pr-286-infra-92" title="Permanent link">&para;</a></h2>
 <p>공통 프로시저 관문(<code>/api/vendor/comm/executeVendorCommonProcedure</code>)은 프로시저 이름을 받아 그대로 실행한다. 그래서 화면이 쓰지 않는 프로시저(사본, 테스트 패키지 포함)도 부를 수 있었다. 화면이 실제로 쓰는 것만 실행하게 하려면 허용 목록이 필요한데, <strong>패키지나 프로시저를 추가할 때마다 등록하는 일은 두지 않기로</strong> 했다(사용자 결정 2026-10-20). 목록은 빌드가 만든다.</p>
 <h3 id="pr">이 PR (프론트)<a class="headerlink" href="#pr" title="Permanent link">&para;</a></h3>
