@@ -1469,6 +1469,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-290-infra-92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        패키지 관리 화면에 "허용 목록 갱신" 버튼 (PR #290, Infra #92)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2432,6 +2443,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-290-infra-92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        패키지 관리 화면에 "허용 목록 갱신" 버튼 (PR #290, Infra #92)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3245,6 +3267,12 @@
 <ul>
 <li>아직 아무것도 막지 않는다. 백엔드가 이 파일을 읽어 판정하는 것은 다음 PR(기록만 → 관찰 2주 → 차단)이다.</li>
 <li>DB 는 바뀌지 않는다.</li>
+</ul>
+<h2 id="pr-290-infra-92">패키지 관리 화면에 "허용 목록 갱신" 버튼 (PR #290, Infra #92)<a class="headerlink" href="#pr-290-infra-92" title="Permanent link">&para;</a></h2>
+<p>공통 프로시저 관문 허용 목록을 모든 서버에서 지금 다시 받는다. 급할 때만 쓴다 — 평소에는 서버가 목록에 없는 요청이 오거나 매일 03:00 에 알아서 다시 받는다.</p>
+<ul>
+<li>위치: <code>MdmPackageMgt</code> 상단 버튼 영역(<code>#front-button</code>). 메뉴가 ADMIN 전용이고 API(<code>/api/vendor/comm/reloadProcedureAllowlist</code>, BE #235)도 ADMIN 만 받는다.</li>
+<li>결과 창에 서버마다 받은 개수와 시각(HH<img alt="🇲🇲" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f1f2-1f1f2.svg" title=":mm:" />ss)을 보여 준다. 실패한 서버는 이유와 "이전 목록 N개 유지", 신호를 받았는데 답하지 않은 서버가 있으면 그 수를 덧붙인다.</li>
 </ul>
 <h2 id="_1">업로드 개수 상한 사전 안내 + 일부 실패 알림<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>업로드가 두 가지로 깨지고 있었다. 둘 다 "여러 장을 한 번에 올린다" 는 같은 흐름에서 나와 함께 묶는다. 백엔드 짝은 BE PR 참고.</p>
