@@ -1480,6 +1480,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-291-infra-85-d-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agautocompleteeditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공용 셀 편집기 AgAutocompleteEditor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-290-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2465,6 +2493,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-291-infra-85-d-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agautocompleteeditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공용 셀 편집기 AgAutocompleteEditor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-290-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3299,6 +3355,17 @@
 <li>아직 아무것도 막지 않는다. 백엔드가 이 파일을 읽어 판정하는 것은 다음 PR(기록만 → 관찰 2주 → 차단)이다.</li>
 <li>DB 는 바뀌지 않는다.</li>
 </ul>
+<h2 id="pr-291-infra-85-d-4">선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)<a class="headerlink" href="#pr-291-infra-85-d-4" title="Permanent link">&para;</a></h2>
+<p>피더 선박 등록 팝업(<code>FdsVslPopup</code>)에서 새 선박을 넣을 때, 선박명을 입력하는 동안 같거나 비슷한 기존 선박을 아래 목록으로 보여 준다. 이미 있는 선박을 또 등록하지 않게 하려는 것이다(2025-03-31 "작업중" 으로 멈춘 기능).</p>
+<ul>
+<li>목록은 "코드 / 이름"(예: <code>HDBS / HYUNDAI BUSAN</code>)이고, 이름에 입력한 글자가 들어 있으면 뜬다(대소문자 무시, 최대 10개).</li>
+<li><strong>참고용이라 고를 수 없다</strong>(사용자 결정). 완전히 같은 이름은 지금도 저장 프로시저(<code>SP_SET_FDVSL</code>)가 "Vessel Code/Name is already registered." 로 막는다.</li>
+<li>목록은 팝업을 열 때와 저장한 뒤 전체 선박(전사 공용 마스터)을 다시 받는다. 종전 <code>fnSetVslList</code> 는 조회할 때마다 결과를 계속 누적했다.</li>
+</ul>
+<p>멈췄던 시도는 선택 상자(SelectBox)를 붙였는데, 선택 상자는 목록에 있는 값만 고를 수 있어 새 이름 입력과 맞지 않았다. 자유 입력에 제안 목록이 붙는 DevExtreme Autocomplete 로 바꿨다.</p>
+<h3 id="agautocompleteeditor">공용 셀 편집기 <code>AgAutocompleteEditor</code><a class="headerlink" href="#agautocompleteeditor" title="Permanent link">&para;</a></h3>
+<p><code>src/components/manual/ag-grid/vue/AgAutocompleteEditor.vue</code>. <code>AgTextBoxEditor</code> 를 상속해 입력값 처리(대문자, 글자 키로 편집 시작)는 같고 위젯만 Autocomplete 다. 제안 목록은 <code>props.items</code>(와 <code>valueExpr</code>, <code>searchExpr</code>, <code>itemTemplate</code>)로 넘긴다. 항목에 <code>disabled: true</code> 를 주면 보이기만 하고 고를 수 없다. 다른 화면에서도 쓸 수 있다.</p>
+<p>테스트: <code>src/components/manual/ag-grid/vue/__tests__/AgAutocompleteEditor.spec.ts</code>(실제 DevExtreme 위젯, 3건). 항목에서 <code>disabled</code> 를 빼면 클릭한 이름이 입력되는 것을 대조해, 고를 수 없는 것이 실제로 막힌 결과임을 확인했다.</p>
 <h2 id="pr-290-infra-92">패키지 관리 화면에 "허용 목록 갱신" 버튼 (PR #290, Infra #92)<a class="headerlink" href="#pr-290-infra-92" title="Permanent link">&para;</a></h2>
 <p>공통 프로시저 관문 허용 목록을 모든 서버에서 지금 다시 받는다. 급할 때만 쓴다 — 평소에는 서버가 목록에 없는 요청이 오거나 매일 03:00 에 알아서 다시 받는다.</p>
 <ul>
