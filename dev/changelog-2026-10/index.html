@@ -1502,6 +1502,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#nginx-healthz-azure-healthz-pr-295-infra-85-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nginx /healthz 접근 로그 끄기 — Azure 상태 점검을 /healthz 로 옮기기 위한 준비 (PR #295, Infra #85 F)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-291-infra-85-d-4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2548,6 +2559,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#nginx-healthz-azure-healthz-pr-295-infra-85-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nginx /healthz 접근 로그 끄기 — Azure 상태 점검을 /healthz 로 옮기기 위한 준비 (PR #295, Infra #85 F)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-291-infra-85-d-4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3434,6 +3456,13 @@
 <ul>
 <li>아직 아무것도 막지 않는다. 백엔드가 이 파일을 읽어 판정하는 것은 다음 PR(기록만 → 관찰 2주 → 차단)이다.</li>
 <li>DB 는 바뀌지 않는다.</li>
+</ul>
+<h2 id="nginx-healthz-azure-healthz-pr-295-infra-85-f">nginx <code>/healthz</code> 접근 로그 끄기 — Azure 상태 점검을 <code>/healthz</code> 로 옮기기 위한 준비 (PR #295, Infra #85 F)<a class="headerlink" href="#nginx-healthz-azure-healthz-pr-295-infra-85-f" title="Permanent link">&para;</a></h2>
+<p>Azure Container Apps 의 프론트 상태 점검(Liveness 30초, Readiness 10초)이 <code>/</code> 를 불러, 컨테이너 안(<code>127.0.0.1</code>, <code>curl/8.11.1</code>)에서 온 요청이 하루 약 3만 줄 nginx 접근 로그로 남았다. 프론트 콘솔 로그(하루 약 12.8만 줄)의 약 23% 다. 로그 적재량이 늘고, nginx 로그로 하는 분석(계정 대입 탐지 등)에 잡음이 된다.</p>
+<p>사용자 결정(2026-10-20)으로 점검 경로를 이미 있던 <code>/healthz</code> 로 옮긴다. 이 PR 은 <code>/healthz</code> 에 <code>access_log off</code> 만 더한다. 점검 경로 변경은 인프라 Infra #97(bicep)이다.</p>
+<ul>
+<li><code>/healthz</code> 는 nginx 가 바로 <code>200 ok</code> 를 돌려준다. 화면 파일(<code>index.html</code>)이 있는지까지는 보지 않지만, 빌드 산출물은 늘 이미지에 들어가므로 위험은 낮다.</li>
+<li><code>/healthz</code> 는 지금도 200 이라, 이 PR 과 인프라 변경은 어느 쪽이 먼저 반영돼도 된다.</li>
 </ul>
 <h2 id="pr-291-infra-85-d-4">선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)<a class="headerlink" href="#pr-291-infra-85-d-4" title="Permanent link">&para;</a></h2>
 <p>피더 선박 등록 팝업(<code>FdsVslPopup</code>)에서 새 선박을 넣을 때, 선박명을 입력하는 동안 같거나 비슷한 기존 선박을 아래 목록으로 보여 준다. 이미 있는 선박을 또 등록하지 않게 하려는 것이다(2025-03-31 "작업중" 으로 멈춘 기능).</p>
