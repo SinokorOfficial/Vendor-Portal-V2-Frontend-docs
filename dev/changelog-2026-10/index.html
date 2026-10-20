@@ -1513,6 +1513,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-296-infra-84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공용부 미사용 코드 정리 (PR #296, Infra #84)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dataset-pr-297-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2620,6 +2631,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-296-infra-84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공용부 미사용 코드 정리 (PR #296, Infra #84)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dataset-pr-297-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3564,6 +3586,46 @@
 <li><code>/healthz</code> 는 nginx 가 바로 <code>200 ok</code> 를 돌려준다. 화면 파일(<code>index.html</code>)이 있는지까지는 보지 않지만, 빌드 산출물은 늘 이미지에 들어가므로 위험은 낮다.</li>
 <li><code>/healthz</code> 는 지금도 200 이라, 이 PR 과 인프라 변경은 어느 쪽이 먼저 반영돼도 된다.</li>
 </ul>
+<h2 id="pr-296-infra-84">공용부 미사용 코드 정리 (PR #296, Infra #84)<a class="headerlink" href="#pr-296-infra-84" title="Permanent link">&para;</a></h2>
+<p>2차 조사(Infra #84)에서 호출이 0인 공용부 코드를 지웠다. 조사(10-14) 뒤 머지된 PR 이 많아 항목마다 grep 으로 다시 확인한 뒤 지웠다. 동작 변경은 없다.</p>
+<ul>
+<li><code>CodeService</code><ul>
+<li><code>get</code> 과 인자 파서 <code>extractArgs</code>(정규식 5개 포함), <code>getCompositeKey</code>, <code>CodeBuilder</code> 의 <code>prependCodeSelect</code> 와 <code>prepend</code></li>
+<li>requestMap 키 <code>#BANK_INFO</code>, <code>#CNTR_TYPE</code>, <code>#DEPT_CD</code>, <code>#CORP</code>. 앞의 셋은 백엔드에 없는 경로를 가리켰다. <code>selectCorpCode</code> 백엔드 정리는 Infra #90 에서 한다.</li>
+</ul>
+</li>
+<li>http 래퍼: <code>http.authorized</code>, <code>useHttp()</code>, <code>infoNotify</code> 와 <code>setInfoFunction</code>, 전역 <code>$http</code><ul>
+<li><code>$http</code> 는 <code>$axios</code> 와 같은 인스턴스였다. 쓰던 곳은 <code>EContentLayout</code> 의 즐겨찾기 등록 1곳이라 <code>$axios</code> 로 바꿨다.</li>
+</ul>
+</li>
+<li>플러그인<ul>
+<li><code>Date.prototype.toLocalDateTime</code>, <code>toLocalDate</code> 확장</li>
+<li>전역 컴포넌트 <code>dx-origin-check-box</code>, <code>dx-origin-select-box</code>, <code>dx-button</code>. <code>devextreme-vue/button</code> import 도 빠졌다. DevExtreme 팝업이 <code>dxButton</code> 위젯을 직접 불러오므로 스케줄러 팝업 버튼은 그대로다.</li>
+<li>dx 프록시의 레거시 <code>input</code> 이벤트: <code>$emit('input')</code> 7곳(프록시 6, <code>baseMixin.onInternalValueChanged</code> 1)과 <code>emits</code> 선언 5곳. dx 태그에 <code>@input</code> 리스너가 없었다. v-model 은 <code>update:modelValue</code> 로 동작한다.</li>
+</ul>
+</li>
+<li><code>$dialog</code> 옵션 <code>report</code>, <code>iframeSrc</code>, <code>loaderComponent</code>, <code>initFullScreen</code> 과 <code>EDialog</code> 의 대응 prop, iframe 분기<ul>
+<li>넘기는 호출부가 없었다. <code>EDialog</code> 의 <code>loaderComponent</code> prop 은 <code>uDialog</code> 가 MENU_PATH 로 찾은 팝업을 넘기는 통로라 남겼다.</li>
+<li><code>report</code> 일 때만 붙던 전역 스타일 <code>.e-dialog-content-report</code> 도 같이 지웠다.</li>
+</ul>
+</li>
+<li><code>ECardTitle</code>(태그 0), <code>baseMixin.setTabIndex</code>(빈 메서드)</li>
+<li><code>ui</code> 스토어의 <code>ip</code> 와 <code>setIp</code>. <code>setIp</code> 호출이 0이라 <code>ui.ip</code> 는 늘 빈 값이었다. <code>EHeader</code> 는 이제 세션의 <code>ip</code> 만 본다.</li>
+<li>premitive util<ul>
+<li><code>DateUtil</code> 상수 7개(<code>FORMAT_YYYYMM</code>, <code>FORMAT_YYYY</code>, <code>FORMAT_MM</code>, <code>FORMAT_DD</code>, <code>FORMAT_YYYY_MM_DD</code>, <code>FORMAT_YYYY_MM</code>, <code>FORMAT_STANDARD</code>)와 <code>stringToLocalDate</code>, <code>setLastDay</code></li>
+<li><code>ObjectUtil.equal</code>, <code>ObjectUtil.clone</code>, <code>StringUtil.validateCellular</code>, <code>StringUtil.validateUserId</code></li>
+<li><code>ValidateUtil.beforeEndDate</code>, <code>ValidateUtil.validateLengthOfDateList</code> 와 이 둘만 쓰던 내부 함수. <code>isAlnum</code> 등 4종의 true/false 계약은 그대로다.</li>
+<li><code>help.isUndefined</code>, <code>ValueFormatter.formatCurrency</code>, <code>FormBuilder.appendFiles</code></li>
+<li>지운 멤버를 검사하던 테스트 8건도 지웠다(184 → 176).</li>
+</ul>
+</li>
+<li><code>AgGridAdapter</code> 공개 메서드 12개(코드와 테스트 모두 호출 0): <code>getAllCheck</code>, <code>getAllGridColumns</code>, <code>setFilter</code>, <code>clearFilter</code>, <code>getSelectedColumnRows</code>, <code>getFocusedRowIndex</code>, <code>autoSizeAllColumn</code>, <code>getCellStyle</code>, <code>setCellStyle</code>, <code>getClipboardToAddOutOfRows</code>, <code>setColumnGroupExpand</code>, <code>setColumnToolPanel</code><ul>
+<li>테스트에서만 부르는 19개는 결정 대기라 남겼다.</li>
+</ul>
+</li>
+<li>지운 것만 쓰던 타입 선언(<code>CloneOptions</code>, <code>RecordDateUtil</code> 의 해당 키, <code>GridApi.allCheck</code>, <code>IToolPanel.setColumnLayout</code>)도 정리했다.</li>
+</ul>
+<p>개발자 문서의 <code>$http</code>, <code>iframeSrc</code> 언급(HTTP / API 연동, 아키텍처, 트러블슈팅)을 고쳤다.</p>
 <h2 id="dataset-pr-297-infra-84">화면 안 죽은 메서드, 데이터, dataset 키, 주석 코드 정리 (PR #297, Infra #84)<a class="headerlink" href="#dataset-pr-297-infra-84" title="Permanent link">&para;</a></h2>
 <p>화면(<code>src/pages</code>) 안에서 아무 데서도 부르지 않는 메서드, computed, data, dataset 키와 20줄 이상 주석 처리된 옛 코드를 지웠다. 동작은 바뀌지 않는다. 죽은 복사본을 살아 있는 코드로 알고 고치는 일이 두 번 있었다(00d97aa, FE #258). 2026-10-14 조사 목록을 항목마다 다시 확인한 뒤 지웠다. 템플릿, 그리드 콜백 문자열, <code>$refs</code> 호출, 레이아웃이 이름으로 부르는 훅(<code>fnReset</code>, <code>onReceiveArgs</code>)까지 봤다.</p>
 <h3 id="_1">지운 것<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>

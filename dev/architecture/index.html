@@ -1699,7 +1699,7 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  bootstrap()  ── 세션·메뉴·언어 프리페치 ──▶  app.mount('#app')
 </code></pre></div>
 <ul>
-<li>전역 프로퍼티: <code>this.$http</code> / <code>this.$axios</code>(동일 인스턴스), <code>$message</code>/<code>$dialog</code>, <code>$lang</code>, <code>$loadingBar</code> 등이 화면에서 바로 쓰입니다 (<code>src/main.ts</code>).</li>
+<li>전역 프로퍼티: <code>this.$axios</code>, <code>$message</code>/<code>$dialog</code>, <code>$lang</code>, <code>$loadingBar</code> 등이 화면에서 바로 쓰입니다 (<code>src/main.ts</code>).</li>
 <li><code>bootstrap()</code> 는 마운트 <strong>전에</strong> 세션을 확인한 뒤 메뉴/언어를 병렬로 받아옵니다 (<code>src/plugins/bootstrap.ts</code>).</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// src/plugins/bootstrap.ts — 세션을 먼저 확인(병렬로 쏘면 미인증 진입 시 셋 다 401)</span>

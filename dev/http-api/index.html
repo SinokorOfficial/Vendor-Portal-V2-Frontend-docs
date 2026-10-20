@@ -1733,10 +1733,9 @@
 
 
 <h1 id="http-api">HTTP / API 연동<a class="headerlink" href="#http-api" title="Permanent link">&para;</a></h1>
-<p>HTTP 는 <code>src/util/http</code> 의 axios 인스턴스로 통합되어 있고, 전역 프로퍼티 <code>this.$http</code>(= <code>this.$axios</code>)로 모든 화면에서 사용합니다.</p>
+<p>HTTP 는 <code>src/util/http</code> 의 axios 인스턴스로 통합되어 있고, 전역 프로퍼티 <code>this.$axios</code> 로 모든 화면에서 사용합니다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// src/util/http/index.ts — installHttp(app), main.ts 가 호출</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">app</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">globalProperties</span><span class="p">.</span><span class="nx">$http</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">app</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">globalProperties</span><span class="p">.</span><span class="nx">$axios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">app</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">globalProperties</span><span class="p">.</span><span class="nx">$axios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span>
 </code></pre></div>
 <h2 id="_1">호출 종류<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <table>
