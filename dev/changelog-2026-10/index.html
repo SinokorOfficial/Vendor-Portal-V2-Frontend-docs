@@ -1508,6 +1508,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-292-infra-85-d-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        선박 팝업 — 신규 선박 코드 입력에도 비슷한 기존 선박 보여 주기 (PR #292, Infra #85 D ④)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-290-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2521,6 +2532,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-292-infra-85-d-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        선박 팝업 — 신규 선박 코드 입력에도 비슷한 기존 선박 보여 주기 (PR #292, Infra #85 D ④)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-290-infra-92" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3366,6 +3388,15 @@
 <h3 id="agautocompleteeditor">공용 셀 편집기 <code>AgAutocompleteEditor</code><a class="headerlink" href="#agautocompleteeditor" title="Permanent link">&para;</a></h3>
 <p><code>src/components/manual/ag-grid/vue/AgAutocompleteEditor.vue</code>. <code>AgTextBoxEditor</code> 를 상속해 입력값 처리(대문자, 글자 키로 편집 시작)는 같고 위젯만 Autocomplete 다. 제안 목록은 <code>props.items</code>(와 <code>valueExpr</code>, <code>searchExpr</code>, <code>itemTemplate</code>)로 넘긴다. 항목에 <code>disabled: true</code> 를 주면 보이기만 하고 고를 수 없다. 다른 화면에서도 쓸 수 있다.</p>
 <p>테스트: <code>src/components/manual/ag-grid/vue/__tests__/AgAutocompleteEditor.spec.ts</code>(실제 DevExtreme 위젯, 3건). 항목에서 <code>disabled</code> 를 빼면 클릭한 이름이 입력되는 것을 대조해, 고를 수 없는 것이 실제로 막힌 결과임을 확인했다.</p>
+<h2 id="pr-292-infra-85-d-4">선박 팝업 — 신규 선박 코드 입력에도 비슷한 기존 선박 보여 주기 (PR #292, Infra #85 D ④)<a class="headerlink" href="#pr-292-infra-85-d-4" title="Permanent link">&para;</a></h2>
+<p>같은 날 PR #291 에서 선박명 칸에 붙인 참고용 자동완성을 <strong>선박 코드 칸에도</strong> 붙였다(사용자 요청).</p>
+<ul>
+<li>신규 행의 코드를 입력하는 동안 코드에 그 글자가 든 기존 선박이 <code>코드 / 이름</code>(예: <code>HDBS / HYUNDAI BUSAN</code>)으로 뜬다(대소문자 무시, 최대 10개).</li>
+<li>이름 칸과 같이 <strong>참고용이라 고를 수 없다</strong>. 같은 코드는 저장 프로시저(<code>SP_SET_FDVSL</code>)가 막는다.</li>
+<li>4자 제한(편집기 <code>maxLength</code>, 붙여넣기용 <code>ValueSetter.maxLength(4)</code>)은 그대로다.</li>
+<li>목록 한 줄 모양은 두 칸이 같아 <code>vslItemTemplate</code> 하나로 묶었다. 코드 칸이 더는 쓰지 않는 <code>AgTextBoxEditor</code> import 를 뺐다.</li>
+</ul>
+<p>테스트: <code>AgAutocompleteEditor.spec.ts</code> 에 코드로 검색하는 경우 1건을 더했다(4건).</p>
 <h2 id="pr-290-infra-92">패키지 관리 화면에 "허용 목록 갱신" 버튼 (PR #290, Infra #92)<a class="headerlink" href="#pr-290-infra-92" title="Permanent link">&para;</a></h2>
 <p>공통 프로시저 관문 허용 목록을 모든 서버에서 지금 다시 받는다. 급할 때만 쓴다 — 평소에는 서버가 목록에 없는 요청이 오거나 매일 03:00 에 알아서 다시 받는다.</p>
 <ul>
