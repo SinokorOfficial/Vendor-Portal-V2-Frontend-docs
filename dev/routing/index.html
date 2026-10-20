@@ -1788,6 +1788,7 @@
 <ul>
 <li><strong>탭을 닫으면</strong> 그 이름이 include 에서 빠져 keep-alive 가 캐시를 즉시 파기 → 재오픈은 항상 새 화면(검색값 미잔존, 메모리 회수).</li>
 <li><strong>탭이 열려있는 동안</strong>의 전환은 캐시 재사용(입력값·그리드 상태 유지).</li>
+<li>탭을 옮기면 브라우저가 떼어 낸 화면의 스크롤 위치를 0 으로 버리므로, <code>pageMixin</code> 에 포함된 <code>scrollRestore</code> mixin(<code>src/mixins/page/scrollRestore.ts</code>)이 스크롤할 때마다 위치를 기록해 두고 <code>activated</code> 에서 되돌립니다(본문, 그리드 세로와 가로).</li>
 <li><strong>우클릭 Refresh</strong> 는 <code>tabs.bumpGeneration(id)</code> 로 세대+1 → 이름·key 가 바뀌어 캐시 파기 + 강제 재마운트.</li>
 <li>★활성 탭 닫기는 <strong>이웃/대상 탭으로 이동을 완료한 뒤 제거</strong>합니다. 순서가 반대면 닫힌 화면이 한 프레임 유령 재마운트됐다 파괴되며 그리드 화면이 크래시합니다 — <a href="../troubleshooting/">트러블슈팅 §25</a>.</li>
 <li>★Refresh 재마운트는 <strong>최초 진입 때 받은 route props(codeMap)</strong> 를 재사용합니다. 재진입 내비게이션은 codeData 가드가 prefetch 를 생략하므로(<code>record.instances</code> 존재 시) 그 시점 props 를 쓰면 codeMap 이 비어 있습니다.</li>
