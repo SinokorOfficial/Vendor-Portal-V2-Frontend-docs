@@ -1624,6 +1624,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aggridadapter-pr-299-infra-84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgGridAdapter 안 쓰는 공개 메서드 정리 (PR #299, Infra #84)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-291-infra-85-d-4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2792,6 +2803,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#aggridadapter-pr-299-infra-84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgGridAdapter 안 쓰는 공개 메서드 정리 (PR #299, Infra #84)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-291-infra-85-d-4" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3788,6 +3810,34 @@
 <li><code>TesLineHandleExpn</code> 의 옛 <code>fnSearch</code> 주석 블록: 살아 있는 <code>fnSearch</code> 에 "상단 search 함수 오류있음. 기존 검색 함수 임시 사용" TODO 가 붙어 있어 업무 확인 뒤 정한다.</li>
 <li><code>TesInspExpn.selectedRow</code>: 읽던 <code>selectFileList</code> 가 없어져 쓰기만 남았지만, 쓰는 코드가 행 데이터에 <code>rowIndex</code> 를 붙이는 부수효과가 있어 그대로 둔다.</li>
 <li><code>TesTugExpn.fnSearchRate</code>: 결과(<code>rateList</code>)를 읽던 <code>setTotalAmt</code> 를 지워 조회 결과를 쓰는 곳이 없다. 서버 호출을 빼는 일이라 이번에는 두었다.</li>
+</ul>
+<h2 id="aggridadapter-pr-299-infra-84">AgGridAdapter 안 쓰는 공개 메서드 정리 (PR #299, Infra #84)<a class="headerlink" href="#aggridadapter-pr-299-infra-84" title="Permanent link">&para;</a></h2>
+<p>PR #296 에 이어 <code>AgGridAdapter</code> 공개 메서드 중 화면, 공용 컴포넌트, mixin 어디서도 부르지 않는 45개를 지웠다. 테스트에서만 부르던 메서드도 정리하고, 이 PR 로 새로 고아가 된 메서드도 같이 치웠다(사용자 결정 2026-10-20). 항목마다 <code>src/</code> 전체를 다시 grep 해 테스트 밖 호출 0을 확인했다. 화면 동작은 바뀌지 않는다.</p>
+<ul>
+<li>테스트에서만 부르던 것 27개<ul>
+<li>행 조회, 탐색: <code>getApi</code>, <code>idOf</code>, <code>rowIndexOf</code>, <code>byId</code>, <code>byRowIndex</code>, <code>getGroupRowNodes</code>, <code>getCheckedRow</code>, <code>getCheckedRows</code>, <code>getFirstDisplayedRowIndex</code></li>
+<li>행 데이터, 캐시: <code>setCheckCount</code>, <code>initCache</code>, <code>setItemsNotInitCache</code>, <code>initItem</code>, <code>initItems</code>, <code>updateItem</code></li>
+<li>그리드 조회 래퍼 <code>loadData</code>, <code>loadDataByType</code>. <code>adapter/rowData.ts</code> 의 본문과 그것만 쓰던 <code>http</code> import 도 지웠다.</li>
+<li>포커스, 스크롤, 선택: <code>setFocusedCellById</code>, <code>startEditingCellById</code>, <code>setScrollByRowIndex</code>, <code>selectAll</code></li>
+<li>컬럼, 툴패널: <code>setColumnDefs</code>, <code>openToolPanel</code>, <code>closeToolPanel</code></li>
+<li>푸터: <code>getFooterData</code>, <code>getFooterDatas</code>, <code>getFooterDataAsNumber</code></li>
+</ul>
+</li>
+<li>코드와 테스트 모두 호출 0인 것 10개: <code>applyColumnState</code>, <code>autoSizeAllColumns</code>, <code>clearFocusedCell</code>, <code>getColumnState</code>, <code>getToolPanelInstance</code>, <code>moveColumn</code>, <code>resetColumnState</code>, <code>setColumnPinned</code>, <code>setColumnsPinned</code>, <code>setQuickFilter</code></li>
+<li>PR #296 으로 호출이 0이 된 것 4개: <code>getColumnGroupState</code>, <code>setColumnGroupState</code>, <code>getFocusedCell</code>, <code>redrawRows</code></li>
+<li>위 메서드를 지워 고아가 된 것 4개<ul>
+<li><code>traveling</code>: 호출자가 <code>idOf</code>, <code>rowIndexOf</code> 뿐이었다. 그것만 쓰던 AgUtils 의 <code>rowTraveling</code> 도 지웠다.</li>
+<li><code>updateItems</code>: 호출자가 <code>updateItem</code> 뿐이었다. 위임 대상인 <code>adapter/rowData.ts</code> 의 <code>updateItems</code> 도 지웠다.</li>
+<li><code>showLoadingOverlay</code>, <code>hideOverlay</code>: 호출자가 <code>loadDataByType</code> 뿐이었다.</li>
+</ul>
+</li>
+<li>지운 메서드만 쓰던 import(<code>NumberUtil</code>, AgUtils 의 <code>setAddOptionColumn</code>, <code>checkFooter</code>, <code>forEachColumnDefs</code>, ag-grid 타입 5개)와 <code>StateItem</code> 타입 보강, 개발용 그리드 템플릿 화면의 <code>getCheckedRows</code> 주석 줄도 정리했다.</li>
+</ul>
+<p>테스트(<code>AgGridAdapter.spec.ts</code>)는 52건에서 46건이 됐다(전체 176 → 170).</p>
+<ul>
+<li>지운 메서드만 검사하던 케이스 6건을 지웠다: 툴패널 1건, 그리드 조회 3건, <code>selectAll</code> 과 스크롤 1건, <code>updateItem(s)</code> 1건.</li>
+<li>남는 메서드를 함께 검사하던 케이스는 지운 메서드 부분만 빼거나 남는 형제 메서드로 바꿔 유지했다. 예: <code>initItem(x)</code> 는 <code>addItem(x, true)</code>, <code>setItemsNotInitCache(x)</code> 는 <code>setItems(x, true)</code>, <code>byId(id)</code> 는 <code>rowNodeById(id).data</code>, <code>setFocusedCellById</code> 는 <code>setFocusedCellByRowIndex</code>.</li>
+<li>푸터 합계(<code>useAggFooter</code> 그리드의 합계 행)는 <code>getFooterData</code> 대신 ag-grid 의 고정 행(<code>api.getPinnedBottomRow( 0 ).data</code>)을 읽어 검사한다. 초기 합계 <code>'1,234'</code>, 행 추가 뒤 <code>'1,235'</code>, 푸터 없는 그리드는 고정 행 0개다.</li>
 </ul>
 <h2 id="pr-291-infra-85-d-4">선박 팝업 — 신규 선박명 입력 중 비슷한 기존 선박 보여 주기 (PR #291, Infra #85 D ④)<a class="headerlink" href="#pr-291-infra-85-d-4" title="Permanent link">&para;</a></h2>
 <p>피더 선박 등록 팝업(<code>FdsVslPopup</code>)에서 새 선박을 넣을 때, 선박명을 입력하는 동안 같거나 비슷한 기존 선박을 아래 목록으로 보여 준다. 이미 있는 선박을 또 등록하지 않게 하려는 것이다(2025-03-31 "작업중" 으로 멈춘 기능).</p>
