@@ -890,6 +890,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="dataset.js 골격">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#package-procedure-infra-92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PACKAGE / PROCEDURE 는 문자열 리터럴로 (Infra #92)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1685,6 +1702,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="dataset.js 골격">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#package-procedure-infra-92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PACKAGE / PROCEDURE 는 문자열 리터럴로 (Infra #92)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1949,6 +1983,13 @@
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nx">DEL_LOG</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">]</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
 </code></pre></div>
+<h3 id="package-procedure-infra-92"><code>PACKAGE</code> / <code>PROCEDURE</code> 는 문자열 리터럴로 (Infra #92)<a class="headerlink" href="#package-procedure-infra-92" title="Permanent link">&para;</a></h3>
+<p>빌드가 화면 코드의 <code>PACKAGE</code> / <code>PROCEDURE</code> 쌍을 모아 <strong>공통 프로시저 관문 허용 목록</strong>(<code>dist/proc-allowlist.json</code>)을 만든다. 백엔드는 이 목록에 있는 프로시저만 관문으로 실행한다. 사람이 등록하지 않는다 — dataset 에 적고 배포하면 허용된다.</p>
+<ul>
+<li>두 값은 <strong>한 객체에 함께, 문자열 리터럴</strong>로 적는다. 변수로 조립하거나 실행 중에 바꾸면(<code>dataset.X[0].PROCEDURE = …</code>) 목록에서 빠져 운영에서 막히므로 <strong>빌드가 실패</strong>한다(오류에 파일과 줄 번호가 나온다).</li>
+<li><code>src/pages/dev</code> 는 목록에 넣지 않는다. 개발용 화면은 운영 관문으로 실행되지 않는다.</li>
+<li>목록 생성은 <code>scripts/proc-allowlist.mjs</code>, 개발 서버에서는 <code>http://localhost:4050/proc-allowlist.json</code> 으로 볼 수 있다.</li>
+</ul>
 <h2 id="_2">역할 분리 요약<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
