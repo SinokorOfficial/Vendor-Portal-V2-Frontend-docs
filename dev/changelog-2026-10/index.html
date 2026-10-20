@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#d-day-pr-294-infra-85-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        홈 대시보드 — 주석으로 꺼 둔 D-Day 차트 영역 삭제 (PR #294, Infra #85 F)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#8-swiper-pr-287-infra-85-a" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2387,6 +2398,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#d-day-pr-294-infra-85-f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        홈 대시보드 — 주석으로 꺼 둔 D-Day 차트 영역 삭제 (PR #294, Infra #85 F)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#8-swiper-pr-287-infra-85-a" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3306,6 +3328,12 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="d-day-pr-294-infra-85-f">홈 대시보드 — 주석으로 꺼 둔 D-Day 차트 영역 삭제 (PR #294, Infra #85 F)<a class="headerlink" href="#d-day-pr-294-infra-85-f" title="Permanent link">&para;</a></h2>
+<p>홈 사용자 대시보드(<code>UserDashBoard</code>)의 상단 D-Day 차트 영역은 템플릿 전체가 주석이었고, 데이터를 가져오는 <code>fnSelectDash</code> 는 백엔드에 없는 <code>selectUserDash</code> 를 부르는 데다 호출 자체도 주석이었다. 사용자 결정(2026-10-20)으로 정리했다.</p>
+<ul>
+<li>지운 것: 주석 처리된 상단 블록(부서, 내 업무 건수와 차트), <code>fnSelectDash</code>, 데이터 <code>main</code>, <code>jobChartOptions</code> 와 그 초기화(<code>beforeMount</code>), 상단 블록 전용 스타일 4개, 쓰는 곳이 없어진 <code>NumberUtil</code> import</li>
+<li>화면에 보이는 것(메모 달력)은 그대로다.</li>
+</ul>
 <h2 id="8-swiper-pr-287-infra-85-a">여는 코드가 없는 화면 8개 삭제, swiper 의존성 제거 (PR #287, Infra #85 A)<a class="headerlink" href="#8-swiper-pr-287-infra-85-a" title="Permanent link">&para;</a></h2>
 <p>2차 조사(Infra #85 A)에서 <strong>여는 코드가 0</strong>인 화면, 팝업 9개를 찾았다. 그중 <code>crs/CrsExpnChart</code> 는 필요해서 만들다 보류된 화면이라 남기고(사용자 결정), 나머지 8개를 지웠다.</p>
 <table>
