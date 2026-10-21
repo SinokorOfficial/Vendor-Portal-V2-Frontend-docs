@@ -1435,6 +1435,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-306-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        개발 문서, 사용자 매뉴얼을 현재 코드에 맞춤 (PR #306, Infra #89)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#crsrepaircode-5-crsinvoice-3-pr-302-infra-86" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2719,6 +2730,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-306-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        개발 문서, 사용자 매뉴얼을 현재 코드에 맞춤 (PR #306, Infra #89)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#crsrepaircode-5-crsinvoice-3-pr-302-infra-86" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3893,6 +3915,30 @@
 <ul>
 <li><code>deleteByRange.spec.ts</code> 7건: 범위 안 편집 가능한 셀만 지움, 거꾸로 잡은 범위, 편집 불가 셀 건너뜀, 여러 범위, 키 대소문자, 빈 선택, Delete 아닌 키.</li>
 <li><code>ValueFormatter.spec.ts</code> 6건: 두 이름의 기본 출력(<code>20261021153045</code> → <code>2026-10-21 15:30:45</code>, <code>202610211530</code> → <code>2026-10-21 15:30</code>), 형식을 넘겼을 때 두 이름이 같은 결과, 빈 값, 문자열 아닌 값, 형식 틀린 값.</li>
+</ul>
+<h2 id="pr-306-infra-89">개발 문서, 사용자 매뉴얼을 현재 코드에 맞춤 (PR #306, Infra #89)<a class="headerlink" href="#pr-306-infra-89" title="Permanent link">&para;</a></h2>
+<p>Infra #89 4절(문서) 중 프론트 몫이다. 문서가 지워진 화면, 컴포넌트, 의존성과 옛 규칙을 안내하고 있어 실제 코드에 맞췄다. 코드는 바꾸지 않았다.</p>
+<ul>
+<li>화면 작성 규칙(<code>conventions.md</code>, <code>screen-pattern.md</code>, 개발 문서 첫 페이지)<ul>
+<li>"화면에 Composition API 를 쓰지 않는다"는 문구가 Infra #69 상시 규칙과 반대였다. 10-14 신규 <code>CmsLangPopup</code> 도 이 문구를 따라 Options API 로 작성됐다.</li>
+<li>"기존 화면은 Options API 유지, 신규와 대규모 수정은 <code>&lt;script setup lang="ts"&gt;</code>" 로 고쳤다. 화면 골격과 새 화면 체크리스트는 기존 패턴 기준이라고 밝혔다.</li>
+</ul>
+</li>
+<li>사용자 매뉴얼(<code>docs/modules</code>, 메뉴에 실린 페이지만)<ul>
+<li>FDS: 지워진 항만 요율 화면(<code>FdsTariffPort</code>)을 화면 표와 흐름에서 뺐다.</li>
+<li>CRS: 지워진 "검사"(<code>CrsConstExam</code>) 안내를 흐름에서 뺐다. 모듈 요약의 "검사"는 남은 화면인 점검 관리에 맞춰 "점검"으로 바꿨다.</li>
+<li>CFS: 업무 메뉴 개요의 "작업이력, 수리이력"을 CFS 페이지와 같게 "적입 비용과 청구"로 바꿨다.</li>
+<li>TES: 10-20 에 지워진 엑셀 업로드 팝업 3개와 그룹 인보이스 설정 팝업 안내를 화면 안의 Excel Upload 버튼과 그룹 번호 선택으로 바꿨다.</li>
+<li>관리자 페이지(<code>mdm.md</code>, <code>cms.md</code>)는 매뉴얼에 싣지 않기로 한 결정대로 손대지 않았다.</li>
+</ul>
+</li>
+<li>개발 문서, <code>README.md</code><ul>
+<li>지워진 <code>EFileUploader</code> 를 공통 컴포넌트 예시에서 <code>EAttachFileGrid</code> 로 바꾸고, 트러블슈팅의 <code>EFileTextBox</code> 언급에 2026-09-04 삭제를 적었다.</li>
+<li><code>README.md</code>: <code>package.json</code> 에서 이미 빠진 <code>xlsx</code> 를 기술 스택 표에서 지웠다. 2026-09-15 에 제거한 <code>/WebDocumentViewer</code> 를 dev 프록시 표와 nginx 설명에서 지웠다. <code>/sendSIPG</code> 는 PR #275 에서 이미 정리돼 있었다.</li>
+<li>로컬 포트: <code>npm run dev</code>, <code>vite.config.ts</code> 기본값은 4040 그대로라고 적고, 로컬은 팀 규칙대로 <code>--port 4050</code> 으로 띄운다고 안내했다.</li>
+<li><code>README.md</code> 의 나머지 낡은 내용도 고쳤다: 없는 <code>csm</code> 모듈과 <code>e2e/</code> 폴더 삭제, 컴포넌트 접두어 <code>u-*</code> → <code>e-*</code>, <code>minReplicas=1</code> → 상시 2대(정본은 우산 레포 <code>infra/main.bicep</code>), 백엔드 ingress external(임시) → internal, 개발 문서 목록을 <code>mkdocs.yml</code> nav 와 맞춤.</li>
+</ul>
+</li>
 </ul>
 <h2 id="crsrepaircode-5-crsinvoice-3-pr-302-infra-86">CrsRepairCode 탭 5벌, CrsInvoice 요약 표 3벌을 반복문으로 정리 (PR #302, Infra #86)<a class="headerlink" href="#crsrepaircode-5-crsinvoice-3-pr-302-infra-86" title="Permanent link">&para;</a></h2>
 <p>두 CRS 화면에서 탭이나 표마다 한 벌씩 복사돼 있던 코드를 설정 배열과 <code>v-for</code> 로 접었다. 화면 결과와 동작은 바뀌지 않는다.</p>
