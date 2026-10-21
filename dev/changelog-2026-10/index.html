@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-pr-301-infra-86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        프론트 공용 중복 4건 정리 (PR #301, Infra #86)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2553,6 +2564,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-pr-301-infra-86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        프론트 공용 중복 4건 정리 (PR #301, Infra #86)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3623,6 +3645,38 @@
 <li><code>getGridOptions()</code>(다운로드 버튼 열, 파일명 열), 그 버튼만 부르던 <code>fileDownLoad</code></li>
 <li>그것만 쓰던 <code>AgButtonRender</code> import</li>
 <li>엑셀 양식 다운로드 <code>fileDownLoadTemplate</code> 은 별개라 그대로다.</li>
+</ul>
+<h2 id="4-pr-301-infra-86">프론트 공용 중복 4건 정리 (PR #301, Infra #86)<a class="headerlink" href="#4-pr-301-infra-86" title="Permanent link">&para;</a></h2>
+<p>Infra #86 의 "지금 할 만한 것" 중 프론트 공용부 중복 4건을 하나로 모았다. 조사(10-14) 뒤 바뀐 코드가 있어 지금 코드에서 다시 확인했다. 형식이 틀린 날짜 값 표시 말고는 동작이 바뀌지 않는다.</p>
+<ul>
+<li>Delete 키 범위 지우기 <code>fnGridDeleteByRange</code><ul>
+<li>본문이 완전히 같은 메서드가 9개 화면에 있었다: CmsDataDicMgt, CrsEstUploadExl, EirExportIssue, EirImportIssue, FdsCntrMoveUpload, FdsFeederageMgt, FdsMoveInspect, FdsOrdMgt, TesLashingExpn. 이슈에는 10개로 적혀 있었는데 지금은 9개다.</li>
+<li>공용 함수 <code>src/util/ag-grid/grid/deleteByRange.ts</code> 하나로 옮기고 화면 메서드는 지웠다. 본문은 그대로다.</li>
+<li>화면은 그리드 <code>suppressKeyboardEvent</code> 의 화살표 함수 안에서 <code>this.fnGridDeleteByRange(param)</code> 대신 가져온 함수를 부른다. 원래 본문이 화면 인스턴스(<code>this</code>)를 쓰지 않아 결과가 같다. FdsOrdMgt 는 그리드 정의가 있는 <code>gridOptions.js</code> 에서 가져온다.</li>
+</ul>
+</li>
+<li>관리자 판정<ul>
+<li><code>roleId</code> 에 <code>ADMIN</code> 이 있는지 직접 보던 4곳이 <code>plugins/common.ts</code> 의 <code>isAdmin()</code> 을 부른다: 로그인 직후 첫 즐겨찾기 이동(<code>router/menuAuthGuard.ts</code>, 지역 함수 <code>isAdminRole</code> 삭제), 헤더 DOCS 메뉴(<code>EHeader</code>), 홈 대시보드 선택(<code>pages/index.vue</code>), <code>EContentLayout</code>.</li>
+<li>판정 기준은 같다(배열이면 포함 여부, 문자열이면 일치). 읽는 시점도 그대로다. 헤더와 홈은 <code>computed</code> 안에서 부르므로 세션이 바뀌면 다시 계산되고, <code>EContentLayout</code> 은 종전처럼 <code>onMounted</code> 에서 한 번 읽는다.</li>
+</ul>
+</li>
+<li><code>ValueFormatter.formatDateTime</code> 과 <code>formatDateTimeMin</code><ul>
+<li>두 이름과 각자의 기본 형식은 그대로이고 변환 본문만 공유한다. <code>formatDateTime</code> 은 <code>yyyyMMddHHmmss</code> 를 <code>yyyy-MM-dd HH:mm:ss</code>(초 단위)로, <code>formatDateTimeMin</code> 는 <code>yyyyMMddHHmm</code> 을 <code>yyyy-MM-dd HH:mm</code>(분 단위)로 바꾼다. <code>formatDateTimeMin</code> 가 자기 기본 형식으로 <code>formatDateTime</code> 을 부른다. 쓰는 곳 19곳은 고치지 않았다.</li>
+<li><strong>동작 변경</strong>: 형식이 맞지 않는 문자열(예: <code>2026-10-21</code>, 자릿수가 다른 값, 없는 월)은 예외 대신 <strong>빈칸</strong>으로 보여 준다(값이 비어 보여 사용자가 알아차리게)(사용자 결정 2026-10-21). 전에는 값 하나 때문에 셀 렌더에서 예외가 났다.</li>
+<li><strong>이름 변경</strong>: <code>formatDate2</code> → <code>formatDateTimeMin</code>(분까지 나온다는 뜻, 쓰는 곳 15곳 11파일, 사용자 결정 2026-10-21). <code>formatDateTime</code>(초까지)은 그대로다.</li>
+<li>빈 값은 종전대로 <code>null</code>, 문자열이 아닌 값도 종전대로 <code>null</code> 이다.</li>
+</ul>
+</li>
+<li><code>frontUrl</code> 상수<ul>
+<li><code>ECodeBox/codeBoxType.ts</code> 와 <code>util/service/CodeBoxService.ts</code> 에 같은 값이 따로 있었다. <code>codeBoxType.ts</code> 를 원본으로 두고 <code>CodeBoxService</code> 는 그것을 가져온다(레거시와 같은 구조).</li>
+<li>"ECodeBox 미이식이라 인라인 추출" 이라던 <code>TODO(FE-22)</code> 주석 두 줄을 사실대로 고쳤다. ECodeBox 는 이미 이식돼 있다.</li>
+</ul>
+</li>
+</ul>
+<p>테스트를 13건 추가했다(전체 174 → 187).</p>
+<ul>
+<li><code>deleteByRange.spec.ts</code> 7건: 범위 안 편집 가능한 셀만 지움, 거꾸로 잡은 범위, 편집 불가 셀 건너뜀, 여러 범위, 키 대소문자, 빈 선택, Delete 아닌 키.</li>
+<li><code>ValueFormatter.spec.ts</code> 6건: 두 이름의 기본 출력(<code>20261021153045</code> → <code>2026-10-21 15:30:45</code>, <code>202610211530</code> → <code>2026-10-21 15:30</code>), 형식을 넘겼을 때 두 이름이 같은 결과, 빈 값, 문자열 아닌 값, 형식 틀린 값.</li>
 </ul>
 <h2 id="pr-298-infra-84">탭을 옮겼다 돌아오면 스크롤 위치 복원 (PR #298, Infra #84)<a class="headerlink" href="#pr-298-infra-84" title="Permanent link">&para;</a></h2>
 <p>레거시에 있던 기능이 이관 때 빠졌던 것을 되살렸다. 긴 그리드를 내려 보다가 다른 탭에 다녀오면 본문과 그리드가 맨 위로 돌아가 있었다.</p>
