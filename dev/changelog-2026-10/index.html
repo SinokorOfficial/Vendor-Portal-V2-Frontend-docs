@@ -1374,6 +1374,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#crsrepaircode-5-crsinvoice-3-pr-302-infra-86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsRepairCode 탭 5벌, CrsInvoice 요약 표 3벌을 반복문으로 정리 (PR #302, Infra #86)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2575,6 +2586,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#crsrepaircode-5-crsinvoice-3-pr-302-infra-86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CrsRepairCode 탭 5벌, CrsInvoice 요약 표 3벌을 반복문으로 정리 (PR #302, Infra #86)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3678,6 +3700,23 @@
 <li><code>deleteByRange.spec.ts</code> 7건: 범위 안 편집 가능한 셀만 지움, 거꾸로 잡은 범위, 편집 불가 셀 건너뜀, 여러 범위, 키 대소문자, 빈 선택, Delete 아닌 키.</li>
 <li><code>ValueFormatter.spec.ts</code> 6건: 두 이름의 기본 출력(<code>20261021153045</code> → <code>2026-10-21 15:30:45</code>, <code>202610211530</code> → <code>2026-10-21 15:30</code>), 형식을 넘겼을 때 두 이름이 같은 결과, 빈 값, 문자열 아닌 값, 형식 틀린 값.</li>
 </ul>
+<h2 id="crsrepaircode-5-crsinvoice-3-pr-302-infra-86">CrsRepairCode 탭 5벌, CrsInvoice 요약 표 3벌을 반복문으로 정리 (PR #302, Infra #86)<a class="headerlink" href="#crsrepaircode-5-crsinvoice-3-pr-302-infra-86" title="Permanent link">&para;</a></h2>
+<p>두 CRS 화면에서 탭이나 표마다 한 벌씩 복사돼 있던 코드를 설정 배열과 <code>v-for</code> 로 접었다. 화면 결과와 동작은 바뀌지 않는다.</p>
+<ul>
+<li><code>CrsRepairCode</code>(수리 코드 조회, 636줄에서 228줄)<ul>
+<li>5개 탭(TP/SZ, Damage, Component, Repair, Damaged Area)마다 있던 그리드 옵션, 어댑터, 건수 computed, 조회 메서드, 조회 조건 행, 탭 슬롯을 탭 설정 배열 <code>TABS</code> 하나로 돌린다.</li>
+<li>탭마다 다른 것은 코드 팝업 종류와 제목, 조회 dataset, 엑셀 파일 이름이다. 그리드 컬럼은 5개 탭이 같아 <code>fnGetGridOptions()</code> 하나로 탭마다 새 옵션을 만든다.</li>
+<li>탭 플래그 5개(<code>tpszTF</code> 등)는 <code>activeTab</code> 하나가 됐다.</li>
+<li>조회 조건의 코드 박스는 전처럼 탭을 바꿀 때마다 새로 만든다. <code>e-code-box</code> 가 <code>popup-type</code> 을 마운트할 때 한 번만 읽기 때문이다.</li>
+<li>초기화 때 어댑터를 다시 만드는 동작은 그대로 뒀다(Infra #86 의 리스너 누적 항목에서 따로 다룬다).</li>
+</ul>
+</li>
+<li><code>CrsInvoice</code>: Invoice Detail 의 Repair, Cleaning, Total 요약 표 3개(117줄)는 바인딩하는 <code>main</code> 필드만 달라서 <code>v-for</code> 표 하나(20줄)로 접었다. 스크립트에는 표 정의 데이터(<code>summaryGroups</code>, <code>summaryRows</code>)만 더했다.<ul>
+<li>칸마다 바인딩하는 필드 이름(<code>R_GPCNT</code> 등 45개)은 <code>summaryGroups</code> 정의 표에 그대로 적어 둬 grep 으로 찾을 수 있다. 이름을 이어 붙여 만들지 않는다.</li>
+</ul>
+</li>
+</ul>
+<p>로그인이 필요한 화면이라 jsdom 에서 바꾸기 전과 후를 같은 하네스로 마운트해 비교했고 차이는 0이었다. CrsRepairCode 는 탭별 그리드 옵션, 조회 요청, 엑셀 파일 이름, 렌더 결과를, CrsInvoice 는 요약 표 HTML 과 입력 칸이 쓰는 <code>main</code> 필드를 봤다.</p>
 <h2 id="pr-298-infra-84">탭을 옮겼다 돌아오면 스크롤 위치 복원 (PR #298, Infra #84)<a class="headerlink" href="#pr-298-infra-84" title="Permanent link">&para;</a></h2>
 <p>레거시에 있던 기능이 이관 때 빠졌던 것을 되살렸다. 긴 그리드를 내려 보다가 다른 탭에 다녀오면 본문과 그리드가 맨 위로 돌아가 있었다.</p>
 <h3 id="_1">원인<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
