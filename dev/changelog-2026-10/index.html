@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#tesinspexpn-pr-300-infra-84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TesInspExpn 의 그려지지 않는 첨부 그리드 잔재 삭제 (PR #300, Infra #84)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2531,6 +2542,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#tesinspexpn-pr-300-infra-84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TesInspExpn 의 그려지지 않는 첨부 그리드 잔재 삭제 (PR #300, Infra #84)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3594,6 +3616,14 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="tesinspexpn-pr-300-infra-84">TesInspExpn 의 그려지지 않는 첨부 그리드 잔재 삭제 (PR #300, Infra #84)<a class="headerlink" href="#tesinspexpn-pr-300-infra-84" title="Permanent link">&para;</a></h2>
+<p><code>TesInspExpn</code> 에 템플릿에 없는 첨부 그리드의 옵션, 어댑터, 다운로드 메서드가 남아 있었다. 화면은 이 그리드를 그리지 않고, 첨부는 <code>ATFILE</code> 버튼의 팝업으로 한다. 동작 변화는 없다.</p>
+<ul>
+<li>data <code>gridOptions</code>, <code>gridAdapter</code> 와 <code>beforeMount</code>, <code>mounted</code>, <code>fnReset</code> 의 생성 코드</li>
+<li><code>getGridOptions()</code>(다운로드 버튼 열, 파일명 열), 그 버튼만 부르던 <code>fileDownLoad</code></li>
+<li>그것만 쓰던 <code>AgButtonRender</code> import</li>
+<li>엑셀 양식 다운로드 <code>fileDownLoadTemplate</code> 은 별개라 그대로다.</li>
+</ul>
 <h2 id="pr-298-infra-84">탭을 옮겼다 돌아오면 스크롤 위치 복원 (PR #298, Infra #84)<a class="headerlink" href="#pr-298-infra-84" title="Permanent link">&para;</a></h2>
 <p>레거시에 있던 기능이 이관 때 빠졌던 것을 되살렸다. 긴 그리드를 내려 보다가 다른 탭에 다녀오면 본문과 그리드가 맨 위로 돌아가 있었다.</p>
 <h3 id="_1">원인<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
