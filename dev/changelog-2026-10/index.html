@@ -1385,6 +1385,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-emits-pr-304-infra-86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공통코드 캐시 키에 요청값 포함, 공용 컴포넌트 4곳 emits 선언 (PR #304, Infra #86)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2597,6 +2608,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-emits-pr-304-infra-86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공통코드 캐시 키에 요청값 포함, 공용 컴포넌트 4곳 emits 선언 (PR #304, Infra #86)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-298-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3717,6 +3739,36 @@
 </li>
 </ul>
 <p>로그인이 필요한 화면이라 jsdom 에서 바꾸기 전과 후를 같은 하네스로 마운트해 비교했고 차이는 0이었다. CrsRepairCode 는 탭별 그리드 옵션, 조회 요청, 엑셀 파일 이름, 렌더 결과를, CrsInvoice 는 요약 표 HTML 과 입력 칸이 쓰는 <code>main</code> 필드를 봤다.</p>
+<h2 id="4-emits-pr-304-infra-86">공통코드 캐시 키에 요청값 포함, 공용 컴포넌트 4곳 emits 선언 (PR #304, Infra #86)<a class="headerlink" href="#4-emits-pr-304-infra-86" title="Permanent link">&para;</a></h2>
+<p>Infra #86 의 "성능이나 동작에 영향" 중 프론트 공용부 두 건이다. 지금 화면의 결과와 서버 호출 횟수는 그대로다.</p>
+<ul>
+<li>공통코드 캐시 키(<code>util/service/CodeService.ts</code>)<ul>
+<li>화면의 <code>codeData()</code> 로 받는 공통코드를 키 이름(<code>USE_YN</code>, <code>STATUS</code> 등)만으로 캐시하고 있었다. 두 화면이 같은 키 이름으로 다른 코드를 요청하면(예: <code>STATUS</code> 가 한쪽은 <code>FDS_STATUS</code>, 다른 쪽은 <code>CFS_STATUS</code>) 뒤에 연 화면이 앞 화면의 목록을 받는다.</li>
+<li>캐시 키를 "키 이름 + 요청 파라미터 전체"로 바꿨다. 파라미터는 <code>MSTR_CD</code>, <code>FLTR_01_COL</code> 같은 필터를 이름 순으로 정렬해 넣으므로 적는 순서는 상관없다. 요청 URL 은 <code>MSTR_CD</code>(<code>#LANGUAGE</code> 여부)로 정해져 파라미터에 이미 들어 있다.</li>
+<li>캐시 기간은 종전대로 무기한이다. 같은 요청은 서버를 한 번만 부른다.</li>
+<li>지금 코드의 <code>codeData()</code> 67곳, 키 이름 36개는 키 이름마다 파라미터가 한 가지뿐이라 섞인 적이 없다(이슈에는 40개로 적혀 있었는데 지금은 36개다). 그래서 새 키로도 캐시가 맞는 경우와 빗나가는 경우가 종전과 같다. 67곳을 여러 순서(9,134회 진입)로 열어 보는 모의 실행에서도 종전과 결과, 서버 호출이 모두 같았다.</li>
+<li><code>CmsDataDicMgt</code> 의 언어 목록 재조회 주석("키 이름으로 전역 캐시돼")은 캐시 기간이 그대로라 여전히 맞다. 고치지 않았다.</li>
+</ul>
+</li>
+<li>공용 컴포넌트 <code>emits</code> 선언<ul>
+<li><code>$emit</code> 은 하는데 <code>emits</code> 를 선언하지 않은 컴포넌트는 부모가 건 리스너가 <code>$attrs</code> 에 남아 루트 엘리먼트(또는 컴포넌트가 <code>$attrs</code> 를 펼치는 곳)에도 붙는다. 4곳에 선언했다.</li>
+<li><code>ECalendarPopup</code>: <code>input</code>, <code>close</code>. <code>input</code> 은 네이티브 이름이지만 루트가 <code>dx-popup</code> 이고 DevExtreme Vue 는 <code>id</code>, <code>class</code>, <code>style</code> 외의 속성을 DOM 에 내리지 않아 네이티브 경로가 없었다. 쓰는 곳은 <code>EDateBox</code> 하나이고 컴포넌트 이벤트를 기대한다.</li>
+<li><code>EMultiDataBox</code>: <code>change</code>. 루트 <code>div</code> 안에 입력 요소가 없어 네이티브 <code>change</code> 가 올 수 없다. 쓰는 곳은 dev 컨트롤 화면 하나다.</li>
+<li><code>EScheduler</code>: <code>request-date</code>, <code>new-schedule-date</code>, <code>emit-insert</code>, <code>emit-update</code>, <code>emit-delete</code>. 네이티브 이름이 없다. 루트 <code>dx-scheduler</code> 에 넘어가던 리스너는 DevExtreme 이벤트로 등록만 되고 불리지 않았다.</li>
+<li><code>ELinkTextBox</code>: <code>update:modelValue</code>, <code>focus</code>, <code>link-click</code>. 이 컴포넌트는 <code>$attrs</code> 를 안쪽 <code>input</code> 에 펼친다. 그래서 부모가 <code>@focus</code> 를 걸면 네이티브 focus 로 한 번, <code>$emit('focus')</code> 로 한 번, 두 번 불렸다. 이제 한 번이다. 지금 <code>@focus</code> 를 거는 곳은 없다(dev 화면 2곳이 <code>v-model</code>, <code>@link-click</code> 만 쓴다).</li>
+</ul>
+</li>
+<li>선언하지 않은 2곳<ul>
+<li><code>EDialogLayout</code>: 버튼 이벤트 이름이 DB 의 <code>BTN_ID</code> 로 정해진다. <code>emits</code> 는 이름을 미리 적어야 해서 선언할 수 없다. 지금 이 레이아웃을 쓰는 화면 21곳 모두 <code>&lt;e-dialog-layout&gt;</code> 에 리스너를 걸지 않는다.</li>
+<li><code>DynamicPrintCheckOption</code>: <code>update:modelValue</code> 는 고정이지만 <code>emit-${event}</code> 는 데이터로 정해진다. 일부만 선언하면 동적 이벤트마다 Vue 개발 경고가 난다(파일 머리 주석의 기존 결정).</li>
+</ul>
+</li>
+<li>이슈에 적힌 <code>MenuNode</code> 는 이미 <code>defineEmits</code> 로 선언돼 있다.</li>
+</ul>
+<p>테스트를 5건 추가했다(전체 187 → 192).</p>
+<ul>
+<li><code>CodeService.spec.ts</code> 5건: 같은 요청 두 번이면 서버 한 번, 같은 키 이름에 다른 <code>MSTR_CD</code> 는 따로 캐시, 같은 <code>MSTR_CD</code> 에 다른 필터는 따로 캐시(파라미터 순서 무관), 일부만 캐시돼 있으면 없는 키만 요청, <code>#LANGUAGE</code> 는 언어코드 API 로 가고 캐시된다. 종전 코드에서는 가운데 두 건이 실패한다.</li>
+</ul>
 <h2 id="pr-298-infra-84">탭을 옮겼다 돌아오면 스크롤 위치 복원 (PR #298, Infra #84)<a class="headerlink" href="#pr-298-infra-84" title="Permanent link">&para;</a></h2>
 <p>레거시에 있던 기능이 이관 때 빠졌던 것을 되살렸다. 긴 그리드를 내려 보다가 다른 탭에 다녀오면 본문과 그리드가 맨 위로 돌아가 있었다.</p>
 <h3 id="_1">원인<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
