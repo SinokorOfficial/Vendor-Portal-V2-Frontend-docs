@@ -1764,7 +1764,7 @@
 </table>
 <p>폴더 안의 <code>index.vue</code> 는 그 폴더 경로가 곧 라우트가 됩니다. 전체 매핑은 <a href="../reference/routes/">라우트 표</a>에서 자동 생성됩니다.</p>
 <h2 id="props">props 주입<a class="headerlink" href="#props" title="Permanent link">&para;</a></h2>
-<p>라우터는 모든 라우트에 <code>props: true</code> 를 부여해, <strong>라우트 파라미터와 <code>codeMap</code>(코드 프리페치 결과)</strong> 를 화면 props 로 넣어줍니다 (<code>src/router/index.ts</code>). 화면은 <code>pageMixin</code> 을 통해 <code>codeMap</code> prop 을 받습니다.</p>
+<p>라우터는 모든 라우트에 <code>props: true</code> 를 부여해, <strong>라우트 파라미터와 <code>codeMap</code>(코드 프리페치 결과)</strong> 를 화면 props 로 넣어줍니다 (<code>src/router/index.ts</code>). 화면은 <code>pageMixin</code> 을 통해 <code>codeMap</code> prop 을 받습니다. <code>$dialog</code> 로 여는 팝업은 <code>EDialog</code> 가 <code>param</code>, <code>code-map</code> 을 넘기고, 팝업은 <code>dialogMixin</code>(<code>src/mixins/page/dialog.ts</code>)으로 받습니다.</p>
 <h2 id="_2">가드 체인<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>라우팅 시 아래 가드가 순서대로 실행됩니다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>tabGuard ─▶ menuAuthGuard ─▶ codeDataGuard ─▶ 화면 진입

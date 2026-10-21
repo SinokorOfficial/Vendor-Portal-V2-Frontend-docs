@@ -1907,6 +1907,7 @@
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>└─ dataset.js     ← 저장프로시저 메타데이터 (PACKAGE/PROCEDURE/PARAM/CURSOR)
 </code></pre></div>
 <p>화면은 <strong>Composition API 가 아니라 Options API + <code>pageMixin</code></strong> 패턴을 따릅니다.</p>
+<p><code>$dialog</code> 로 여는 팝업(<code>src/pages/&lt;module&gt;/popup/</code>)은 <code>pageMixin</code> 대신 <code>dialogMixin</code>(<code>~/mixins/page/dialog</code>, <code>codeMap</code> 과 <code>param</code> prop 만)을 씁니다. <code>pageMixin</code> 은 마운트할 때 활성 탭 메뉴로 방문 로그를 남기므로, 팝업이 쓰면 열 때마다 부모 화면 방문이 한 줄씩 더 쌓입니다(Infra #86).</p>
 <h2 id="indexvue">index.vue 골격<a class="headerlink" href="#indexvue" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  <span class="p">&lt;</span><span class="nt">e-content-layout</span> <span class="p">@</span><span class="na">btn-reset</span><span class="o">=</span><span class="s">"</span><span class="nx">fnReset</span><span class="s">"</span> <span class="p">@</span><span class="na">btn-search</span><span class="o">=</span><span class="s">"</span><span class="nx">fnSearch</span><span class="s">"</span> <span class="p">@</span><span class="na">btn-send</span><span class="o">=</span><span class="s">"</span><span class="nx">fnSend</span><span class="s">"</span><span class="p">&gt;</span>
@@ -2115,7 +2116,7 @@
 <h2 id="_7">새 화면 추가 체크리스트<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <ol>
 <li><code>src/pages/&lt;module&gt;/&lt;Screen&gt;/index.vue</code> 생성(+ 필요 시 <code>dataset.js</code>).</li>
-<li><code>mixins: [ pageMixin ]</code> 적용, 필요한 공통코드는 <code>codeData()</code> 에 선언.</li>
+<li><code>mixins: [ pageMixin ]</code> 적용(팝업은 <code>dialogMixin</code>), 필요한 공통코드는 <code>codeData()</code> 에 선언.</li>
 <li>그리드는 <code>fnGetXxxGridOptions()</code> 로 컬럼 정의 후 <code>AgGridAdapter.of(...)</code>.
    검색 기간 날짜 쌍이 있으면 위 <strong>검색 영역 규약</strong>대로 두 박스에 <code>@change</code> 를 연결한다.
    조회 결과 반영은 위 <strong>조회 결과 처리(0건 규약)</strong> 절을 따릅니다(<code>setItems</code> 는 조건 밖, 0건은 <code>$notify.warn</code>).
