@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-313-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        행 삭제 버튼을 선택 없이 누르면 무반응이던 것 (PR #313, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2724,6 +2735,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-313-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        행 삭제 버튼을 선택 없이 누르면 무반응이던 것 (PR #313, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3977,6 +3999,32 @@
 </li>
 </ul>
 <p>테스트 2건을 더했다(전체 200 → 202). 화면의 <code>created()</code>, <code>openPopup()</code> 을 실제 코드로 돌려 목록에 <code>Default</code> 가 없는지, 모든 행을 열어도 <code>selectDefault</code> 로 조회하지 않는지 본다. 고치기 전에는 둘 다 실패한다.</p>
+<h2 id="pr-313-infra-95">행 삭제 버튼을 선택 없이 누르면 무반응이던 것 (PR #313, Infra #95)<a class="headerlink" href="#pr-313-infra-95" title="Permanent link">&para;</a></h2>
+<p>그리드 행 삭제 메서드 17곳이 선택 행을 확인하기 전에 <code>getSelectedNode().rowIndex</code> 를 읽었다. 선택 행이 없으면 여기서 TypeError 로 끝나 화면에는 아무 반응이 없고 콘솔에만 에러가 남았다. 선택 행을 먼저 확인하도록 같은 모양의 가드를 넣었다. 그리드 어댑터는 고치지 않았다.</p>
+<ul>
+<li>fds, tes, cfs, mvs 10곳은 "선택된 행이 없습니다"(<code>MSG000009</code>)를 띄운다. 이 삭제 메서드들에는 원래 "선택 없음" 안내가 없었다(조용히 끝나거나, 가드 없이 다음 줄에서 또 TypeError, <code>CfsStuffExpn</code> 만 "삭제할 수 없습니다" 분기). 그래서 공용 메시지로 맞췄다(첨부 그리드 삭제, <code>FdsFeederageMgt</code> 행 추가 등이 이미 같은 메시지를 쓴다).<ul>
+<li><code>FdsOrdMgt</code>(컨테이너), <code>FdsVslPopup</code>, <code>FdsCntrMoveUpload</code>, <code>FdsFeederageMgt</code></li>
+<li><code>TesInspExpn</code>, <code>TesTugExpn</code>, <code>TesLineHandleExpn</code>, <code>TesLashingExpn</code>(스케줄)</li>
+<li><code>CfsStuffExpn</code>(컨테이너), <code>MvsCntrMove</code></li>
+</ul>
+</li>
+<li>crs, cms, mdm 7곳은 원래 의도대로 아무것도 하지 않는다(콘솔 에러만 사라진다).<ul>
+<li><code>CrsEstimate</code>(견적 상세), <code>CrsFileUploadPopup</code>, <code>CmsDataDicMgt</code>, <code>CmsUserMgt</code>(회사, 역할), <code>CmsApiMgt</code>, <code>MdmPackageMgt</code></li>
+</ul>
+</li>
+<li>선택 행이 있을 때의 삭제 동작은 그대로다.</li>
+</ul>
+<p>테스트 35건을 더했다(전체 200 → 235). 17개 삭제 메서드를 실물 ag-grid 25.3 그리드(행 2개)에 붙여 그대로 불렀다.</p>
+<ul>
+<li>선택 없음: 고치기 전 17곳 모두 TypeError, 고친 뒤 TypeError 없이 10곳은 <code>MSG000009</code> 한 번, 7곳은 안내 없음. 어느 쪽도 행을 지우거나 선택을 옮기지 않는다.</li>
+<li>선택 있음: 고치기 전후 모두 그 행으로 <code>removeItem</code> 을 한 번 부른다.</li>
+</ul>
+<p>함께 고친 것(Infra #95 2-15): <code>FdsOrdMgt</code>, <code>CfsStuffExpn</code> 의 컨테이너 그리드에서 행을 클릭(선택)한 채 행 추가를 누르고 바로 삭제하면, 새 행이 아니라 앞서 선택한 행이 지워졌다. 두 그리드는 다중 선택(<code>rowSelection: 'multiple'</code>)이라 행 추가가 새 행을 선택해도 앞 행이 선택된 채 남고, 삭제는 선택 중 첫 행을 지운다. 지워진 행은 화면에서 빠지고 변경분 캐시에 삭제(D)로 남았다. 행 추가가 새 행을 선택하기 전에 <code>deselectAll()</code> 로 앞 선택을 풀게 했다(TES 3화면이 Infra #87 1-9 에서 한 방식).</p>
+<ul>
+<li>달라지는 것: <code>CfsStuffExpn</code> 컨테이너 그리드의 체크(선택)는 승인 요청, 삭제 요청 버튼이 읽는다. 종전엔 행 추가가 체크해 둔 행들에 새 행을 더했고, 이제는 체크를 비우고 새 행만 선택한다.</li>
+</ul>
+<p>테스트 2건을 더했다(전체 235 → 237). 두 화면의 실제 그리드 옵션으로 실물 그리드를 띄우고 0행을 선택한 채 화면의 행 추가, 행 삭제를 그대로 불렀다. 고치기 전엔 0행이 지워지고 새 행이 남았고, 고친 뒤엔 새 행만 지워진다.</p>
+<p>함께 맞춘 것(사용자 결정 2026-10-22): <code>TesLashingExpn</code> 스케줄 행 추가는 선택을 풀기만 하고 새 행으로의 포커스 호출이 주석 처리돼 있어(레거시부터, 이 화면에 없는 <code>I_ADD_YN</code> 열로 적혀 있었다) 추가 직후 선택 행이 없었다. 그래서 추가 직후 삭제를 누르면 위 가드로 "선택된 행이 없습니다" 가 떴다. 다른 TES 3화면처럼 새 행을 선택하고 GBUN 편집을 시작하게 했다. 이제 추가 직후 삭제하면 새 행이 지워진다. 테스트 1건을 더했다(전체 237 → 238. 고치기 전엔 추가 직후 선택 행이 없어 실패).</p>
 <h2 id="blob-url-pr-310-infra-95">파일 다운로드 뒤 blob URL 해제 (PR #310, Infra #95)<a class="headerlink" href="#blob-url-pr-310-infra-95" title="Permanent link">&para;</a></h2>
 <p>첨부, 템플릿 같은 파일 다운로드(<code>$axios.fileDown</code>, <code>$axios.fileOriginDown</code>)는 받은 내용을 blob URL 로 만들어 앵커로 내려받는다. 다 쓴 URL 을 해제하는 <code>revokeObjectURL</code> 에 URL 이 아니라 앵커 요소를 넘기고 있어서 해제가 한 번도 되지 않았다. 그래서 내려받을 때마다 파일 크기만큼 탭 메모리에 남았고, 탭을 닫거나 새로 고칠 때까지 풀리지 않았다.</p>
 <ul>
