@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-315-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        저장할 때 새 그룹 번호 채번을 기다리게 (PR #315, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-313-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2746,6 +2757,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-315-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        저장할 때 새 그룹 번호 채번을 기다리게 (PR #315, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-313-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4021,6 +4043,31 @@
 </li>
 </ul>
 <p>테스트 2건을 더했다(전체 200 → 202). 화면의 <code>created()</code>, <code>openPopup()</code> 을 실제 코드로 돌려 목록에 <code>Default</code> 가 없는지, 모든 행을 열어도 <code>selectDefault</code> 로 조회하지 않는지 본다. 고치기 전에는 둘 다 실패한다.</p>
+<h2 id="pr-315-infra-95">저장할 때 새 그룹 번호 채번을 기다리게 (PR #315, Infra #95)<a class="headerlink" href="#pr-315-infra-95" title="Permanent link">&para;</a></h2>
+<p>TES 비용 4화면(<code>TesInspExpn</code>, <code>TesTugExpn</code>, <code>TesLineHandleExpn</code>, <code>TesLashingExpn</code>)과 <code>CfsStuffInvoice</code> 는 그룹 번호 없이 처음 저장할 때 새 번호를 채번(<code>/api/code/getGrpInvNo</code>)한다. 그런데 채번 함수 <code>getGroupInvNo</code> 가 promise 를 돌려주지 않았고 저장 함수도 기다리지 않아, 채번 응답보다 저장 내용이 먼저 만들어질 수 있었다.</p>
+<ul>
+<li><code>TesTugExpn</code>, <code>CfsStuffInvoice</code> 는 고친 행에 그룹 번호를 넣는 줄이 채번 직후에 바로 돌아 늘 빈 번호가 들어갔다. 나머지 3화면은 업로드 검증 왕복을 기다린 뒤라 대개 채워졌지만 응답 순서에 달렸다.</li>
+<li>지금까지 문제가 드러나지 않은 것은 저장 프로시저가 행의 번호가 비면 화면 헤더(<code>PARAM</code>)의 번호로 채우고(<code>nvl</code>), 그 헤더는 확인창 "예" 뒤에 보낼 때 읽어서다. 채번 응답이 그보다 늦으면 헤더까지 비어서 나간다. 그때 결과는 프로시저마다 다르다.<ul>
+<li>TUG, LHDC, LASH: 저장한 뒤 끝의 "번호 없는 행 삭제"가 방금 넣은 행을 지운다(화면에는 저장 성공).</li>
+<li>TALLY(<code>TesInspExpn</code>): "Invoice No is missing" 으로 거절한다.</li>
+<li>CFS: 그룹 번호 없는 채로 저장한다.</li>
+</ul>
+</li>
+<li><code>getGroupInvNo</code> 를 <code>async</code> 로 바꿔 채번 요청을 기다리게 하고(<code>FdsInvoice</code> 와 같은 모양), 저장 함수가 그것을 <code>await</code> 한다. <code>CfsStuffInvoice</code> 는 저장 함수도 <code>async</code> 로 바꿨다.</li>
+<li>달라지는 것: 첫 저장 때 저장 확인창이 채번 응답 뒤에 뜬다(TES 는 채번과 업로드 검증을 차례로 기다린다). 그룹 번호를 이미 골랐거나 행에 번호가 있으면 채번하지 않으므로 종전과 같다.</li>
+<li>채번에 실패하면 저장하지 않는다. 종전엔 실패해도 빈 번호로 확인창이 떠 위 프로시저별 결과로 이어졌다.<ul>
+<li>응답은 왔는데 번호가 비면: 새 안내 <code>MSG000449</code>(그룹 번호 발급이 지연되고 있습니다. 잠시 후 다시 저장해 주세요) 한 번.</li>
+<li>요청 자체가 실패하면(서버 에러, 네트워크): 종전 에러 알림(<code>$notify.error</code>) 한 번. 안내를 더 띄우지 않는다.</li>
+<li>응답 인터셉터가 알림을 띄우고 멈추는 경우(세션 불일치 등)는 종전처럼 거기서 멈춘다.</li>
+</ul>
+</li>
+</ul>
+<p>테스트 15건을 더했다(전체 200 → 215). 화면의 <code>fnSave</code> 를 그대로 부르고 채번 응답을 일부러 늦추거나 빈 번호, 실패로 돌려준 뒤 보낸 저장 요청을 확인했다.</p>
+<ul>
+<li>고치기 전: 5화면 모두 채번 응답 전에 저장 요청이 나가 헤더와 고친 행의 <code>GRP_INV_NO</code> 가 비었다.</li>
+<li>고친 뒤: 채번 응답 뒤에 확인창이 뜨고, 헤더와 고친 행 모두 새 번호로 나간다.</li>
+<li>빈 번호, 요청 실패(각 5화면): 고치기 전엔 저장 요청이 나갔고, 고친 뒤엔 확인창도 저장 요청도 없이 안내 한 번으로 끝난다.</li>
+</ul>
 <h2 id="pr-313-infra-95">행 삭제 버튼을 선택 없이 누르면 무반응이던 것 (PR #313, Infra #95)<a class="headerlink" href="#pr-313-infra-95" title="Permanent link">&para;</a></h2>
 <p>그리드 행 삭제 메서드 17곳이 선택 행을 확인하기 전에 <code>getSelectedNode().rowIndex</code> 를 읽었다. 선택 행이 없으면 여기서 TypeError 로 끝나 화면에는 아무 반응이 없고 콘솔에만 에러가 남았다. 선택 행을 먼저 확인하도록 같은 모양의 가드를 넣었다. 그리드 어댑터는 고치지 않았다.</p>
 <ul>
