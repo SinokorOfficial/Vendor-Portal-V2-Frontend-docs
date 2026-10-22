@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-320-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할 메뉴 저장, 복사가 서버 거절 사유를 띄우게 (PR #320, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#codebuilderprependcode-pr-316-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2829,6 +2840,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-320-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        역할 메뉴 저장, 복사가 서버 거절 사유를 띄우게 (PR #320, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#codebuilderprependcode-pr-316-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4174,6 +4196,13 @@
 <li><code>bootstrap.ts</code> 의 <code>setPC</code> 가 화면 언어(<code>effectiveLang</code> = 헤더에서 고른 <code>langCd</code> 쿠키, 비면 사용자 DB 언어)를 정한 직후, <code>menuMap</code> 을 부르기 전에 같은 값을 <code>lang</code> 쿠키로도 쓴다. 언어를 알 수 없으면 쿠키를 지워 이전 사용자의 값이 남지 않게 했다(빈 값 쿠키는 쓰지 않음).</li>
 <li>헤더에서 언어를 바꾸면 새로고침되며 같은 코드를 다시 타므로 따로 고칠 곳은 없다. 백엔드는 바꾸지 않았다.</li>
 <li>보이는 변화: 버튼 이름과 서버 에러 문구가 화면 라벨과 같은 언어로 나온다.</li>
+</ul>
+<h2 id="pr-320-infra-95">역할 메뉴 저장, 복사가 서버 거절 사유를 띄우게 (PR #320, Infra #95)<a class="headerlink" href="#pr-320-infra-95" title="Permanent link">&para;</a></h2>
+<p>권한 관리(역할 메뉴) 화면의 저장과 복사에 <code>.catch</code> 가 없어, 서버가 사유를 담아 거절(409)해도 화면에는 아무것도 뜨지 않았다. "저장 되었습니다" 알림이 안 뜨는 것 말고는 실패를 알 길이 없었다.</p>
+<ul>
+<li>백엔드 PR #263 이 역할 메뉴 저장에서 없는 상위 메뉴나 상위 순환을 만나면 거절하도록 바뀌면서(Infra #95 2-14, 사용자 결정), 관리자가 그 사유를 보고 메뉴 관리부터 고칠 수 있어야 했다.</li>
+<li>저장, 복사 모두 거절 사유를 <code>$message.error</code> 로 띄운다(<code>ChangeMe</code>, 비밀번호 초기화 화면과 같은 방식). 원래 있던 거절(배정된 역할 삭제 차단 등)의 사유도 이제 보인다.</li>
+<li>같은 구멍이던 채번 규칙 관리(<code>CmsAutonoRuleMgt</code>) 저장도 거절 사유를 띄운다. 나머지 관리 화면의 저장에는 이미 <code>.catch</code> 가 있다.</li>
 </ul>
 <h2 id="codebuilderprependcode-pr-316-infra-95">아무것도 하지 않는 CodeBuilder.prependCode() 삭제 (PR #316, Infra #95)<a class="headerlink" href="#codebuilderprependcode-pr-316-infra-95" title="Permanent link">&para;</a></h2>
 <p>공통코드 빌더 <code>CodeBuilder</code> 의 <code>prependCode()</code> 는 목록을 고치지 않고 자기 자신만 돌려줬다(레거시도 <code>return this</code>). 같은 계열의 <code>prependCodeAll()</code>(맨 앞에 '전체'), <code>prependCodeNull()</code>(맨 앞에 빈 항목)과 달리 하는 일이 없었다. 메서드와 호출 2곳을 지웠다. 동작 변화는 없다.</p>
