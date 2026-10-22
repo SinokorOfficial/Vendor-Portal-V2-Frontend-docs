@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#codebuilderprependcode-pr-316-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        아무것도 하지 않는 CodeBuilder.prependCode() 삭제 (PR #316, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#default-pr-311-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2746,6 +2757,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#codebuilderprependcode-pr-316-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        아무것도 하지 않는 CodeBuilder.prependCode() 삭제 (PR #316, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#default-pr-311-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4024,6 +4046,12 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="codebuilderprependcode-pr-316-infra-95">아무것도 하지 않는 CodeBuilder.prependCode() 삭제 (PR #316, Infra #95)<a class="headerlink" href="#codebuilderprependcode-pr-316-infra-95" title="Permanent link">&para;</a></h2>
+<p>공통코드 빌더 <code>CodeBuilder</code> 의 <code>prependCode()</code> 는 목록을 고치지 않고 자기 자신만 돌려줬다(레거시도 <code>return this</code>). 같은 계열의 <code>prependCodeAll()</code>(맨 앞에 '전체'), <code>prependCodeNull()</code>(맨 앞에 빈 항목)과 달리 하는 일이 없었다. 메서드와 호출 2곳을 지웠다. 동작 변화는 없다.</p>
+<ul>
+<li><code>CodeService.ts</code> 의 <code>CodeBuilder.prependCode()</code></li>
+<li><code>FdsInvoice</code>, <code>FdsFeederageMgt</code> 의 운임 코드 목록(<code>source.FRT</code>) 빌더 체인에서 <code>.prependCode()</code> 만 뺐다(<code>this.codeMap.FRT.build()</code>).</li>
+</ul>
 <h2 id="default-pr-311-infra-95">팝업 점검 화면에서 'Default' 행 제외 (PR #311, Infra #95)<a class="headerlink" href="#default-pr-311-infra-95" title="Permanent link">&para;</a></h2>
 <p>관리자용 팝업 점검 화면(<code>CmsPopupMgt</code>)에서 <code>Default</code> 행을 열고 조회하면 백엔드에 없는 <code>/api/cms/popup/cmsCommonPopup/selectDefault</code> 를 불러 500 이 났다.</p>
 <ul>
