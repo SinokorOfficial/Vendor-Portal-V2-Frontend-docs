@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#default-pr-311-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        팝업 점검 화면에서 'Default' 행 제외 (PR #311, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2691,6 +2702,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#default-pr-311-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        팝업 점검 화면에서 'Default' 행 제외 (PR #311, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3914,6 +3936,25 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="default-pr-311-infra-95">팝업 점검 화면에서 'Default' 행 제외 (PR #311, Infra #95)<a class="headerlink" href="#default-pr-311-infra-95" title="Permanent link">&para;</a></h2>
+<p>관리자용 팝업 점검 화면(<code>CmsPopupMgt</code>)에서 <code>Default</code> 행을 열고 조회하면 백엔드에 없는 <code>/api/cms/popup/cmsCommonPopup/selectDefault</code> 를 불러 500 이 났다.</p>
+<ul>
+<li>원인<ul>
+<li>이 화면은 <code>codeBoxType.ts</code> 의 <code>popupProps</code> 키를 그대로 행으로 만들고, 행을 열 때 API 를 <code>frontUrl + 타입</code> 으로 조립한다.</li>
+<li><code>Default</code> 는 DB 값이 아니라 <code>popupProps</code> 의 프론트 상수 키다. 팝업 타입이 아니라 <code>ECodeBox</code> 가 <code>popupProps</code> 에 없는 타입에 쓰는 폴백 설정(팝업 메뉴와 크기)이라 자기 API 가 없다.</li>
+<li>그래서 이 행만 <code>selectDefault</code> 가 되었다. 다른 21개 행은 백엔드 <code>CmsCommonPopupController</code> 에 같은 이름의 엔드포인트가 있거나(<code>Vessel</code> 은 API 를 직접 적음), <code>CustomerCode</code> 처럼 자기 팝업이 조회한다.</li>
+</ul>
+</li>
+<li>고친 것<ul>
+<li>화면 목록에서 <code>Default</code> 를 뺀다. 나머지 행과 <code>codeBoxType.ts</code>, <code>ECodeBox</code> 의 폴백 동작은 그대로다.</li>
+</ul>
+</li>
+<li>사용자에게 보이는 변화<ul>
+<li>팝업 점검 화면의 목록이 22행에서 21행이 된다.</li>
+</ul>
+</li>
+</ul>
+<p>테스트 2건을 더했다(전체 200 → 202). 화면의 <code>created()</code>, <code>openPopup()</code> 을 실제 코드로 돌려 목록에 <code>Default</code> 가 없는지, 모든 행을 열어도 <code>selectDefault</code> 로 조회하지 않는지 본다. 고치기 전에는 둘 다 실패한다.</p>
 <h2 id="blob-url-pr-310-infra-95">파일 다운로드 뒤 blob URL 해제 (PR #310, Infra #95)<a class="headerlink" href="#blob-url-pr-310-infra-95" title="Permanent link">&para;</a></h2>
 <p>첨부, 템플릿 같은 파일 다운로드(<code>$axios.fileDown</code>, <code>$axios.fileOriginDown</code>)는 받은 내용을 blob URL 로 만들어 앵커로 내려받는다. 다 쓴 URL 을 해제하는 <code>revokeObjectURL</code> 에 URL 이 아니라 앵커 요소를 넘기고 있어서 해제가 한 번도 되지 않았다. 그래서 내려받을 때마다 파일 크기만큼 탭 메모리에 남았고, 탭을 닫거나 새로 고칠 때까지 풀리지 않았다.</p>
 <ul>
