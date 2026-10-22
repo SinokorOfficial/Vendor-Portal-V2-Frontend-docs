@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파일 다운로드 뒤 blob URL 해제 (PR #310, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tesinspexpn-pr-300-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2680,6 +2691,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파일 다운로드 뒤 blob URL 해제 (PR #310, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tesinspexpn-pr-300-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3892,6 +3914,15 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="blob-url-pr-310-infra-95">파일 다운로드 뒤 blob URL 해제 (PR #310, Infra #95)<a class="headerlink" href="#blob-url-pr-310-infra-95" title="Permanent link">&para;</a></h2>
+<p>첨부, 템플릿 같은 파일 다운로드(<code>$axios.fileDown</code>, <code>$axios.fileOriginDown</code>)는 받은 내용을 blob URL 로 만들어 앵커로 내려받는다. 다 쓴 URL 을 해제하는 <code>revokeObjectURL</code> 에 URL 이 아니라 앵커 요소를 넘기고 있어서 해제가 한 번도 되지 않았다. 그래서 내려받을 때마다 파일 크기만큼 탭 메모리에 남았고, 탭을 닫거나 새로 고칠 때까지 풀리지 않았다.</p>
+<ul>
+<li><code>util/http/index.ts</code> 의 <code>processFileDown</code> 이 만든 URL 문자열을 해제한다.</li>
+<li><code>click()</code> 직후 바로 해제하면 브라우저가 다운로드를 시작하기 전에 URL 이 사라질 수 있다(Firefox 등). 같은 파일의 PDF 뷰어(<code>pdfViewer</code>)처럼 10초 뒤에 해제한다.</li>
+<li>앵커는 문서에 붙이지 않고 만들어 바로 누르므로 뗄 것이 없다.</li>
+<li>사용자에게 보이는 변화는 없다. 내려받는 파일과 파일명은 그대로다.</li>
+</ul>
+<p>테스트 1건을 더했다(전체 200 → 201). 다운로드 응답을 흉내 내고 가짜 타이머로 해제 시점을 본다. 고치기 전에는 <code>click()</code> 직후 앵커 요소로 해제를 불러 실패하고, 고친 뒤에는 10초 뒤 만든 URL 문자열로 한 번 해제한다.</p>
 <h2 id="tesinspexpn-pr-300-infra-84">TesInspExpn 의 그려지지 않는 첨부 그리드 잔재 삭제 (PR #300, Infra #84)<a class="headerlink" href="#tesinspexpn-pr-300-infra-84" title="Permanent link">&para;</a></h2>
 <p><code>TesInspExpn</code> 에 템플릿에 없는 첨부 그리드의 옵션, 어댑터, 다운로드 메서드가 남아 있었다. 화면은 이 그리드를 그리지 않고, 첨부는 <code>ATFILE</code> 버튼의 팝업으로 한다. 동작 변화는 없다.</p>
 <ul>
