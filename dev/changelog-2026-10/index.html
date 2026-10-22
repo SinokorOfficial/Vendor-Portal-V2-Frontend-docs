@@ -1363,6 +1363,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#env-nuxt_app_site-nuxt_profile_active-pr-309-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 env 키 NUXT_APP_SITE, NUXT_PROFILE_ACTIVE 제거 (PR #309, Infra #89)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#13-mixin-pr-305-infra-86" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1409,6 +1420,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm-audit-pr-308-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        npm audit 패치 범위 정리 (PR #308, Infra #89)
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2669,6 +2691,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#env-nuxt_app_site-nuxt_profile_active-pr-309-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        쓰지 않는 env 키 NUXT_APP_SITE, NUXT_PROFILE_ACTIVE 제거 (PR #309, Infra #89)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#13-mixin-pr-305-infra-86" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2715,6 +2748,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm-audit-pr-308-infra-89" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        npm audit 패치 범위 정리 (PR #308, Infra #89)
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3856,6 +3900,15 @@
 <li>그것만 쓰던 <code>AgButtonRender</code> import</li>
 <li>엑셀 양식 다운로드 <code>fileDownLoadTemplate</code> 은 별개라 그대로다.</li>
 </ul>
+<h2 id="env-nuxt_app_site-nuxt_profile_active-pr-309-infra-89">쓰지 않는 env 키 NUXT_APP_SITE, NUXT_PROFILE_ACTIVE 제거 (PR #309, Infra #89)<a class="headerlink" href="#env-nuxt_app_site-nuxt_profile_active-pr-309-infra-89" title="Permanent link">&para;</a></h2>
+<p><code>NUXT_APP_SITE</code>(사이트 식별자)와 <code>NUXT_PROFILE_ACTIVE</code>(환경 태그)는 레거시(Nuxt) 시절 키로, V2 첫 커밋부터 <code>src</code> 에서 읽는 곳이 없었다. 템플릿과 타입 선언에만 남아 있어 지웠다. 동작은 바뀌지 않는다.</p>
+<ul>
+<li><code>.env.example</code>: 두 키와 설명 주석을 지웠다.</li>
+<li><code>env.d.ts</code>: <code>ImportMetaEnv</code> 의 두 선언을 지웠다.</li>
+<li><code>README.md</code> 의 템플릿 키 목록, <code>build-deploy.md</code> 의 환경변수 표에서 두 키를 뺐다.</li>
+<li><code>vite.config.ts</code>: <code>envPrefix</code> 주석의 예시를 <code>NUXT_APP_SITE</code> 에서 <code>NUXT_PROXY_URL</code> 로 바꿨다(주석만).</li>
+<li>운영 빌드가 쓰는 GitHub secret <code>ENV_PRODUCTION</code> 에 두 키가 남아 있어도 무해하다. 코드가 두 키를 참조하지 않아 번들에 들어가지 않는다.</li>
+</ul>
 <h2 id="13-mixin-pr-305-infra-86">팝업 13개를 팝업용 mixin 으로 바꿔 부모 화면 방문 로그를 남기지 않음 (PR #305, Infra #86)<a class="headerlink" href="#13-mixin-pr-305-infra-86" title="Permanent link">&para;</a></h2>
 <p>팝업을 열 때마다 팝업을 연 화면의 방문 로그가 한 줄씩 더 쌓이던 것을 멈췄다. 팝업 열기는 화면 방문으로 세지 않는다(2026-10-21 사용자 결정).</p>
 <h3 id="_1">원인<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
@@ -3887,6 +3940,34 @@
 </li>
 </ul>
 <p>테스트: <code>src/mixins/page/__tests__/popupVisitLog.spec.ts</code>. 부모 탭이 활성인 상태에서 <code>pageMixin</code> 화면(대조군)은 방문 로그 1회, <code>CrsAcepCheckListPopup</code> 실마운트는 0회임을 본다(바꾸기 전 코드에서는 1회로 실패). <code>src/pages/*/popup</code> 에 <code>pageMixin</code> 을 가져오는 팝업이 다시 생기면 실패한다.</p>
+<h2 id="npm-audit-pr-308-infra-89">npm audit 패치 범위 정리 (PR #308, Infra #89)<a class="headerlink" href="#npm-audit-pr-308-infra-89" title="Permanent link">&para;</a></h2>
+<p>운영 의존성(<code>npm audit --omit=dev</code>)의 취약 패키지 중 major 를 올리지 않고 고칠 수 있는 7개를 같은 범위 안 최신 수정 버전으로 올렸다. <code>package.json</code> 범위가 이미 수정 버전을 포함해 <code>package.json</code> 은 그대로이고 <code>package-lock.json</code> 만 바뀌었다(<code>npm update &lt;이름&gt;</code>, npm 10.9.2).</p>
+<ul>
+<li>직접 의존성<ul>
+<li><code>vue</code> 3.5.35 → 3.5.44: <code>@vue/server-renderer</code> 의 XSS 권고. <code>@vue/compiler-*</code>, <code>@vue/runtime-*</code>, <code>@vue/reactivity</code>, <code>@vue/shared</code> 가 같은 버전으로 함께 올랐고, <code>@vue/compiler-sfc</code> 가 요구해 <code>@babel/parser</code> 7.29.7 → 7.29.9, <code>@babel/types</code> 7.29.7 → 7.29.8 도 올랐다.</li>
+<li><code>axios</code> 1.17.0 → 1.20.0: 권고 22건(프로토타입 오염 가젯, ReDoS, 프록시 우회 등). 이슈를 쓸 때는 1.18.0 이면 됐는데 그 뒤 1.20.0 이 필요한 권고가 더 나왔다.</li>
+</ul>
+</li>
+<li>전이 의존성<ul>
+<li><code>form-data</code> 4.0.5 → 4.0.6(axios, jsdom): multipart 필드 이름의 CRLF 주입</li>
+<li><code>follow-redirects</code> 1.16.0 → 1.16.1(axios): 다른 출처로 리다이렉트할 때 인증 헤더 노출. 이슈를 쓴 뒤 새로 나온 권고라 같이 올렸다.</li>
+<li><code>postcss</code> 8.5.15 → 8.5.31(vite, <code>@vue/compiler-sfc</code>): sourceMappingURL 경로 탐색</li>
+<li><code>nanoid</code> 3.3.12 → 3.3.20(postcss): 크기 0, 음수에서 무한 루프</li>
+<li><code>source-map-js</code> 1.2.1 → 1.2.2(postcss, <code>@vue/compiler-sfc</code>, sass): 이벤트 루프 DoS</li>
+</ul>
+</li>
+<li><code>ag-grid</code>, <code>devextreme</code> 은 lock 에서 한 줄도 바뀌지 않았다(버전 고정 결정).</li>
+</ul>
+<p><code>npm audit --omit=dev</code> 결과는 high 11, moderate 2 에서 high 3, moderate 2 가 됐다(critical 은 전후 0).</p>
+<ul>
+<li>남은 것<ul>
+<li><code>ag-grid-community</code>, <code>ag-grid-enterprise</code>(high), <code>ag-grid-vue3</code>(moderate): 31.3.4 이상(major)이 필요하다. 버전 고정 결정으로 제외한다.</li>
+<li><code>vite</code>(high), <code>esbuild</code>(moderate): vite 6.4.4 이상(major)이 필요하다. 개발 서버 권고이고 빌드 도구라 번들에 들어가지 않는다. devDependency 인데 <code>vuetify</code> 의 선택 peer 경로 때문에 lock 에서 <code>devOptional</code> 로 잡혀 <code>--omit=dev</code> 에도 나온다.</li>
+</ul>
+</li>
+<li>개발 의존성에만 있는 권고(<code>brace-expansion</code> 등)는 이번 범위(운영 의존성)에서 뺐다.</li>
+</ul>
+<p>확인: 새 lock 으로 <code>npm ci</code> 한 뒤 <code>vue-tsc --noEmit</code>, <code>vite build</code>, <code>vitest run</code>(25파일 200건), <code>eslint .</code> 모두 통과했다.</p>
 <h2 id="vite-pr-307-infra-89">앱 매뉴얼 검수료 단계, vite 컴포넌트 주석 현행화 (PR #307, Infra #89)<a class="headerlink" href="#vite-pr-307-infra-89" title="Permanent link">&para;</a></h2>
 <p>Infra #89 4절 작업(PR #306) 중에 본 낡은 문장 두 곳을 고쳤다. 동작은 바꾸지 않았다.</p>
 <ul>
