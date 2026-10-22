@@ -1374,6 +1374,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-param-file-input-pr-312-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공용 코드 작은 결함 4건: 팝업 param, 실패 상세 재시도, 스케줄러 타이머, 첨부 숨은 file input (PR #312, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tesinspexpn-pr-300-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2724,6 +2735,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4-param-file-input-pr-312-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        공용 코드 작은 결함 4건: 팝업 param, 실패 상세 재시도, 스케줄러 타이머, 첨부 숨은 file input (PR #312, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tesinspexpn-pr-300-infra-84" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3964,6 +3986,48 @@
 <li>사용자에게 보이는 변화는 없다. 내려받는 파일과 파일명은 그대로다.</li>
 </ul>
 <p>테스트 1건을 더했다(전체 200 → 201). 다운로드 응답을 흉내 내고 가짜 타이머로 해제 시점을 본다. 고치기 전에는 <code>click()</code> 직후 앵커 요소로 해제를 불러 실패하고, 고친 뒤에는 10초 뒤 만든 URL 문자열로 한 번 해제한다.</p>
+<h2 id="4-param-file-input-pr-312-infra-95">공용 코드 작은 결함 4건: 팝업 param, 실패 상세 재시도, 스케줄러 타이머, 첨부 숨은 file input (PR #312, Infra #95)<a class="headerlink" href="#4-param-file-input-pr-312-infra-95" title="Permanent link">&para;</a></h2>
+<p>Infra #95 의 2-10 "그 밖에" 항목이다.</p>
+<ul>
+<li>팝업이 호출부 객체에 <code>title</code> 을 넣던 것(<code>EDialog</code>)<ul>
+<li><code>$dialog</code> 는 팝업 제목을 <code>param.title</code> 로 팝업 화면에 넘긴다(<code>CmsLangPopup</code>, <code>CmsEmailPopup</code> 이 읽는다). 그런데 호출부가 넘긴 <code>param</code> 객체에 직접 넣어서, 그리드 행을 통째로 넘기는 화면(<code>CrsAcepMgt</code> 의 ACEP 체크리스트 팝업)은 행 데이터에 <code>title</code> 이 생겼다.</li>
+<li>얕은 복사본에 얹어 넘긴다. 팝업이 받는 값은 같다. 호출부에서 바뀐 <code>title</code> 을 다시 읽는 곳은 없다.</li>
+<li>팝업이 <code>param</code> 의 맨 위 값을 고치면 이제 호출부 객체에는 반영되지 않는다. 그렇게 고치는 팝업은 <code>FdsInvoiceSummaryPopup</code>(<code>MONTH</code>), <code>FdsDemDetailPopup</code>(<code>TPSZ</code>) 둘이고, 두 호출부 모두 그 자리에서 만든 객체를 넘기고 다시 읽지 않는다.</li>
+</ul>
+</li>
+<li>관측성 화면 실패 상세의 끝없는 재시도(<code>CmsAzureLog</code>)<ul>
+<li>실패 요청 TOP 행을 누르면 상세를 받아 상세 그리드에 넣는다. 상세 그리드는 에러 문구가 떠 있는 동안 사라져 있어서, 다시 붙을 때까지 50ms 마다 다시 본다.</li>
+<li>행 두 개를 연달아 눌러 앞 응답이 에러면 그 문구가 남아 그리드가 다시 붙지 않는다. 그러면 뒤 응답의 재시도가 화면을 닫은 뒤에도 끝없이 돌았다. 응답이 오기 전에 화면을 닫아도 같았다.</li>
+<li>다시 보는 횟수를 20번(약 1초)으로 묶었다. 그리드가 곧 다시 붙는 평소 경로는 그대로다.</li>
+<li>앞 응답의 에러 문구가 뒤 행 제목 아래 남는 것은 그대로다(드문 경합이고 다시 누르면 풀린다).</li>
+</ul>
+</li>
+<li>스케줄러 다시 그리기 타이머(<code>EScheduler</code>)<ul>
+<li>메뉴를 접거나 편집 옵션이 바뀌면 500ms 뒤에 스케줄러를 다시 그린다. 그 타이머를 해제하지 않아, 500ms 안에 화면을 닫으면 사라진 스케줄러에 <code>repaint</code> 를 불렀다.</li>
+<li>언마운트 때 해제한다. 500ms 안에 여러 번 불리면 마지막 것 하나만 남긴다(종전에는 불린 횟수만큼 다시 그렸다). 마지막 모습은 같다.</li>
+</ul>
+</li>
+<li>첨부 그리드의 숨은 file input(<code>EAttachFileGrid</code>)<ul>
+<li>화면들은 숨은 <code>&lt;input type="file"&gt;</code> 을 없애고 <code>FileService.select()</code> 로 옮겼는데(FE #268), 첨부 그리드에만 하나 남아 있었다. <code>select()</code> 가 파일 하나만 돌려줘서 여러 파일을 고르는 이 컴포넌트는 옮기지 못했다.</li>
+<li><code>FileService.select( { multiple: true, accept } )</code> 를 더했다. 고른 파일 전부를 배열로 돌려주고, 닫으면 빈 배열이다. 무인자, 문자열 인자 호출(엑셀 업로드, 템플릿 교체 6화면 10곳)은 종전대로 파일 하나 또는 <code>null</code> 이다.</li>
+<li>폴더 버튼이 이것으로 고른다. 이제 DOM 에 숨은 file input 이 하나도 없다. 드래그&amp;드롭은 <code>drop</code> 이벤트에서 파일을 읽어 input 이 필요 없었다.</li>
+<li>사용자에게 보이는 변화는 없다. 선택창은 종전처럼 여러 파일을 고를 수 있고 허용 확장자 필터도 같다. 같은 파일을 연달아 다시 고르는 것도 된다.</li>
+</ul>
+</li>
+<li>고치지 않은 것<ul>
+<li><code>CodeBuilder.prependCode()</code> 가 아무것도 하지 않는 것은 그대로 두었다. 레거시도 같았고, 부르는 곳 둘(<code>FdsInvoice</code>, <code>FdsFeederageMgt</code> 의 <code>FRT</code>)은 여러 개를 고르는 태그박스라 빈 선택지를 넣으면 오히려 공란 칩이 생긴다.</li>
+</ul>
+</li>
+</ul>
+<p>테스트 12건을 더했다(전체 200 → 212). 고치기 전에는 항목마다 재현 테스트가 실패한다.</p>
+<ul>
+<li><code>EDialog</code> 1건: 호출부 <code>param</code> 에 <code>title</code> 이 생기지 않고, 팝업은 <code>title</code> 을 얹은 복사본을 받는다.</li>
+<li><code>CmsAzureLog</code> 2건: 행 두 개를 연달아 눌러 앞 응답이 에러면 재시도가 상한에서 멈춰 타이머가 남지 않는다. 그리드가 곧 다시 붙는 평소 경로는 받은 행을 넣는다.</li>
+<li><code>EScheduler</code> 2건: 언마운트하면 걸려 있던 타이머가 사라져 <code>repaint</code> 를 부르지 않는다. 화면이 살아 있으면 500ms 뒤 다시 그린다.</li>
+<li><code>FileService.select</code> 4건: 무인자, 문자열 인자는 종전대로 파일 하나 또는 <code>null</code>, <code>{ multiple: true }</code> 는 배열 또는 빈 배열이고 만든 input 은 문서에 붙지 않는다.</li>
+<li><code>EAttachFileGrid</code> 3건: 마운트해도 DOM 에 file input 이 없고, 폴더 버튼은 <code>select( { multiple: true } )</code> 로 고른 파일을 그대로 넘기며, 닫으면 아무것도 하지 않는다.</li>
+</ul>
+<p>빌드한 화면을 Playwright 로 띄워 첨부 그리드의 폴더 버튼을 눌러 보았다. 선택창이 다중 선택으로 열리고 파일 세 개가 한 번의 업로드 요청에 실렸다. 선택창이 열린 동안에도 DOM 의 file input 은 0개였다.</p>
 <h2 id="tesinspexpn-pr-300-infra-84">TesInspExpn 의 그려지지 않는 첨부 그리드 잔재 삭제 (PR #300, Infra #84)<a class="headerlink" href="#tesinspexpn-pr-300-infra-84" title="Permanent link">&para;</a></h2>
 <p><code>TesInspExpn</code> 에 템플릿에 없는 첨부 그리드의 옵션, 어댑터, 다운로드 메서드가 남아 있었다. 화면은 이 그리드를 그리지 않고, 첨부는 <code>ATFILE</code> 버튼의 팝업으로 한다. 동작 변화는 없다.</p>
 <ul>

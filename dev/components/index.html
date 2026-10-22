@@ -2270,7 +2270,7 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">multipart</span><span class="p">(</span><span class="w"> </span><span class="s1">'/api/vms/comm/uploadExcel'</span><span class="p">,</span><span class="w"> </span><span class="nx">form</span><span class="w"> </span><span class="p">)...</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>select()</code> 는 <strong>DOM 에 붙이지 않은</strong> <code>&lt;input&gt;</code> 을 그 자리에서 만들어 <code>.click()</code> 하고, 선택이 끝나면 버린다. 확장자를 제한하려면 인자로 넘긴다 — <code>FileService.select( 'application/vnd.ms-excel,...' )</code>.</p>
+<p><code>select()</code> 는 <strong>DOM 에 붙이지 않은</strong> <code>&lt;input&gt;</code> 을 그 자리에서 만들어 <code>.click()</code> 하고, 선택이 끝나면 버린다. 확장자를 제한하려면 인자로 넘긴다 — <code>FileService.select( 'application/vnd.ms-excel,...' )</code>. 여러 파일을 고를 때는 <code>FileService.select( { multiple: true, accept } )</code> 로 부르고, 고른 파일 전부가 배열로 온다(닫으면 빈 배열). <code>&lt;e-attach-file-grid&gt;</code> 의 폴더 버튼이 이렇게 쓴다.</p>
 <h4 id="input">왜 숨은 input 을 두지 않나<a class="headerlink" href="#input" title="Permanent link">&para;</a></h4>
 <p>종전엔 화면마다 <code>display:none</code> 인 input 을 심어두고 버튼이 <code>$refs.xxx.click()</code> 으로 선택창을 열었다. 그 input 이 DOM 에 남아 두 가지를 낳았다.</p>
 <ol>
@@ -2278,7 +2278,7 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <li><strong>엉뚱한 input 이 잡힌다</strong> — <code>document.querySelector('input[type=file]')</code> 는 DOM 에서 먼저 나온 것을 집는다</li>
 </ol>
 <p>실제로 <code>CrsEstUploadExl</code> 에서 협력사 계정이 업무 엑셀을 올리려다 <strong>관리자 전용 템플릿 업로드로 빠지는 일이 12회</strong> 났다(2026-09~10). 그 화면은 관리자 전용 input 이 업무용보다 앞에 있었다.</p>
-<p><code>select()</code> 로 바꾸면 핸들러가 DOM 리스너가 아니라 <strong>클로저</strong>라 밖에서 부를 수 없고, 집을 요소도 없다. 2026-10 기준 <code>src/pages</code> 에 숨은 file input 은 <strong>0개</strong>다(<code>&lt;e-attach-file-grid&gt;</code> 의 것만 남아 있고 그건 드롭존에 실제 요소가 필요하다).</p>
+<p><code>select()</code> 로 바꾸면 핸들러가 DOM 리스너가 아니라 <strong>클로저</strong>라 밖에서 부를 수 없고, 집을 요소도 없다. 2026-10 기준 숨은 file input 은 <strong>0개</strong>다. 마지막으로 남아 있던 <code>&lt;e-attach-file-grid&gt;</code> 의 것도 <code>select( { multiple: true } )</code> 로 옮겼다(드래그&amp;드롭은 <code>drop</code> 이벤트의 <code>dataTransfer</code> 를 읽어 input 이 필요 없다).</p>
 <h4 id="_7">권한 구분은 메서드로 한다<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
 <p>업무용과 관리자 전용을 <strong>DOM 요소가 아니라 호출 경로</strong>로 가른다.</p>
 <table>
