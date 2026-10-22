@@ -1374,6 +1374,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-314-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        셀 값 변경 처리가 선택 행이 아니라 값이 바뀐 행을 고치게 (PR #314, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2746,6 +2757,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-314-infra-95" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        셀 값 변경 처리가 선택 행이 아니라 값이 바뀐 행을 고치게 (PR #314, Infra #95)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#blob-url-pr-310-infra-95" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4025,6 +4047,29 @@
 </ul>
 <p>테스트 2건을 더했다(전체 235 → 237). 두 화면의 실제 그리드 옵션으로 실물 그리드를 띄우고 0행을 선택한 채 화면의 행 추가, 행 삭제를 그대로 불렀다. 고치기 전엔 0행이 지워지고 새 행이 남았고, 고친 뒤엔 새 행만 지워진다.</p>
 <p>함께 맞춘 것(사용자 결정 2026-10-22): <code>TesLashingExpn</code> 스케줄 행 추가는 선택을 풀기만 하고 새 행으로의 포커스 호출이 주석 처리돼 있어(레거시부터, 이 화면에 없는 <code>I_ADD_YN</code> 열로 적혀 있었다) 추가 직후 선택 행이 없었다. 그래서 추가 직후 삭제를 누르면 위 가드로 "선택된 행이 없습니다" 가 떴다. 다른 TES 3화면처럼 새 행을 선택하고 GBUN 편집을 시작하게 했다. 이제 추가 직후 삭제하면 새 행이 지워진다. 테스트 1건을 더했다(전체 237 → 238. 고치기 전엔 추가 직후 선택 행이 없어 실패).</p>
+<h2 id="pr-314-infra-95">셀 값 변경 처리가 선택 행이 아니라 값이 바뀐 행을 고치게 (PR #314, Infra #95)<a class="headerlink" href="#pr-314-infra-95" title="Permanent link">&para;</a></h2>
+<p>그리드 셀 값 변경 처리 7곳(호출 8개)이 값이 바뀐 행 대신 <code>getSelectedNode()</code>(선택 행)를 읽었다. 클릭하면 선택도 옮겨 가므로 평소엔 같은 행이지만, 키보드로 옮겨 입력하거나 여러 행에 붙여넣으면 둘이 달라진다. 그때 선택된 다른 행의 값을 지우거나, 그 행을 기준으로 판정했다. 모두 이벤트의 행(<code>e.node</code>, <code>e.data</code>, <code>e.rowIndex</code>)을 쓰게 했다.</p>
+<ul>
+<li>시간 형식 검사 4곳: 잘못된 시간을 넣은 칸은 비웠지만, 선택된 다른 행의 그 시간도 화면 표시 없이 <code>null</code> 로 바꿨다(그 행이 이미 고친 행이면 저장에 <code>null</code> 로 나간다). 포커스도 그 행으로 갔다.<ul>
+<li><code>FdsCntrMoveUpload</code> <code>EQ_TIME</code></li>
+<li><code>FdsOrdMgt</code> 오더 <code>FD_ETD_TM</code>/<code>FD_ETA_TM</code>, 컨테이너 <code>OFD_TM</code>/<code>IED_TM</code>/<code>OEV_TM</code>/<code>IFE_TM</code></li>
+</ul>
+</li>
+<li><code>MvsCntrMove</code> <code>EQ_TIME</code>: 잘못된 값은 넣은 칸에 그대로 남고, 선택된 다른 행의 시간이 지워졌다.</li>
+<li><code>FdsOrdMgt</code> 컨테이너 <code>OFD</code>/<code>IED</code> 입력 차단(피더 무브 전): 위 시간 검사와 같은 모양으로 선택된 다른 행의 값을 <code>null</code> 로 바꿨다.</li>
+<li><code>CfsStuffExpn</code> 컨테이너 <code>EQNO</code>: 선택 행의 컨테이너 번호로 TPSZ 를 조회해 선택 행에 채웠다. 이제 값을 넣은 행의 번호로 조회해 그 행에 채운다.</li>
+<li><code>TesLashingExpn</code> 스케줄 <code>GBUN</code>(BASIC, ETC, POB 중복 막기): 선택 행의 앞뒤로 판정해 선택 행을 되돌렸다. 이제 바꾼 행의 앞뒤로 판정해 그 행을 되돌린다.</li>
+<li><code>FdsFeederageMgt</code> <code>FRTUNIT</code>: BL 이면 EQNO 를 비우는 판정을 선택 행의 FRTUNIT 으로 했다. 이제 바꾼 행의 값으로 한다.</li>
+<li>값이 바뀐 행이 곧 선택 행인 평소 경우(클릭 후 입력)는 결과가 같다.</li>
+<li>달라지는 것: <code>FdsOrdMgt</code> 오더 그리드에서 선택하지 않은 행에 잘못된 시간이 들어가면, 이제 포커스가 그 행으로 가면서 선택도 옮겨 가 아래 컨테이너 목록이 그 오더로 바뀐다(그 행을 클릭한 것과 같다).</li>
+</ul>
+<p>테스트 8건을 더했다(전체 200 → 208). 화면의 실제 그리드 옵션을 실물 ag-grid 25.3 에 띄우고 행 Y 를 선택한 채 다른 행 X 에 붙여넣기와 같은 경로로 문자열 값을 넣었다.</p>
+<ul>
+<li>고치기 전: 8건 모두 실패(Y 의 값이 지워지거나 바뀌고, X 는 그대로).</li>
+<li>고친 뒤: X 만 처리되고 Y 는 그대로.</li>
+</ul>
+<p>함께 고친 것(Infra #95 2-16): <code>TesLashingExpn</code> 의 GBUN 중복 판정은 바꾼 행의 앞뒤 행을 읽는데 다음 행만 있는지 보고 앞 행은 보지 않았다. 그래서 첫 행의 GBUN 을 바꾸면 TypeError 로 끊겨, 같은 처리의 뒷부분(소급건 <code>RET</code> 로 바꿀 때 WHARF, SVC, VSL 등 채우기)이 돌지 않았다. 앞 행도 있을 때만 판정한다. 마지막 행은 원래 막혀 있었다. 첫 행, 마지막 행은 종전처럼 중복 판정을 하지 않는다.</p>
+<p>테스트 2건을 더했다(전체 208 → 210). 첫 행, 마지막 행의 GBUN 을 <code>RET</code> 로 바꿨다. 고치기 전엔 첫 행이 TypeError 로 끊겨 값이 채워지지 않았고(마지막 행은 통과), 고친 뒤엔 둘 다 채워진다.</p>
 <h2 id="blob-url-pr-310-infra-95">파일 다운로드 뒤 blob URL 해제 (PR #310, Infra #95)<a class="headerlink" href="#blob-url-pr-310-infra-95" title="Permanent link">&para;</a></h2>
 <p>첨부, 템플릿 같은 파일 다운로드(<code>$axios.fileDown</code>, <code>$axios.fileOriginDown</code>)는 받은 내용을 blob URL 로 만들어 앵커로 내려받는다. 다 쓴 URL 을 해제하는 <code>revokeObjectURL</code> 에 URL 이 아니라 앵커 요소를 넘기고 있어서 해제가 한 번도 되지 않았다. 그래서 내려받을 때마다 파일 크기만큼 탭 메모리에 남았고, 탭을 닫거나 새로 고칠 때까지 풀리지 않았다.</p>
 <ul>
