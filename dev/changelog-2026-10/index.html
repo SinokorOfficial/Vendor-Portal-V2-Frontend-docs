@@ -1413,6 +1413,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4040-9040-pr-327-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        로컬 포트를 4040(프론트), 9040(백엔드)으로 되돌림 (PR #327, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-326-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3067,6 +3078,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#4040-9040-pr-327-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        로컬 포트를 4040(프론트), 9040(백엔드)으로 되돌림 (PR #327, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-326-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4579,6 +4601,15 @@
 <li>두 화면이 쓰던 공통 프로시저 <code>PKG_BOARD.SP_GET_POST</code>, <code>SP_SET_POST</code>, <code>SP_DEL_POST</code>, <code>SP_GET_POSTLIST</code> 는 이제 프론트에서 부르는 곳이 없어 관문 허용 목록(<code>proc-allowlist.json</code>)에서 자동으로 빠진다. <code>SP_GET_SEQ</code> 는 <code>MdmNotice</code> 가 계속 쓴다. 패키지 본문 정리는 Infra #90 3절(그 패키지를 다음에 고칠 때).</li>
 <li>관리자 메뉴 <code>DEV_050010</code>(게시판 테스트)과 화면 등록 <code>DevBoardTest</code> 행은 사용자가 <code>.3</code> 에서 지운다(배포 전후 상관없음 — 메뉴만 남으면 "존재하지 않는 페이지"로 뜬다). 상위 폴더 <code>DEV_050000</code>(테스트 페이지)은 다음 테스트 화면을 걸 자리로 남긴다(사용자).</li>
 </ul>
+<h2 id="4040-9040-pr-327-infra-98">로컬 포트를 4040(프론트), 9040(백엔드)으로 되돌림 (PR #327, Infra #98)<a class="headerlink" href="#4040-9040-pr-327-infra-98" title="Permanent link">&para;</a></h2>
+<p>레거시(V1)를 닫아(사용자 결정 2026-10-23) 로컬 포트를 원래대로 되돌렸다. 그동안은 레거시와 함께 띄우려고 프론트 4050, 백엔드 9050 을 썼다. 이제 <code>vite.config.ts</code> 기본값(4040, host <code>0.0.0.0</code>)이 곧 팀 규칙이다. 운영 배포에는 영향이 없다.</p>
+<ul>
+<li><code>vite.config.ts</code>: <code>server.strictPort: true</code> 를 더했다. 4040 이 이미 쓰이고 있으면 4041 로 조용히 넘어가지 않고 실패한다(외부 접속 포트 포워딩이 4040 고정이라).</li>
+<li><code>.env.example</code>: <code>API_URL</code> 을 <code>http://localhost:9040</code> 으로 바꿨다. 백엔드도 로컬 기본 포트를 9040 으로 바꾼다.</li>
+<li><code>README.md</code>, 개발 문서(빌드/배포, 트러블슈팅, 아키텍처, HTTP/API, 컴포넌트, 화면 패턴)와 <code>uploadSize.ts</code> 주석의 로컬 포트 표기를 4040, 9040 으로 맞췄다. 띄우는 법은 <code>./node_modules/.bin/vite</code> 하나로 줄였다(WSL 에서 <code>npm run dev</code> 가 Windows 문법이라 안 된다는 안내는 그대로).</li>
+<li>운영 nginx 의 <code>backend:9041</code>(컨테이너 포트)과 지난 변경 이력은 그대로 뒀다.</li>
+</ul>
+<p><strong>각자 할 일</strong>: 로컬 <code>.env</code> 는 gitignore 라 저절로 바뀌지 않는다. <code>API_URL=http://localhost:9040</code> 으로 직접 고친다. <code>--port 4050</code> 을 붙여 띄우던 별칭이나 스크립트가 있으면 포트 인자를 뺀다.</p>
 <h2 id="pr-326-infra-98">강취료 조회가 그룹 헤더를 입력란에 채우게 (PR #326, Infra #98)<a class="headerlink" href="#pr-326-infra-98" title="Permanent link">&para;</a></h2>
 <p>강취료 관리(<code>TesLineHandleExpn</code>)만 조회 때 고른 그룹의 헤더(증빙, 세금계산서 일자, 통화, 은행명, 계좌, 프로시저의 <code>P_RS_GRP</code>)를 읽지 않아 입력란이 기본값(기본 은행 정보, 날짜 버튼으로 정한 일자)으로 남았다. 저장 프로시저 <code>PKG_TES_LHDC.SP_SET_LHDC</code> 는 그룹 헤더(<code>TB_TES_GRP_INV</code>)를 이 입력란 값으로 갱신하므로, 기존 그룹에 비용을 더해 저장할 때마다 그 그룹의 헤더가 기본값으로 덮일 수 있었다.</p>
 <ul>

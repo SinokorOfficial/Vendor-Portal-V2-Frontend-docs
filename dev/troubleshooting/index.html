@@ -3086,7 +3086,7 @@
 <hr />
 <h2 id="5-wsl">5. WSL 개발 환경<a class="headerlink" href="#5-wsl" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong><code>npm run dev</code> 가 WSL에서 안 됨</strong>: 스크립트가 Windows <code>set "PATH=..."</code>(cmd 문법) → WSL(zsh/bash)에서 실패. <strong>vite 직접 실행</strong>: <code>node node_modules/.bin/vite --host 0.0.0.0 --port 4050</code>(팀 규칙 포트).</li>
+<li><strong><code>npm run dev</code> 가 WSL에서 안 됨</strong>: 스크립트가 Windows <code>set "PATH=..."</code>(cmd 문법) → WSL(zsh/bash)에서 실패. <strong>vite 직접 실행</strong>: <code>node node_modules/.bin/vite</code>(포트 4040, host <code>0.0.0.0</code> 은 <code>vite.config.ts</code> 기본값).</li>
 <li><strong>타입체크/빌드 npm 이 Windows로 해석됨</strong>: <code>node node_modules/.bin/vue-tsc --noEmit</code> 처럼 <strong>로컬 node 바이너리를 직접</strong> 호출.</li>
 <li><strong>로컬에서 Azure 백엔드로 프록시</strong>: dev 프록시 타깃은 <code>.env</code>(+<code>.env.local</code>)의 <code>API_URL</code>. <code>.env.local</code> 에 Azure 백엔드 URL을 넣으면 <code>.env</code> 의 localhost 를 덮어써 로컬 프론트 ↔ Azure 백엔드로 e2e 확인 가능.</li>
 </ul>
@@ -3647,7 +3647,7 @@
 <h2 id="38-playwright">38. 로그인한 상태로 화면 동작을 브라우저에서 확인하기 (Playwright)<a class="headerlink" href="#38-playwright" title="Permanent link">&para;</a></h2>
 <p>화면 단위 수정(날짜 맞춤, 입력 처리 등)을 실제 브라우저로 확인할 때 쓴 방법(2026-10-08, FE #262/#263 검증).</p>
 <ul>
-<li>백엔드를 9050 에, 프론트를 <code>vite build</code> 후 <code>API_URL=http://localhost:9050 ./node_modules/.bin/vite preview --port 4050</code> 로 띄운다.</li>
+<li>백엔드를 9040 에, 프론트를 <code>vite build</code> 후 <code>API_URL=http://localhost:9040 ./node_modules/.bin/vite preview --port 4040</code> 로 띄운다.</li>
 <li>로그인은 폼 대신 <code>page.request.post('/api/login', { data: { p: '&lt;ID&gt;=:=', c: '&lt;PW&gt;' } })</code> 로 한다(세션 쿠키가 브라우저 컨텍스트에 붙는다).</li>
 <li>★<strong>화면마다 <code>page.goto</code> 로 새로 열지 말 것.</strong> 페이지를 새로 읽을 때마다 앱이 다시 뜨는데, 메뉴 목록(<code>menuMap</code>)을 받기 전에 화면 가드(<code>menuAuthGuard</code>)가 돌면 <code>mid</code> 를 못 찾아 <strong>홈으로 튕긴다</strong>. 한 번 <code>/</code> 를 연 뒤 네트워크가 잠잠해지면, 앱 라우터로 이동한다:
   <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">await</span><span class="w"> </span><span class="nx">page</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="nx">p</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="w"> </span><span class="s1">'#app'</span><span class="w"> </span><span class="p">).</span><span class="nx">__vue_app__</span>

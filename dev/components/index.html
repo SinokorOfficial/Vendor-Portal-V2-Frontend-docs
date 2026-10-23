@@ -2232,7 +2232,7 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <p>⚠️<strong>경고 문구는 지정할 수 없다.</strong> 2016년 이후 모든 브라우저가 <code>returnValue</code> 를 무시하고 자체 문구만 보여준다 — 그래서 이 경고에는 MSG 코드를 쓰지 않는다.</p>
 </div>
 <blockquote>
-<p>★<strong>로컬은 nginx 를 거치지 않는다</strong>(4050 vite 프록시 → 백엔드 직결). 이 사전검증이 없으면 로컬에서만 되는 업로드가 생기고, 운영에서는 nginx 가 413 을 <strong>HTML</strong> 로 돌려줘 화면에 정상 문구조차 못 띄운다.</p>
+<p>★<strong>로컬은 nginx 를 거치지 않는다</strong>(4040 vite 프록시 → 백엔드 직결). 이 사전검증이 없으면 로컬에서만 되는 업로드가 생기고, 운영에서는 nginx 가 413 을 <strong>HTML</strong> 로 돌려줘 화면에 정상 문구조차 못 띄운다.</p>
 </blockquote>
 <p>크기 표기는 <strong>올림</strong>이다. 반올림하면 상한을 1바이트 넘긴 파일이 <code>50.0 MB</code> 로 찍혀 "50MB인데 왜 안 되냐"가 된다 — 거절 사유로 보여주는 숫자는 상한 이하로 보이면 안 된다.</p>
 <p>사전(<code>TB_CMS_DATA_DIC</code>)에 코드가 없으면 <code>$lang</code> 이 코드 문자열을 그대로 돌려주므로, 등록 전 배포에서 <code>MSG000432</code> 가 화면에 노출되지 않도록 <strong>영문 기본 문구로 폴백</strong>한다(<code>langOr</code>).</p>

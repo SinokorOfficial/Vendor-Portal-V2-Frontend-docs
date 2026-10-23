@@ -1737,7 +1737,7 @@
 </code></pre></div>
 <h2 id="_4">데이터 흐름 요약<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>사용자 → 화면(index.vue) → this.$axios.$post(url, params)
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   → /api 프록시(vite dev) 또는 동일 출처(배포) → 백엔드(SpringBoot, 로컬 9050)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   → /api 프록시(vite dev) 또는 동일 출처(배포) → 백엔드(SpringBoot, 로컬 9040)
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>   ← ResponseVo(data) ← 인터셉터(401 처리/로딩바) ← 화면 갱신(ag-grid 등)
 </code></pre></div>
 <p>세부는 <a href="../http-api/">HTTP / API</a>, <a href="../state/">상태 관리</a>, <a href="../routing/">라우팅</a> 참고.</p>

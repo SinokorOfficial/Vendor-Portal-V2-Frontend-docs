@@ -1694,9 +1694,9 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/c/Users/USER/AppData/Roaming/nvm/v20.12.2:</span><span class="nv">$PATH</span><span class="s2">"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>npm<span class="w"> </span>install<span class="w">      </span><span class="c1"># 최초 1회(이관 시 node_modules 제외됨)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>npm<span class="w"> </span>run<span class="w"> </span>dev<span class="w">      </span><span class="c1"># 개발 서버 0.0.0.0:4040(스크립트 기본값, 로컬 포트는 아래 참고)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>npm<span class="w"> </span>run<span class="w"> </span>dev<span class="w">      </span><span class="c1"># 개발 서버 0.0.0.0:4040(WSL 에서는 아래 참고)</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>npm<span class="w"> </span>run<span class="w"> </span>build<span class="w">    </span><span class="c1"># vue-tsc --noEmit &amp;&amp; vite build  → dist/</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>npm<span class="w"> </span>run<span class="w"> </span>preview<span class="w">  </span><span class="c1"># 빌드 산출물 미리보기 :4040(스크립트 기본값)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>npm<span class="w"> </span>run<span class="w"> </span>preview<span class="w">  </span><span class="c1"># 빌드 산출물 미리보기 :4040</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>npm<span class="w"> </span>run<span class="w"> </span>typecheck#<span class="w"> </span>vue-tsc<span class="w"> </span>--noEmit
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>npm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w">     </span><span class="c1"># vitest</span>
 </code></pre></div>
@@ -1705,8 +1705,8 @@
 <p>포그라운드 bash 에서 <code>crypto.getRandomValues</code> 에러가 나면 백그라운드로 실행하세요. <code>npm run dev</code> 스크립트는 nvm v20 PATH 를 자체 주입합니다.</p>
 </div>
 <div class="admonition note">
-<p class="admonition-title">로컬 포트는 4050</p>
-<p>로컬 프론트 포트는 팀 규칙상 <strong>4050</strong> 입니다. <code>npm run dev</code>, <code>npm run preview</code> 스크립트와 <code>vite.config.ts</code> 의 기본값은 아직 4040 이라, <code>./node_modules/.bin/vite --host 0.0.0.0 --port 4050</code> 처럼 포트를 직접 줍니다. WSL 에서는 <code>npm run dev</code> 가 동작하지 않아 이 방식으로만 띄웁니다(<a href="../troubleshooting/">트러블슈팅</a> 5절).</p>
+<p class="admonition-title">로컬 포트는 4040</p>
+<p>로컬 프론트 포트는 <strong>4040</strong> 으로, <code>vite.config.ts</code> 기본값과 같습니다(로컬 백엔드는 9040). WSL 에서는 <code>npm run dev</code> 가 동작하지 않으니 <code>./node_modules/.bin/vite</code> 로 띄웁니다(<a href="../troubleshooting/">트러블슈팅</a> 5절). 4040 이 이미 쓰이고 있으면 다른 포트로 넘어가지 않고 실패합니다(<code>strictPort</code>).</p>
 </div>
 <h2 id="_2">환경변수<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p><code>.env</code> / <code>.env.development</code> / <code>.env.production</code> 세 파일을 사용하며 <strong>모두 gitignore</strong> 됩니다(실값은 로컬에만). 템플릿은 <code>.env.example</code>.</p>
