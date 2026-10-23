@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#devboardtest-cmsuserdashboardpopup-pr-323-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        게시판 테스트 화면과 미사용 팝업 삭제 — DevBoardTest, CmsUserDashBoardPopup (PR #323, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-321" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2840,6 +2851,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#devboardtest-cmsuserdashboardpopup-pr-323-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        게시판 테스트 화면과 미사용 팝업 삭제 — DevBoardTest, CmsUserDashBoardPopup (PR #323, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-321" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4212,6 +4234,13 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="devboardtest-cmsuserdashboardpopup-pr-323-infra-98">게시판 테스트 화면과 미사용 팝업 삭제 — DevBoardTest, CmsUserDashBoardPopup (PR #323, Infra #98)<a class="headerlink" href="#devboardtest-cmsuserdashboardpopup-pr-323-infra-98" title="Permanent link">&para;</a></h2>
+<p>사용자 결정(2026-10-23)으로 개발용 게시판 테스트 화면 <code>DevBoardTest</code>(<code>/dev/test/DevBoardTest</code>)와, 그 화면만 여는 미사용 팝업 <code>CmsUserDashBoardPopup</code> 을 지웠다.</p>
+<ul>
+<li><code>CmsUserDashBoardPopup</code> 은 머리말에 "미사용 화면"이라고 적혀 있었고, 여는 곳이 <code>DevBoardTest</code> 뿐이었다(#84 파생 발견, #98).</li>
+<li>두 화면이 쓰던 공통 프로시저 <code>PKG_BOARD.SP_GET_POST</code>, <code>SP_SET_POST</code>, <code>SP_DEL_POST</code>, <code>SP_GET_POSTLIST</code> 는 이제 프론트에서 부르는 곳이 없어 관문 허용 목록(<code>proc-allowlist.json</code>)에서 자동으로 빠진다. <code>SP_GET_SEQ</code> 는 <code>MdmNotice</code> 가 계속 쓴다. 패키지 본문 정리는 Infra #90 3절(그 패키지를 다음에 고칠 때).</li>
+<li>관리자 메뉴 <code>DEV_050010</code>(게시판 테스트)과 화면 등록 <code>DevBoardTest</code> 행은 사용자가 <code>.3</code> 에서 지운다(배포 전후 상관없음 — 메뉴만 남으면 "존재하지 않는 페이지"로 뜬다). 상위 폴더 <code>DEV_050000</code>(테스트 페이지)은 다음 테스트 화면을 걸 자리로 남긴다(사용자).</li>
+</ul>
 <h2 id="pr-321">쇼케이스 화면의 죽은 업로드 스텁 삭제 (PR #321)<a class="headerlink" href="#pr-321" title="Permanent link">&para;</a></h2>
 <p><code>pages/dev/template/control</code> 에 어디서도 부르지 않는 <code>aa()</code> 가 남아 있었다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">aa</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
