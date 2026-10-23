@@ -1402,6 +1402,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#options-api-pagemixin-pr-329-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        화면 작성 규칙: 신규 화면도 Options API + pageMixin (PR #329, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#devboardtest-cmsuserdashboardpopup-pr-323-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3117,6 +3128,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#options-api-pagemixin-pr-329-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        화면 작성 규칙: 신규 화면도 Options API + pageMixin (PR #329, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#devboardtest-cmsuserdashboardpopup-pr-323-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4694,6 +4716,11 @@
 <h3 id="_1">테스트<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
 <p><code>perEstimateMirror.spec.ts</code> 5건. 견적당 1회, <strong>한 장 실패해도 미러</strong>, 한 장도 못 올리면 생략,
 남은 업로드가 있어도 먼저 끝난 견적은 즉시 미러, <code>beforeunload</code> 를 걸고 뗀다.</p>
+<h2 id="options-api-pagemixin-pr-329-infra-98">화면 작성 규칙: 신규 화면도 Options API + pageMixin (PR #329, Infra #98)<a class="headerlink" href="#options-api-pagemixin-pr-329-infra-98" title="Permanent link">&para;</a></h2>
+<p>사용자 결정(2026-10-23, Infra #98 1-5)으로 화면 작성 규칙을 실제 코드에 맞췄다. PR #306 에서 문서를 "신규 화면과 대규모 수정은 <code>&lt;script setup lang="ts"&gt;</code>"로 바꿨는데, 이 규칙은 사용자가 정한 것이 아니라 2026-10-01 리팩토링 계획에 들어간 제안이었다(Infra #69). 화면 100여 개가 모두 Options API 이고 <code>pageMixin</code> 이 공통코드 맵, 메뉴 방문 로그, 화면 간 인자 받기, 탭 스크롤 복원을 붙여 준다. <code>&lt;script setup&gt;</code> 화면은 mixin 을 쓸 수 없어 그 규칙대로 새 화면을 만들면 방문 로그와 인자 받기가 오류 없이 빠진다. mixin 자체에는 문제가 없어(Vue 3 정식 지원) 옮길 이유가 없다.</p>
+<ul>
+<li><code>conventions.md</code>, <code>screen-pattern.md</code>, 개발 문서 첫 페이지: 화면은 신규를 포함해 Options API + <code>pageMixin</code>(팝업은 <code>dialogMixin</code>)으로 쓴다. <code>&lt;script setup&gt;</code> 은 화면에 쓰지 않는다.</li>
+</ul>
 <h2 id="devboardtest-cmsuserdashboardpopup-pr-323-infra-98">게시판 테스트 화면과 미사용 팝업 삭제 — DevBoardTest, CmsUserDashBoardPopup (PR #323, Infra #98)<a class="headerlink" href="#devboardtest-cmsuserdashboardpopup-pr-323-infra-98" title="Permanent link">&para;</a></h2>
 <p>사용자 결정(2026-10-23)으로 개발용 게시판 테스트 화면 <code>DevBoardTest</code>(<code>/dev/test/DevBoardTest</code>)와, 그 화면만 여는 미사용 팝업 <code>CmsUserDashBoardPopup</code> 을 지웠다.</p>
 <ul>
