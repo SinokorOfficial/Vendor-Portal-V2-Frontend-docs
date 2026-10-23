@@ -2221,8 +2221,15 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <p class="admonition-title">포탈 미러(<code>SP_SET_FILE4PORTAL</code>)는 파일 단위가 아니다</p>
 <p><code>skr_doc_mst</code> 에서 그 <code>mngt_no</code> 행을 DELETE 하고(<strong>여기서 커밋</strong>) <code>tb_cms_atfile</code> 의 'RP' 첨부를 <strong>전량 다시 INSERT</strong> 한다. <code>p_file_nm</code> 은 로그에만 쓰인다.</p>
 <p>파일마다 부르면 ①같은 전량 재적재를 N 번 반복하고 ②DELETE 와 INSERT 사이 커밋 때문에 동시 호출이 겹치면 한쪽이 비운 사이 다른 쪽이 INSERT 해 <strong>미러가 어긋나며</strong> ③업로드 도중에 부르면 <strong>그 시점까지 올라간 파일만</strong> 실린다. 종전엔 셋 다 하고 있었다.</p>
-<p>⇒ <strong>업로드를 전부 끝낸 뒤, 성공분의 <code>ESTIMATE_NO</code> 를 distinct 해 견적당 한 번</strong>만 부른다.</p>
-<p>ℹ️견적이 여러 개여도 <strong>전부 올라간 뒤에</strong> 견적 수만큼 호출한다(견적별로 끝나는 대로 부르지 않는다). 견적별 즉시 호출은 잔여 장수를 정확히 세야 하고, 틀리면 ③이 그대로 재현된다. 대신 <strong>업로드 도중에 창을 닫으면 어느 견적도 미러되지 않는다</strong>(파일은 DB 에 있다). 2026-10-19 기준 <strong>현행 유지하고 관찰 중</strong> — 큰 배치에서 민원이 생기면 견적별 즉시로 바꾼다.</p>
+<p>⇒ <strong>그 견적의 마지막 장이 끝난 직후, 견적당 한 번</strong>만 부른다. 견적별 잔여 장수를 <code>Map</code> 으로 세고 0 이 되는 순간 호출한다.</p>
+<p>⚠️<strong>성공·실패를 가리지 않고 감소</strong>시켜야 한다. 실패분을 빼먹으면 한 장이라도 실패한 견적은 0 에 닿지 못해 영영 미러되지 않는다. 한 장도 못 올린 견적은 새로 실을 것이 없어 건너뛴다. 견적이 다르면 <code>mngt_no</code> 가 달라 DELETE/INSERT 가 겹치지 않으므로 동시에 돌아도 안전하다.</p>
+<p>ℹ️2026-10-19 에는 <strong>전부 올라간 뒤 한꺼번에</strong> 불렀다. 그러면 큰 배치 도중 흐름이 끊길 때 <strong>어느 견적도</strong> 미러되지 않는다(파일은 DB 에 있다). 2026-10-23 에 견적별 즉시 호출로 바꿔 노출 구간을 '그때 올라가던 견적'으로 좁혔다.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">업로드 도중 '창을 닫는다' — 팝업이 아니라 <strong>브라우저 탭</strong>이다</p>
+<p>팝업(다이얼로그)을 닫아도 업로드와 미러는 <strong>끝까지 돈다</strong>. Vue 컴포넌트를 unmount 해도 진행 중인 <code>async</code> 메서드는 멈추지 않고, <code>http</code> 에 <code>AbortController</code> 가 없어 요청도 취소되지 않는다(2026-10-23 확인).</p>
+<p>흐름을 끊는 것은 <strong>탭 닫기·새로고침·브라우저 종료</strong> 뿐이다. 그래서 업로드가 도는 동안만 <code>beforeunload</code> 를 걸어 브라우저 경고를 띄운다.</p>
+<p>⚠️<strong>경고 문구는 지정할 수 없다.</strong> 2016년 이후 모든 브라우저가 <code>returnValue</code> 를 무시하고 자체 문구만 보여준다 — 그래서 이 경고에는 MSG 코드를 쓰지 않는다.</p>
 </div>
 <blockquote>
 <p>★<strong>로컬은 nginx 를 거치지 않는다</strong>(4050 vite 프록시 → 백엔드 직결). 이 사전검증이 없으면 로컬에서만 되는 업로드가 생기고, 운영에서는 nginx 가 413 을 <strong>HTML</strong> 로 돌려줘 화면에 정상 문구조차 못 띄운다.</p>
