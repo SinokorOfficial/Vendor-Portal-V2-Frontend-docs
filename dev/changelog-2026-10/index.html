@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/favicon.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -31,10 +31,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1489,6 +1489,17 @@
     <span class="md-ellipsis">
       
         강취료 조회가 그룹 헤더를 입력란에 채우게 (PR #326, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vuetify-2-pr-330-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        전역 스타일의 Vuetify 2 잔재와 쓰지 않는 클래스 정리 (PR #330, Infra #98)
       
     </span>
   </a>
@@ -3222,6 +3233,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vuetify-2-pr-330-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        전역 스타일의 Vuetify 2 잔재와 쓰지 않는 클래스 정리 (PR #330, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-325" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4783,6 +4805,15 @@
 <li>다른 TES 3화면(검수료, 예선료, 결해속비)과 같은 모양으로 맞췄다: 헤더가 있으면 항목별로 채우고, 없으면(새 그룹) 기본 은행 정보를 다시 받는다. 오류 커서(요율 없음, 기간 오류) 경고는 그대로다.</li>
 <li>레거시가 "상단 search 함수 오류있음"으로 꺼 두었던 새 조회 함수(주석 블록 62줄)를 지웠다. 그 함수는 같은 일을 하려다 <code>this.inv = invData</code> 로 입력 객체를 배열로 바꿔치기한 것이 오류였던 것으로 보이며, 항목별 대입으로 되살렸다.</li>
 </ul>
+<h2 id="vuetify-2-pr-330-infra-98">전역 스타일의 Vuetify 2 잔재와 쓰지 않는 클래스 정리 (PR #330, Infra #98)<a class="headerlink" href="#vuetify-2-pr-330-infra-98" title="Permanent link">&para;</a></h2>
+<p><code>src/styles/global.scss</code>, <code>src/styles/cal-theme.scss</code> 에서 어떤 화면도 쓰지 않는 규칙을 지웠다. 화면 모양은 바뀌지 않는다.</p>
+<ul>
+<li>Vuetify 2 색 클래스 <code>xxx--text</code> 9개(global 7, cal-theme 2). Vuetify 3 는 <code>text-xxx</code> 를 쓰고, 버튼 색은 <code>e-btn</code> 의 <code>color</code>(버튼 그룹명)를 그대로 클래스로 붙이므로 <code>--text</code> 가 붙는 곳이 없다.</li>
+<li>Vuetify 2 그리드 구조 셀렉터 <code>.container.e-grid &gt; .row &gt; .col</code> 묶음. Vuetify 3 는 <code>v-container</code>, <code>v-row</code>, <code>v-col</code> 로 렌더하고 <code>e-grid</code> 클래스를 붙이는 컴포넌트도 없다.</li>
+<li>백분율 크기 유틸 중 쓰지 않는 단계 23개(<code>w5p</code>, <code>w25p</code>, <code>h5p</code>, <code>h90p</code> 등). 화면에서 쓰는 단계(<code>w50p</code>, <code>w100p</code>, <code>h100p</code> 등 23개)는 그대로 둔다.</li>
+<li><code>no-scroll</code>, <code>no-scroll-x</code>, <code>no-scroll-y</code>, <code>icon-register</code>, <code>icon-register-front</code>, <code>btn-transparent</code>, <code>row-emphasis</code>, <code>e-content-layout-divider</code>, <code>e-dialog-layout-title</code>, <code>e-content-layout-title</code>.</li>
+</ul>
+<p>판정은 클래스마다 소스 전체(템플릿, <code>:class</code>, 그리드 <code>cellClass</code>류 설정, <code>classList</code>), 문자열 조립 패턴(<code>'w' +</code>, <code>`${x}--text`</code> 등), 다른 셀렉터의 조합, 라이브러리가 렌더하는 클래스, 버튼 색으로 클래스가 되는 DB 값(<code>BTN_GRP</code>)을 확인했다. 빌드 CSS 에서는 지운 규칙만 빠졌다.</p>
 <h2 id="pr-325">파일 정합성에 "포탈 미등록" 점검과 재등록 버튼 (PR #325)<a class="headerlink" href="#pr-325" title="Permanent link">&para;</a></h2>
 <p>서버는 BE #269.</p>
 <p>정본(<code>TB_CMS_ATFILE</code>)에 첨부가 있는데 포탈시스템(<code>SKR_DOC_MST</code>)에는 그 견적 행이 <strong>한 줄도 없는</strong>
@@ -6480,10 +6511,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.path", "navigation.top", "navigation.indexes", "toc.follow", "content.code.copy", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428", "clipboard.copy": "\ud074\ub9bd\ubcf4\ub4dc\ub85c \ubcf5\uc0ac", "search.result.more.one": "\uc774 \ubb38\uc11c\uc5d0\uc11c 1\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.more.other": "\uc774 \ubb38\uc11c\uc5d0\uc11c #\uac1c\uc758 \uac80\uc0c9 \uacb0\uacfc \ub354 \ubcf4\uae30", "search.result.none": "\uac80\uc0c9\uc5b4\uc640 \uc77c\uce58\ud558\ub294 \ubb38\uc11c\uac00 \uc5c6\uc2b5\ub2c8\ub2e4", "search.result.one": "1\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.other": "#\uac1c\uc758 \uc77c\uce58\ud558\ub294 \ubb38\uc11c", "search.result.placeholder": "\uac80\uc0c9\uc5b4\ub97c \uc785\ub825\ud558\uc138\uc694", "search.result.term.missing": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc740 \uac80\uc0c9\uc5b4", "select.version": "\ubc84\uc804 \uc120\ud0dd"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
       
     
   </body>
