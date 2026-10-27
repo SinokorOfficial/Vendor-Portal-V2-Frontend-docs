@@ -1352,6 +1352,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#container-no-pr-331" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 Container No. 공백 입력 시 조회 생략 (PR #331)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-322" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3089,6 +3100,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#container-no-pr-331" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 Container No. 공백 입력 시 조회 생략 (PR #331)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-322" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4710,6 +4732,12 @@
 
 
 <h1 id="2026-10">2026-10 변경 이력<a class="headerlink" href="#2026-10" title="Permanent link">&para;</a></h1>
+<h2 id="container-no-pr-331">견적 Container No. 공백 입력 시 조회 생략 (PR #331)<a class="headerlink" href="#container-no-pr-331" title="Permanent link">&para;</a></h2>
+<p><code>CrsEstimate</code> 의 Container No. 칸에 공백만 들어가면(<code>" "</code>) <code>fnGetEqNo</code> 가 그대로
+<code>PKG_CRS_ESTIMATE.SP_GET_EQ_NO</code> 를 불렀다. 프로시저는 맨 앞에서 <code>trim(p_eq_no) is null</code> 이면
+사유 커서 없이 <code>p_return := 'N'</code> 으로 끝나, 백엔드가 <strong>메시지가 빈</strong> <code>WebServiceException</code> 을 던지고
+에러 로그에 설명 없는 항목이 남았다. 화면은 <code>.catch</code> 가 삼켜 아무것도 뜨지 않고 B/L No., TPSZ 만 지워졌다.</p>
+<p>빈 값 검사를 <code>!e.value?.trim()</code> 으로 바꿔 공백만 있으면 호출하지 않는다.</p>
 <h2 id="pr-322">포탈 미러를 견적별로 즉시, 업로드 중 탭 닫기 경고 (PR #322)<a class="headerlink" href="#pr-322" title="Permanent link">&para;</a></h2>
 <p><code>CrsFileUploadPopup</code>(수리사진 자동매칭)의 포탈 미러 호출 시점을 바꾸고, 업로드가 도는 동안
 브라우저 경고를 건다.</p>
