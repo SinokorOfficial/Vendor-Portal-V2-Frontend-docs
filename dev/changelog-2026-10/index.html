@@ -1435,6 +1435,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-332" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        포탈 재등록 대상이 견적 단위가 된다 (PR #332)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-328" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3183,6 +3194,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-332" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        포탈 재등록 대상이 견적 단위가 된다 (PR #332)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-328" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4778,6 +4800,32 @@
 <li>두 화면이 쓰던 공통 프로시저 <code>PKG_BOARD.SP_GET_POST</code>, <code>SP_SET_POST</code>, <code>SP_DEL_POST</code>, <code>SP_GET_POSTLIST</code> 는 이제 프론트에서 부르는 곳이 없어 관문 허용 목록(<code>proc-allowlist.json</code>)에서 자동으로 빠진다. <code>SP_GET_SEQ</code> 는 <code>MdmNotice</code> 가 계속 쓴다. 패키지 본문 정리는 Infra #90 3절(그 패키지를 다음에 고칠 때).</li>
 <li>관리자 메뉴 <code>DEV_050010</code>(게시판 테스트)과 화면 등록 <code>DevBoardTest</code> 행은 사용자가 <code>.3</code> 에서 지운다(배포 전후 상관없음 — 메뉴만 남으면 "존재하지 않는 페이지"로 뜬다). 상위 폴더 <code>DEV_050000</code>(테스트 페이지)은 다음 테스트 화면을 걸 자리로 남긴다(사용자).</li>
 </ul>
+<h2 id="pr-332">포탈 재등록 대상이 견적 단위가 된다 (PR #332)<a class="headerlink" href="#pr-332" title="Permanent link">&para;</a></h2>
+<p>백엔드 재등록이 프로시저를 거치지 않게 되면서(BE #272) 처리 단위가
+<strong>(견적, 업로더, 선사) → (견적, 선사)</strong> 로 줄었다. 재등록 대상 그리드도 거기에 맞춘다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>전</th>
+<th>후</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한 견적에 업로더가 여럿</td>
+<td>업로더마다 한 행</td>
+<td><strong>한 행</strong></td>
+</tr>
+<tr>
+<td>업로더 열</td>
+<td>그 행의 업로더</td>
+<td>그 견적의 업로더 <strong>전부</strong>(표시 전용)</td>
+</tr>
+</tbody>
+</table>
+<p>업로더가 더는 처리 단위가 아니라서 열은 "누가 올렸나"를 보여줄 뿐이고,
+재등록 여부를 가르지 않는다. <code>No permission</code> 으로 건너뛰던 행도 사라진다.</p>
 <h2 id="pr-328">파일 정합성 화면 다듬기 — 검색영역 줄바꿈, 선사 색, 정렬 (PR #328)<a class="headerlink" href="#pr-328" title="Permanent link">&para;</a></h2>
 <p>서버는 BE #271. BE #269 / FE #325 후속.</p>
 <h3 id="_2">검색영역이 좁은 창에서 깨지던 것<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
