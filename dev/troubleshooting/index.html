@@ -3666,7 +3666,7 @@
 </ul>
 </li>
 <li><strong>왜 메시지가 뭉개지나</strong>: 저장 프로시저는 입력 커서를 <code>TMP_*%rowtype</code> 으로 fetch 한 <strong>다음에</strong> 값을 검사한다. 칸보다 긴 값은 fetch 에서 먼저 터져 공통 예외(<code>pkg_cm.sp_get_err</code>)로 빠진다. 자리수 안의 틀린 코드는 프로시저 검사까지 가서 <code>ZZ - Repair Code Error</code> 처럼 정확한 문구가 나간다 — <strong>문제는 자리수 초과뿐이다.</strong></li>
-<li><strong>해결</strong>: 컬럼에 <code>valueSetter: ValueSetter.maxLength(n)</code>. 셀 값을 쓰는 모든 경로(에디터, 붙여넣기, <code>setDataValue</code>)가 이 세터를 지나므로 붙여넣기까지 막힌다. 넘치면 <code>MSG000435</code>(<code>{0}자를 초과하여 입력할 수 없습니다.</code>) 경고 후 기존 값을 유지한다.
+<li><strong>해결</strong>: 컬럼에 <code>valueSetter: ValueSetter.maxLength(n)</code>. 셀 값을 쓰는 모든 경로(에디터, 붙여넣기, <code>setDataValue</code>)가 이 세터를 지나므로 붙여넣기까지 막힌다. 넘치면 경고 없이 <code>null</code> 로 비운다(Delete 키로 지운 것과 같은 값). 빈 칸이 보여야 사용자가 알아채고, 필수 칸이면 저장 전 검사에서 걸린다(사용자 결정 2026-10-30, PR #340. 그 전에는 <code>MSG000435</code> 경고 후 기존 값 유지).
     <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="nx">field</span><span class="o">:</span><span class="w"> </span><span class="s1">'REPAIR_CODE'</span><span class="p">,</span><span class="w"> </span><span class="nx">headerName</span><span class="o">:</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">$lang</span><span class="p">(</span><span class="w"> </span><span class="s1">'REP'</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">70</span><span class="p">,</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="nx">valueSetter</span><span class="o">:</span><span class="w"> </span><span class="nx">ValueSetter</span><span class="p">.</span><span class="nx">maxLength</span><span class="p">(</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="p">),</span>
@@ -3700,6 +3700,31 @@
 <td>Container No. 11, CMP 3, DMG 2, LOC 4, REP 2</td>
 <td>#271</td>
 </tr>
+<tr>
+<td><code>FdsOrdMgt</code> 오더</td>
+<td>FD_VSL 10(숨김), FD_VSLNM 30, FD_VYG 15</td>
+<td>#340</td>
+</tr>
+<tr>
+<td><code>FdsOrdMgt</code> 컨테이너</td>
+<td>FD_VSLCD 10(숨김), FD_VYG 15(숨김). EQNO 는 제외(아래)</td>
+<td>#340</td>
+</tr>
+<tr>
+<td><code>FdsMoveInspect</code></td>
+<td>FD_VYG 15</td>
+<td>#340</td>
+</tr>
+<tr>
+<td><code>CfsStuffExpn</code> 컨테이너</td>
+<td>EQNO 11, SEALNO 15</td>
+<td>#340</td>
+</tr>
+<tr>
+<td><code>FdsFeederageMgt</code></td>
+<td>EQNO 11</td>
+<td>#340</td>
+</tr>
 </tbody>
 </table>
 </li>
@@ -3708,7 +3733,11 @@
 <ul>
 <li><strong>대상</strong>: 편집 가능한 문자 칸 중 규격이 짧은 것 — 코드박스 칸(<code>AgCodeBoxEditor</code>, 2026-10 기준 23화면 77곳)과 에디터에 <code>maxLength</code> 를 준 칸이 1순위다.</li>
 <li><strong>자리수는 저장 프로시저가 fetch 하는 임시 테이블 기준</strong>으로 정한다. 업무 테이블이나 코드 마스터보다 짧을 수 있다. <code>.100</code> 에서 <code>ALL_TAB_COLUMNS</code> 로 확인한다(예: <code>TMP_CRS_EST.REPAIR_CODE VARCHAR2(2)</code>).</li>
-<li>에디터에 <code>maxLength</code> 가 이미 있으면 같은 값으로 맞춘다(둘이 다르면 타이핑과 붙여넣기의 한도가 달라진다).</li>
+<li>에디터에 <code>maxLength</code> 가 이미 있으면 같은 값으로 맞춘다(둘이 다르면 타이핑과 붙여넣기의 한도가 달라진다).<ul>
+<li>예외: 에디터 한도가 검색어 한도이고 실제 값은 팝업 콜백(<code>setDataValue</code>)으로 들어오는 칸. 세터는 콜백도 지나므로 에디터 값에 맞추면 정상 선택이 비워진다. 임시 테이블 기준으로 둔다(<code>FdsOrdMgt</code> FD_VSLNM: 에디터 10, 세터 30. 피더 선박명은 최대 24자).</li>
+</ul>
+</li>
+<li><strong>빈 값이 "삭제"를 뜻하는 칸에는 걸지 않는다.</strong> 비우기가 Delete 키와 똑같이 동작하기 때문이다. <code>FdsOrdMgt</code> 컨테이너 EQNO 는 빈 행을 저장에서 빼고(<code>normalizeSaveCntrRows</code>), <code>sp_set_eqno</code> 는 보내지 않은 기존 컨테이너를 삭제(<code>'D'</code>)한다. 세터를 걸면 기존 EQNO 칸에 긴 값을 붙여넣고 저장했을 때 그 컨테이너가 오더와 LINER 테이블에서 빠진다. 그래서 세터 없이, 넘치면 프로시저 <code>ORA-06502</code> 로 저장 전체가 롤백되는 동작을 유지한다(사용자 결정 2026-10-30).</li>
 <li><strong>문자 수 기준</strong>이다. 한글, 태국 문자처럼 멀티바이트가 들어올 수 있는 칸은 바이트 한도와 다르므로 저장 전 검사(<code>ValidateUtil</code>)를 따로 둔다.</li>
 <li><strong>엑셀 업로드로 읽어 들인 행은 세터를 타지 않는다</strong>(<code>setItems</code>). 업로드 화면은 저장 전 검사가 별도로 필요하다 — <code>CrsEstUploadExl</code> 은 <code>ValidateUtil.isAlnum(값, n)</code> 이 같은 자리수로 막는다.</li>
 </ul>
