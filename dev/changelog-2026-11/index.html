@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#sso-ssotoken-pr-344" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        레거시 SSO 진입(?ssoToken=) 처리 삭제 (PR #344)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#crs00-repair-pr-343" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1574,6 +1585,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#sso-ssotoken-pr-344" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        레거시 SSO 진입(?ssoToken=) 처리 삭제 (PR #344)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#crs00-repair-pr-343" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1650,6 +1672,12 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="sso-ssotoken-pr-344">레거시 SSO 진입(<code>?ssoToken=</code>) 처리 삭제 (PR #344)<a class="headerlink" href="#sso-ssotoken-pr-344" title="Permanent link">&para;</a></h2>
+<p>레거시 포탈이 <code>/?ssoToken=&lt;jwt&gt;</code> 로 보내면 부트스트랩이 <code>/api/link</code> 로 넘겨 비밀번호 없이 로그인시키던 분기를 지웠다(Infra #91 10). 레거시는 2026-10-23 종료됐고, 운영 진입은 9/8 컷오버 뒤로 0건이었다. 백엔드의 <code>/api/link</code> 와 SSO 로그인도 같은 날 지웠다(백엔드 PR #288).</p>
+<ul>
+<li><code>src/plugins/bootstrap.ts</code>: <code>ssoToken</code> 분기 삭제. 이제 이 쿼리는 무시되고 보통 진입처럼 세션을 확인한다(없으면 로그인 화면).</li>
+<li><code>docs-dev/auth.md</code>: SSO 유입 절을 폐쇄 기록으로 바꿨다.</li>
+</ul>
 <h2 id="crs00-repair-pr-343">수리장 관리자 CRS00 — 사용자 관리에서 소속 회사 REPAIR 고정 (PR #343)<a class="headerlink" href="#crs00-repair-pr-343" title="Permanent link">&para;</a></h2>
 <p>수리장 관리자 역할 <code>CRS00</code> 이 사용자 관리(<code>CmsUserMgt</code>)만 쓰도록 화면을 맞췄다. 판정은 세션 역할에 <code>CRS00</code> 이 있고 <code>ADMIN</code> 이 아닐 때다(<code>isRepairAdmin</code>).</p>
 <ul>
