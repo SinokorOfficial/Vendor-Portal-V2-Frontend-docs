@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-346" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        비밀번호 초기화 화면에서 하는 일 없던 사전 확인 호출을 뺀다 (PR #346)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci-trivy-github-pr-pr-345" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1613,6 +1624,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-346" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        비밀번호 초기화 화면에서 하는 일 없던 사전 확인 호출을 뺀다 (PR #346)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci-trivy-github-pr-pr-345" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1728,6 +1750,13 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="pr-346">비밀번호 초기화 화면에서 하는 일 없던 사전 확인 호출을 뺀다 (PR #346)<a class="headerlink" href="#pr-346" title="Permanent link">&para;</a></h2>
+<p>Infra #91 판단 항목 "비밀번호 찾기". 백엔드 PR #292 와 짝이다.</p>
+<ul>
+<li><code>src/pages/login/pw-init/index.vue</code>: "Reset the Password" 가 <code>/api/auth/find/password/user</code> 를 먼저 부르고 나서 <code>/api/auth/find/password</code> 를 불렀다. 앞의 호출은 메일 발송이 주석 처리돼 하는 일이 없었고, 응답의 인증번호도 쓰지 않았다. 이제 <code>/api/auth/find/password</code> 만 부른다.</li>
+<li>백엔드는 그 API 를 지운다. 이 PR 이 먼저 배포돼야 한다.</li>
+<li>발송에 성공하면 같은 화면에서 다시 누를 수 없게 막는 동작은 그대로다. 종전과 달리 발송이 실패하면 다시 시도할 수 있다.</li>
+</ul>
 <h2 id="ci-trivy-github-pr-pr-345">CI 의 Trivy 를 GitHub 릴리스에서 직접 받고, 실패해도 PR 을 막지 않게 한다 (PR #345)<a class="headerlink" href="#ci-trivy-github-pr-pr-345" title="Permanent link">&para;</a></h2>
 <p>2026-11-03 밤부터 PR 의 CI(<code>ci.yml</code>) Trivy 단계가 설치에서 실패하게 됐다. 백엔드 PR 에서 먼저 드러났다(백엔드 #289).</p>
 <ul>
