@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-348" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자 관리의 회사 코드 팝업은 자기 모듈 회사만 보인다 (PR #348)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-346" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1635,6 +1646,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-348" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        사용자 관리의 회사 코드 팝업은 자기 모듈 회사만 보인다 (PR #348)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-346" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1772,6 +1794,15 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="pr-348">사용자 관리의 회사 코드 팝업은 자기 모듈 회사만 보인다 (PR #348)<a class="headerlink" href="#pr-348" title="Permanent link">&para;</a></h2>
+<p>Infra #91 "#88 처리 뒤 남은 항목" 중 "회사 코드 선택 팝업이 모듈로 거르지 않는다".</p>
+<ul>
+<li><code>CmsUserMgt</code> 의 회사 코드 팝업 두 곳(조회 조건, 상세의 소속 회사)에 늘 <code>USER_ID</code>(로그인 사용자)를 넘긴다. 종전에는 조회 조건만, 그것도 수리장 관리자(CRS00)일 때만 넘겼다.</li>
+<li>팝업 쿼리(<code>selectCorp</code>)는 이 값으로 ADMIN 에게는 전부, 그 밖에는 <code>SYSTEM_DIV</code> 가 내 역할 앞 3자인 회사만 돌려준다. 서버 저장 판정(법인 범위)과 같은 규칙이다.</li>
+<li>자기 모듈은 사용자 소속 회사의 모듈이 아니라 역할로 정해진다. 예: CRS00 담당자는 소속이 SNKO(FDS)지만 CRS 회사를 다룬다.</li>
+<li>종전에는 모듈 관리자가 범위 밖 회사를 고를 수 있었고, 저장 때 서버의 법인 범위 판정(백엔드 PR #223)이 거절했다. ADMIN 화면은 바뀌지 않는다.</li>
+<li>포트 그리드의 회사 칸은 서버 판정 대상이 아니라 그대로 둔다.</li>
+</ul>
 <h2 id="pr-346">비밀번호 초기화 화면에서 하는 일 없던 사전 확인 호출을 뺀다 (PR #346)<a class="headerlink" href="#pr-346" title="Permanent link">&para;</a></h2>
 <p>Infra #91 판단 항목 "비밀번호 찾기". 백엔드 PR #292 와 짝이다.</p>
 <ul>
