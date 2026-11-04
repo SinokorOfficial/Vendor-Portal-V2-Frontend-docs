@@ -1387,6 +1387,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#no-endpoint-pr-349" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        문서: 비밀번호 찾기 안내와 "No endpoint" 응답 코드를 맞춘다 (PR #349)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci-trivy-github-pr-pr-345" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1679,6 +1690,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#no-endpoint-pr-349" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        문서: 비밀번호 찾기 안내와 "No endpoint" 응답 코드를 맞춘다 (PR #349)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci-trivy-github-pr-pr-345" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1816,6 +1838,12 @@
 <li><code>CmsEmailPopup</code>(TES 4개 화면, FDS Invoice 에서 여는 메일 팝업)의 From 칸을 숨긴다(<code>v-show="false"</code>, 템플릿에는 남겨 둔다). 값은 메일 양식 프로시저가 선사 공용 발신함(<code>sendonly@…</code>)으로 채우고, 보낼 때 그대로 넘긴다.</li>
 <li>From 이 비었을 때 로그인 사용자 메일로 채우던 보정은 없앴다. 백엔드 PR #295 가 공용 발신함 말고는 거절하므로, 채워 봐야 서버에서 실패한다. 비어 있으면 From 필수 검사가 안내한다.</li>
 <li>서버 검사(백엔드 PR #295)가 실제 차단이고, 이 PR 은 화면을 그에 맞춘다. 배포 순서는 상관없다.</li>
+</ul>
+<h2 id="no-endpoint-pr-349">문서: 비밀번호 찾기 안내와 "No endpoint" 응답 코드를 맞춘다 (PR #349)<a class="headerlink" href="#no-endpoint-pr-349" title="Permanent link">&para;</a></h2>
+<p>Infra #91 조치(백엔드 PR #292, #293) 뒤 문서에 남은 차이를 맞춘다.</p>
+<ul>
+<li>사용자 문서 <code>시작하기</code>에 비밀번호 찾기 안내를 더했다. 등록된 이메일과 정확히 같아야 임시 비밀번호를 받는다(주소 일부로는 안 된다). 여러 개 등록돼 있으면 그중 하나를 입력하고, 메일은 그 주소로 간다.</li>
+<li>개발 문서 문제 해결의 "No endpoint POST /api/…" 안내를 404 로 고쳤다. 2026-11-04 전에는 500 으로 나갔다.</li>
 </ul>
 <h2 id="ci-trivy-github-pr-pr-345">CI 의 Trivy 를 GitHub 릴리스에서 직접 받고, 실패해도 PR 을 막지 않게 한다 (PR #345)<a class="headerlink" href="#ci-trivy-github-pr-pr-345" title="Permanent link">&para;</a></h2>
 <p>2026-11-03 밤부터 PR 의 CI(<code>ci.yml</code>) Trivy 단계가 설치에서 실패하게 됐다. 백엔드 PR 에서 먼저 드러났다(백엔드 #289).</p>
