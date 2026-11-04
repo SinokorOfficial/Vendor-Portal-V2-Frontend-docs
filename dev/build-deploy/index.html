@@ -1776,7 +1776,7 @@
 <li><strong>① 린트 게이트(ESLint)</strong> — <code>npm run lint</code>. 미정의 식별자(<code>no-undef</code>)와 미사용 변수(<code>no-unused-vars</code>, <strong>error</strong>)를 잡는다 — <code>vue-tsc</code> 가 못 보는 JS <code>&lt;script&gt;</code> 블록 담당(checkJs 는 this 타입 노이즈로 미채택). 설정은 <code>eslint.config.js</code>. (FE #184·#188·#190, Infra #36)</li>
 <li><strong>② 단위 테스트(vitest)</strong> — <code>npm test</code>. <code>src/**/__tests__</code> 의 유틸, 스토어, 그리드 어댑터 테스트. 2026-10 까지는 어느 파이프라인에서도 돌지 않았다(Infra #89).</li>
 <li><strong>③ 빌드 게이트</strong> — <code>npm ci</code> → <code>npm run build</code>(vue-tsc 타입체크 + vite build). 타입/구문/import 오류가 머지되는 것을 막는다.</li>
-<li><strong>④ Trivy 취약점 스캔(리포트)</strong> — <code>package-lock.json</code> 의존성의 CRITICAL/HIGH CVE. <strong>결과는 Actions 실행 화면의 Summary(요약)와 로그에 표로</strong> 남긴다(<code>exit-code: 0</code> 비차단). 메일 알림은 Dependabot alerts 가 맡는다.</li>
+<li><strong>④ Trivy 취약점 스캔(리포트)</strong> — <code>package-lock.json</code> 의존성의 CRITICAL/HIGH CVE. <strong>결과는 Actions 실행 화면의 Summary(요약)와 로그에 표로</strong> 남긴다(<code>exit-code: 0</code> 비차단). 메일 알림은 Dependabot alerts 가 맡는다. Trivy 본체는 GitHub 릴리스에서 sha256 을 확인해 직접 받는다(<code>trivy-action</code> 의 설치가 쓰는 <code>get.trivy.dev</code> 가 2026-11-03 사라졌다). Trivy 단계는 <code>continue-on-error</code> 라 외부 장애로 스캔을 못 해도 PR 이 빨간불이 되지 않는다. 그때는 요약 표가 없고 실패는 단계 로그에 남는다.</li>
 <li><strong>⑤ SBOM</strong> — CycloneDX(<code>sbom-frontend.cdx.json</code>)를 아티팩트로 업로드.</li>
 </ul>
 <div class="admonition note">
