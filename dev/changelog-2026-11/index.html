@@ -1365,6 +1365,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#from-pr-347" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메일 팝업의 From 칸을 숨긴다 (PR #347)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci-trivy-github-pr-pr-345" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1635,6 +1646,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#from-pr-347" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        메일 팝업의 From 칸을 숨긴다 (PR #347)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ci-trivy-github-pr-pr-345" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1756,6 +1778,13 @@
 <li><code>src/pages/login/pw-init/index.vue</code>: "Reset the Password" 가 <code>/api/auth/find/password/user</code> 를 먼저 부르고 나서 <code>/api/auth/find/password</code> 를 불렀다. 앞의 호출은 메일 발송이 주석 처리돼 하는 일이 없었고, 응답의 인증번호도 쓰지 않았다. 이제 <code>/api/auth/find/password</code> 만 부른다.</li>
 <li>백엔드는 그 API 를 지운다. 이 PR 이 먼저 배포돼야 한다.</li>
 <li>발송에 성공하면 같은 화면에서 다시 누를 수 없게 막는 동작은 그대로다. 종전과 달리 발송이 실패하면 다시 시도할 수 있다.</li>
+</ul>
+<h2 id="from-pr-347">메일 팝업의 From 칸을 숨긴다 (PR #347)<a class="headerlink" href="#from-pr-347" title="Permanent link">&para;</a></h2>
+<p>Infra #91 판단 항목 "메일 발신자".</p>
+<ul>
+<li><code>CmsEmailPopup</code>(TES 4개 화면, FDS Invoice 에서 여는 메일 팝업)의 From 칸을 숨긴다(<code>v-show="false"</code>, 템플릿에는 남겨 둔다). 값은 메일 양식 프로시저가 선사 공용 발신함(<code>sendonly@…</code>)으로 채우고, 보낼 때 그대로 넘긴다.</li>
+<li>From 이 비었을 때 로그인 사용자 메일로 채우던 보정은 없앴다. 백엔드 PR #295 가 공용 발신함 말고는 거절하므로, 채워 봐야 서버에서 실패한다. 비어 있으면 From 필수 검사가 안내한다.</li>
+<li>서버 검사(백엔드 PR #295)가 실제 차단이고, 이 PR 은 화면을 그에 맞춘다. 배포 순서는 상관없다.</li>
 </ul>
 <h2 id="ci-trivy-github-pr-pr-345">CI 의 Trivy 를 GitHub 릴리스에서 직접 받고, 실패해도 PR 을 막지 않게 한다 (PR #345)<a class="headerlink" href="#ci-trivy-github-pr-pr-345" title="Permanent link">&para;</a></h2>
 <p>2026-11-03 밤부터 PR 의 CI(<code>ci.yml</code>) Trivy 단계가 설치에서 실패하게 됐다. 백엔드 PR 에서 먼저 드러났다(백엔드 #289).</p>
