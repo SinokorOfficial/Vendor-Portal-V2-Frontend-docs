@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#mvs-mixin-pr-352-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MVS 조회 두 화면의 같은 뼈대를 mixin 하나로 (PR #352, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#eir-pr-351-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1679,6 +1690,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#mvs-mixin-pr-352-infra-98" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MVS 조회 두 화면의 같은 뼈대를 mixin 하나로 (PR #352, Infra #98)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#eir-pr-351-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1860,6 +1882,23 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="mvs-mixin-pr-352-infra-98">MVS 조회 두 화면의 같은 뼈대를 mixin 하나로 (PR #352, Infra #98)<a class="headerlink" href="#mvs-mixin-pr-352-infra-98" title="Permanent link">&para;</a></h2>
+<p>Infra #98 4-4. <code>MvsDropOff</code> 와 <code>MvsRedeliveryStts</code> 는 "기간과 컨테이너 번호로 조회 → 프로시저 호출 → 그리드 → 엑셀 다운로드" 스크립트가 거의 한 글자씩 같았다. 같은 부분을 <code>src/pages/mvs/mvsListMixin.js</code> 로 옮기고, 두 화면은 차이만 정한다. 화면은 그대로 두 페이지이고 동작은 바뀌지 않는다.</p>
+<ul>
+<li><code>mvsListMixin.js</code> 로 옮긴 것: <code>search</code>, 그리드 옵션과 어댑터, 합계 <code>listGridTotal</code>, 마운트 때 그리드를 잡고 초기화, <code>fnReset</code>(이번 달 1일 ~ 오늘), <code>fnClear</code>, 날짜 맞춤 <code>fnDateValidation</code>, <code>fnSearch</code>, 엑셀 <code>fnGridExcelDown</code>, 우클릭 메뉴, 그리드 공통 옵션(행 번호, 다중 선택, 기본 컬럼 설정).</li>
+<li>화면에 남긴 것<ul>
+<li>템플릿(두 화면이 같지만 <code>.vue</code> 를 새로 만들면 라우트가 되고 <code>src/components</code> 는 전역 등록이라 각 화면에 그대로 둔다)</li>
+<li><code>dataset</code>(화면 옵션으로 넘긴다. 프로시저 이름은 각 화면 <code>dataset.js</code> 에 리터럴로 둔다. 빌드가 거기서 운영 허용 목록을 만든다, Infra #92)</li>
+<li><code>excelName</code>(엑셀 파일명 <code>[선사] Drop Off_yyyyMMdd</code>, <code>[선사] Redelivery Status_yyyyMMdd</code>)</li>
+<li><code>fnGetSearchParam()</code>(조회 인자. <code>MvsRedeliveryStts</code> 만 맨 앞에 <code>LOC_CD: useUiStore().activeLocCd</code> 를 넣는다)</li>
+<li><code>fnGetColumnDefs()</code>(컬럼 전부)</li>
+<li>빈 <code>codeData()</code>(라우터 가드가 화면 옵션에서 직접 읽어 mixin 으로 옮기면 동작이 달라진다)</li>
+</ul>
+</li>
+<li><code>MvsStockStatus</code> 는 넣지 않았다. 검색 조건과 초기화 버튼이 없고, 마운트하자마자 조회하고, 조회 뒤 컨테이너 타입별 집계를 채우고, 합계 표시와 더블클릭 이동도 달라서 넣으려면 분기나 훅이 필요하다.</li>
+<li>줄 수: 두 화면 249 + 243 = 492줄 → 140 + 135 + mixin 133 = 408줄.</li>
+</ul>
+<p><code>src/pages/mvs/__tests__/mvsListMixin.spec.ts</code> 10건을 추가했다. 두 화면을 실제로 마운트해(레이아웃은 슬롯만 그리는 껍데기) 조회 인자(키 순서와 조회 시점의 <code>LOC_CD</code> 까지), 기본 기간과 초기화 버튼, 날짜 맞춤, 엑셀 파일명(버튼과 우클릭 메뉴), 컬럼과 합계를 본다. 같은 테스트가 바꾸기 전 원본에서도 통과한다.</p>
 <h2 id="eir-pr-351-infra-98">EIR 수입/수출 발급 화면의 똑같은 메서드를 공통 파일로 (PR #351, Infra #98)<a class="headerlink" href="#eir-pr-351-infra-98" title="Permanent link">&para;</a></h2>
 <p>Infra #98 4-1. 두 화면(<code>EirImportIssue</code>, <code>EirExportIssue</code>)은 각자의 페이지로 그대로 두고, 두 화면에 글자까지 같게 있던 메서드만 <code>src/pages/eir/eirIssueCommon.js</code> 로 옮겼다. 동작은 바뀌지 않는다.</p>
 <ul>
