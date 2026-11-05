@@ -1415,6 +1415,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-354" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        승인 조회도 개선본 프로시저를 쓴다 (PR #354)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-348" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1790,6 +1801,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-354" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        승인 조회도 개선본 프로시저를 쓴다 (PR #354)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-348" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2024,6 +2046,17 @@
 <li>클립보드 붙여넣기(정상, 빈 값, API 없음, 읽기 실패), Search 그리드 행 수</li>
 <li>두 화면이 공통 파일의 같은 함수를 등록하는지(한쪽에 복사본이 다시 생기면 걸린다)</li>
 </ul>
+<h2 id="pr-354">승인 조회도 개선본 프로시저를 쓴다 (PR #354)<a class="headerlink" href="#pr-354" title="Permanent link">&para;</a></h2>
+<p>Infra #115. <code>CrsEstApproval</code> 의 조회를 <code>SP_GET_EST</code> → <code>SP_GET_EST_NEW</code> 로 바꾼다. 견적 조회 화면은 PR #350 에서 이미 넘어갔으므로, 이로써 <code>SP_GET_EST</code> 는 호출처가 없다.</p>
+<ul>
+<li>결과는 같다. <code>.100</code> 에서 선사 3개의 승인 조회를 전체 컬럼 양방향 <code>MINUS</code> 로 대조해 0행을 확인했다(SNKO/PUS12 14,726행, HALK/PUS01 11,184행, HSLI/INC07 1,795행).</li>
+<li>파라미터 이름과 순서가 <code>SP_GET_EST</code> 와 같다. 관문이 <code>ALL_ARGUMENTS</code> 를 이름으로 읽어 꽂으므로 화면에서 더 보낼 값은 없다.</li>
+<li>속도 이득은 거의 없다. 이 화면은 하루 1~3명이 쓰고 20초를 넘긴 호출이 0건이다. 받는 것은 <code>file_yn</code> 을 <code>exists</code> 로 바꾼 분 정도다.</li>
+<li>바꾸는 이유는 성능이 아니라 정리다. 지금은 같은 데이터를 보는 두 화면이 서로 다른 프로시저를 본다. 하나로 모으면 다음에 로직을 고칠 때 어느 쪽을 고쳐야 하는지 헷갈리지 않는다.</li>
+<li><code>SP_GET_EST</code> 는 DB 에 그대로 둔다. 되돌릴 일이 생기면 이 파일 한 줄로 돌아간다.</li>
+</ul>
+<p>DB 쪽 선행 조건은 없다. 운영에 지금 컴파일돼 있는 <code>SP_GET_EST_NEW</code> 도 <code>APP_YN='Y'</code> 가지를 그대로 갖고 있어 이 화면이 바로 탄다. 승인 전용 커서로 갈라진 새 본문을 컴파일하면 그때부터 그쪽을 탄다.</p>
+<p>허용 목록은 112 에서 111 로 줄어든다. 두 화면이 같은 이름을 쓰게 되기 때문이다. 이번에는 이름이 빠지기만 하므로 갱신 버튼을 당장 누르지 않아도 조회가 막히지 않는다. 백엔드가 들고 있는 옛 목록이 상위집합이라 그렇다. 다만 다음 기동이나 03:00 에 자동으로 맞춰지니, 정리 삼아 눌러 두면 깔끔하다.</p>
 <h2 id="pr-348">사용자 관리의 회사 코드 팝업은 자기 모듈 회사만 보인다 (PR #348)<a class="headerlink" href="#pr-348" title="Permanent link">&para;</a></h2>
 <p>Infra #91 "#88 처리 뒤 남은 항목" 중 "회사 코드 선택 팝업이 모듈로 거르지 않는다".</p>
 <ul>
