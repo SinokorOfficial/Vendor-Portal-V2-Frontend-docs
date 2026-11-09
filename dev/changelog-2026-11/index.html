@@ -1365,6 +1365,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt-pr-358" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파일 정합성 [동기화] 창과 JWT 발급 결과 창을 공통 팝업으로 바꿨다 (PR #358)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#eir-lf-pr-353-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1773,6 +1784,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt-pr-358" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        파일 정합성 [동기화] 창과 JWT 발급 결과 창을 공통 팝업으로 바꿨다 (PR #358)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#eir-lf-pr-353-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2034,6 +2056,22 @@
 <li>[포탈 재등록] 버튼을 [동기화] 로 바꿨다. 누르면 팝업에 규칙표, 처리 대상 미리보기(엑셀 내려받기), 폴더 단위 경고, 삭제 상한 초과 안내가 뜨고, [동기화 실행] 을 한 번 더 확인한 뒤 서버가 처리한다. 결과(처리됨, 건너뜀 사유, 실패)는 같은 그리드에 보여 준다.</li>
 <li>[MISSING 삭제문 생성] 버튼과 SQL 다이얼로그를 지웠다. 5, 6번은 이제 [동기화] 가 지운다.</li>
 <li>검색 옵션 "포탈시스템 포함", "포탈 미등록 점검" 을 지웠다. <code>SKR_DOC_MST</code> 는 늘 같이 분류한다. "미등록 파일(고아) 점검" 은 "4번(실물만)도 찾기" 로 이름을 바꿨다.</li>
+</ul>
+<h2 id="jwt-pr-358">파일 정합성 [동기화] 창과 JWT 발급 결과 창을 공통 팝업으로 바꿨다 (PR #358)<a class="headerlink" href="#jwt-pr-358" title="Permanent link">&para;</a></h2>
+<p>두 창이 화면 안에 <code>v-dialog</code> 를 직접 넣어 다른 팝업과 생김새가 달랐다. 다른 팝업처럼 팝업 페이지로 떼어 내고 <code>$dialog</code> 로 띄운다.</p>
+<ul>
+<li>새 팝업 페이지: <code>cms/popup/CmsFileIntegrityRulesPopup</code>, <code>cms/popup/CmsJwtIssuedPopup</code>. 안쪽은 공통 <code>e-dialog-layout</code>(오른쪽 위 버튼, 정보 표, 내용)이다.</li>
+<li>파일 정합성 [동기화] 창</li>
+<li>제목 줄(전체 화면, 닫기, ESC)이 다른 팝업과 같아졌다.</li>
+<li>[동기화 실행], [CLOSE] 는 오른쪽 위로 옮겼다.</li>
+<li>그리드는 다른 그리드 팝업과 같은 <code>e-card-grid</code> 틀이다.</li>
+<li>8분류 표는 "처리 규칙" 줄의 [8분류 펼치기] 로 접었다 편다(공통 <code>e-table</code>, 기본은 접힘).</li>
+<li>조회 그리드와 같이 쓰는 열 정의는 <code>CmsFileIntegrity/columns.js</code> 한 곳에 모았다.</li>
+<li>실행 중에 창을 닫아도 실행이 끝나면 부모 화면이 다시 조회한다.</li>
+<li>JWT 발급 결과 창</li>
+<li>persistent 로 띄워 X, ESC, 바깥 클릭으로는 닫히지 않는다(CLOSE 로만). 평문 토큰은 다시 볼 수 없어서다.</li>
+<li>토큰은 읽기 전용 <code>dx-text-area</code> 에 보이고, 칸 안에서 줄바꿈된다.</li>
+<li>KO, EN 메일 발송과 COPY 동작은 그대로다.</li>
 </ul>
 <h2 id="eir-lf-pr-353-infra-98">재고 현황 집계가 조회마다 쌓이던 것, EIR 붙여넣기가 LF 줄바꿈을 못 나누던 것 (PR #353, Infra #98)<a class="headerlink" href="#eir-lf-pr-353-infra-98" title="Permanent link">&para;</a></h2>
 <h3 id="mvsstockstatus-infra-98-1-8">재고 현황(MvsStockStatus) 타입별 집계 (Infra #98 1-8)<a class="headerlink" href="#mvsstockstatus-infra-98-1-8" title="Permanent link">&para;</a></h3>
