@@ -1354,6 +1354,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-359" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        컨테이너 무브 업로드 — 같은 무브가 두 줄이면 저장 전에 막는다 (PR #359)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="컨테이너 무브 업로드 — 같은 무브가 두 줄이면 저장 전에 막는다 (PR #359)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        원인
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fnsavevalidation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조치 (fnSaveValidation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#8-pr-357-infra-107" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1526,7 +1565,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         바꾼 것
@@ -1773,6 +1812,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-359" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        컨테이너 무브 업로드 — 같은 무브가 두 줄이면 저장 전에 막는다 (PR #359)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="컨테이너 무브 업로드 — 같은 무브가 두 줄이면 저장 전에 막는다 (PR #359)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        원인
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fnsavevalidation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조치 (fnSaveValidation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#8-pr-357-infra-107" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1945,7 +2023,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         바꾼 것
@@ -2048,6 +2126,28 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="pr-359">컨테이너 무브 업로드 — 같은 무브가 두 줄이면 저장 전에 막는다 (PR #359)<a class="headerlink" href="#pr-359" title="Permanent link">&para;</a></h2>
+<p><code>FdsCntrMoveUpload</code> 에서 같은 무브를 두 줄 넣고 저장하면 <code>ORA-00001: 무결성 제약 조건(LINER.T_OCEQ013_PK)</code> 으로 <strong>저장 전체가 실패</strong>하고, 사용자에게는 "Please contact IT Team." 만 보였다. 2026-11-10 운영 사례는 엑셀 마지막 줄이 한 번 더 들어간 업로드였다.</p>
+<h3 id="_1">원인<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>선사 <code>t_oceq013</code> 의 PK 는 컨테이너, 무브, 날짜, 시간 4개다(BL 은 들어 있지 않다).</li>
+<li><code>PKG_FDS.SP_SET_EQMV_NEW</code> 는 받은 행을 그대로 MERGE 한다. 처음 들어오는 무브는 두 줄 모두 '없음' 으로 판정돼 둘 다 INSERT 를 시도하고, 두 번째에서 PK 위반이 난다.</li>
+<li>프로시저 사전 검사(<code>sp_get_errcheck</code>)와 화면 검증 모두 같은 요청 안의 중복을 보지 않았다.</li>
+</ul>
+<p>공통 프로시저 호출이 트랜잭션이라 실패한 요청의 행은 하나도 저장되지 않는다(롤백).</p>
+<h3 id="fnsavevalidation">조치 (<code>fnSaveValidation</code>)<a class="headerlink" href="#fnsavevalidation" title="Permanent link">&para;</a></h3>
+<p>저장할 행끼리 위 4개 키가 같으면 묶음마다 한 줄로 경고하고 저장하지 않는다. 기존 검증 경고와 같은 <code>$message.warning</code> 창에 함께 나온다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[Row 1, 7, 10, 52, 88, 94] Duplicate movement - BEAU2478510 / IED / 20261109 / 2100
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>[Row 23, 61] Duplicate movement - TEMU1218672 / IED / 20261107 / 2100
+</code></pre></div>
+<ul>
+<li>오더나 위치가 달라도 4개 키가 같으면 DB 가 거절하므로 중복으로 본다.</li>
+<li>시간은 저장 때처럼 콜론을 뺀 값으로 비교한다(엑셀 행의 <code>21:00</code> 과 <code>2100</code> 은 같다).</li>
+<li>엑셀은 제목 줄 때문에 행 번호가 하나씩 밀리므로 겹친 값을 함께 보여 준다. 컨테이너 번호로 엑셀에서 찾으면 된다.</li>
+<li>어느 행이 맞는지는 사용자가 정할 일이라 자동으로 지우지 않는다.</li>
+<li>삭제(D) 행과 조회 후 고치지 않은 행은 비교하지 않는다(저장할 행만 본다).</li>
+</ul>
+<p>테스트: <code>src/pages/fds/FdsCntrMoveUpload/__tests__/resave.spec.ts</code> 에 3건 추가. 고치기 전 코드에서는 3건 모두 실패한다.</p>
 <h2 id="8-pr-357-infra-107">파일 정합성 화면: 파일 상태 8분류와 [동기화] 버튼 (PR #357, Infra #107)<a class="headerlink" href="#8-pr-357-infra-107" title="Permanent link">&para;</a></h2>
 <p>첨부 파일 하나를 실물(NAS), <code>TB_CMS_ATFILE</code>, <code>SKR_DOC_MST</code>(V2 가 넣은 <code>/VENDOR</code> 행) 세 곳에 있느냐로 8분류해 보여 주고, [동기화] 버튼으로 규칙대로 맞춘다. 규칙 정본은 Infra #107 본문(2026-11-09 사용자 결정).</p>
 <ul>
@@ -2202,7 +2302,7 @@
 <li><code>trivy-action@v0.36.0</code> 이 부르는 설치 단계(<code>setup-trivy</code>)는 Trivy 본체를 <code>get.trivy.dev</code> 에서 받는다. <code>trivy.dev</code> 도메인이 2026-11-03 21:34 UTC 에 등록업체 주차 페이지로 바뀌면서 이 주소가 DNS 에서 사라져 <code>curl</code> 이 exit 6 으로 죽는다(상류 이슈 aquasecurity/setup-trivy #42).</li>
 <li>캐시는 PR 마다 따로 저장돼 다른 PR 이 재사용하지 못한다. 그래서 새 PR 은 매번 본체를 새로 받는다.</li>
 </ul>
-<h3 id="_1">바꾼 것<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<h3 id="_2">바꾼 것<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>Install Trivy</code> 단계를 새로 넣었다. GitHub 릴리스에서 <code>trivy_0.70.0_Linux-64bit.tar.gz</code> 를 받아, 워크플로에 고정한 sha256 과 대조한 뒤 PATH 에 올린다. 버전은 <code>trivy-action@v0.36.0</code> 의 기본값과 같다. 다른 Trivy 단계처럼 빌드 성패와 무관하게 돈다(<code>if: always()</code>).</li>
 <li>취약점 스캔과 SBOM 단계에 <code>skip-setup-trivy: 'true'</code> 를 줘 위에서 설치한 본체를 쓴다.</li>
