@@ -1393,6 +1393,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-360" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 업로드 — 한 건도 저장되지 않았는데 "저장 되었습니다"가 뜨던 것 (PR #360)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="견적 엑셀 업로드 — 한 건도 저장되지 않았는데 &#34;저장 되었습니다&#34;가 뜨던 것 (PR #360)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        왜 지금 드러났나
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조치
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#8-pr-357-infra-107" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1565,7 +1604,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         바꾼 것
@@ -1851,6 +1890,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-360" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        견적 엑셀 업로드 — 한 건도 저장되지 않았는데 "저장 되었습니다"가 뜨던 것 (PR #360)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="견적 엑셀 업로드 — 한 건도 저장되지 않았는데 &#34;저장 되었습니다&#34;가 뜨던 것 (PR #360)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        왜 지금 드러났나
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        조치
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#8-pr-357-infra-107" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2023,7 +2101,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         바꾼 것
@@ -2148,6 +2226,24 @@
 <li>삭제(D) 행과 조회 후 고치지 않은 행은 비교하지 않는다(저장할 행만 본다).</li>
 </ul>
 <p>테스트: <code>src/pages/fds/FdsCntrMoveUpload/__tests__/resave.spec.ts</code> 에 3건 추가. 고치기 전 코드에서는 3건 모두 실패한다.</p>
+<h2 id="pr-360">견적 엑셀 업로드 — 한 건도 저장되지 않았는데 "저장 되었습니다"가 뜨던 것 (PR #360)<a class="headerlink" href="#pr-360" title="Permanent link">&para;</a></h2>
+<p><code>CrsEstUploadExl</code> 저장 알림은 프로시저가 돌려준 행이 하나라도 있으면 무조건 <code>MSG000008</code>(저장 되었습니다) 을 띄웠다. 반환 행에는 <strong>저장에서 제외된 행도 섞여 있어서</strong>, 올린 컨테이너가 전부 거절돼도 완료 알림이 떴다.</p>
+<h3 id="_2">왜 지금 드러났나<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>2026-11-10 에 <code>PKG_CRS_ESTIMATE.SP_SET_EST4EXL_NEW</code> 에 <strong>확정 견적 보호 가드</strong>가 들어갔다. 확정(<code>CONFIRM = 'Y'</code>)된 견적에 엑셀로 상세를 덮어쓰거나 추가하는 것을 막고, 해당 컨테이너만 건너뛰며 사유를 돌려준다.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[ERROR] This estimate has already been confirmed. No changes were applied.
+</code></pre></div>
+<p>그 전까지는 같은 입력이 <code>ORA-00001</code> 로 저장 전체를 실패시켜서 완료 알림이 뜰 일이 없었다. 가드가 들어가면서 "한 건도 저장 안 됨 + 완료 알림" 조합이 실제로 생겼다.</p>
+<h3 id="_3">조치<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>반환 행의 <code>ESTIMATE_NO</code> 로 저장 여부를 센다.</p>
+<ul>
+<li>저장된 행이 0 이면 <code>MSG000388</code>(저장 가능한 데이터가 없습니다) 을 경고로 띄운다</li>
+<li>하나라도 저장됐으면 종전처럼 <code>MSG000008</code></li>
+</ul>
+<p><code>ESTIMATE_NO</code> 를 기준으로 삼은 이유는 상세 <code>MERGE</code> 의 소스 필터가 <code>estimate_no is not null</code> 이라, 이 값이 비었다는 것이 곧 저장에서 빠졌다는 뜻이기 때문이다. 프로시저는 확정 견적, 컨테이너 미존재, Not Sinokor Van 모두 이 값을 비워서 돌려준다.</p>
+<p><code>ERR_MSG</code> 로는 판정할 수 없다. <code>[ERROR]</code> 가 붙었는데도 저장되는 경우가 있어 기준이 되지 못한다.</p>
+<p>제외 사유 자체는 종전처럼 그리드 Error Msg 열에 행별로 빨갛게 남는다. 알림만 사실에 맞게 바뀐다.</p>
+<p>일부만 저장된 경우(예: 50건 중 3건이 확정 견적)는 종전처럼 완료 알림이다. 실제로 저장된 행이 있으므로 거짓이 아니고, 빠진 행은 그리드에 그대로 보인다.</p>
+<p>테스트: <code>src/pages/crs/CrsEstUploadExl/__tests__/saveToast.spec.ts</code> 3건. 고치기 전 코드에서는 첫 건이 실패한다.</p>
 <h2 id="8-pr-357-infra-107">파일 정합성 화면: 파일 상태 8분류와 [동기화] 버튼 (PR #357, Infra #107)<a class="headerlink" href="#8-pr-357-infra-107" title="Permanent link">&para;</a></h2>
 <p>첨부 파일 하나를 실물(NAS), <code>TB_CMS_ATFILE</code>, <code>SKR_DOC_MST</code>(V2 가 넣은 <code>/VENDOR</code> 행) 세 곳에 있느냐로 8분류해 보여 주고, [동기화] 버튼으로 규칙대로 맞춘다. 규칙 정본은 Infra #107 본문(2026-11-09 사용자 결정).</p>
 <ul>
@@ -2302,7 +2398,7 @@
 <li><code>trivy-action@v0.36.0</code> 이 부르는 설치 단계(<code>setup-trivy</code>)는 Trivy 본체를 <code>get.trivy.dev</code> 에서 받는다. <code>trivy.dev</code> 도메인이 2026-11-03 21:34 UTC 에 등록업체 주차 페이지로 바뀌면서 이 주소가 DNS 에서 사라져 <code>curl</code> 이 exit 6 으로 죽는다(상류 이슈 aquasecurity/setup-trivy #42).</li>
 <li>캐시는 PR 마다 따로 저장돼 다른 PR 이 재사용하지 못한다. 그래서 새 PR 은 매번 본체를 새로 받는다.</li>
 </ul>
-<h3 id="_2">바꾼 것<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_4">바꾼 것<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>Install Trivy</code> 단계를 새로 넣었다. GitHub 릴리스에서 <code>trivy_0.70.0_Linux-64bit.tar.gz</code> 를 받아, 워크플로에 고정한 sha256 과 대조한 뒤 PATH 에 올린다. 버전은 <code>trivy-action@v0.36.0</code> 의 기본값과 같다. 다른 Trivy 단계처럼 빌드 성패와 무관하게 돈다(<code>if: always()</code>).</li>
 <li>취약점 스캔과 SBOM 단계에 <code>skip-setup-trivy: 'true'</code> 를 줘 위에서 설치한 본체를 쓴다.</li>
