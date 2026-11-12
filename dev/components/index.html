@@ -2278,6 +2278,15 @@ DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 
 <p>업로드가 막힌 상태(<code>readonly</code> 또는 <code>can-upload="false"</code>)에서는 <strong>드롭존 워터마크(구름 아이콘)도 감춘다.</strong>
 드롭을 권하는 그림인데 실제로는 아무 일도 일어나지 않아 사용자를 헷갈리게 하기 때문이다.
 <code>CrsEstimate</code> 처럼 조건부로 막는 화면에서는 올릴 수 있게 된 순간 구름이 나타나 상태 표시 역할도 한다.</p>
+<p>그리드 바로 아래에는 끌어다 놓아도 된다는 <strong>안내 문구</strong>(다국어 <code>MSG000455</code>)가 붙는다(FE #362). 워터마크와 같은 기준으로
+업로드가 가능할 때만 보인다. 두 가지를 기억할 것.</p>
+<ul>
+<li>문구가 <code>TB_CMS_DATA_DIC</code>(<code>DATA_DIV='2'</code>)에 없으면 <code>$lang</code> 이 코드 문자열을 그대로 돌려주므로, 컴포넌트가 그 경우를
+  빈 값으로 바꿔 화면에 <code>MSG000455</code> 가 노출되지 않게 한다. 환경에 문구를 넣지 않으면 줄이 아예 안 보일 뿐이다.</li>
+<li>이 줄은 드롭존 <code>div</code> <strong>바깥</strong>(<code>e-card-grid</code> 의 <code>gridFooter</code> 슬롯)이라 드롭 핸들러를 따로 달아 뒀다. 떼면
+  "여기에 끌어다 놓으세요"라고 써 있는 자리에 떨어뜨렸을 때 브라우저 기본 동작으로 그 파일이 열려 <strong>화면이 통째로 날아간다.</strong>
+  앱 전역 drop 가드는 없다.</li>
+</ul>
 <h4 id="_6">스테이징 모드<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
 <p>첨부 목록이 아니라 <strong>올리기 전 파일 목록</strong>을 다루는 화면(예: <code>CrsFileUploadPopup</code> 의 견적서 일괄 매칭 업로드)은 <code>staging</code> 으로 쓴다. 서버 조회·업로드·삭제를 끄고 <strong>드롭존·워터마크·확장자 검증·총건수만</strong> 재사용한다.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">e-attach-file-grid</span>

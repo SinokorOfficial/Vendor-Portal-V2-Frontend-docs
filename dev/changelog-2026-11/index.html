@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-363" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        문서: 첨부 그리드 안내 문구를 컴포넌트 문서에 적는다 (PR #363)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-361-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1951,6 +1962,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pr-363" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        문서: 첨부 그리드 안내 문구를 컴포넌트 문서에 적는다 (PR #363)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-361-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2404,6 +2426,13 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="pr-363">문서: 첨부 그리드 안내 문구를 컴포넌트 문서에 적는다 (PR #363)<a class="headerlink" href="#pr-363" title="Permanent link">&para;</a></h2>
+<p>어제 PR #362 로 <code>e-attach-file-grid</code> 그리드 아래에 드래그&amp;드롭 안내 문구가 붙었는데 컴포넌트 문서가 10월 23일 이후 그대로였다. 워터마크를 감추는 규칙을 설명하는 문단 바로 뒤에 넣었다.</p>
+<ul>
+<li>다국어 코드 <code>MSG000455</code>. 워터마크와 같은 기준으로 업로드가 가능할 때만 보인다.</li>
+<li>문구가 <code>TB_CMS_DATA_DIC</code>(<code>DATA_DIV='2'</code>)에 없으면 <code>$lang</code> 이 코드 문자열을 그대로 돌려주므로 컴포넌트가 빈 값으로 바꾼다. 환경에 문구를 넣지 않으면 줄이 안 보일 뿐 코드가 노출되지는 않는다.</li>
+<li>이 줄은 드롭존 <code>div</code> 바깥(<code>e-card-grid</code> 의 <code>gridFooter</code> 슬롯)이라 드롭 핸들러를 따로 달아 뒀다. 떼면 안내 문구 자리에 파일을 떨어뜨렸을 때 브라우저 기본 동작으로 그 파일이 열려 화면이 통째로 날아간다. 앱 전역 drop 가드는 없다.</li>
+</ul>
 <h2 id="pr-361-infra-98">견적 승인 화면 그리드에서 돌 일 없는 편집 설정을 지웠다 (PR #361, Infra #98)<a class="headerlink" href="#pr-361-infra-98" title="Permanent link">&para;</a></h2>
 <p>Infra #98 4-3 에서 나온 정리다. <code>CrsEstApproval</code> 은 견적 작성 화면(<code>CrsEstimate</code>)의 그리드 정의를 복사해 만들어서, 보기 전용인데도 작성 화면의 편집 설정이 남아 있었다. 화면 동작은 바뀌지 않는다.</p>
 <h3 id="_1">왜 돌 일이 없나<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
