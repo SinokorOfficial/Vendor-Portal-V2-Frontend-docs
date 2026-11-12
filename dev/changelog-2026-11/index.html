@@ -1454,6 +1454,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-366-infra-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        배포 뒤 기동 확인과 스모크 (PR #366, Infra #29)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-363" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2162,6 +2173,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pr-366-infra-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        배포 뒤 기동 확인과 스모크 (PR #366, Infra #29)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-363" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2663,6 +2685,14 @@
 <li><code>PKG_TES_TUG.SP_SET_TUG</code>, <code>PKG_TES_LASH.SP_SET_LASH</code>, <code>PKG_TES_LHDC.SP_SET_LHDC</code> 에 <code>PKG_TES_TALLY</code> 와 같은 검사를 넣었다. 헤더 그룹 번호가 비면 <code>Invoice No is missing</code> 으로 거절한다. 화면을 고치기 전 옛 탭이 같은 경로로 저장해도 지워지지 않고 거절된다.</li>
 <li><code>.100</code> 반영 2026-11-12, <code>.3</code> 은 사용자가 반영한다. 화면과 DB 중 어느 쪽이 먼저 나가도 된다(DB 검사는 이 PR 이 막는 경로만 거절한다).</li>
 </ul>
+<h2 id="pr-366-infra-29">배포 뒤 기동 확인과 스모크 (PR #366, Infra #29)<a class="headerlink" href="#pr-366-infra-29" title="Permanent link">&para;</a></h2>
+<p>종전 게이트는 새 리비전의 <code>provisioningState</code> 가 <code>Provisioned</code> 인지까지만 봤다. 그건 "리비전이 만들어졌다" 는 뜻이라, nginx 가 떠서 실제로 새 번들을 내보내는지는 보지 않았다. 두 단계를 더 붙였다.</p>
+<p><strong>기동 확인</strong> — <code>healthState</code> 가 <code>Healthy</code> 가 될 때까지 기다린다. 레디니스 프로브(<code>/healthz</code>)를 통과했다는 뜻이다. 판정을 <code>healthState</code> 로 하는 이유는 정상일 때 <code>runningState</code> 가 <code>Running</code> 이 아니라 <code>RunningAtMaxScale</code> 로 나오기 때문이다. <code>runningState</code> 로 즉시 실패 판정은 하지 않는다 — <code>Degraded</code> 는 레플리카가 차례로 뜨는 롤아웃 중 잠깐 나올 수 있다.</p>
+<p><strong>스모크</strong> — 새 리비전 전용 FQDN 으로 세 가지를 본다. <code>/healthz</code> 가 200 인지, <code>version.json</code> 의 <code>buildId</code> 가 배포 전과 달라졌는지, <code>/</code> 가 200 인지. <code>buildId</code> 는 vite 가 빌드마다 새로 굽는 값이라 이게 바뀌었다는 것은 새 번들이 실제로 서비스된다는 뜻이다.</p>
+<p>앱 FQDN 이 아니라 리비전 전용 FQDN 을 치는 이유가 있다. 앱 FQDN 은 트래픽 전환 타이밍에 따라 옛 리비전이 받을 수 있어, 옛 번들을 보고 통과할 수 있다. 리비전 FQDN 은 외부에서 열린다.</p>
+<p>같은 커밋을 다시 돌리면 이미지 문자열이 같아 새 리비전이 생기지 않는다. 그 경우 옛 리비전을 보고 판정하게 되므로 게이트를 통째로 건너뛴다.</p>
+<p>백엔드 쪽 스모크는 백엔드 워크플로가 따로 한다. 여기서 <code>/api</code> 는 치지 않는다.</p>
+<p>자동 롤백은 넣지 않았다. 단일 리비전 모드와 레디니스 덕에 기동에 실패하면 옛 리비전이 그대로 서비스하고, 일시적 끊김으로 스모크가 한 번 실패했다고 멀쩡한 배포를 되돌리면 더 나쁘다. 게이트 실패는 잡 빨간불로 알리고 되돌리기는 사람이 한다.</p>
 <h2 id="pr-363">문서: 첨부 그리드 안내 문구를 컴포넌트 문서에 적는다 (PR #363)<a class="headerlink" href="#pr-363" title="Permanent link">&para;</a></h2>
 <p>어제 PR #362 로 <code>e-attach-file-grid</code> 그리드 아래에 드래그&amp;드롭 안내 문구가 붙었는데 컴포넌트 문서가 10월 23일 이후 그대로였다. 워터마크를 감추는 규칙을 설명하는 문단 바로 뒤에 넣었다.</p>
 <ul>
