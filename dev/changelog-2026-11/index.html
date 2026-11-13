@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#standard-pr-367-infra-121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        이미지 레지스트리를 Standard 등급 새 레지스트리로 옮겼다 (PR #367, Infra #121)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-364-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2073,6 +2084,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#standard-pr-367-infra-121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        이미지 레지스트리를 Standard 등급 새 레지스트리로 옮겼다 (PR #367, Infra #121)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-364-infra-98" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2648,6 +2670,9 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="standard-pr-367-infra-121">이미지 레지스트리를 Standard 등급 새 레지스트리로 옮겼다 (PR #367, Infra #121)<a class="headerlink" href="#standard-pr-367-infra-121" title="Permanent link">&para;</a></h2>
+<p>배포 워크플로의 <code>ACR_NAME</code> 을 <code>vpprodacr5sznlqontybgo</code> 에서 <code>vpprodcr5sznlqontybgo</code> 로 바꿨다.</p>
+<p>옛 레지스트리는 생성 첫날부터 Premium(월 약 $51.7)이었는데 Premium 전용 기능은 쓰지 않았다. 영역 중복 플래그 때문에 제자리 강등이 거부돼 Standard(월 약 $20.3) 레지스트리를 새로 만들고 이미지를 복사했다. 운영 앱은 같은 이미지(digest 동일)로 이미 새 레지스트리를 쓰고 있다. 원격 빌드(<code>az acr build</code>)는 등급과 상관없이 같다.</p>
 <h2 id="pr-364-infra-98">예선료 화면에서 결과를 쓰지 않던 요율 조회를 지웠다 (PR #364, Infra #98)<a class="headerlink" href="#pr-364-infra-98" title="Permanent link">&para;</a></h2>
 <p>Infra #98 1-1 정리다. <code>TesTugExpn</code> 은 화면을 열 때와 초기화할 때마다 <code>PKG_TES_TUG.SP_GET_TUG_RATE</code> 로 요율을 받아 왔지만, 그 결과를 읽는 곳이 없었다.</p>
 <h3 id="_1">왜 지워도 되나<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
