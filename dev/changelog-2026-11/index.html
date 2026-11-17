@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#user-issue-pr-368" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        에러 로그 화면 검색 조건을 정리하고 User Issue 제외를 추가했다 (PR #368)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#standard-pr-367-infra-121" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2084,6 +2095,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#user-issue-pr-368" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        에러 로그 화면 검색 조건을 정리하고 User Issue 제외를 추가했다 (PR #368)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#standard-pr-367-infra-121" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2670,6 +2692,14 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="user-issue-pr-368">에러 로그 화면 검색 조건을 정리하고 User Issue 제외를 추가했다 (PR #368)<a class="headerlink" href="#user-issue-pr-368" title="Permanent link">&para;</a></h2>
+<p><code>CmsErrorLogList</code> 검색바를 바꿨다. 백엔드 쿼리 조건은 백엔드 PR #316 에 있다.</p>
+<ul>
+<li>조회 기간 기본값을 오늘~오늘에서 <strong>어제~오늘</strong>로 바꿨다.</li>
+<li>체크박스 라벨 <code>User ID</code> 를 <strong>비로그인 제외</strong>로 바꿨다. 동작(<code>ISUSER</code> = 아이디 없는 행 제외)은 그대로다. 관리자 계정을 빼는 조건이 아니다.</li>
+<li><strong>User Issue 제외</strong> 체크박스(<code>EXCLUDE_USER_ISSUE</code>, 기본 체크)를 추가했다. 체크하면 <code>ERR_DIV</code> <code>01</code>(User Issues, 우리 쪽 업무검증 메시지)을 빼고 조회한다.</li>
+<li>구분(<code>ERR_DIV</code>) 기본값을 <code>02</code> 에서 <strong>ALL</strong> 로 바꿨다. 위 체크박스와 합쳐 기본 조회는 <code>01</code> 을 뺀 전부가 된다. 전에는 기본 화면에서 Procedure Error(<code>03</code>)와 EIR Error(<code>04</code>)가 보이지 않았다.</li>
+</ul>
 <h2 id="standard-pr-367-infra-121">이미지 레지스트리를 Standard 등급 새 레지스트리로 옮겼다 (PR #367, Infra #121)<a class="headerlink" href="#standard-pr-367-infra-121" title="Permanent link">&para;</a></h2>
 <p>배포 워크플로의 <code>ACR_NAME</code> 을 <code>vpprodacr5sznlqontybgo</code> 에서 <code>vpprodcr5sznlqontybgo</code> 로 바꿨다.</p>
 <p>옛 레지스트리는 생성 첫날부터 Premium(월 약 $51.7)이었는데 Premium 전용 기능은 쓰지 않았다. 영역 중복 플래그 때문에 제자리 강등이 거부돼 Standard(월 약 $20.3) 레지스트리를 새로 만들고 이미지를 복사했다. 운영 앱은 같은 이미지(digest 동일)로 이미 새 레지스트리를 쓰고 있다. 원격 빌드(<code>az acr build</code>)는 등급과 상관없이 같다.</p>
