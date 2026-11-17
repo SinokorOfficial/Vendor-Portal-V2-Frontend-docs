@@ -1365,6 +1365,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#crs-api-pr-369" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRS 견적조회를 백엔드 전용 API 로 돌렸다 (PR #369)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#standard-pr-367-infra-121" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2106,6 +2117,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#crs-api-pr-369" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRS 견적조회를 백엔드 전용 API 로 돌렸다 (PR #369)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#standard-pr-367-infra-121" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2700,6 +2722,15 @@
 <li><strong>User Issue 제외</strong> 체크박스(<code>EXCLUDE_USER_ISSUE</code>, 기본 체크)를 추가했다. 체크하면 <code>ERR_DIV</code> <code>01</code>(User Issues, 우리 쪽 업무검증 메시지)을 빼고 조회한다.</li>
 <li>구분(<code>ERR_DIV</code>) 기본값을 <code>02</code> 에서 <strong>ALL</strong> 로 바꿨다. 위 체크박스와 합쳐 기본 조회는 <code>01</code> 을 뺀 전부가 된다. 전에는 기본 화면에서 Procedure Error(<code>03</code>)와 EIR Error(<code>04</code>)가 보이지 않았다.</li>
 </ul>
+<h2 id="crs-api-pr-369">CRS 견적조회를 백엔드 전용 API 로 돌렸다 (PR #369)<a class="headerlink" href="#crs-api-pr-369" title="Permanent link">&para;</a></h2>
+<p><code>CrsEstimate</code> 의 <code>fnSearch</code> 가 관문(<code>executeVendorCommonProcedure</code> + <code>SP_GET_EST_NEW</code>) 대신 <code>POST /api/crs/selectEstimateList</code> 를 부른다. 쿼리와 성능 근거는 백엔드 PR #317 에 있다.</p>
+<ul>
+<li>보내는 인자에서 <code>AUTH_NO</code> / <code>SHIP</code> / <code>CONS</code> 를 뺐다. 프로시저도 쓰지 않던 인자다 — <code>AUTH_NO</code> 는 입력란이 주석 처리돼 있고 <code>SHIP</code> / <code>CONS</code> 는 입력란이 없다.</li>
+<li><code>USER_ID</code> / <code>CORP_CD</code> / <code>COMP_CD</code> / <code>CUST_CD</code> 는 <code>util/http</code> 가 넣으므로 그대로다.</li>
+<li>응답 꺼내는 자리가 <code>result.data[ 프로시저명 ].P_RS</code> 에서 <code>result.data.P_RS</code> 로 바뀌었다. 행의 컬럼은 같다.</li>
+</ul>
+<p><code>dataset.js</code> 의 <code>SEARCH</code> 항목은 지우지 않고 남겨 뒀다. 되돌릴 때 <code>fnSearch</code> 의 해당 블록만 원복하면 된다.</p>
+<p>같은 화면의 나머지 관문 호출 10군데와 승인 화면(<code>CrsEstApproval</code>)은 그대로다.</p>
 <h2 id="standard-pr-367-infra-121">이미지 레지스트리를 Standard 등급 새 레지스트리로 옮겼다 (PR #367, Infra #121)<a class="headerlink" href="#standard-pr-367-infra-121" title="Permanent link">&para;</a></h2>
 <p>배포 워크플로의 <code>ACR_NAME</code> 을 <code>vpprodacr5sznlqontybgo</code> 에서 <code>vpprodcr5sznlqontybgo</code> 로 바꿨다.</p>
 <p>옛 레지스트리는 생성 첫날부터 Premium(월 약 $51.7)이었는데 Premium 전용 기능은 쓰지 않았다. 영역 중복 플래그 때문에 제자리 강등이 거부돼 Standard(월 약 $20.3) 레지스트리를 새로 만들고 이미지를 복사했다. 운영 앱은 같은 이미지(digest 동일)로 이미 새 레지스트리를 쓰고 있다. 원격 빌드(<code>az acr build</code>)는 등급과 상관없이 같다.</p>
