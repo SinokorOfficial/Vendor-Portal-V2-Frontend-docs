@@ -3094,7 +3094,7 @@
 <ul>
 <li><strong>요구</strong>: 사용자가 반드시 끝내야 하는 팝업(예: 임시 비밀번호 로그인 시 비밀번호 변경 — Infra #77)은 X·ESC·바깥 클릭으로 닫히면 안 된다.</li>
 <li><strong>해결</strong>: <code>uDialog( menuAbbr, { ..., persistent: true }, popup )</code> → <code>EDialog</code> 의 <code>persistent</code> prop. X 버튼을 숨기고, X·ESC·바깥 클릭이 모두 타는 <code>closeButtonClick</code> 에서 바로 반환한다. 팝업 안 화면이 <code>resolve</code>/<code>reject</code> 를 emit 해야만 닫힌다.</li>
-<li><strong>주의</strong>: 팝업 안 화면에 닫기 버튼이 있으면 그것까지 막아야 한다(<code>ChangeMe</code> 는 저장 버튼뿐이라 해당 없음). 예: <code>EHeader</code> 의 <code>tempPwdYn</code> watch.</li>
+<li><strong>주의</strong>: 팝업 안 화면에 닫기 버튼이 있으면 그것까지 막아야 한다(<code>UserProfile</code> 은 저장 버튼뿐이라 해당 없음). 예: <code>EHeader</code> 의 <code>tempPwdYn</code> watch.</li>
 </ul>
 <hr />
 <h2 id="4-devextreme-scheduler">4. 대시보드 캘린더 (DevExtreme Scheduler)<a class="headerlink" href="#4-devextreme-scheduler" title="Permanent link">&para;</a></h2>
