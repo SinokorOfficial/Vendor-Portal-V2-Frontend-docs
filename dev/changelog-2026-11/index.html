@@ -1376,6 +1376,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#filedown-pr-373-infra-123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 삭제 전에 확인을 묻고, 파일 다운로드 함수를 fileDown 하나로 합친다 (PR #373, Infra #123)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-370" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2222,6 +2233,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#filedown-pr-373-infra-123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부 삭제 전에 확인을 묻고, 파일 다운로드 함수를 fileDown 하나로 합친다 (PR #373, Infra #123)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-370" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2919,6 +2941,19 @@
 <li>검색칸을 이메일로 바꾸고 목록의 사번, 이름 열을 뺐다.</li>
 <li>발급 폼의 이메일 칸: 칸을 벗어날 때 형식이 틀리면 빨갛게 표시하고(다시 들어가면 아래에 사유) <code>MSG000419</code> 경고를 띄운다. 빈 칸은 이때 넘어가고 필수 여부는 발급할 때 본다.</li>
 <li>틀린 칸에서 바로 발급을 누르면 칸을 벗어나며 뜬 경고와 발급 검사의 경고가 겹친다. 앞의 경고가 떠 있는 1.5초 안에는 두 번째를 띄우지 않는다.</li>
+</ul>
+<h2 id="filedown-pr-373-infra-123">첨부 삭제 전에 확인을 묻고, 파일 다운로드 함수를 fileDown 하나로 합친다 (PR #373, Infra #123)<a class="headerlink" href="#filedown-pr-373-infra-123" title="Permanent link">&para;</a></h2>
+<p>받은 파일명의 공백이 <code>+</code> 로 바뀌던 것은 서버에서 고쳤다(백엔드 PR #323).</p>
+<ul>
+<li>첨부 그리드(<code>e-attach-file-grid</code>)의 휴지통을 누르면 "삭제하시겠습니까?"(<code>MSG000002</code>)를 먼저 묻는다. 전에는 누르는 즉시 선택된 행을 모두 지웠다.</li>
+<li><code>$axios.fileOriginDown</code> 을 없애고 <code>fileDown(param, url?)</code> 하나로 합쳤다.<ul>
+<li>url 을 안 주면 종전처럼 <code>/api/file/downloadFileNas</code> 로 받고, <code>FILE_SN</code> 이 비면 요청 전에 막는다.</li>
+<li>TES 양식 4화면(Lashing, Insp, Tug, LineHandle)은 url 로 <code>/api/file/downloadTemplate4TES</code> 를 준다.</li>
+<li>두 번째 인자가 옵션에서 주소로 바뀌었다. 옵션은 세 번째다. 두 번째 자리에 옵션을 넘기던 곳은 없었다.</li>
+</ul>
+</li>
+<li>양식 다운로드 3화면(<code>CrsEstUploadExl</code>, <code>FdsCntrMoveUpload</code>, <code>MvsCntrMove</code>)의 메서드 이름을 <code>fnDownLoadTemplate</code>, <code>fnSelectFileForm</code> 으로 맞추고, 한 줄짜리 중간 메서드 <code>fileDownLoad</code> 를 걷어냈다.</li>
+<li><code>multi-select</code> 주석을 바로잡았다. 이 prop 은 체크박스 선택만 켠다. 휴지통은 <code>can-delete</code>, <code>readonly</code> 가 정한다.</li>
 </ul>
 <h2 id="pr-370">내 정보 화면을 다시 배치하고 이메일을 여러 개 받는다 (PR #370)<a class="headerlink" href="#pr-370" title="Permanent link">&para;</a></h2>
 <p>헤더의 내 정보 팝업을 정리했다. 백엔드 쪽(이메일 칸 저장 규칙)은 백엔드 PR #319 에 있다.</p>
