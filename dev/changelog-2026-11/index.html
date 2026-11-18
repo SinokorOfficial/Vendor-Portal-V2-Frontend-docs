@@ -1387,6 +1387,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 발급 결과 창의 안내 문구를 가운데로 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#jwt-pr-375" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2277,6 +2288,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 발급 결과 창의 안내 문구를 가운데로 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#jwt-pr-375" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3013,6 +3035,10 @@
 <li>발급 결과 팝업: 메일을 보내는 동안 KO, EN 을 함께 비활성화하던 것을 걷어냈다. Vuetify 의 비활성 덮개 때문에 하나를 눌러도 둘 다 눌린 것처럼 보였다. 겹쳐 누르기는 함수가 막고, 진행 표시는 누른 버튼에만 둔다.</li>
 <li>코드박스 <code>PortalUser</code> 타입을 지웠다(이 화면만 썼다).</li>
 <li>API 호출 로그 화면(<code>CmsApiLog</code>)에 E-Mail 열을 더했다. 이메일 발급 토큰의 호출은 사용자 칸이 비고 여기 찍힌다. 값은 <code>PKG_API.sp_get_api_log</code> 가 새 컬럼 <code>EMAIL</code> 을 함께 돌려줘야 나온다(.100 은 2026-11-18 반영).</li>
+</ul>
+<h2 id="jwt">JWT 발급 결과 창의 안내 문구를 가운데로 (핫픽스)<a class="headerlink" href="#jwt" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>CmsJwtIssuedPopup</code>: "토큰은 지금 한 번만 표시됩니다. 창을 닫으면 다시 볼 수 없습니다."(<code>MSG000450</code>) 빨간 문구를 창 가운데에 둔다(<code>text-align: center</code>).</li>
 </ul>
 <h2 id="jwt-pr-375">JWT 토큰 관리: 빈 화면을 고치고, 이메일은 포털 재직자에서 고른다 (PR #375)<a class="headerlink" href="#jwt-pr-375" title="Permanent link">&para;</a></h2>
 <p>서버 쪽(포털 사용자 조회, 발급 때 재직자 검사)은 백엔드 PR #324 에 있다.</p>
