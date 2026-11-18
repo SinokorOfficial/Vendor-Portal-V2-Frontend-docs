@@ -1376,6 +1376,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt-pr-375" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 토큰 관리: 빈 화면을 고치고, 이메일은 포털 재직자에서 고른다 (PR #375)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-372" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2244,6 +2255,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt-pr-375" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 토큰 관리: 빈 화면을 고치고, 이메일은 포털 재직자에서 고른다 (PR #375)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-372" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2962,6 +2984,14 @@
 <li>발급 결과 팝업: 메일을 보내는 동안 KO, EN 을 함께 비활성화하던 것을 걷어냈다. Vuetify 의 비활성 덮개 때문에 하나를 눌러도 둘 다 눌린 것처럼 보였다. 겹쳐 누르기는 함수가 막고, 진행 표시는 누른 버튼에만 둔다.</li>
 <li>코드박스 <code>PortalUser</code> 타입을 지웠다(이 화면만 썼다).</li>
 <li>API 호출 로그 화면(<code>CmsApiLog</code>)에 E-Mail 열을 더했다. 이메일 발급 토큰의 호출은 사용자 칸이 비고 여기 찍힌다. 값은 <code>PKG_API.sp_get_api_log</code> 가 새 컬럼 <code>EMAIL</code> 을 함께 돌려줘야 나온다(.100 은 2026-11-18 반영).</li>
+</ul>
+<h2 id="jwt-pr-375">JWT 토큰 관리: 빈 화면을 고치고, 이메일은 포털 재직자에서 고른다 (PR #375)<a class="headerlink" href="#jwt-pr-375" title="Permanent link">&para;</a></h2>
+<p>서버 쪽(포털 사용자 조회, 발급 때 재직자 검사)은 백엔드 PR #324 에 있다.</p>
+<ul>
+<li><strong>빈 화면 수정</strong>: PR #371 부터 화면이 통째로 비어 나왔다. 선사 체크박스의 <code>v-model="main.LINERS[ CODE ]"</code> 가 <code>mounted</code> 의 <code>fnReset</code> 보다 먼저인 첫 렌더에서 읽히는데 <code>main</code> 이 <code>{}</code> 로 시작해 <code>undefined['SNKO']</code> 로 렌더가 죽었다. <code>data()</code> 에서 <code>main: { LINERS: {} }</code> 로 둔다.</li>
+<li><strong>이메일 칸 = 코드박스(<code>PortalUser</code>)</strong>: 선사 포털 세 곳(SNKO, HALK, HSLI)의 재직자 이메일에서 고른다. 입력하고 칸을 벗어나면 찾아서 한 건이면 채우고, 없거나 여럿이면 팝업이 뜬다. 팝업을 그냥 닫으면 칸이 비워져 저장 전에 알 수 있다. 오른쪽 칸에 고른 사람과 그 주소가 등록된 선사를 보여 준다.</li>
+<li>코드박스 종류 <code>PortalUser</code> 를 다시 두었다(PR #371 에서 지운 것과 같은 이름, 선사를 고르지 않아도 세 포털을 함께 찾는다). 팝업 열은 LINER, 이름, 영문명, E-Mail 순이다.</li>
+<li>PR #372 의 칸을 벗어날 때 형식 검사(빨간 테두리, 겹친 경고 막기)는 코드박스가 대신해 걷어냈다. 발급 버튼 때 형식 검사는 그대로다.</li>
 </ul>
 <h2 id="pr-372">토큰 관리 화면을 이메일 전용으로 하고 이메일 칸을 벗어날 때 형식을 본다 (PR #372)<a class="headerlink" href="#pr-372" title="Permanent link">&para;</a></h2>
 <p>같은 날 PR #371 에 이어 사번으로 발급한 토큰도 이메일로 다시 발급하기로 해서 사번 흔적을 걷어냈다. 서버 쪽(호출 파라미터 <code>EMAIL</code>)은 백엔드 PR #322 에 있다.</p>
