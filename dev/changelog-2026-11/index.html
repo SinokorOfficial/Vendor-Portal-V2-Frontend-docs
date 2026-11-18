@@ -1387,6 +1387,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt-pr-378" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 토큰 목록에서 고르면 폼에 띄우고 발급목적, 비고를 고친다 (PR #378)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#jwt-remarks" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2310,6 +2321,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#jwt-pr-378" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JWT 토큰 목록에서 고르면 폼에 띄우고 발급목적, 비고를 고친다 (PR #378)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#jwt-remarks" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3079,6 +3101,13 @@
 <li>발급 결과 팝업: 메일을 보내는 동안 KO, EN 을 함께 비활성화하던 것을 걷어냈다. Vuetify 의 비활성 덮개 때문에 하나를 눌러도 둘 다 눌린 것처럼 보였다. 겹쳐 누르기는 함수가 막고, 진행 표시는 누른 버튼에만 둔다.</li>
 <li>코드박스 <code>PortalUser</code> 타입을 지웠다(이 화면만 썼다).</li>
 <li>API 호출 로그 화면(<code>CmsApiLog</code>)에 E-Mail 열을 더했다. 이메일 발급 토큰의 호출은 사용자 칸이 비고 여기 찍힌다. 값은 <code>PKG_API.sp_get_api_log</code> 가 새 컬럼 <code>EMAIL</code> 을 함께 돌려줘야 나온다(.100 은 2026-11-18 반영).</li>
+</ul>
+<h2 id="jwt-pr-378">JWT 토큰 목록에서 고르면 폼에 띄우고 발급목적, 비고를 고친다 (PR #378)<a class="headerlink" href="#jwt-pr-378" title="Permanent link">&para;</a></h2>
+<p>서버 쪽(<code>/update</code>, byte 검사)은 백엔드 PR #326 에 있다.</p>
+<ul>
+<li>목록의 한 줄을 누르면 왼쪽 폼에 그 토큰을 띄운다(제목 <code>JWT EDIT</code>). 선사는 그 줄이 아니라 같은 토큰의 선사 전부(<code>COMP_CDS</code>)로 체크한다.</li>
+<li>선사, 이메일, API, 시작일, 종료일은 읽기 전용이고 발급목적, Remarks 만 고친다. 버튼은 신규(발급 폼으로 돌아가기, 목록 선택도 내림)와 SAVE.</li>
+<li>저장하면 같은 토큰의 선사 줄 전부가 바뀌고 목록을 다시 조회한다.</li>
 </ul>
 <h2 id="jwt-remarks">JWT 토큰 목록에 Remarks 열을 더한다 (핫픽스)<a class="headerlink" href="#jwt-remarks" title="Permanent link">&para;</a></h2>
 <ul>
