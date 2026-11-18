@@ -1442,6 +1442,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#zip-pr-377-infra-123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부를 여러 개 골라 zip 하나로 받는다 (PR #377, Infra #123)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-370" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2354,6 +2365,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#zip-pr-377-infra-123" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        첨부를 여러 개 골라 zip 하나로 받는다 (PR #377, Infra #123)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-370" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3093,6 +3115,21 @@
 </li>
 <li>양식 다운로드 3화면(<code>CrsEstUploadExl</code>, <code>FdsCntrMoveUpload</code>, <code>MvsCntrMove</code>)의 메서드 이름을 <code>fnDownLoadTemplate</code>, <code>fnSelectFileForm</code> 으로 맞추고, 한 줄짜리 중간 메서드 <code>fileDownLoad</code> 를 걷어냈다.</li>
 <li><code>multi-select</code> 주석을 바로잡았다. 이 prop 은 체크박스 선택만 켠다. 휴지통은 <code>can-delete</code>, <code>readonly</code> 가 정한다.</li>
+</ul>
+<h2 id="zip-pr-377-infra-123">첨부를 여러 개 골라 zip 하나로 받는다 (PR #377, Infra #123)<a class="headerlink" href="#zip-pr-377-infra-123" title="Permanent link">&para;</a></h2>
+<p>서버 쪽(zip API, 상한, 실물 없는 첨부 처리)은 백엔드 PR #325 에 있다.</p>
+<ul>
+<li><strong>선택 다운로드</strong>: 첨부 그리드(<code>e-attach-file-grid</code>)에 <code>multi-select</code> 를 켜면 "선택 다운로드" 버튼(다운로드 아이콘)이 붙는다.<ul>
+<li>2건 이상이면 서버가 zip 하나로 묶어 준다(<code>/api/file/downloadFiles</code>). 1건이면 행의 Download 와 같은 단건 다운로드다.</li>
+<li>그리드에 보이는 순서로 보낸다. zip 이름은 가장 위 파일 이름에서 확장자만 <code>.zip</code> 으로 바꾼 것이다.</li>
+<li>받은 뒤 선택을 푼다. 실패하면 선택을 남긴다. <code>readonly</code> 에서도 보이고, <code>staging</code> 에서는 뜨지 않는다. 파일이 없는 행은 뺀다.</li>
+</ul>
+</li>
+<li><strong>켠 화면</strong>: <code>CmsFileUploadPopup</code>(원래 켜져 있었다), <code>CrsEstimate</code>, <code>CrsEstApproval</code>.</li>
+<li><strong>행을 눌러도 체크가 켜졌다 꺼진다</strong>(<code>rowMultiSelectWithClick</code>). 다른 행 체크는 그대로 남는다. 행 안의 Download, Viewer 버튼은 체크를 바꾸지 않는다. 삭제 뒤 같은 자리 행을 저절로 고르는 편의는 단일선택 그리드에서만 한다.</li>
+<li><strong><code>fileDown</code> 이 실패를 알린다</strong>: 서버 에러를 삼키지 않고 화면에 보일 문구로 reject 한다. 서버 JSON 의 <code>message</code>, 본문 없는 404 는 <code>MSG000397</code>, 그 밖에는 일반 실패 문구다. 전에는 404, 409 에도 화면에 아무 일이 없었다.</li>
+<li><strong>잘린 zip 을 저장하지 않는다</strong>: <code>application/zip</code> 응답의 마지막 22바이트가 zip 끝 표지(<code>50 4B 05 06</code>)로 시작하지 않으면 실패로 본다. 서버가 중간에 실패해도 응답이 200 으로 올 수 있어서다(nginx 가 백엔드를 HTTP/1.0 으로 불러 끊김과 정상 종료를 구분하지 못한다).</li>
+<li><strong>옛 시스템 첨부도 받는다</strong>: 그리드가 다운로드, PDF 뷰어, 선택 다운로드에 행의 <code>COMP_CD</code> 를 함께 보낸다. 서버가 그 값으로 선사별 옛 테이블(SKR_DOC_MST)을 찾는다. <code>fileDown</code> 은 <code>FILE_SN</code> 0 을 막지 않는다(옛 행의 첫 파일 번호). 전에는 옛 행이 다운로드도 PDF 뷰어도 404 였다.</li>
 </ul>
 <h2 id="pr-370">내 정보 화면을 다시 배치하고 이메일을 여러 개 받는다 (PR #370)<a class="headerlink" href="#pr-370" title="Permanent link">&para;</a></h2>
 <p>헤더의 내 정보 팝업을 정리했다. 백엔드 쪽(이메일 칸 저장 규칙)은 백엔드 PR #319 에 있다.</p>

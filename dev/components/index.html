@@ -959,7 +959,7 @@
   <a href="#multi-select" class="md-nav__link">
     <span class="md-ellipsis">
       
-        다건 삭제 (multi-select)
+        선택 다운로드와 다건 삭제 (multi-select)
       
     </span>
   </a>
@@ -1806,7 +1806,7 @@
   <a href="#multi-select" class="md-nav__link">
     <span class="md-ellipsis">
       
-        다건 삭제 (multi-select)
+        선택 다운로드와 다건 삭제 (multi-select)
       
     </span>
   </a>
@@ -2113,7 +2113,7 @@
 </tr>
 <tr>
 <td><code>list-param</code></td>
-<td>조회 param 오버라이드. <strong>CRS 는 <code>DOC_TYPE:'RP'</code> + <code>COMP_CD</code> 가 필수</strong> — 백엔드가 이 둘로 레거시 <code>SKR_DOC_MST</code> UNION 쿼리로 분기한다</td>
+<td>조회 param 오버라이드. <strong>CRS 는 <code>DOC_TYPE:'RP'</code> + <code>COMP_CD</code> 가 필수</strong> — 백엔드가 이 둘로 레거시 <code>SKR_DOC_MST</code> UNION 쿼리로 분기한다. 다운로드, PDF 뷰어, 선택 다운로드는 행의 <code>(FILE_SN, MNGT_NO, COMP_CD)</code> 를 보낸다. <code>COMP_CD</code> 가 있어야 서버가 레거시 행을 그 선사의 옛 테이블에서 찾는다(2026-11-18 전에는 안 보내 레거시 행이 404 였다)</td>
 </tr>
 <tr>
 <td><code>upload-param</code></td>
@@ -2133,7 +2133,7 @@
 </tr>
 <tr>
 <td><code>multi-select</code></td>
-<td>체크박스 다중선택 + 다건 삭제(<code>/api/file/deleteFiles</code> 1회 호출). 기본은 단일선택</td>
+<td>체크박스 다중선택(헤더로 전체 선택)과 <strong>선택 다운로드</strong> 버튼. 기본은 단일선택. 아래 참고</td>
 </tr>
 <tr>
 <td><code>readonly</code></td>
@@ -2171,12 +2171,32 @@
 </tr>
 </tbody>
 </table>
-<h4 id="multi-select">다건 삭제 (<code>multi-select</code>)<a class="headerlink" href="#multi-select" title="Permanent link">&para;</a></h4>
-<p><code>multi-select</code> 를 켜면 체크박스 컬럼이 붙고, 삭제 버튼이 <strong>선택한 전부</strong>를 <code>/api/file/deleteFiles</code> 한 번에 보낸다.
-DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 원자적이고, FTP 는 롤백이 불가능하므로
-삭제하지 못한 항목을 응답으로 돌려준다(컴포넌트가 경고로 알린다).</p>
+<h4 id="multi-select">선택 다운로드와 다건 삭제 (<code>multi-select</code>)<a class="headerlink" href="#multi-select" title="Permanent link">&para;</a></h4>
+<p><code>multi-select</code> 를 켜면 체크박스 컬럼과 <strong>선택 다운로드</strong> 버튼(<code>mdi-download</code>)이 붙는다(Infra #123).</p>
+<ul>
+<li>
+<p><strong>고르기</strong>: 체크박스뿐 아니라 <strong>행을 눌러도</strong> 그 행 체크가 켜졌다 꺼진다(<code>rowMultiSelectWithClick</code>). 다른 행 체크는 그대로 남는다. ag-grid 기본은 누른 행만 남기고 나머지를 풀어서, 여러 장을 고르기에 불편했다.</p>
+<ul>
+<li>행 안의 Download, Viewer 버튼은 체크를 바꾸지 않는다(버튼 클릭에서 <code>stopPropagation</code>).</li>
+<li>삭제한 뒤 같은 자리의 행을 저절로 고르는 편의는 단일선택에서만 한다. 행 클릭이 체크를 더하는 방식이라, 저절로 체크된 행이 다음 삭제에 섞일 수 있어서다.</li>
+</ul>
+</li>
+<li>
+<p><strong>선택 다운로드</strong>: 2건 이상이면 서버가 zip 하나로 묶어 준다(<code>/api/file/downloadFiles</code>). 1건이면 행의 Download 와 같은 단건 다운로드다.</p>
+<ul>
+<li>zip 이름은 <strong>그리드에서 가장 위에 있는 선택 파일</strong>의 이름에서 확장자만 <code>.zip</code> 으로 바꾼 것이다("외 N건"은 붙이지 않는다). 누른 순서가 아니라 보이는 순서라 같은 파일을 고르면 이름도 같다.</li>
+<li>한 번에 <strong>100개, 200MB</strong> 까지다. 넘으면 서버가 받기 전에 문구로 거절한다(근거는 Infra #123: 지금 가장 큰 문서 76개, 176MB 와 Azure 입구 240초).</li>
+<li>NAS 에 실물이 없는 첨부는 빼고, zip 맨 끝 <code>MISSING_FILES.txt</code> 에 이름을 적는다. 받다가 끊기면 zip 전체를 실패로 본다(다시 받으면 될 수 있어서).</li>
+<li>받은 뒤 선택을 푼다. 고른 채로 휴지통을 누르는 실수를 줄이려는 것이다. 실패하면 선택을 남긴다.</li>
+<li><code>readonly</code> 에서도 보인다. <code>staging</code> 에서는 아직 서버에 없는 파일이라 뜨지 않는다. 파일이 없는 행(<code>FILE_PATH</code> 없음)은 뺀다.</li>
+</ul>
+</li>
+<li><strong>다건 삭제</strong>: 휴지통은 이 prop 이 아니라 <code>can-delete</code> / <code>readonly</code> 가 정한다. 누르면 "삭제하시겠습니까?"(<code>MSG000002</code>)를 물은 뒤 <strong>선택한 전부</strong>를 <code>/api/file/deleteFiles</code> 한 번에 보낸다.
+  DB 는 <code>WHERE FILE_SN IN (...)</code> 한 방이라 트랜잭션 하나로 원자적이고, FTP 는 롤백이 불가능하므로
+  삭제하지 못한 항목을 응답으로 돌려준다(컴포넌트가 경고로 알린다).</li>
+</ul>
 <p>기본값이 <code>false</code> 인 이유는 켜는 순간 그 화면의 행 선택 방식이 바뀌기 때문이다. 첨부가 여러 건 붙는
-화면(<code>CmsFileUploadPopup</code>)만 켜져 있다.</p>
+화면(<code>CmsFileUploadPopup</code>, <code>CrsEstimate</code>, <code>CrsEstApproval</code>)만 켜져 있다.</p>
 <h4 id="50mb-200">업로드 사전검증 — 크기(50MB)와 개수(200장)<a class="headerlink" href="#50mb-200" title="Permanent link">&para;</a></h4>
 <p>상한이 둘이고 <strong>출처가 다르다.</strong></p>
 <table>
