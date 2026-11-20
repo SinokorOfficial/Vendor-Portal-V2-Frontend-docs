@@ -1365,6 +1365,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#fds-tpsz-pr-383-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDS 오더 관리: 컨테이너 번호를 바꾸면 그 행의 TPSZ 만 조회한다 (PR #383, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-403-pr-382" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2360,6 +2371,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#fds-tpsz-pr-383-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDS 오더 관리: 컨테이너 번호를 바꾸면 그 행의 TPSZ 만 조회한다 (PR #383, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-403-pr-382" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3208,6 +3230,17 @@
 </ul>
 </li>
 <li>이제 운영 nginx 버전은 헤더로 확인할 수 없다. 배포 로그의 <code>FROM nginx:alpine</code> 다이제스트를 Docker Hub 의 버전별 태그 다이제스트와 대조한다(1.31.9-alpine 은 <code>fb4658584bd9</code>).</li>
+</ul>
+<h2 id="fds-tpsz-pr-383-infra-126">FDS 오더 관리: 컨테이너 번호를 바꾸면 그 행의 TPSZ 만 조회한다 (PR #383, Infra #126)<a class="headerlink" href="#fds-tpsz-pr-383-infra-126" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>FdsOrdMgt</code> 컨테이너 그리드는 EQNO 칸 하나가 바뀔 때마다 모든 행의 TPSZ 를 다시 조회했다. 컨테이너 N 개를 붙여넣으면 조회가 N² 번 나가고(20개면 400번, 100개면 10,000번), 그 흐름 N 개가 동시에 돌았다.</li>
+<li>운영에서도 이 화면에서 IP 하나가 관문을 분당 수천 번 불렀고, nginx 초당 제한(429)과 504 가 났다. 최근 14일 상위 3개 IP 의 응답 중 약 44,000건이 같은 크기(196바이트)의 200 이었고, 따로 약 3,700건이 429 였다. nginx 로그에는 프로시저 이름이 없어 이 반복 조회로 보이는 것이고, 배포 뒤 이 화면의 분당 최대 요청 수가 떨어지는지로 확인한다.</li>
+<li>이제 바뀐 행만 조회한다. 붙여넣은 행은 줄을 세워 한 번에 4건까지만 보낸다(<code>fnQueueTpsz</code>). 응답이 끝내 안 와도(<code>$axios</code> 는 알 수 없는 오류와 409 에 끝나지 않는 Promise 를 돌려준다) 30초 뒤 다음 조회에 자리를 내준다.</li>
+<li>조회를 기다리는 동안 번호를 다시 바꾸면 늦게 온 옛 번호의 응답은 버린다. 종전에는 그 응답이 새 번호의 TPSZ 를 덮어쓸 수 있었다.</li>
+<li><code>fnGetTpsz</code> 는 요청마다 dataset 을 새로 만든다. axios 요청 인터셉터가 비동기라, 동시에 보낼 때 공유 dataset 을 고쳐 쓰면 앞 요청이 뒤 번호를 싣고 나간다.</li>
+<li>달라진 것: 조회가 실패한 행은 종전에는 다른 행의 번호를 바꿀 때 덩달아 다시 조회됐다. 이제는 그 행의 번호를 다시 넣어야 다시 조회한다.</li>
+<li>그대로인 것: 번호를 지우면 TPSZ 도 지운다. SOC 오더(SOC=Y)는 조회하지 않고 TPSZ 를 손으로 넣는다. 조회 결과가 없으면 TPSZ 를 건드리지 않는다.</li>
+<li>실물 ag-grid 테스트(<code>FdsOrdMgt/__tests__/tpszLookup.spec.ts</code>)로 확인했다. 수정 전 코드에서는 20개 붙여넣기에 400번, 동시 20건이 나오고 옛 응답이 새 값을 덮는다.</li>
 </ul>
 <h2 id="nginx-403-pr-382">자동화 도구로 온 로그인을 nginx 에서 403 으로 끊는다 (PR #382)<a class="headerlink" href="#nginx-403-pr-382" title="Permanent link">&para;</a></h2>
 <ul>
