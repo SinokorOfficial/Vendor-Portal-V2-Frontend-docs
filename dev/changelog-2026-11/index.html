@@ -1365,6 +1365,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#id-pr-385" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        로그인 로그에서 계정 없음 ID 를 빨간색으로 보이고, 날짜 검색 칸 너비를 고정한다 (PR #385)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fds-tpsz-pr-383-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2382,6 +2393,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#id-pr-385" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        로그인 로그에서 계정 없음 ID 를 빨간색으로 보이고, 날짜 검색 칸 너비를 고정한다 (PR #385)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fds-tpsz-pr-383-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3252,6 +3274,14 @@
 </ul>
 </li>
 <li>이제 운영 nginx 버전은 헤더로 확인할 수 없다. 배포 로그의 <code>FROM nginx:alpine</code> 다이제스트를 Docker Hub 의 버전별 태그 다이제스트와 대조한다(1.31.9-alpine 은 <code>fb4658584bd9</code>).</li>
+</ul>
+<h2 id="id-pr-385">로그인 로그에서 계정 없음 ID 를 빨간색으로 보이고, 날짜 검색 칸 너비를 고정한다 (PR #385)<a class="headerlink" href="#id-pr-385" title="Permanent link">&para;</a></h2>
+<ul>
+<li>로그인 로그 화면(<code>CmsLoginLog</code>) 그리드의 사용자 ID 를 계정 없음(<code>E02</code>) 행에서 빨간색으로 보인다. 입력한 ID 가 실제 계정이 아니라는 표시다.<ul>
+<li>ID 자체는 백엔드 PR #328 부터 나온다. 그 전에는 화면 쿼리가 사용자 테이블 쪽 ID 를 보여 E02 행이 비어 있었다.</li>
+</ul>
+</li>
+<li>검색 영역의 날짜(시작일, 종료일) 칸 너비를 <code>12%</code> 에서 <code>220px</code> 로 고정했다.</li>
 </ul>
 <h2 id="fds-tpsz-pr-383-infra-126">FDS 오더 관리: 컨테이너 번호를 바꾸면 그 행의 TPSZ 만 조회한다 (PR #383, Infra #126)<a class="headerlink" href="#fds-tpsz-pr-383-infra-126" title="Permanent link">&para;</a></h2>
 <ul>
