@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#nginx-1319-pr-381-infra-124" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        응답 헤더에 nginx 버전을 숨기고 1.31.9 로 다시 배포한다 (PR #381, Infra #124)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-374" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2327,6 +2338,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#nginx-1319-pr-381-infra-124" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        응답 헤더에 nginx 버전을 숨기고 1.31.9 로 다시 배포한다 (PR #381, Infra #124)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pr-374" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3156,6 +3178,15 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="nginx-1319-pr-381-infra-124">응답 헤더에 nginx 버전을 숨기고 1.31.9 로 다시 배포한다 (PR #381, Infra #124)<a class="headerlink" href="#nginx-1319-pr-381-infra-124" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>nginx.conf</code> 에 <code>server_tokens off</code> 를 넣었다. 응답 헤더(<code>Server</code>)와 에러 페이지에 버전이 안 실리고 "nginx" 만 남는다. 버전이 보이면 점검 도구가 버전만 보고 취약점으로 잡는다.</li>
+<li>이 PR 이 배포되면서 nginx 도 1.31.9 로 오른다. 2026-11-18 공개된 HTTP/2 원격 코드 실행 취약점(CVE-2026-123633, CVE-2026-123007)의 수정판이다. 우리 nginx 는 HTTP/2 를 켜지 않아 공격 경로는 없었지만 1.31.8 이 취약 버전이었다.<ul>
+<li><code>Dockerfile</code> 이 <code>nginx:alpine</code> 을 고정하지 않아 빌드마다 최신판을 받는다. 같은 커밋으로 배포를 다시 돌리면 ACA 가 새 리비전을 만들지 않아 반영되지 않으므로, 새 커밋이 필요했다.</li>
+</ul>
+</li>
+<li>이제 운영 nginx 버전은 헤더로 확인할 수 없다. 배포 로그의 <code>FROM nginx:alpine</code> 다이제스트를 Docker Hub 의 버전별 태그 다이제스트와 대조한다(1.31.9-alpine 은 <code>fb4658584bd9</code>).</li>
+</ul>
 <h2 id="pr-374">입력 표에서 체크박스 하나뿐인 칸은 가운데에 둔다 (PR #374)<a class="headerlink" href="#pr-374" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>global.scss</code>: <code>table.e-table</code> 의 칸(td)에 체크박스 하나만 있고 글자가 붙지 않았으면(라벨은 th) 칸 너비와 상관없이 가운데에 둔다. 체크박스 너비만큼(<code>fit-content</code>)만 차지해서 칸의 빈 곳을 눌러도 토글되지 않는다. 글자 붙은 체크박스(<code>dx-checkbox-has-text</code>)와 다른 입력과 같이 놓인 체크박스는 그대로다.</li>
