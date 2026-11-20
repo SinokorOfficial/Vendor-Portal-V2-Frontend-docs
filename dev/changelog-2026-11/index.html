@@ -1376,6 +1376,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#crs-remark-1000-pr-384" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRS 견적 비고(Remark)가 1,000바이트를 넘으면 저장 전에 안내한다 (PR #384)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-403-pr-382" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2382,6 +2393,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#crs-remark-1000-pr-384" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRS 견적 비고(Remark)가 1,000바이트를 넘으면 저장 전에 안내한다 (PR #384)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-403-pr-382" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3241,6 +3263,23 @@
 <li>달라진 것: 조회가 실패한 행은 종전에는 다른 행의 번호를 바꿀 때 덩달아 다시 조회됐다. 이제는 그 행의 번호를 다시 넣어야 다시 조회한다.</li>
 <li>그대로인 것: 번호를 지우면 TPSZ 도 지운다. SOC 오더(SOC=Y)는 조회하지 않고 TPSZ 를 손으로 넣는다. 조회 결과가 없으면 TPSZ 를 건드리지 않는다.</li>
 <li>실물 ag-grid 테스트(<code>FdsOrdMgt/__tests__/tpszLookup.spec.ts</code>)로 확인했다. 수정 전 코드에서는 20개 붙여넣기에 400번, 동시 20건이 나오고 옛 응답이 새 값을 덮는다.</li>
+</ul>
+<h2 id="crs-remark-1000-pr-384">CRS 견적 비고(Remark)가 1,000바이트를 넘으면 저장 전에 안내한다 (PR #384)<a class="headerlink" href="#crs-remark-1000-pr-384" title="Permanent link">&para;</a></h2>
+<p>견적 화면에서 긴 비고를 저장하면 <code>ORA-12899</code>(<code>T_OCEQ_REPAIR_EST_MST.CMNT</code>, 실제 1046, 최대 1000)가 "Please contact IT Team" 문구로 그대로 떴다(2026-11-20 DLC02). 비고가 저장되는 컬럼(<code>MST.CMNT</code>, <code>DTL.MRK</code>)은 모두 <code>VARCHAR2(1000 BYTE)</code> 인데 화면에는 길이 검사가 없었다.</p>
+<p>저장 전에 <code>ValidateUtil.isMaxByte(값, 1000)</code> 로 바이트 수를 보고, 넘으면 경고 후 저장을 멈춘다. 글자 수가 아니라 UTF-8 바이트다(한글과 <code>■</code> 같은 문자는 3바이트).</p>
+<ul>
+<li>CrsEstimate: <code>fnSaveValidation</code> 에 추가. 문구 <code>Remark is too long (max 1000 bytes).</code></li>
+<li>CrsEstUploadExl: 행별 검사에 추가. 문구 <code>[Row n] Invalid Remark (max 1000 bytes)</code></li>
+<li>CrsEstApproval: Remark 저장(<code>fnSaveDetail</code>) 전에 추가</li>
+</ul>
+<p>같이 고친 것</p>
+<ul>
+<li>CrsEstimate <code>fnSave</code> 가 검사 함수를 비교할 때마다 다시 불러 실패 경고가 두 번 떴다. 한 번만 불러 그 값으로 실패와 삭제(<code>'D'</code>) 분기를 가른다. 분기 결과는 같다.</li>
+</ul>
+<p>남는 것</p>
+<ul>
+<li>조회는 <code>MST.CMNT</code> 와 <code>DTL.MRK</code> 를 이어 붙여 Remark 칸에 보여 주고 저장은 그 값을 다시 쓴다. 그래서 비고를 건드리지 않은 견적도 다시 저장할 때 이 경고를 볼 수 있다(전에는 같은 경우 ORA-12899 였다).</li>
+<li>이미 있는 견적에 엑셀을 다시 올리면 프로시저가 기존 비고에 <code>▶</code> 로 이어 붙인다. 합쳐서 1,000바이트를 넘는 경우는 화면에서 알 수 없다.</li>
 </ul>
 <h2 id="nginx-403-pr-382">자동화 도구로 온 로그인을 nginx 에서 403 으로 끊는다 (PR #382)<a class="headerlink" href="#nginx-403-pr-382" title="Permanent link">&para;</a></h2>
 <ul>
