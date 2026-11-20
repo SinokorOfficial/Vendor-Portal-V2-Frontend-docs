@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/favicon.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -1453,6 +1453,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#300-pr-379" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        컨테이너 무브 업로드: 빈 행 300개 대신 붙여넣을 때 행을 만든다 (PR #379)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#zip-pr-377-infra-123" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2415,6 +2426,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#300-pr-379" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        컨테이너 무브 업로드: 빈 행 300개 대신 붙여넣을 때 행을 만든다 (PR #379)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#zip-pr-377-infra-123" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3200,6 +3222,12 @@
 </li>
 <li>양식 다운로드 3화면(<code>CrsEstUploadExl</code>, <code>FdsCntrMoveUpload</code>, <code>MvsCntrMove</code>)의 메서드 이름을 <code>fnDownLoadTemplate</code>, <code>fnSelectFileForm</code> 으로 맞추고, 한 줄짜리 중간 메서드 <code>fileDownLoad</code> 를 걷어냈다.</li>
 <li><code>multi-select</code> 주석을 바로잡았다. 이 prop 은 체크박스 선택만 켠다. 휴지통은 <code>can-delete</code>, <code>readonly</code> 가 정한다.</li>
+</ul>
+<h2 id="300-pr-379">컨테이너 무브 업로드: 빈 행 300개 대신 붙여넣을 때 행을 만든다 (PR #379)<a class="headerlink" href="#300-pr-379" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>FdsCntrMoveUpload</code> 는 붙여넣기용으로 빈 행 300개를 미리 깔아 두었다. ag-grid(Enterprise 25.3) 붙여넣기는 있는 행에만 값을 채우고 그리드 끝을 넘는 줄은 버리기 때문이다. 그래서 300줄 넘게 붙여넣으면 잘렸다.</li>
+<li>이제 처음에는 빈 행 1개만 둔다. 붙여넣기 직전에 불리는 <code>processDataFromClipboard</code> 에서 포커스된 칸부터 붙여넣을 줄 수가 그리드 끝을 넘으면 모자라는 만큼 빈 행을 먼저 추가한다(<code>fnAddRowsForPaste</code>, 어댑터 <code>addItems</code> 라 변경 캐시에도 들어간다). 엑셀 복사 끝의 빈 줄은 세지 않는다.</li>
+<li>붙여넣기 자체는 그대로 그리드가 한다. 클릭한 칸부터 열이 맞춰지고 조회해 온 행은 남는다. 저장 때 빈 새 행을 빼는 처리도 그대로다.</li>
 </ul>
 <h2 id="zip-pr-377-infra-123">첨부를 여러 개 골라 zip 하나로 받는다 (PR #377, Infra #123)<a class="headerlink" href="#zip-pr-377-infra-123" title="Permanent link">&para;</a></h2>
 <p>서버 쪽(zip API, 상한, 실물 없는 첨부 처리)은 백엔드 PR #325 에 있다.</p>
