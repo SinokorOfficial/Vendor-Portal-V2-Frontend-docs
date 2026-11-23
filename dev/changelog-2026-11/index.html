@@ -1376,6 +1376,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#placeholder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        비활성 버튼 테두리 띠와 placeholder 세로 위치를 바로잡는다 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-1319-pr-381-infra-124" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2437,6 +2448,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#placeholder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        비활성 버튼 테두리 띠와 placeholder 세로 위치를 바로잡는다 (핫픽스)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-1319-pr-381-infra-124" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3354,6 +3376,18 @@
 <li>차단 안내 창 설명을 사유 없는 <code>This IP address has been blocked.</code> 로 바꿨다. 전 문구("the same request was repeated...")는 수동 차단에는 맞지 않는다.</li>
 <li>관리 화면 저장 버튼을 예외 IP, 설정 탭 카드에서 <strong>상단 [조회] 오른쪽</strong>으로 옮겼다(사용자 요청). 보고 있는 탭을 저장하고, 차단 목록 탭에서는 꺼진다(카드마다 차단, 해제 버튼이 따로 있다). 수동 차단 카드의 [차단] 버튼 위에 여백을 줬다.</li>
 <li>개발 문서 HTTP/API 의 429 + <code>x-ip-blocked</code> 설명과 관련 주석에 "관리자 수동 차단(LOG 에서도 적용)"도 이 창으로 온다는 것을 더했다.</li>
+</ul>
+<h2 id="placeholder">비활성 버튼 테두리 띠와 placeholder 세로 위치를 바로잡는다 (핫픽스)<a class="headerlink" href="#placeholder" title="Permanent link">&para;</a></h2>
+<ul>
+<li>비활성 <code>e-btn</code>: Vuetify 는 비활성 버튼의 테두리 안쪽만 글자색 덮개(<code>.v-btn__overlay</code>, 46%)로 덮는다. 색 클래스(<code>cal-theme.scss</code> §4)가 바탕, 테두리, 글자색을 <code>!important</code> 로 고정하므로 <code>normal</code> 처럼 채운 버튼은 안쪽만 옅어지고 1px 테두리가 진하게 남아 띠처럼 보였다(IP 차단 관리 상단 [저장]). <code>normal-line</code> 처럼 테두리만 있는 버튼은 비활성인데 오히려 색이 채워져 눌린 것처럼 보였다.<ul>
+<li><code>EBtn</code> 스타일에서 비활성일 때 덮개를 끄고 버튼 전체(테두리 포함)를 38% 로 흐린다. 비활성 <code>e-btn</code> 을 쓰는 10곳에 모두 적용된다. Vuetify 기본 버튼은 그대로다.</li>
+<li>사이드 메뉴 즐겨찾기 버튼에만 따로 넣어 두었던 같은 처리는 겹치므로 지웠다.</li>
+</ul>
+</li>
+<li>DevExtreme 입력칸 placeholder: <code>global.scss</code> 가 입력 글자(<code>input</code>)의 위아래 패딩을 0 으로 바꿔 두었는데, placeholder(<code>.dx-placeholder::before</code>)에는 이 규칙이 닿지 않아 기본 패딩(4px 5px)이 남았다. 글자 상자가 칸(20px)보다 커져 가운데 정렬이 깨지고, 입력 글자보다 2px 아래, 2px 오른쪽에 찍혔다(위 여백 6px, 아래 2px).<ul>
+<li><code>input</code> 뒤의 placeholder 만 입력 글자와 같은 패딩(<code>0 3px</code>)으로 맞췄다. 위아래 4px 로 값 글자와 같은 자리에 온다. 여러 줄 입력칸(textarea)은 원래 맞아서 건드리지 않았다.</li>
+</ul>
+</li>
 </ul>
 <h2 id="nginx-1319-pr-381-infra-124">응답 헤더에 nginx 버전을 숨기고 1.31.9 로 다시 배포한다 (PR #381, Infra #124)<a class="headerlink" href="#nginx-1319-pr-381-infra-124" title="Permanent link">&para;</a></h2>
 <ul>
