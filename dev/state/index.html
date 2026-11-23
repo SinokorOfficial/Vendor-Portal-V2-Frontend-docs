@@ -1772,6 +1772,11 @@
 <td>HTTP 트랜잭션 상태(<code>isHttpTransaction</code>, <code>transactionCount</code>) → 로딩바</td>
 </tr>
 <tr>
+<td><code>ipBlock</code></td>
+<td><code>ipBlock.ts</code></td>
+<td>IP 차단 안내(<code>info</code>: ip, 차단/풀리는 시각, 해제 요청 시각). http 인터셉터가 429 + <code>x-ip-blocked</code> 에서 채우고 <code>App.vue</code> 의 <code>EIpBlockDialog</code> 가 본다 → <a href="../http-api/">HTTP/API</a></td>
+</tr>
+<tr>
 <td><code>pageArgs</code></td>
 <td><code>pageArgs.ts</code></td>
 <td>화면 간 인자 전달(비반응 클로저: <code>receiveArgs</code>/<code>consumeArgs</code> + 송신 선사 <code>receiveArgsMeta</code>/<code>consumeArgsMeta</code>)</td>

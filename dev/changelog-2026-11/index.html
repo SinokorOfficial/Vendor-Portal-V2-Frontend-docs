@@ -1376,6 +1376,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ip-pr-386-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        같은 요청을 되풀이한 IP 차단 — 관리 화면과 차단 안내 창 (PR #386, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fds-tpsz-pr-383-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2404,6 +2415,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ip-pr-386-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        같은 요청을 되풀이한 IP 차단 — 관리 화면과 차단 안내 창 (PR #386, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fds-tpsz-pr-383-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3282,6 +3304,24 @@
 </ul>
 </li>
 <li>검색 영역의 날짜(시작일, 종료일) 칸 너비를 <code>12%</code> 에서 <code>220px</code> 로 고정했다.</li>
+</ul>
+<h2 id="ip-pr-386-infra-126">같은 요청을 되풀이한 IP 차단 — 관리 화면과 차단 안내 창 (PR #386, Infra #126)<a class="headerlink" href="#ip-pr-386-infra-126" title="Permanent link">&para;</a></h2>
+<p>백엔드가 IP 마다 같은 요청을 세고, 동작이 BLOCK 이면 기준을 넘은 IP 를 막는다(백엔드 PR 에 판정과 차단이 있다). 설정, 차단 기록, 예외 IP 는 Oracle <code>PKG_IP</code> 에 있고 공통 프로시저 관문으로 다룬다. 프론트는 아래 둘이다.</p>
+<ul>
+<li>관리 화면 <code>cms/setting/CmsIpBlockMgt</code>(ADMIN 메뉴, 상단 버튼 초기화, 조회). 탭 셋이고 상단 조회는 보고 있는 탭만 조회한다.<ul>
+<li>차단 목록: 기간(기본 7일 전~오늘), IP 일부, 상태(차단, 해제, 만료)로 조회한다. 풀리는 시각이 없으면 <code>기간 없음</code>, 남은 시간은 분으로 보인다. 왼쪽에서 IP 를 수동 차단(시간을 비우면 해제할 때까지)하고, 목록에서 상태가 차단인 행을 체크해 해제 사유와 함께 푼다. 해제는 그 IP 의 차단을 모두 풀어서 같은 IP 는 한 줄만 보낸다.</li>
+<li>예외 IP: 세지도 막지도 않는 IP. 행 추가, 삭제, 저장. IP 는 키라 새 행에서만 고친다.</li>
+<li>설정: 동작(OFF 끔, LOG 기록만, BLOCK 차단), 판정 창(초), 허용 횟수, 차단 시간(분), 해제 요청 메일 받는 주소. 운영에서 IP 판정이 nginx 로그와 맞는 것을 확인하기 전에는 BLOCK 으로 바꾸지 말라는 안내를 동작 옆에 두었고, BLOCK 으로 저장할 때 한 번 더 묻는다. 설정을 못 읽은 채로는 저장하지 않는다(빈 폼이 설정을 덮어쓰지 않게).</li>
+<li>저장(수동 차단, 해제, 예외 IP, 설정)이 끝나면 <code>/api/ipBlock/reload</code> 를 불러 모든 서버가 바로 다시 읽게 한다. 안 부르면 서버마다 최대 1분 뒤에 반영된다. 이 호출이 실패해도 저장은 끝난 것이라 경고만 한다.</li>
+<li>dataset 의 <code>PKG_IP</code> 프로시저 6개는 빌드가 만드는 관문 허용 목록에 들어간다. 배포 뒤 MdmPackageMgt 의 [허용 목록 갱신] 을 누르지 않으면 이 화면은 다음 03:00 까지 막힌다.</li>
+</ul>
+</li>
+<li>차단 안내 창(<code>EIpBlockDialog</code>, App.vue 최상단). 막힌 IP 의 요청은 백엔드가 429 + <code>X-Ip-Blocked</code> 헤더 + JSON 본문으로 끊는다. http 응답 인터셉터가 그 본문을 <code>ipBlock</code> 스토어에 넣고 창이 뜬다. 로그인 화면을 포함해 어느 경로에서든 창은 하나다.<ul>
+<li>문구는 영어 고정이다(다국어, 메시지 코드 없음). IP, 차단 시각, 풀리는 시각(KST)을 보이고 닫기 버튼은 없다. [Request unblock] 은 <code>/api/ipBlock/releaseRequest</code> 로 관리자에게 해제를 요청하고, 보낸 뒤에는 보낸 시각을 보이며 꺼진다. [Refresh] 는 새로고침.</li>
+<li>nginx 자체 속도 제한도 429 지만 헤더 없이 HTML 로 온다. 그건 창을 띄우지 않고 종전대로 처리한다.</li>
+<li>quiet 요청은 reject, 화면 요청은 미결 Promise 다. 부팅의 <code>$session</code> 이 quiet 인데 미결로 두면 <code>bootstrap().finally( app.mount )</code> 가 끝나지 않아 빈 화면이 된다. 로그인 화면은 ipBlocked 면 자기 오류 문구를 띄우지 않는다.</li>
+</ul>
+</li>
 </ul>
 <h2 id="fds-tpsz-pr-383-infra-126">FDS 오더 관리: 컨테이너 번호를 바꾸면 그 행의 TPSZ 만 조회한다 (PR #383, Infra #126)<a class="headerlink" href="#fds-tpsz-pr-383-infra-126" title="Permanent link">&para;</a></h2>
 <ul>
