@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#ip-pr-388-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP 차단 관리 — 관찰 탭(지금 기준으로 걸리는 묶음을 빨간색으로) (PR #388, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ip-log-pr-387-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2404,6 +2415,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#ip-pr-388-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP 차단 관리 — 관찰 탭(지금 기준으로 걸리는 묶음을 빨간색으로) (PR #388, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ip-log-pr-387-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3310,6 +3332,17 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="ip-pr-388-infra-126">IP 차단 관리 — 관찰 탭(지금 기준으로 걸리는 묶음을 빨간색으로) (PR #388, Infra #126)<a class="headerlink" href="#ip-pr-388-infra-126" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>CmsIpBlockMgt</code> 에 <strong>관찰</strong> 탭을 더했다(차단 목록 다음). 기간(일)과 IP 일부로 백엔드 로그(Log Analytics, 최근 30일)에서 같은 요청을 되풀이한 기록을 IP, 계정, 요청별로 묶어 본다 — 기준(IP + 계정 / IP 합산), 최대 횟수, 기준 넘음, 차단, 판정 창, 처음과 마지막 시각, UA. DB 에는 쌓지 않는다. 조회는 BE PR #334 의 <code>/api/cms/log/cmsAzureLog/ipBlockObserve</code>(ADMIN).</li>
+<li><strong>최대 횟수가 지금 기준(서버가 쓰는 허용 횟수)을 넘는 IP + 계정 묶음은 빨간색</strong>(사용자 요청 — 지금 기준으로 얼마나 걸리는지 보려고). IP 합산 묶음은 차단 기준이 아니라 빨갛게 하지 않는다. 카드 안내에 "지금 기준으로 걸리는 것 N / IP + 계정 묶음 M".<ul>
+<li>IP 합산 묶음은 같은 요청이 기준 두 줄로 겹쳐 헷갈리므로 <strong>기본으로 숨기고</strong>, 조회 조건 "IP 합산 [보기]" 를 켤 때만 보인다(다시 조회하지 않고 거른다, 사용자 요청).</li>
+<li>빨간색은 행 스타일(<code>getRowStyle</code>)로만 준다. 요청 이름과 UA 는 요청하는 쪽이 정하는 값이라 HTML 렌더러를 쓰지 않는다(ag-grid 가 값을 이스케이프해 넣는다).</li>
+</ul>
+</li>
+<li>상단 [저장] 은 관찰 탭에서도 꺼진다(저장할 것이 없다).</li>
+<li>수동 차단 확인창의 "BLOCK 으로 바꾸기 전까지는 막히지 않습니다" 경고를 OFF 일 때만 띄운다. LOG 에서도 수동 차단이 적용되게 바뀐 뒤(BE PR #331) 남아 있던 옛 문구다.</li>
+</ul>
 <h2 id="ip-log-pr-387-infra-126">IP 차단 — LOG 에서도 수동 차단이 적용된다는 안내, 차단 안내 창 문구, 관리 화면 저장 버튼 자리 (PR #387, Infra #126)<a class="headerlink" href="#ip-log-pr-387-infra-126" title="Permanent link">&para;</a></h2>
 <ul>
 <li>백엔드 PR #331 로 LOG 모드에서도 수동 차단을 막게 되어(사용자 결정) 관리 화면 안내를 맞췄다.<ul>
