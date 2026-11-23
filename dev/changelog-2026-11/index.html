@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#ip-log-pr-387-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP 차단 — LOG 에서도 수동 차단이 적용된다는 안내, 차단 안내 창 문구, 관리 화면 저장 버튼 자리 (PR #387, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-1319-pr-381-infra-124" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2393,6 +2404,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#ip-log-pr-387-infra-126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP 차단 — LOG 에서도 수동 차단이 적용된다는 안내, 차단 안내 창 문구, 관리 화면 저장 버튼 자리 (PR #387, Infra #126)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nginx-1319-pr-381-infra-124" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3288,6 +3310,18 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="ip-log-pr-387-infra-126">IP 차단 — LOG 에서도 수동 차단이 적용된다는 안내, 차단 안내 창 문구, 관리 화면 저장 버튼 자리 (PR #387, Infra #126)<a class="headerlink" href="#ip-log-pr-387-infra-126" title="Permanent link">&para;</a></h2>
+<ul>
+<li>백엔드 PR #331 로 LOG 모드에서도 수동 차단을 막게 되어(사용자 결정) 관리 화면 안내를 맞췄다.<ul>
+<li>설정 탭 동작: <code>LOG 기록만</code> → <code>LOG 기록 + 수동 차단</code>, 설명 "세기만 하고 자동으로는 막지 않는다. 수동 차단은 적용한다."</li>
+<li>차단 목록 탭 수동 차단 카드: "차단해도 적용되지 않는다"는 이제 OFF(또는 설정을 못 읽음)일 때만 보인다.</li>
+</ul>
+</li>
+<li>설정 탭의 "운영에서 IP 판정이 nginx 로그와 맞는 것을 확인하기 전에는 BLOCK 으로 바꾸지 말 것" 경고와 BLOCK 저장 확인창의 같은 질문을 지웠다(2026-11-23 운영 대조 완료). BLOCK 저장 때 한 번 더 묻는 것은 그대로다.</li>
+<li>차단 안내 창 설명을 사유 없는 <code>This IP address has been blocked.</code> 로 바꿨다. 전 문구("the same request was repeated...")는 수동 차단에는 맞지 않는다.</li>
+<li>관리 화면 저장 버튼을 예외 IP, 설정 탭 카드에서 <strong>상단 [조회] 오른쪽</strong>으로 옮겼다(사용자 요청). 보고 있는 탭을 저장하고, 차단 목록 탭에서는 꺼진다(카드마다 차단, 해제 버튼이 따로 있다). 수동 차단 카드의 [차단] 버튼 위에 여백을 줬다.</li>
+<li>개발 문서 HTTP/API 의 429 + <code>x-ip-blocked</code> 설명과 관련 주석에 "관리자 수동 차단(LOG 에서도 적용)"도 이 창으로 온다는 것을 더했다.</li>
+</ul>
 <h2 id="nginx-1319-pr-381-infra-124">응답 헤더에 nginx 버전을 숨기고 1.31.9 로 다시 배포한다 (PR #381, Infra #124)<a class="headerlink" href="#nginx-1319-pr-381-infra-124" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>nginx.conf</code> 에 <code>server_tokens off</code> 를 넣었다. 응답 헤더(<code>Server</code>)와 에러 페이지에 버전이 안 실리고 "nginx" 만 남는다. 버전이 보이면 점검 도구가 버전만 보고 취약점으로 잡는다.</li>
