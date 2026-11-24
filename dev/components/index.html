@@ -2123,12 +2123,13 @@
 <p><code>CmsLogInquiry</code> 는 로그 전용 화면 7개를 그대로 가져다 탭으로 보여 준다(전용 메뉴는 그대로). 같은 방식을 쓸 때 지킬 것:</p>
 <ul>
 <li>탭 전환은 <code>&lt;keep-alive&gt;</code> + <code>&lt;component :is&gt;</code> 로 한다. <code>&lt;e-card-tab&gt;</code> 은 탭 내용을 한꺼번에(eager) 띄우고 숨은 탭도 활성 상태라, 화면마다 들어 있는 <code>EContentLayout</code> 의 Alt 단축키가 모든 탭에서 같이 발화한다. keep-alive 는 숨는 탭을 <code>deactivated</code> 로 돌려 단축키를 뗀다. 작업 탭(<code>TabWorkspace</code>)의 keep-alive 와 이중이 돼도 숨은 안쪽 탭은 다시 붙지 않는다(<code>hotkeyActiveTab.spec.ts</code>).</li>
-<li>화면은 <code>defineAsyncComponent(() =&gt; import(...))</code> 로 불러 전용 메뉴와 같은 청크를 쓴다.</li>
+<li>화면은 탭을 처음 고를 때 동적 <code>import()</code> 로 불러 전용 메뉴와 같은 청크를 쓴다. 다 불러온 뒤에 전환하고, 그동안은 보던 탭을 그대로 둔다(아래 <code>tabBar</code> 때문에 빈 화면이 끼면 제목과 탭 줄이 사라졌다 나타난다). 불러오기에 실패하면 탭 줄을 보이는 탭으로 되돌리고 다음에 누를 때 다시 불러온다. 첫 탭부터 실패하면 보이는 탭이 없어 탭 줄도 없으므로 그때만 바깥에 탭 줄을 띄운다.</li>
 <li>★공통코드: 라우터 가드(<code>router/guards.ts</code>)는 <strong>라우트 화면</strong>의 <code>codeData</code> 만 미리 받아 <code>codeMap</code> 으로 넘긴다. 탭 안 화면은 라우트가 아니라서 그대로 넣으면 <code>codeMap</code> 이 없어 <code>this.codeMap.X</code> 에서 죽는다. 탭을 띄울 때 그 화면의 <code>codeData()</code> 로 <code>CodeService.request</code> → <code>newBuilder</code> 해서 <code>codeMap</code> prop 으로 넘긴다(<code>$dialog</code> 팝업의 <code>plugins/dialog.ts</code> 와 같은 처리).</li>
 <li>안쪽 화면의 상단 제목줄과 버튼은 <strong>바깥 메뉴</strong> 것이다(<code>EContentLayout</code> 이 활성 메뉴 <code>activeTabMap</code> 을 읽는다). 탭마다 다르게 해야 하면 그 탭을 감싸 <code>provide('eContentLayoutTabOptions', {...})</code> 를 준다.<ul>
 <li><code>showCompany</code>: 주소가 <code>/cms</code>, <code>/mdm</code> 이어도 선사 선택을 보인다. 선사별로 조회하는 화면(EIR Response Log)을 <code>/cms</code> 메뉴 안에 넣을 때.</li>
 <li><code>hideMainButtons</code>: 메뉴에 등록된 상단 버튼을 숨긴다. 자체 SEARCH 버튼이 있는 화면(Azure 로그).</li>
-<li>테스트: <code>src/components/auto/app/EContentLayout/__tests__/tabOptions.spec.ts</code></li>
+<li><code>tabBar</code>: 탭 줄 컴포넌트. 레이아웃이 제목줄 바로 아래(검색 조건 위)에 그린다. 바깥 화면 위에 탭 줄을 두면 작업 탭 바로 밑에 탭 줄이 또 붙어 읽기 어렵다(Repair Code 처럼 제목 아래에 둔다).</li>
+<li>테스트: <code>src/components/auto/app/EContentLayout/__tests__/tabOptions.spec.ts</code>, 탭 전환은 <code>src/pages/cms/log/CmsLogInquiry/__tests__/tabSwitch.spec.ts</code></li>
 </ul>
 </li>
 </ul>
