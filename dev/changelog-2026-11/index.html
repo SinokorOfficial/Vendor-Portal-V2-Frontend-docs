@@ -1354,6 +1354,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#7-pr-389" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        통합 로그 조회를 로그 화면 7개를 모은 탭 화면으로 (PR #389)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ip-pr-388-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2426,6 +2437,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#7-pr-389" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        통합 로그 조회를 로그 화면 7개를 모은 탭 화면으로 (PR #389)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ip-pr-388-infra-126" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3354,6 +3376,27 @@
 
 
 <h1 id="2026-11">2026-11 변경 이력<a class="headerlink" href="#2026-11" title="Permanent link">&para;</a></h1>
+<h2 id="7-pr-389">통합 로그 조회를 로그 화면 7개를 모은 탭 화면으로 (PR #389)<a class="headerlink" href="#7-pr-389" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>CmsLogInquiry</code>(통합 로그 조회, ADMIN)는 2025-11 에 모든 로그 테이블을 한 그리드로 보려고 시작했다가 멈춘 화면이었다. 테이블은 고를 수 있었지만 조회 버튼은 아무 일도 하지 않았다. 레거시 원본은 테이블 이름과 날짜를 SQL 문자열에 이어 붙여 서버에서 실행했고, 2026-07 임의 SQL 실행(<code>runQueryCompiler</code>)을 지울 때 함께 멈췄다.</li>
+<li>데이터를 합치지 않고 <strong>기존 로그 화면을 탭으로 모았다</strong>(사용자 결정: 로그마다 전용 메뉴로 옮겨 다니는 게 번거로웠던 것이다). 탭은 에러 로그, 로그인 로그, 방문 이력, API 호출 로그, 이메일 로그, Azure 로그, EIR Response Log 다. 테이블마다 열이 달라 합치면 공통으로 남는 게 시각과 사용자뿐이고, 전용 화면의 기능(계정 없음 빨간 표시, 에러 메시지 칸 등)을 잃는다. 전용 메뉴는 그대로 둔다.<ul>
+<li>탭은 처음 고를 때 띄우고 <code>&lt;keep-alive&gt;</code> 로 조회 조건과 결과를 유지한다. <code>&lt;e-card-tab&gt;</code> 은 7개를 한꺼번에 띄우고 숨은 탭에서도 Alt 단축키가 같이 발화해서 쓰지 않았다.</li>
+<li>상단 제목줄은 탭마다 "통합 로그 조회"로 보인다. 어느 로그인지는 탭 이름으로 가른다.</li>
+<li>공통코드는 라우터 가드가 라우트 화면 것만 미리 받아서, 탭을 띄울 때 그 화면의 <code>codeData</code> 로 받아 <code>codeMap</code> 으로 넘긴다(에러 로그, 로그인 로그). <code>$dialog</code> 팝업과 같은 처리다.</li>
+</ul>
+</li>
+<li><code>EContentLayout</code> 에 탭 옵션(<code>eContentLayoutTabOptions</code>, inject)을 더했다. 옵션을 주지 않는 보통 화면은 그대로다.<ul>
+<li><code>showCompany</code>: EIR Response Log 는 선사별로 조회하는데 주소가 <code>/cms</code> 라 선사 선택이 숨던 것을 보이게 한다.</li>
+<li><code>hideMainButtons</code>: Azure 로그는 자체 SEARCH 버튼이 있어 메뉴 버튼(Reset, Search)과 겹치던 것을 숨긴다.</li>
+</ul>
+</li>
+<li>이 화면의 dataset(<code>PKG_CM.SP_GET_LOG</code>, <code>SP_GET_LOG_TABLE</code>)을 지웠다. 빌드가 만드는 프로시저 허용 목록에서도 빠진다. 백엔드 관리자 전용 목록에서 빼는 것은 BE PR #336 이고, 두 프로시저는 DB(.100, .3)의 <code>PKG_CM</code> 에서 지웠다(2026-11-24 사용자 적용).<ul>
+<li>★.3 의 프로시저를 이 배포보다 먼저 지워서, 배포 전까지 운영의 옛 화면은 열 때 테이블 목록 조회가 실패한다(ADMIN 메뉴 하나).</li>
+</ul>
+</li>
+<li>시험: <code>tabOptions.spec.ts</code>(옵션 2개, 수정 전에는 실패), <code>hotkeyActiveTab.spec.ts</code> 에 "탭 안의 탭" 경우(작업 탭을 떠났다 돌아와도 안쪽에서 보이던 화면만 단축키를 받는다).</li>
+<li>문서: 컴포넌트 문서에 "화면 안에 다른 화면을 탭으로 넣기" 절.</li>
+</ul>
 <h2 id="ip-pr-388-infra-126">IP 차단 관리 — 관찰 탭(지금 기준으로 걸리는 묶음을 빨간색으로) (PR #388, Infra #126)<a class="headerlink" href="#ip-pr-388-infra-126" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>CmsIpBlockMgt</code> 에 <strong>관찰</strong> 탭을 더했다(차단 목록 다음). 기간(일)과 IP 일부로 백엔드 로그(Log Analytics, 최근 30일)에서 같은 요청을 되풀이한 기록을 IP, 계정, 요청별로 묶어 본다 — 기준(IP + 계정 / IP 합산), 최대 횟수, 기준 넘음, 차단, 판정 창, 처음과 마지막 시각, UA. DB 에는 쌓지 않는다. 조회는 BE PR #334 의 <code>/api/cms/log/cmsAzureLog/ipBlockObserve</code>(ADMIN).</li>
